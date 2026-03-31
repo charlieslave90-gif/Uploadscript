@@ -4,40 +4,548 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ScriptHub - Roblox Script Library</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .search-box {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .sort-select {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background: white;
+        }
+
+        .scripts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .script-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .script-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .script-card h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .script-card .meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+        }
+
+        .script-card .description {
+            color: #555;
+            margin: 1rem 0;
+            line-height: 1.5;
+        }
+
+        .script-card .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .like-btn {
+            background: none;
+            border: none;
+            color: #ff4757;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .verified {
+            color: #4cd964;
+            font-weight: bold;
+        }
+
+        .upload-container, .script-detail {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .validation-result {
+            margin: 1rem 0;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .validation-result.error {
+            background: #ffe0e0;
+            color: #d63031;
+        }
+
+        .validation-result.success {
+            background: #e0ffe0;
+            color: #27ae60;
+        }
+
+        .script-detail pre {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: white;
+        }
+
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
             <a href="/" class="logo">🎮 ScriptHub</a>
             <div class="nav-links">
-                <a href="/">Home</a>
-                <a href="/upload.html">Upload Script</a>
+                <a onclick="showHome()">Home</a>
+                <a onclick="showUpload()">Upload Script</a>
             </div>
         </div>
     </nav>
 
     <div class="container">
-        <header class="hero">
-            <h1>Roblox Script Hub</h1>
-            <p>Discover, share, and use community-made scripts</p>
-            <a href="/upload.html" class="btn-primary">Upload Your Script</a>
-        </header>
+        <!-- Home Page -->
+        <div id="homePage">
+            <header class="hero">
+                <h1>Roblox Script Hub</h1>
+                <p>Discover, share, and use community-made scripts</p>
+                <button onclick="showUpload()" class="btn-primary">Upload Your Script</button>
+            </header>
 
-        <div class="filters">
-            <input type="text" id="searchInput" placeholder="Search scripts..." class="search-box">
-            <select id="sortSelect" class="sort-select">
-                <option value="latest">Latest</option>
-                <option value="popular">Most Liked</option>
-                <option value="verified">Verified Only</option>
-            </select>
+            <div class="filters">
+                <input type="text" id="searchInput" placeholder="Search scripts..." class="search-box">
+                <select id="sortSelect" class="sort-select">
+                    <option value="latest">Latest</option>
+                    <option value="popular">Most Liked</option>
+                    <option value="verified">Verified Only</option>
+                </select>
+            </div>
+
+            <div id="scriptsGrid" class="scripts-grid">
+                <div class="loading">Loading scripts...</div>
+            </div>
         </div>
 
-        <div id="scriptsGrid" class="scripts-grid">
-            <div class="loading">Loading scripts...</div>
+        <!-- Upload Page -->
+        <div id="uploadPage" class="hidden">
+            <div class="upload-container">
+                <h1>Upload Your Script</h1>
+                <form id="uploadForm">
+                    <div class="form-group">
+                        <label for="title">Script Title *</label>
+                        <input type="text" id="title" required placeholder="e.g., Auto Farm Script">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description *</label>
+                        <textarea id="description" rows="4" required placeholder="What does your script do?"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="author">Author Name *</label>
+                        <input type="text" id="author" required placeholder="Your username">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="code">Lua Script Code *</label>
+                        <textarea id="code" rows="15" required placeholder="Paste your Lua script here..."></textarea>
+                    </div>
+
+                    <div id="validationResult" class="validation-result"></div>
+
+                    <button type="submit" class="btn-primary">Upload Script</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Script Detail Page -->
+        <div id="detailPage" class="hidden">
+            <div id="scriptContent"></div>
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <script>
+        const API_URL = window.location.origin;
+        let currentScriptId = null;
+        
+        // Page navigation
+        function showHome() {
+            document.getElementById('homePage').classList.remove('hidden');
+            document.getElementById('uploadPage').classList.add('hidden');
+            document.getElementById('detailPage').classList.add('hidden');
+            loadScripts();
+        }
+        
+        function showUpload() {
+            document.getElementById('homePage').classList.add('hidden');
+            document.getElementById('uploadPage').classList.remove('hidden');
+            document.getElementById('detailPage').classList.add('hidden');
+        }
+        
+        function showDetail(id) {
+            currentScriptId = id;
+            document.getElementById('homePage').classList.add('hidden');
+            document.getElementById('uploadPage').classList.add('hidden');
+            document.getElementById('detailPage').classList.remove('hidden');
+            loadScriptDetail(id);
+        }
+        
+        // Load all scripts
+        async function loadScripts() {
+            const sort = document.getElementById('sortSelect')?.value || 'latest';
+            
+            try {
+                const response = await fetch(`${API_URL}/api/scripts?sort=${sort}`);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to load scripts');
+                }
+                
+                const scripts = await response.json();
+                displayScripts(scripts);
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('scriptsGrid').innerHTML = 
+                    '<div class="loading">Error loading scripts. Make sure the API is working.</div>';
+            }
+        }
+        
+        function displayScripts(scripts) {
+            const grid = document.getElementById('scriptsGrid');
+            
+            if (!scripts || scripts.length === 0) {
+                grid.innerHTML = '<div class="loading">No scripts found. Be the first to upload!</div>';
+                return;
+            }
+            
+            grid.innerHTML = scripts.map(script => `
+                <div class="script-card" data-title="${escapeHtml(script.title.toLowerCase())}">
+                    <h3>${escapeHtml(script.title)}</h3>
+                    <div class="meta">
+                        By ${escapeHtml(script.author)} • ${new Date(script.createdAt).toLocaleDateString()}
+                        ${script.verified ? '<span class="verified"> ✓ Verified</span>' : ''}
+                    </div>
+                    <div class="description">${escapeHtml(script.description.substring(0, 150))}...</div>
+                    <div class="footer">
+                        <button onclick="likeScript('${script.id}')" class="like-btn">❤️ ${script.likes || 0}</button>
+                        <button onclick="showDetail('${script.id}')" class="btn-primary" style="padding: 5px 15px;">View</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Add search filter
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.oninput = () => filterScripts();
+            }
+        }
+        
+        function filterScripts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.script-card');
+            
+            cards.forEach(card => {
+                const title = card.dataset.title;
+                if (title.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        // Load single script detail
+        async function loadScriptDetail(id) {
+            try {
+                const response = await fetch(`${API_URL}/api/scripts?id=${id}`);
+                
+                if (!response.ok) {
+                    throw new Error('Script not found');
+                }
+                
+                const script = await response.json();
+                
+                document.getElementById('scriptContent').innerHTML = `
+                    <div class="script-detail">
+                        <button onclick="showHome()" class="btn-primary" style="margin-bottom: 1rem;">← Back to Home</button>
+                        <h1>${escapeHtml(script.title)}</h1>
+                        <div class="meta">
+                            By ${escapeHtml(script.author)} • ${new Date(script.createdAt).toLocaleDateString()}
+                            ${script.verified ? '<span class="verified"> ✓ Verified</span>' : ''}
+                        </div>
+                        <p><strong>Description:</strong> ${escapeHtml(script.description)}</p>
+                        <h3>Script Code:</h3>
+                        <pre><code id="scriptCode">${escapeHtml(script.code)}</code></pre>
+                        <button onclick="copyCode()" class="copy-btn">📋 Copy Code</button>
+                        <button onclick="likeScript('${script.id}')" class="like-btn" style="margin-left: 1rem;">❤️ ${script.likes || 0} Likes</button>
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('scriptContent').innerHTML = 
+                    '<div class="loading">Script not found</div>';
+            }
+        }
+        
+        // Like a script
+        async function likeScript(id) {
+            try {
+                const response = await fetch(`${API_URL}/api/scripts?action=like&id=${id}`, {
+                    method: 'POST'
+                });
+                
+                if (response.ok) {
+                    if (currentScriptId === id) {
+                        loadScriptDetail(id);
+                    } else {
+                        loadScripts();
+                    }
+                }
+            } catch (error) {
+                console.error('Error liking script:', error);
+            }
+        }
+        
+        // Copy code to clipboard
+        function copyCode() {
+            const code = document.getElementById('scriptCode')?.innerText;
+            if (code) {
+                navigator.clipboard.writeText(code);
+                alert('Code copied to clipboard!');
+            }
+        }
+        
+        // Validate script (real-time)
+        let validateTimeout;
+        document.getElementById('code')?.addEventListener('input', async (e) => {
+            clearTimeout(validateTimeout);
+            validateTimeout = setTimeout(async () => {
+                const code = e.target.value;
+                if (code.length > 50) {
+                    try {
+                        const response = await fetch(`${API_URL}/api/scripts?action=validate`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ code })
+                        });
+                        
+                        const result = await response.json();
+                        const validationDiv = document.getElementById('validationResult');
+                        
+                        if (result.valid) {
+                            validationDiv.className = 'validation-result success';
+                            validationDiv.textContent = '✓ Script syntax looks valid!';
+                        } else {
+                            validationDiv.className = 'validation-result error';
+                            validationDiv.textContent = '⚠️ ' + result.error;
+                        }
+                    } catch (error) {
+                        console.error('Validation error:', error);
+                    }
+                }
+            }, 500);
+        });
+        
+        // Handle upload form
+        document.getElementById('uploadForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const scriptData = {
+                title: document.getElementById('title').value,
+                description: document.getElementById('description').value,
+                author: document.getElementById('author').value,
+                code: document.getElementById('code').value
+            };
+            
+            try {
+                const response = await fetch(`${API_URL}/api/scripts`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(scriptData)
+                });
+                
+                if (response.ok) {
+                    const script = await response.json();
+                    alert('✅ Script uploaded successfully!');
+                    showDetail(script.id);
+                } else {
+                    const error = await response.json();
+                    alert('❌ Upload failed: ' + error.error);
+                }
+            } catch (error) {
+                alert('❌ Upload failed: ' + error.message);
+            }
+        });
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Load scripts on page load
+        showHome();
+        
+        // Add sort event listener
+        document.getElementById('sortSelect')?.addEventListener('change', loadScripts);
+    </script>
 </body>
 </html>
