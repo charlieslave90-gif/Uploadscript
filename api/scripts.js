@@ -1,7 +1,7 @@
 import { put, list, del } from '@vercel/blob';
 
 // ADMIN PASSWORD - Keep this secret! Change it to your own password
-const ADMIN_PASSWORD = 'ilovejeiel3'; // CHANGE THIS!
+const ADMIN_PASSWORD = 'karah123'; // CHANGE THIS!
 
 async function getAllScripts() {
     try {
