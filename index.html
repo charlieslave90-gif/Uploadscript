@@ -1,208 +1,786 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>ScriptHub</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-adsense-account" content="ca-pub-4130246379396222">
+    <title>ScriptHub - Roblox Script Library</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4130246379396222"
+     crossorigin="anonymous"></script>
     <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background: #f5f5f5;
-        }
-        .header {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+            min-height: 100vh;
         }
-        .btn {
-            background: #667eea;
-            color: white;
-            padding: 10px 20px;
-            border: none;
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
             border-radius: 5px;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             cursor: pointer;
             text-decoration: none;
-            display: inline-block;
-            margin: 5px;
         }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links button {
+            background: none;
+            border: none;
+            color: var(--dark);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-links button:hover {
+            color: var(--primary);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            display: inline-block;
+            padding: 12px 32px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            padding: 10px 24px;
+            background: white;
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 50px;
+            border: 2px solid var(--primary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Search and Filters */
+        .search-section {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            background: #f1f5f9;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Script Grid */
+        .scripts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
         .script-card {
             background: white;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
-        input, textarea {
+
+        .script-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+
+        .script-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .script-type {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #e0e7ff;
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .script-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .script-meta {
+            display: flex;
+            gap: 1rem;
+            margin: 0.5rem 0;
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+
+        .script-description {
+            color: #475569;
+            margin: 1rem 0;
+            line-height: 1.5;
+        }
+
+        .script-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .like-btn {
+            background: none;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 5px 10px;
+            border-radius: 20px;
+            transition: background 0.3s;
+        }
+
+        .like-btn:hover {
+            background: #fee2e2;
+        }
+
+        .verified-badge {
+            color: #10b981;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        /* Upload Form */
+        .upload-container, .script-detail {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
         }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Ads Section */
+        .ad-container {
+            margin: 2rem 0;
+            text-align: center;
+            background: rgba(255,255,255,0.9);
+            border-radius: 20px;
+            padding: 1rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+        }
+
         .hidden {
             display: none;
         }
-        pre {
-            background: #1e1e1e;
-            color: #d4d4d4;
-            padding: 15px;
-            border-radius: 8px;
-            overflow-x: auto;
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .scripts-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>🎮 ScriptHub</h1>
-        <button class="btn" onclick="showPage('home')">Home</button>
-        <button class="btn" onclick="showPage('upload')">Upload Script</button>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo" onclick="showHome()">🎮 ScriptHub</div>
+            <div class="nav-links">
+                <button onclick="showHome()">Home</button>
+                <button onclick="showUpload()">Upload</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Home Page -->
+        <div id="homePage">
+            <div class="hero">
+                <h1>Roblox Script Hub</h1>
+                <p>Discover, share, and use the best Roblox scripts</p>
+                <button onclick="showUpload()" class="btn-primary">🚀 Upload Your Script</button>
+            </div>
+
+            <div class="search-section">
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="🔍 Search scripts by title, author, or description..." class="search-input">
+                </div>
+                <div class="filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="code">Lua Scripts</button>
+                    <button class="filter-btn" data-filter="link">External Links</button>
+                    <button class="filter-btn" data-filter="popular">Most Liked</button>
+                    <button class="filter-btn" data-filter="recent">Recent</button>
+                </div>
+            </div>
+
+            <div id="scriptsGrid" class="scripts-grid">
+                <div class="loading" style="text-align:center; padding:2rem;">Loading scripts...</div>
+            </div>
+        </div>
+
+        <!-- Upload Page -->
+        <div id="uploadPage" class="hidden">
+            <div class="upload-container">
+                <h1 style="margin-bottom: 1.5rem;">📤 Upload Your Script</h1>
+                <div id="uploadAlert" class="hidden" style="padding:1rem; border-radius:12px; margin-bottom:1rem;"></div>
+                <form id="uploadForm">
+                    <div class="form-group">
+                        <label>Script Type *</label>
+                        <select id="scriptType" required>
+                            <option value="code">Lua Script (Paste Code)</option>
+                            <option value="link">External Link (Pastebin, LootLab, etc.)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Title *</label>
+                        <input type="text" id="title" required placeholder="e.g., Auto Farm Script V2" maxlength="100">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Description *</label>
+                        <textarea id="description" rows="4" required placeholder="Describe what your script does..." maxlength="500"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Author *</label>
+                        <input type="text" id="author" required placeholder="Your username" maxlength="50">
+                    </div>
+
+                    <div class="form-group" id="codeGroup">
+                        <label>Lua Script Code *</label>
+                        <textarea id="code" rows="12" placeholder="Paste your Lua script here..."></textarea>
+                    </div>
+
+                    <div class="form-group hidden" id="linkGroup">
+                        <label>External Link *</label>
+                        <input type="url" id="link" placeholder="https://pastebin.com/... or https://lootlab.gg/...">
+                        <small>Supported: Pastebin, LootLab, GitHub Gist, etc.</small>
+                    </div>
+
+                    <div id="validationResult" class="validation-result" style="margin:1rem 0;"></div>
+
+                    <button type="submit" class="btn-primary" style="width:100%">Upload Script</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Script Detail Page -->
+        <div id="detailPage" class="hidden">
+            <div id="scriptContent"></div>
+        </div>
     </div>
 
-    <!-- Home Page -->
-    <div id="homePage">
-        <div id="scriptsList">Loading scripts...</div>
-    </div>
-
-    <!-- Upload Page -->
-    <div id="uploadPage" class="hidden">
-        <h2>Upload Your Script</h2>
-        <input type="text" id="title" placeholder="Script Title">
-        <input type="text" id="author" placeholder="Your Name">
-        <textarea id="description" rows="3" placeholder="Description"></textarea>
-        <textarea id="code" rows="10" placeholder="Paste your Lua code here"></textarea>
-        <button class="btn" onclick="uploadScript()">Upload</button>
-        <div id="uploadResult"></div>
-    </div>
-
-    <!-- Detail Page -->
-    <div id="detailPage" class="hidden">
-        <div id="scriptDetail"></div>
-        <button class="btn" onclick="showPage('home')">Back</button>
+    <!-- Modal for external links -->
+    <div id="linkModal" class="modal">
+        <div class="modal-content">
+            <h3>⚠️ External Link</h3>
+            <p>You are about to leave ScriptHub. We are not responsible for external content.</p>
+            <p id="externalLinkUrl" style="word-break:break-all; margin:1rem 0;"></p>
+            <div style="display:flex; gap:1rem; justify-content:center;">
+                <button onclick="closeModal()" class="btn-secondary">Cancel</button>
+                <button onclick="visitLink()" class="btn-primary">Continue →</button>
+            </div>
+        </div>
     </div>
 
     <script>
         const API_URL = window.location.origin;
+        let currentScripts = [];
+        let currentFilter = 'all';
         
+        // Toggle script type
+        document.getElementById('scriptType')?.addEventListener('change', function() {
+            const codeGroup = document.getElementById('codeGroup');
+            const linkGroup = document.getElementById('linkGroup');
+            
+            if (this.value === 'code') {
+                codeGroup.classList.remove('hidden');
+                linkGroup.classList.add('hidden');
+                document.getElementById('code').required = true;
+                document.getElementById('link').required = false;
+            } else {
+                codeGroup.classList.add('hidden');
+                linkGroup.classList.remove('hidden');
+                document.getElementById('code').required = false;
+                document.getElementById('link').required = true;
+            }
+        });
+        
+        // Page navigation
+        function showHome() {
+            document.getElementById('homePage').classList.remove('hidden');
+            document.getElementById('uploadPage').classList.add('hidden');
+            document.getElementById('detailPage').classList.add('hidden');
+            loadScripts();
+        }
+        
+        function showUpload() {
+            document.getElementById('homePage').classList.add('hidden');
+            document.getElementById('uploadPage').classList.remove('hidden');
+            document.getElementById('detailPage').classList.add('hidden');
+            document.getElementById('uploadForm').reset();
+            document.getElementById('validationResult').innerHTML = '';
+            document.getElementById('uploadAlert').classList.add('hidden');
+        }
+        
+        function showDetail(id) {
+            document.getElementById('homePage').classList.add('hidden');
+            document.getElementById('uploadPage').classList.add('hidden');
+            document.getElementById('detailPage').classList.remove('hidden');
+            loadScriptDetail(id);
+        }
+        
+        // Load scripts from API
         async function loadScripts() {
             try {
                 const response = await fetch(`${API_URL}/api/scripts`);
-                const scripts = await response.json();
-                
-                if (!scripts || scripts.length === 0) {
-                    document.getElementById('scriptsList').innerHTML = '<p>No scripts yet. Upload one!</p>';
-                    return;
-                }
-                
-                let html = '<h2>All Scripts</h2>';
-                scripts.forEach(script => {
-                    html += `
-                        <div class="script-card">
-                            <h3>${escapeHtml(script.title)}</h3>
-                            <p>By: ${escapeHtml(script.author)} | ❤️ ${script.likes || 0}</p>
-                            <p>${escapeHtml(script.description)}</p>
-                            <button class="btn" onclick="viewScript('${script.id}')">View Script</button>
-                            <button class="btn" onclick="likeScript('${script.id}')">Like ❤️</button>
-                        </div>
-                    `;
-                });
-                document.getElementById('scriptsList').innerHTML = html;
+                if (!response.ok) throw new Error('Failed to load');
+                currentScripts = await response.json();
+                applyFiltersAndSearch();
             } catch (error) {
-                document.getElementById('scriptsList').innerHTML = `<p>Error: ${error.message}</p>`;
                 console.error('Error:', error);
+                document.getElementById('scriptsGrid').innerHTML = '<div class="loading" style="text-align:center;">Error loading scripts. Please refresh.</div>';
             }
         }
         
-        async function viewScript(id) {
+        function applyFiltersAndSearch() {
+            let filtered = [...currentScripts];
+            
+            // Apply type filter
+            if (currentFilter === 'code') {
+                filtered = filtered.filter(s => s.type === 'code');
+            } else if (currentFilter === 'link') {
+                filtered = filtered.filter(s => s.type === 'link');
+            } else if (currentFilter === 'popular') {
+                filtered.sort((a, b) => (b.likes || 0) - (a.likes || 0));
+            } else if (currentFilter === 'recent') {
+                filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            }
+            
+            // Apply search
+            const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
+            if (searchTerm) {
+                filtered = filtered.filter(s => 
+                    s.title.toLowerCase().includes(searchTerm) ||
+                    s.author.toLowerCase().includes(searchTerm) ||
+                    s.description.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            displayScripts(filtered);
+        }
+        
+        function displayScripts(scripts) {
+            const grid = document.getElementById('scriptsGrid');
+            
+            if (!scripts || scripts.length === 0) {
+                grid.innerHTML = '<div class="loading" style="text-align:center; padding:2rem;">No scripts found. Be the first to upload!</div>';
+                return;
+            }
+            
+            grid.innerHTML = scripts.map(script => `
+                <div class="script-card" onclick="showDetail('${script.id}')">
+                    <span class="script-type">${script.type === 'code' ? '💻 Lua Script' : '🔗 External Link'}</span>
+                    <h3>${escapeHtml(script.title)}</h3>
+                    <div class="script-meta">
+                        <span>👤 ${escapeHtml(script.author)}</span>
+                        <span>📅 ${new Date(script.createdAt).toLocaleDateString()}</span>
+                        ${script.verified ? '<span class="verified-badge">✓ Verified</span>' : ''}
+                    </div>
+                    <div class="script-description">${escapeHtml(script.description.substring(0, 120))}${script.description.length > 120 ? '...' : ''}</div>
+                    <div class="script-footer">
+                        <button onclick="event.stopPropagation(); likeScript('${script.id}')" class="like-btn">❤️ ${script.likes || 0}</button>
+                        <button onclick="event.stopPropagation(); showDetail('${script.id}')" class="btn-secondary">View →</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Load single script detail
+        async function loadScriptDetail(id) {
             try {
                 const response = await fetch(`${API_URL}/api/scripts?id=${id}`);
                 const script = await response.json();
                 
-                const html = `
-                    <h2>${escapeHtml(script.title)}</h2>
-                    <p><strong>Author:</strong> ${escapeHtml(script.author)}</p>
-                    <p><strong>Description:</strong> ${escapeHtml(script.description)}</p>
-                    <p><strong>Likes:</strong> ❤️ ${script.likes || 0}</p>
-                    <h3>Code:</h3>
-                    <pre><code>${escapeHtml(script.code)}</code></pre>
-                    <button class="btn" onclick="copyCode()">Copy Code</button>
-                `;
-                document.getElementById('scriptDetail').innerHTML = html;
-                showPage('detail');
-            } catch (error) {
-                alert('Error loading script');
-            }
-        }
-        
-        async function uploadScript() {
-            const title = document.getElementById('title').value;
-            const author = document.getElementById('author').value;
-            const description = document.getElementById('description').value;
-            const code = document.getElementById('code').value;
-            
-            if (!title || !author || !code) {
-                alert('Please fill in title, author, and code');
-                return;
-            }
-            
-            const script = { title, author, description, code };
-            
-            try {
-                const response = await fetch(`${API_URL}/api/scripts`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(script)
-                });
+                let contentHtml = '';
                 
-                const result = await response.json();
-                
-                if (response.ok) {
-                    document.getElementById('uploadResult').innerHTML = '<p style="color: green;">✅ Upload successful!</p>';
-                    setTimeout(() => {
-                        showPage('home');
-                        loadScripts();
-                    }, 2000);
+                if (script.type === 'code') {
+                    contentHtml = `
+                        <h3>📝 Script Code:</h3>
+                        <pre><code id="scriptCode">${escapeHtml(script.code)}</code></pre>
+                        <button onclick="copyCode()" class="btn-primary" style="margin-top:1rem;">📋 Copy Code</button>
+                    `;
                 } else {
-                    document.getElementById('uploadResult').innerHTML = `<p style="color: red;">❌ Error: ${result.error}</p>`;
+                    contentHtml = `
+                        <div style="text-align:center; padding:2rem; background:#f1f5f9; border-radius:20px;">
+                            <h3>🔗 External Script Link</h3>
+                            <p>This script is hosted on an external platform</p>
+                            <button onclick="openExternalLink('${escapeHtml(script.link)}')" class="btn-primary" style="margin-top:1rem;">
+                                Open Script →
+                            </button>
+                        </div>
+                    `;
                 }
+                
+                document.getElementById('scriptContent').innerHTML = `
+                    <div class="script-detail">
+                        <button onclick="showHome()" class="btn-secondary" style="margin-bottom:1rem;">← Back to Home</button>
+                        <h1>${escapeHtml(script.title)}</h1>
+                        <div class="script-meta">
+                            <span>👤 ${escapeHtml(script.author)}</span>
+                            <span>📅 ${new Date(script.createdAt).toLocaleDateString()}</span>
+                            ${script.verified ? '<span class="verified-badge">✓ Verified</span>' : ''}
+                        </div>
+                        <p style="margin:1rem 0;"><strong>Description:</strong> ${escapeHtml(script.description)}</p>
+                        ${contentHtml}
+                        <div style="margin-top:2rem; text-align:center;">
+                            <button onclick="likeScript('${script.id}')" class="like-btn" style="font-size:1.2rem;">❤️ ${script.likes || 0} Likes</button>
+                        </div>
+                    </div>
+                `;
             } catch (error) {
-                document.getElementById('uploadResult').innerHTML = `<p style="color: red;">❌ Error: ${error.message}</p>`;
+                document.getElementById('scriptContent').innerHTML = '<div class="loading">Script not found</div>';
             }
         }
         
+        // Like script
         async function likeScript(id) {
             try {
                 await fetch(`${API_URL}/api/scripts?action=like&id=${id}`, { method: 'POST' });
-                loadScripts(); // Refresh the list
+                loadScripts();
             } catch (error) {
                 console.error('Error liking:', error);
             }
         }
         
+        // Copy code
         function copyCode() {
-            const code = document.querySelector('pre code');
+            const code = document.getElementById('scriptCode')?.innerText;
             if (code) {
-                navigator.clipboard.writeText(code.innerText);
-                alert('Code copied!');
+                navigator.clipboard.writeText(code);
+                alert('✅ Code copied to clipboard!');
             }
         }
         
-        function showPage(page) {
-            document.getElementById('homePage').classList.add('hidden');
-            document.getElementById('uploadPage').classList.add('hidden');
-            document.getElementById('detailPage').classList.add('hidden');
-            
-            if (page === 'home') {
-                document.getElementById('homePage').classList.remove('hidden');
-                loadScripts();
-            } else if (page === 'upload') {
-                document.getElementById('uploadPage').classList.remove('hidden');
-            } else if (page === 'detail') {
-                document.getElementById('detailPage').classList.remove('hidden');
-            }
+        // External link with confirmation
+        let currentLink = '';
+        function openExternalLink(url) {
+            currentLink = url;
+            document.getElementById('externalLinkUrl').innerText = url;
+            document.getElementById('linkModal').style.display = 'flex';
         }
+        
+        function closeModal() {
+            document.getElementById('linkModal').style.display = 'none';
+        }
+        
+        function visitLink() {
+            window.open(currentLink, '_blank');
+            closeModal();
+        }
+        
+        // Upload script
+        document.getElementById('uploadForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const scriptType = document.getElementById('scriptType').value;
+            const title = document.getElementById('title').value.trim();
+            const description = document.getElementById('description').value.trim();
+            const author = document.getElementById('author').value.trim();
+            
+            let scriptData = { type: scriptType, title, description, author };
+            
+            if (scriptType === 'code') {
+                const code = document.getElementById('code').value.trim();
+                if (!code) {
+                    alert('Please enter your Lua script code');
+                    return;
+                }
+                scriptData.code = code;
+            } else {
+                const link = document.getElementById('link').value.trim();
+                if (!link) {
+                    alert('Please enter a valid link');
+                    return;
+                }
+                scriptData.link = link;
+            }
+            
+            const uploadBtn = e.target.querySelector('button[type="submit"]');
+            uploadBtn.textContent = 'Uploading...';
+            uploadBtn.disabled = true;
+            
+            try {
+                const response = await fetch(`${API_URL}/api/scripts`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(scriptData)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    const alertDiv = document.getElementById('uploadAlert');
+                    alertDiv.style.background = '#d4edda';
+                    alertDiv.style.color = '#155724';
+                    alertDiv.innerHTML = '✅ Script uploaded successfully! Redirecting to home...';
+                    alertDiv.classList.remove('hidden');
+                    
+                    setTimeout(() => {
+                        showHome();
+                        loadScripts();
+                    }, 2000);
+                } else {
+                    const alertDiv = document.getElementById('uploadAlert');
+                    alertDiv.style.background = '#f8d7da';
+                    alertDiv.style.color = '#721c24';
+                    alertDiv.innerHTML = '❌ ' + (result.error || 'Upload failed');
+                    alertDiv.classList.remove('hidden');
+                }
+            } catch (error) {
+                alert('Upload failed: ' + error.message);
+            } finally {
+                uploadBtn.textContent = 'Upload Script';
+                uploadBtn.disabled = false;
+            }
+        });
+        
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                applyFiltersAndSearch();
+            });
+        });
+        
+        // Search input
+        document.getElementById('searchInput')?.addEventListener('input', () => {
+            applyFiltersAndSearch();
+        });
         
         function escapeHtml(text) {
             if (!text) return '';
@@ -212,7 +790,7 @@
         }
         
         // Load scripts on start
-        showPage('home');
+        showHome();
     </script>
 </body>
 </html>
