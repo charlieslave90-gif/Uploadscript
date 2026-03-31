@@ -1,6 +1,5 @@
 import { put, list, del } from '@vercel/blob';
 
-// ADMIN PASSWORD - Keep this secret! Change it to your own password
 const ADMIN_PASSWORD = 'karah123'; // CHANGE THIS!
 
 async function getAllScripts() {
@@ -21,13 +20,20 @@ async function getAllScripts() {
     }
 }
 
-async function getScript(id) {
+async function getScript(idOrSlug) {
     try {
-        const { blobs } = await list({ prefix: `scripts/${id}`, limit: 1 });
-        if (blobs.length === 0) return null;
+        // Try to find by ID first, then by slug
+        const { blobs } = await list({ prefix: 'scripts/', limit: 1000 });
         
-        const response = await fetch(blobs[0].url);
-        return await response.json();
+        for (const blob of blobs) {
+            const response = await fetch(blob.url);
+            const script = await response.json();
+            
+            if (script.id === idOrSlug || script.slug === idOrSlug) {
+                return script;
+            }
+        }
+        return null;
     } catch (error) {
         console.error('Error loading script:', error);
         return null;
@@ -56,6 +62,13 @@ async function deleteScript(id) {
     }
 }
 
+function generateSlug(title) {
+    return title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+
 function hasSpamLinks(text) {
     if (!text) return false;
     const spamPatterns = [
@@ -67,10 +80,11 @@ function hasSpamLinks(text) {
     return spamPatterns.some(pattern => pattern.test(text));
 }
 
-async function isDuplicate(title) {
+async function isDuplicate(title, slug) {
     const allScripts = await getAllScripts();
     return allScripts.some(script => 
-        script.title.toLowerCase() === title.toLowerCase()
+        script.title.toLowerCase() === title.toLowerCase() ||
+        script.slug === slug
     );
 }
 
@@ -83,7 +97,7 @@ export default async function handler(req, res) {
         return res.status(200).end();
     }
     
-    // GET scripts (public)
+    // GET scripts (supports both ID and slug)
     if (req.method === 'GET') {
         try {
             const { id, sort } = req.query;
@@ -110,7 +124,7 @@ export default async function handler(req, res) {
         }
     }
     
-    // Like script (public)
+    // Like script
     if (req.method === 'POST' && req.query.action === 'like') {
         try {
             const { id } = req.query;
@@ -138,7 +152,7 @@ export default async function handler(req, res) {
         }
     }
     
-    // DELETE script (admin only)
+    // DELETE script
     if (req.method === 'DELETE') {
         const adminPassword = req.headers['x-admin-password'];
         
@@ -161,7 +175,7 @@ export default async function handler(req, res) {
         }
     }
     
-    // UPLOAD script (admin only)
+    // UPLOAD script (with custom slug)
     if (req.method === 'POST' && !req.query.action) {
         const adminPassword = req.headers['x-admin-password'];
         
@@ -170,7 +184,7 @@ export default async function handler(req, res) {
         }
         
         try {
-            const { type, title, author, description, code, link, thumbnail, youtubeId } = req.body;
+            const { type, title, author, description, code, link, thumbnail, youtubeId, customSlug } = req.body;
             
             if (!title || !author || !description) {
                 return res.status(400).json({ error: 'Missing required fields' });
@@ -192,14 +206,21 @@ export default async function handler(req, res) {
                 return res.status(400).json({ error: 'Invalid link' });
             }
             
-            const duplicate = await isDuplicate(title);
-            if (duplicate) {
-                return res.status(400).json({ error: 'Script title already exists' });
+            // Generate or use custom slug
+            let slug = customSlug ? customSlug.toLowerCase().replace(/[^a-z0-9-]/g, '') : generateSlug(title);
+            
+            // Ensure slug is unique
+            let finalSlug = slug;
+            let counter = 1;
+            while (await isDuplicate(title, finalSlug)) {
+                finalSlug = `${slug}-${counter}`;
+                counter++;
             }
             
             const newId = Date.now().toString();
             const newScript = {
                 id: newId,
+                slug: finalSlug,
                 type: type || 'code',
                 title: title.substring(0, 100),
                 author: author.substring(0, 50),
