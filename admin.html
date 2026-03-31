@@ -88,6 +88,19 @@
         h2 {
             margin-bottom: 15px;
         }
+        .slug-preview {
+            background: #f0f0f0;
+            padding: 8px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        .info-text {
+            font-size: 0.8rem;
+            color: #718096;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -119,6 +132,12 @@
                         <option value="link">External Link</option>
                     </select>
                     <input type="text" id="title" placeholder="Title" required>
+                    
+                    <!-- Custom URL Slug -->
+                    <input type="text" id="customSlug" placeholder="Custom URL (optional - e.g., my-awesome-script)">
+                    <div id="slugPreview" class="slug-preview hidden"></div>
+                    <div class="info-text">Leave blank to auto-generate from title. Use letters, numbers, and hyphens only.</div>
+                    
                     <input type="text" id="author" placeholder="Author" required>
                     <textarea id="description" rows="3" placeholder="Description" required></textarea>
                     <div id="codeDiv">
@@ -143,7 +162,7 @@
 
     <script>
         const API_URL = window.location.origin;
-        const ADMIN_PASSWORD = 'karah123'; // CHANGE THIS!
+        const ADMIN_PASSWORD = 'ScripthubAdmin2024'; // CHANGE THIS!
         
         // Check if already logged in
         if (localStorage.getItem('admin') === 'true') {
@@ -179,6 +198,30 @@
             setTimeout(() => alertDiv.classList.add('hidden'), 3000);
         }
         
+        // Live slug preview
+        const titleInput = document.getElementById('title');
+        const customSlugInput = document.getElementById('customSlug');
+        const slugPreview = document.getElementById('slugPreview');
+        
+        function updateSlugPreview() {
+            let slug = customSlugInput.value.trim();
+            if (!slug) {
+                slug = titleInput.value.trim()
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]+/g, '-')
+                    .replace(/^-+|-+$/g, '');
+            }
+            if (slug) {
+                slugPreview.innerHTML = `🔗 Your script will be at: <strong>/${slug}</strong>`;
+                slugPreview.classList.remove('hidden');
+            } else {
+                slugPreview.classList.add('hidden');
+            }
+        }
+        
+        titleInput.addEventListener('input', updateSlugPreview);
+        customSlugInput.addEventListener('input', updateSlugPreview);
+        
         // Toggle script type
         document.getElementById('type').addEventListener('change', function() {
             if (this.value === 'code') {
@@ -206,6 +249,7 @@
                     <div class="script-item">
                         <strong>${escapeHtml(s.title)}</strong><br>
                         By: ${escapeHtml(s.author)} | ❤️ ${s.likes || 0}<br>
+                        <small>🔗 URL: /${s.slug || s.id}</small><br>
                         <small>ID: ${s.id}</small><br>
                         <button onclick="deleteScript('${s.id}')" class="delete-btn">Delete</button>
                     </div>
@@ -243,11 +287,22 @@
             
             const type = document.getElementById('type').value;
             const title = document.getElementById('title').value.trim();
+            const customSlug = document.getElementById('customSlug').value.trim();
             const author = document.getElementById('author').value.trim();
             const description = document.getElementById('description').value.trim();
             const youtubeUrl = document.getElementById('youtube').value.trim();
             
+            if (!title || !author || !description) {
+                showAlert('Please fill all required fields', true);
+                return;
+            }
+            
             let scriptData = { type, title, author, description };
+            
+            // Add custom slug if provided
+            if (customSlug) {
+                scriptData.customSlug = customSlug;
+            }
             
             // YouTube ID
             if (youtubeUrl) {
@@ -300,8 +355,9 @@
                 const data = await res.json();
                 
                 if (res.ok) {
-                    showAlert('Uploaded!', false);
+                    showAlert(`✅ Uploaded! URL: /${data.slug}`, false);
                     e.target.reset();
+                    slugPreview.classList.add('hidden');
                     loadScripts();
                 } else {
                     showAlert(data.error || 'Upload failed', true);
