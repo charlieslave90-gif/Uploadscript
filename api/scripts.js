@@ -1,5 +1,8 @@
 import { put, list, del } from '@vercel/blob';
 
+// ADMIN PASSWORD - Keep this secret! Change it to your own password
+const ADMIN_PASSWORD = 'ilovejeiel3'; // CHANGE THIS!
+
 async function getAllScripts() {
     try {
         const { blobs } = await list({ prefix: 'scripts/', limit: 1000 });
@@ -40,8 +43,18 @@ async function saveScript(script) {
     return blob.url;
 }
 
-// Track uploads with IP + date for 1 per day limit
-const uploadHistory = new Map();
+async function deleteScript(id) {
+    try {
+        const { blobs } = await list({ prefix: `scripts/${id}`, limit: 1 });
+        for (const blob of blobs) {
+            await del(blob.url);
+        }
+        return true;
+    } catch (error) {
+        console.error('Error deleting script:', error);
+        return false;
+    }
+}
 
 function hasSpamLinks(text) {
     if (!text) return false;
@@ -54,26 +67,23 @@ function hasSpamLinks(text) {
     return spamPatterns.some(pattern => pattern.test(text));
 }
 
-async function isDuplicate(title, author, code = null, link = null) {
+async function isDuplicate(title) {
     const allScripts = await getAllScripts();
     return allScripts.some(script => 
-        script.title.toLowerCase() === title.toLowerCase() ||
-        (code && script.code === code) ||
-        (link && script.link === link) ||
-        (script.author.toLowerCase() === author.toLowerCase() && 
-         script.title.toLowerCase() === title.toLowerCase())
+        script.title.toLowerCase() === title.toLowerCase()
     );
 }
 
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Admin-Password');
     
     if (req.method === 'OPTIONS') {
         return res.status(200).end();
     }
     
+    // GET scripts (public)
     if (req.method === 'GET') {
         try {
             const { id, sort } = req.query;
@@ -96,62 +106,78 @@ export default async function handler(req, res) {
             
             return res.status(200).json(scripts);
         } catch (error) {
-            console.error('GET Error:', error);
-            return res.status(500).json({ error: 'Server error: ' + error.message });
+            return res.status(500).json({ error: 'Server error' });
         }
     }
     
-    if (req.method === 'POST') {
+    // Like script (public)
+    if (req.method === 'POST' && req.query.action === 'like') {
         try {
-            const { action, id } = req.query;
+            const { id } = req.query;
+            const script = await getScript(id);
             
-            if (action === 'like') {
-                const script = await getScript(id);
-                
-                if (!script) {
-                    return res.status(404).json({ error: 'Script not found' });
-                }
-                
-                const userIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-                const userAgent = req.headers['user-agent'] || '';
-                const userId = `${userIp}-${userAgent.substring(0, 50)}`;
-                
-                if (!script.likedBy) script.likedBy = [];
-                
-                if (script.likedBy.includes(userId)) {
-                    return res.status(400).json({ error: 'You already liked this script' });
-                }
-                
-                script.likedBy.push(userId);
-                script.likes = (script.likes || 0) + 1;
-                await saveScript(script);
-                
-                return res.status(200).json({ success: true, likes: script.likes });
+            if (!script) {
+                return res.status(404).json({ error: 'Script not found' });
             }
             
-            // Upload new script with rate limiting (1 per day)
-            const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+            const userIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
             
-            // Check if user has uploaded in the last 24 hours
-            const now = Date.now();
-            const lastUpload = uploadHistory.get(clientIp);
+            if (!script.likedBy) script.likedBy = [];
             
-            if (lastUpload && (now - lastUpload) < 86400000) { // 24 hours
-                const hoursLeft = Math.ceil((86400000 - (now - lastUpload)) / 3600000);
-                return res.status(429).json({ 
-                    error: `You can only upload 1 script per day! Please wait ${hoursLeft} hour(s).` 
-                });
+            if (script.likedBy.includes(userIp)) {
+                return res.status(400).json({ error: 'You already liked this script' });
             }
             
+            script.likedBy.push(userIp);
+            script.likes = (script.likes || 0) + 1;
+            await saveScript(script);
+            
+            return res.status(200).json({ success: true, likes: script.likes });
+        } catch (error) {
+            return res.status(500).json({ error: 'Server error' });
+        }
+    }
+    
+    // DELETE script (admin only)
+    if (req.method === 'DELETE') {
+        const adminPassword = req.headers['x-admin-password'];
+        
+        if (adminPassword !== ADMIN_PASSWORD) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+        
+        const { id } = req.query;
+        
+        if (!id) {
+            return res.status(400).json({ error: 'Script ID required' });
+        }
+        
+        const deleted = await deleteScript(id);
+        
+        if (deleted) {
+            return res.status(200).json({ success: true });
+        } else {
+            return res.status(500).json({ error: 'Failed to delete' });
+        }
+    }
+    
+    // UPLOAD script (admin only)
+    if (req.method === 'POST' && !req.query.action) {
+        const adminPassword = req.headers['x-admin-password'];
+        
+        if (adminPassword !== ADMIN_PASSWORD) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+        
+        try {
             const { type, title, author, description, code, link, thumbnail, youtubeId } = req.body;
             
-            // Validation
             if (!title || !author || !description) {
-                return res.status(400).json({ error: 'Missing title, author, or description' });
+                return res.status(400).json({ error: 'Missing required fields' });
             }
             
             if (title.length < 3) {
-                return res.status(400).json({ error: 'Title must be at least 3 characters' });
+                return res.status(400).json({ error: 'Title too short' });
             }
             
             if (hasSpamLinks(title) || hasSpamLinks(author) || hasSpamLinks(description)) {
@@ -159,20 +185,18 @@ export default async function handler(req, res) {
             }
             
             if (type === 'code' && (!code || code.length < 10)) {
-                return res.status(400).json({ error: 'Script code must be at least 10 characters' });
+                return res.status(400).json({ error: 'Code too short' });
             }
             
             if (type === 'link' && (!link || !link.startsWith('http'))) {
-                return res.status(400).json({ error: 'Please provide a valid URL starting with http:// or https://' });
+                return res.status(400).json({ error: 'Invalid link' });
             }
             
-            // Check duplicates
-            const duplicate = await isDuplicate(title, author, code, link);
+            const duplicate = await isDuplicate(title);
             if (duplicate) {
-                return res.status(400).json({ error: 'A script with this title already exists' });
+                return res.status(400).json({ error: 'Script title already exists' });
             }
             
-            // Create new script
             const newId = Date.now().toString();
             const newScript = {
                 id: newId,
@@ -186,13 +210,8 @@ export default async function handler(req, res) {
                 likedBy: []
             };
             
-            // Add optional fields
-            if (thumbnail) {
-                newScript.thumbnail = thumbnail;
-            }
-            if (youtubeId) {
-                newScript.youtubeId = youtubeId;
-            }
+            if (thumbnail) newScript.thumbnail = thumbnail;
+            if (youtubeId) newScript.youtubeId = youtubeId;
             
             if (type === 'code') {
                 newScript.code = code.substring(0, 50000);
@@ -202,16 +221,9 @@ export default async function handler(req, res) {
             
             await saveScript(newScript);
             
-            // Update rate limit
-            uploadHistory.set(clientIp, now);
-            
-            console.log(`✅ Script saved: ${title} by ${author}`);
-            
             return res.status(201).json(newScript);
-            
         } catch (error) {
-            console.error('POST Error:', error);
-            return res.status(500).json({ error: 'Server error: ' + error.message });
+            return res.status(500).json({ error: 'Server error' });
         }
     }
     
