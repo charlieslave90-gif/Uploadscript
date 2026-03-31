@@ -40,12 +40,17 @@
             margin-bottom: 1rem;
         }
 
-        input {
+        input, select, textarea {
             width: 100%;
             padding: 12px;
             border: 2px solid #e2e8f0;
             border-radius: 10px;
             font-size: 1rem;
+            font-family: inherit;
+        }
+
+        textarea {
+            resize: vertical;
         }
 
         button {
@@ -58,6 +63,7 @@
             font-size: 1rem;
             font-weight: 600;
             width: 100%;
+            transition: transform 0.2s;
         }
 
         button:hover {
@@ -77,10 +83,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .script-info h3 {
             margin-bottom: 0.5rem;
+            color: #0f172a;
         }
 
         .script-info p {
@@ -103,7 +112,7 @@
         }
 
         .alert {
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
             margin-bottom: 1rem;
         }
@@ -111,11 +120,13 @@
         .alert-success {
             background: #d4edda;
             color: #155724;
+            border: 1px solid #c3e6cb;
         }
 
         .alert-error {
             background: #f8d7da;
             color: #721c24;
+            border: 1px solid #f5c6cb;
         }
 
         .header {
@@ -123,12 +134,49 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .logout-btn {
             background: #64748b;
             width: auto;
             padding: 8px 16px;
+        }
+
+        h2 {
+            margin: 1.5rem 0 1rem 0;
+            color: #0f172a;
+        }
+
+        hr {
+            margin: 1rem 0;
+            border: none;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        small {
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+
+        .thumbnail-preview {
+            max-width: 200px;
+            margin-top: 10px;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            .script-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            .delete-btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -155,40 +203,52 @@
             
             <div id="alertMessage" class="hidden"></div>
             
-            <h2>Upload New Script</h2>
-            <form id="uploadForm" style="margin-bottom: 2rem;">
+            <h2>📤 Upload New Script</h2>
+            <form id="uploadForm">
                 <div class="form-group">
-                    <select id="scriptType" required style="width:100%; padding:12px; border:2px solid #e2e8f0; border-radius:10px;">
+                    <select id="scriptType" required>
                         <option value="code">Lua Script (Paste Code)</option>
-                        <option value="link">External Link</option>
+                        <option value="link">External Link (Pastebin, LootLab, etc.)</option>
                     </select>
                 </div>
+                
                 <div class="form-group">
                     <input type="text" id="title" placeholder="Script Title" required>
                 </div>
+                
                 <div class="form-group">
                     <input type="text" id="author" placeholder="Author Name" required>
                 </div>
+                
                 <div class="form-group">
                     <textarea id="description" rows="3" placeholder="Description" required></textarea>
                 </div>
+                
                 <div class="form-group" id="codeGroup">
                     <textarea id="code" rows="8" placeholder="Lua Script Code"></textarea>
                 </div>
+                
                 <div class="form-group hidden" id="linkGroup">
                     <input type="url" id="link" placeholder="External Link (Pastebin, LootLab, etc.)">
                 </div>
+                
                 <div class="form-group">
                     <input type="url" id="youtubeUrl" placeholder="YouTube Video URL (optional)">
+                    <small>Example: https://youtube.com/watch?v=xxxxx</small>
                 </div>
+                
                 <div class="form-group">
                     <input type="file" id="thumbnail" accept="image/*">
-                    <small>Thumbnail image (optional)</small>
+                    <small>Thumbnail image (optional, JPG/PNG/GIF)</small>
+                    <img id="thumbnailPreview" class="thumbnail-preview hidden" alt="Preview">
                 </div>
+                
                 <button type="submit">📤 Upload Script</button>
             </form>
 
-            <h2>Manage Scripts</h2>
+            <hr>
+
+            <h2>🗑️ Manage Scripts</h2>
             <div id="scriptsList" class="script-list">
                 <p>Loading scripts...</p>
             </div>
@@ -197,10 +257,9 @@
 
     <script>
         const API_URL = window.location.origin;
-        let adminToken = localStorage.getItem('adminToken');
         
         // Check if already logged in
-        if (adminToken === 'loggedin') {
+        if (localStorage.getItem('adminLoggedIn') === 'true') {
             document.getElementById('loginForm').classList.add('hidden');
             document.getElementById('adminPanel').classList.remove('hidden');
             loadScripts();
@@ -214,13 +273,14 @@
             setTimeout(() => alertDiv.classList.add('hidden'), 3000);
         }
         
-        async function login() {
+        function login() {
             const password = document.getElementById('adminPassword').value;
             
-            // Simple client-side check (password is stored in your mind only)
-            // You can change this password to anything you want
-            if (password === 'ScripthubAdmin2024') {
-                localStorage.setItem('adminToken', 'loggedin');
+            // CHANGE THIS PASSWORD TO YOUR OWN!
+            const ADMIN_PASSWORD = 'ScripthubAdmin2024';
+            
+            if (password === ADMIN_PASSWORD) {
+                localStorage.setItem('adminLoggedIn', 'true');
                 document.getElementById('loginForm').classList.add('hidden');
                 document.getElementById('adminPanel').classList.remove('hidden');
                 loadScripts();
@@ -231,24 +291,28 @@
         }
         
         function logout() {
-            localStorage.removeItem('adminToken');
+            localStorage.removeItem('adminLoggedIn');
             document.getElementById('loginForm').classList.remove('hidden');
             document.getElementById('adminPanel').classList.add('hidden');
+            document.getElementById('adminPassword').value = '';
         }
         
         // Toggle script type
-        document.getElementById('scriptType')?.addEventListener('change', function() {
-            const codeGroup = document.getElementById('codeGroup');
-            const linkGroup = document.getElementById('linkGroup');
-            
-            if (this.value === 'code') {
-                codeGroup.classList.remove('hidden');
-                linkGroup.classList.add('hidden');
-            } else {
-                codeGroup.classList.add('hidden');
-                linkGroup.classList.remove('hidden');
-            }
-        });
+        const scriptTypeSelect = document.getElementById('scriptType');
+        if (scriptTypeSelect) {
+            scriptTypeSelect.addEventListener('change', function() {
+                const codeGroup = document.getElementById('codeGroup');
+                const linkGroup = document.getElementById('linkGroup');
+                
+                if (this.value === 'code') {
+                    codeGroup.classList.remove('hidden');
+                    linkGroup.classList.add('hidden');
+                } else {
+                    codeGroup.classList.add('hidden');
+                    linkGroup.classList.remove('hidden');
+                }
+            });
+        }
         
         // Get YouTube ID
         function getYouTubeId(url) {
@@ -262,10 +326,12 @@
         async function loadScripts() {
             try {
                 const response = await fetch(`${API_URL}/api/scripts`);
+                if (!response.ok) throw new Error('Failed to load');
                 const scripts = await response.json();
                 displayScripts(scripts);
             } catch (error) {
-                document.getElementById('scriptsList').innerHTML = '<p>Error loading scripts</p>';
+                document.getElementById('scriptsList').innerHTML = '<p>❌ Error loading scripts</p>';
+                console.error(error);
             }
         }
         
@@ -278,11 +344,11 @@
             }
             
             container.innerHTML = scripts.map(script => `
-                <div class="script-item" data-id="${script.id}">
+                <div class="script-item">
                     <div class="script-info">
                         <h3>${escapeHtml(script.title)}</h3>
                         <p>By: ${escapeHtml(script.author)} | ❤️ ${script.likes || 0} | 📅 ${new Date(script.createdAt).toLocaleDateString()}</p>
-                        <p style="font-size: 0.85rem;">ID: ${script.id}</p>
+                        <p style="font-size: 0.8rem; color: #94a3b8;">ID: ${script.id}</p>
                     </div>
                     <button onclick="deleteScript('${script.id}')" class="delete-btn">🗑️ Delete</button>
                 </div>
@@ -295,11 +361,14 @@
                 return;
             }
             
+            const ADMIN_PASSWORD = 'ScripthubAdmin2024';
+            
             try {
                 const response = await fetch(`${API_URL}/api/scripts?id=${id}`, {
                     method: 'DELETE',
                     headers: {
-                        'X-Admin-Password': 'ScripthubAdmin2024'
+                        'Content-Type': 'application/json',
+                        'X-Admin-Password': ADMIN_PASSWORD
                     }
                 });
                 
@@ -312,89 +381,124 @@
                     showAlert('❌ ' + (result.error || 'Delete failed'), true);
                 }
             } catch (error) {
-                showAlert('❌ Error deleting script', true);
+                showAlert('❌ Error deleting script: ' + error.message, true);
             }
         }
         
         // Upload script
-        document.getElementById('uploadForm')?.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const scriptType = document.getElementById('scriptType').value;
-            const title = document.getElementById('title').value.trim();
-            const author = document.getElementById('author').value.trim();
-            const description = document.getElementById('description').value.trim();
-            const youtubeUrl = document.getElementById('youtubeUrl').value.trim();
-            const thumbnailFile = document.getElementById('thumbnail').files[0];
-            
-            let scriptData = { type: scriptType, title, author, description };
-            
-            // Add YouTube ID
-            if (youtubeUrl) {
-                const youtubeId = getYouTubeId(youtubeUrl);
-                if (youtubeId) scriptData.youtubeId = youtubeId;
-            }
-            
-            // Handle thumbnail
-            if (thumbnailFile) {
-                const reader = new FileReader();
-                const thumbnailPromise = new Promise((resolve) => {
-                    reader.onload = (event) => {
-                        scriptData.thumbnail = event.target.result;
-                        resolve();
-                    };
-                    reader.readAsDataURL(thumbnailFile);
-                });
-                await thumbnailPromise;
-            }
-            
-            // Add code or link
-            if (scriptType === 'code') {
-                const code = document.getElementById('code').value.trim();
-                if (!code) {
-                    showAlert('Please enter script code', true);
+        const uploadForm = document.getElementById('uploadForm');
+        if (uploadForm) {
+            uploadForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const ADMIN_PASSWORD = 'ScripthubAdmin2024';
+                const scriptType = document.getElementById('scriptType').value;
+                const title = document.getElementById('title').value.trim();
+                const author = document.getElementById('author').value.trim();
+                const description = document.getElementById('description').value.trim();
+                const youtubeUrl = document.getElementById('youtubeUrl').value.trim();
+                const thumbnailFile = document.getElementById('thumbnail').files[0];
+                
+                if (!title || !author || !description) {
+                    showAlert('Please fill in title, author, and description', true);
                     return;
                 }
-                scriptData.code = code;
-            } else {
-                const link = document.getElementById('link').value.trim();
-                if (!link) {
-                    showAlert('Please enter a link', true);
-                    return;
+                
+                let scriptData = { 
+                    type: scriptType, 
+                    title, 
+                    author, 
+                    description 
+                };
+                
+                // Add YouTube ID
+                if (youtubeUrl) {
+                    const youtubeId = getYouTubeId(youtubeUrl);
+                    if (youtubeId) {
+                        scriptData.youtubeId = youtubeId;
+                    }
                 }
-                scriptData.link = link;
-            }
-            
-            const uploadBtn = e.target.querySelector('button');
-            uploadBtn.textContent = 'Uploading...';
-            uploadBtn.disabled = true;
-            
-            try {
-                const response = await fetch(`${API_URL}/api/scripts`, {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'X-Admin-Password': 'ScripthubAdmin2024'
-                    },
-                    body: JSON.stringify(scriptData)
-                });
                 
-                const result = await response.json();
+                // Handle thumbnail
+                if (thumbnailFile) {
+                    const reader = new FileReader();
+                    const thumbnailPromise = new Promise((resolve) => {
+                        reader.onload = (event) => {
+                            scriptData.thumbnail = event.target.result;
+                            resolve();
+                        };
+                        reader.readAsDataURL(thumbnailFile);
+                    });
+                    await thumbnailPromise;
+                }
                 
-                if (response.ok) {
-                    showAlert('✅ Script uploaded successfully!');
-                    document.getElementById('uploadForm').reset();
-                    loadScripts();
+                // Add code or link
+                if (scriptType === 'code') {
+                    const code = document.getElementById('code').value.trim();
+                    if (!code) {
+                        showAlert('Please enter script code', true);
+                        return;
+                    }
+                    scriptData.code = code;
                 } else {
-                    showAlert('❌ ' + (result.error || 'Upload failed'), true);
+                    const link = document.getElementById('link').value.trim();
+                    if (!link) {
+                        showAlert('Please enter a link', true);
+                        return;
+                    }
+                    scriptData.link = link;
                 }
-            } catch (error) {
-                showAlert('❌ Upload failed: ' + error.message, true);
-            } finally {
-                uploadBtn.textContent = 'Upload Script';
-                uploadBtn.disabled = false;
-            }
-        });
+                
+                const uploadBtn = e.target.querySelector('button');
+                const originalText = uploadBtn.textContent;
+                uploadBtn.textContent = 'Uploading...';
+                uploadBtn.disabled = true;
+                
+                try {
+                    const response = await fetch(`${API_URL}/api/scripts`, {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'X-Admin-Password': ADMIN_PASSWORD
+                        },
+                        body: JSON.stringify(scriptData)
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (response.ok) {
+                        showAlert('✅ Script uploaded successfully!');
+                        uploadForm.reset();
+                        document.getElementById('thumbnailPreview').classList.add('hidden');
+                        loadScripts();
+                    } else {
+                        showAlert('❌ ' + (result.error || 'Upload failed'), true);
+                    }
+                } catch (error) {
+                    showAlert('❌ Upload failed: ' + error.message, true);
+                } finally {
+                    uploadBtn.textContent = originalText;
+                    uploadBtn.disabled = false;
+                }
+            });
+        }
+        
+        // Thumbnail preview
+        const thumbnailInput = document.getElementById('thumbnail');
+        if (thumbnailInput) {
+            thumbnailInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const preview = document.getElementById('thumbnailPreview');
+                        preview.src = event.target.result;
+                        preview.classList.remove('hidden');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
         
         function escapeHtml(text) {
             if (!text) return '';
@@ -402,18 +506,6 @@
             div.textContent = text;
             return div.innerHTML;
         }
-        
-        // Thumbnail preview
-        document.getElementById('thumbnail')?.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    console.log('Thumbnail loaded');
-                };
-                reader.readAsDataURL(file);
-            }
-        });
     </script>
 </body>
 </html>
