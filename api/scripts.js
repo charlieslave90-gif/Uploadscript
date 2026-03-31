@@ -1,47 +1,76 @@
-// Track uploads for rate limiting
-const uploadHistory = new Map(); // IP -> timestamp
+const fs = require('fs');
+const path = require('path');
 
-// Helper function to remove links and Discord invites
-function removeLinks(text) {
-    // Remove Discord invite links
-    let cleaned = text.replace(/discord\.gg\/[a-zA-Z0-9]+/gi, '[REMOVED]');
-    cleaned = cleaned.replace(/discord\.com\/invite\/[a-zA-Z0-9]+/gi, '[REMOVED]');
+// Path to our data file
+const DATA_FILE = path.join(process.cwd(), 'scripts-data.json');
+
+// Load scripts from file
+function loadScripts() {
+    try {
+        if (fs.existsSync(DATA_FILE)) {
+            const data = fs.readFileSync(DATA_FILE, 'utf8');
+            return JSON.parse(data);
+        }
+    } catch (error) {
+        console.error('Error loading scripts:', error);
+    }
     
-    // Remove common URLs
-    cleaned = cleaned.replace(/https?:\/\/[^\s]+/gi, '[REMOVED]');
-    cleaned = cleaned.replace(/www\.[^\s]+/gi, '[REMOVED]');
-    
-    // Remove .com, .net, .org domains
-    cleaned = cleaned.replace(/[a-zA-Z0-9\-]+\.(com|net|org|xyz|club|gg)\b/gi, '[REMOVED]');
-    
-    return cleaned;
+    // Default scripts
+    return [
+        {
+            id: '1',
+            type: 'code',
+            title: 'Welcome Script',
+            author: 'ScriptHub',
+            description: 'Welcome to ScriptHub! This is an example script.',
+            code: 'print("Welcome to ScriptHub!")',
+            createdAt: new Date().toISOString(),
+            likes: 5,
+            verified: true
+        }
+    ];
 }
 
-// Helper function to check if script is duplicate
-function isDuplicate(scripts, title, code, author) {
+// Save scripts to file
+function saveScripts(scripts) {
+    try {
+        fs.writeFileSync(DATA_FILE, JSON.stringify(scripts, null, 2));
+        return true;
+    } catch (error) {
+        console.error('Error saving scripts:', error);
+        return false;
+    }
+}
+
+// Track uploads for rate limiting
+const uploadHistory = new Map();
+
+// Helper to check duplicates
+function isDuplicate(scripts, title, author, code = null, link = null) {
     return scripts.some(script => 
         script.title.toLowerCase() === title.toLowerCase() ||
-        script.code === code ||
+        (code && script.code === code) ||
+        (link && script.link === link) ||
         (script.author.toLowerCase() === author.toLowerCase() && 
          script.title.toLowerCase() === title.toLowerCase())
     );
 }
 
-let scripts = [
-    {
-        id: '1',
-        title: 'Welcome Script',
-        author: 'ScriptHub',
-        description: 'This is an example script to get you started',
-        code: 'print("Welcome to ScriptHub!")',
-        createdAt: new Date().toISOString(),
-        likes: 5,
-        verified: true
-    }
-];
+// Helper to check for spam links
+function hasSpamLinks(text) {
+    const spamPatterns = [
+        /discord\.gg\/[a-zA-Z0-9]+/i,
+        /discord\.com\/invite\/[a-zA-Z0-9]+/i,
+        /t\.me\/[a-zA-Z0-9]+/i,
+        /telegram\.me\/[a-zA-Z0-9]+/i
+    ];
+    return spamPatterns.some(pattern => pattern.test(text));
+}
+
+let scripts = loadScripts();
 
 export default async function handler(req, res) {
-    // Set CORS headers
+    // CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -50,7 +79,7 @@ export default async function handler(req, res) {
         return res.status(200).end();
     }
     
-    // GET requests
+    // GET - Fetch scripts
     if (req.method === 'GET') {
         const { id, sort } = req.query;
         
@@ -63,18 +92,16 @@ export default async function handler(req, res) {
         }
         
         let sortedScripts = [...scripts];
-        if (sort === 'latest') {
+        if (sort === 'recent') {
             sortedScripts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         } else if (sort === 'popular') {
-            sortedScripts.sort((a, b) => b.likes - a.likes);
-        } else if (sort === 'verified') {
-            sortedScripts = sortedScripts.filter(s => s.verified);
+            sortedScripts.sort((a, b) => (b.likes || 0) - (a.likes || 0));
         }
         
         return res.status(200).json(sortedScripts);
     }
     
-    // POST requests
+    // POST - Upload or like
     if (req.method === 'POST') {
         const { action, id } = req.query;
         
@@ -82,108 +109,75 @@ export default async function handler(req, res) {
         if (action === 'like') {
             const script = scripts.find(s => s.id === id);
             if (script) {
-                script.likes++;
+                script.likes = (script.likes || 0) + 1;
+                saveScripts(scripts);
                 return res.status(200).json({ success: true, likes: script.likes });
             }
             return res.status(404).json({ error: 'Script not found' });
         }
         
-        // Validate script (check for links)
-        if (action === 'validate') {
-            const { code, description, title } = req.body;
-            const errors = [];
-            
-            // Check for links
-            const linkPattern = /(discord\.gg|discord\.com\/invite|https?:\/\/|www\.|\.com|\.net|\.org)/gi;
-            if (linkPattern.test(code)) {
-                errors.push('No links or Discord invites allowed in code');
-            }
-            if (description && linkPattern.test(description)) {
-                errors.push('No links or Discord invites allowed in description');
-            }
-            if (title && linkPattern.test(title)) {
-                errors.push('No links or Discord invites allowed in title');
-            }
-            
-            // Check syntax
-            if (!code || code.trim() === '') {
-                errors.push('Script code is empty');
-            }
-            
-            const openParens = (code.match(/\(/g) || []).length;
-            const closeParens = (code.match(/\)/g) || []).length;
-            if (openParens !== closeParens) {
-                errors.push(`Mismatched parentheses: ${openParens} open, ${closeParens} close`);
-            }
-            
-            if (errors.length > 0) {
-                return res.status(200).json({ valid: false, error: errors.join(', ') });
-            }
-            return res.status(200).json({ valid: true });
-        }
-        
         // Upload new script
-        const { title, author, description, code } = req.body;
-        
-        // Get client IP for rate limiting
         const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
         
-        // Rate limiting: max 3 uploads per hour
+        // Rate limiting: 5 uploads per hour
         const now = Date.now();
         const userUploads = uploadHistory.get(clientIp) || [];
-        const recentUploads = userUploads.filter(time => now - time < 3600000); // 1 hour
+        const recentUploads = userUploads.filter(time => now - time < 3600000);
         
-        if (recentUploads.length >= 3) {
-            return res.status(429).json({ 
-                error: 'Rate limit exceeded. Maximum 3 uploads per hour.' 
-            });
+        if (recentUploads.length >= 5) {
+            return res.status(429).json({ error: 'Rate limit: Max 5 uploads per hour' });
         }
         
-        // Check required fields
-        if (!title || !author || !code) {
-            return res.status(400).json({ error: 'Missing title, author, or code' });
+        const { type, title, author, description, code, link } = req.body;
+        
+        // Validation
+        if (!title || !author || !description) {
+            return res.status(400).json({ error: 'Missing required fields' });
         }
         
-        // Check for links in input
-        const linkPattern = /(discord\.gg|discord\.com\/invite|https?:\/\/|www\.|\.com|\.net|\.org)/gi;
-        if (linkPattern.test(title)) {
-            return res.status(400).json({ error: 'No links or Discord invites allowed in title' });
-        }
-        if (linkPattern.test(author)) {
-            return res.status(400).json({ error: 'No links or Discord invites allowed in author name' });
-        }
-        if (linkPattern.test(code)) {
-            return res.status(400).json({ error: 'No links or Discord invites allowed in script code' });
+        if (title.length < 3) {
+            return res.status(400).json({ error: 'Title must be at least 3 characters' });
         }
         
-        // Check for duplicate scripts
-        if (isDuplicate(scripts, title, code, author)) {
-            return res.status(400).json({ 
-                error: 'A script with this title or code already exists! Please use a different title.' 
-            });
+        if (hasSpamLinks(title) || hasSpamLinks(author) || hasSpamLinks(description)) {
+            return res.status(400).json({ error: 'No Discord/Telegram invites allowed' });
         }
         
-        // Clean description from links
-        let cleanDescription = description || '';
-        if (cleanDescription) {
-            cleanDescription = removeLinks(cleanDescription);
+        if (type === 'code' && (!code || code.length < 10)) {
+            return res.status(400).json({ error: 'Script code must be at least 10 characters' });
+        }
+        
+        if (type === 'link' && (!link || !link.startsWith('http'))) {
+            return res.status(400).json({ error: 'Please provide a valid URL' });
+        }
+        
+        // Check duplicates
+        if (isDuplicate(scripts, title, author, code, link)) {
+            return res.status(400).json({ error: 'A similar script already exists' });
         }
         
         // Create new script
         const newScript = {
             id: Date.now().toString(),
-            title: title.substring(0, 100), // Limit length
+            type: type || 'code',
+            title: title.substring(0, 100),
             author: author.substring(0, 50),
-            description: cleanDescription.substring(0, 500),
-            code: code.substring(0, 50000), // Limit code length
+            description: description.substring(0, 500),
             createdAt: new Date().toISOString(),
             likes: 0,
             verified: false
         };
         
-        scripts.unshift(newScript); // Add to beginning (newest first)
+        if (type === 'code') {
+            newScript.code = code.substring(0, 50000);
+        } else {
+            newScript.link = link;
+        }
         
-        // Update rate limit history
+        scripts.unshift(newScript);
+        saveScripts(scripts);
+        
+        // Update rate limit
         recentUploads.push(now);
         uploadHistory.set(clientIp, recentUploads);
         
