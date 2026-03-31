@@ -6,7 +6,7 @@
     <meta name="google-site-verification" content="aHm-u6Lw7BRLde6l91yNdtVltbZu8np4hRcmCrn4iYI">
     <meta name="google-adsense-account" content="ca-pub-4130246379396222">
     <title>ScriptHub - Roblox Script Library</title>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4130246379396222"
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4130246379396222"
      crossorigin="anonymous"></script>
     <style>
         :root {
@@ -217,6 +217,23 @@
             color: white;
         }
 
+        /* Two column layout for content + sidebar ads */
+        .main-content {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .scripts-container {
+            flex: 3;
+        }
+
+        .sidebar-ads {
+            flex: 1;
+            position: sticky;
+            top: 100px;
+            align-self: flex-start;
+        }
+
         .scripts-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
@@ -378,12 +395,32 @@
             cursor: pointer;
         }
 
-        .ad-container {
-            margin: 2rem 0;
-            text-align: center;
-            background: rgba(255,255,255,0.9);
+        /* Ad containers */
+        .ad-box {
+            background: white;
             border-radius: 20px;
             padding: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .ad-box-small {
+            max-width: 468px;
+            margin: 0 auto;
+        }
+
+        .ad-label {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .horizontal-ad {
+            margin: 2rem 0;
+            text-align: center;
         }
 
         .modal {
@@ -434,6 +471,16 @@
             }
         }
 
+        @media (max-width: 1024px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .sidebar-ads {
+                position: static;
+                order: -1;
+            }
+        }
+
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2rem;
@@ -468,21 +515,63 @@
                 <button onclick="showUpload()" class="btn-primary">🚀 Upload Your Script</button>
             </div>
 
-            <div class="search-section">
-                <div class="search-bar">
-                    <input type="text" id="searchInput" placeholder="🔍 Search scripts by title, author, or description..." class="search-input">
-                </div>
-                <div class="filters">
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="code">Lua Scripts</button>
-                    <button class="filter-btn" data-filter="link">External Links</button>
-                    <button class="filter-btn" data-filter="popular">Most Liked</button>
-                    <button class="filter-btn" data-filter="recent">Recent</button>
-                </div>
+            <!-- Horizontal Ad - Below hero, not annoying -->
+            <div class="horizontal-ad">
+                <div class="ad-label">Advertisement</div>
+                <script async="async" data-cfasync="false" src="https://pl29027394.profitablecpmratenetwork.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
+                <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
             </div>
 
-            <div id="scriptsGrid" class="scripts-grid">
-                <div class="loading" style="text-align:center; padding:2rem;">Loading scripts...</div>
+            <div class="main-content">
+                <div class="scripts-container">
+                    <div class="search-section">
+                        <div class="search-bar">
+                            <input type="text" id="searchInput" placeholder="🔍 Search scripts by title, author, or description..." class="search-input">
+                        </div>
+                        <div class="filters">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="code">Lua Scripts</button>
+                            <button class="filter-btn" data-filter="link">External Links</button>
+                            <button class="filter-btn" data-filter="popular">Most Liked</button>
+                            <button class="filter-btn" data-filter="recent">Recent</button>
+                        </div>
+                    </div>
+
+                    <div id="scriptsGrid" class="scripts-grid">
+                        <div class="loading" style="text-align:center; padding:2rem;">Loading scripts...</div>
+                    </div>
+                </div>
+
+                <!-- Sidebar Ads - Right column, not intrusive -->
+                <div class="sidebar-ads">
+                    <div class="ad-box">
+                        <div class="ad-label">Sponsored</div>
+                        <script>
+                            atOptions = {
+                                'key' : '7c7fd511e2480eb4fe47887cda152595',
+                                'format' : 'iframe',
+                                'height' : 60,
+                                'width' : 468,
+                                'params' : {}
+                            };
+                        </script>
+                        <script src="https://www.highperformanceformat.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
+                    </div>
+
+                    <div class="ad-box">
+                        <div class="ad-label">Recommended</div>
+                        <script>
+                            atOptions = {
+                                'key' : '673fb53f64c762401413eb44406c1c80',
+                                'format' : 'iframe',
+                                'height' : 300,
+                                'width' : 160,
+                                'params' : {}
+                            };
+                        </script>
+                        <script src="https://www.highperformanceformat.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -607,7 +696,6 @@
             document.getElementById('homePage').classList.remove('hidden');
             document.getElementById('uploadPage').classList.add('hidden');
             document.getElementById('detailPage').classList.add('hidden');
-            // Update URL without reload
             window.history.pushState({}, '', '/');
             loadScripts();
         }
@@ -625,7 +713,6 @@
             document.getElementById('homePage').classList.add('hidden');
             document.getElementById('uploadPage').classList.add('hidden');
             document.getElementById('detailPage').classList.remove('hidden');
-            // Update URL with script ID
             window.history.pushState({}, '', `/?id=${id}`);
             loadScriptDetail(id);
         }
@@ -783,7 +870,6 @@
                     </div>
                 `;
                 
-                // Set the share URL input value and select on click
                 const shareInput = document.getElementById('shareUrl');
                 if (shareInput) {
                     shareInput.value = shareUrl;
@@ -811,9 +897,7 @@
                     showToast('❤️ Liked! Thanks for your support');
                     loadScripts();
                     
-                    // Refresh detail if open
-                    const detailPage = document.getElementById('detailPage');
-                    if (!detailPage.classList.contains('hidden')) {
+                    if (!document.getElementById('detailPage').classList.contains('hidden')) {
                         loadScriptDetail(id);
                     }
                 } else {
