@@ -94,9 +94,33 @@
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
             padding: 2rem;
+        }
+
+        /* Three column layout */
+        .three-columns {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .left-sidebar {
+            flex: 1;
+            position: sticky;
+            top: 100px;
+            align-self: flex-start;
+        }
+
+        .main-content {
+            flex: 3;
+        }
+
+        .right-sidebar {
+            flex: 1;
+            position: sticky;
+            top: 100px;
+            align-self: flex-start;
         }
 
         .hero {
@@ -217,28 +241,10 @@
             color: white;
         }
 
-        /* Two column layout for content + sidebar ads */
-        .main-content {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .scripts-container {
-            flex: 3;
-        }
-
-        .sidebar-ads {
-            flex: 1;
-            position: sticky;
-            top: 100px;
-            align-self: flex-start;
-        }
-
         .scripts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 2rem;
-            margin-top: 2rem;
         }
 
         .script-card {
@@ -249,6 +255,7 @@
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
 
         .script-card:hover {
@@ -266,6 +273,15 @@
             background: linear-gradient(90deg, var(--primary), var(--secondary));
         }
 
+        .script-thumbnail {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
         .script-type {
             display: inline-block;
             padding: 4px 12px;
@@ -274,18 +290,13 @@
             border-radius: 20px;
             font-size: 0.75rem;
             font-weight: 600;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
 
         .script-card h3 {
             font-size: 1.3rem;
             margin-bottom: 0.5rem;
             color: var(--dark);
-            cursor: pointer;
-        }
-
-        .script-card h3:hover {
-            color: var(--primary);
         }
 
         .script-meta {
@@ -341,7 +352,7 @@
         }
 
         .upload-container, .script-detail {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             background: white;
             padding: 2.5rem;
@@ -378,6 +389,31 @@
             border-color: var(--primary);
         }
 
+        .thumbnail-preview {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-top: 10px;
+        }
+
+        .youtube-preview {
+            margin: 1rem 0;
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .youtube-preview iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
         .share-box {
             background: #f8fafc;
             padding: 12px;
@@ -403,11 +439,6 @@
             margin-bottom: 1.5rem;
             text-align: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .ad-box-small {
-            max-width: 468px;
-            margin: 0 auto;
         }
 
         .ad-label {
@@ -471,13 +502,15 @@
             }
         }
 
-        @media (max-width: 1024px) {
-            .main-content {
+        @media (max-width: 1200px) {
+            .three-columns {
                 flex-direction: column;
             }
-            .sidebar-ads {
+            .left-sidebar, .right-sidebar {
                 position: static;
-                order: -1;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
             }
         }
 
@@ -491,6 +524,9 @@
             .nav-container {
                 flex-direction: column;
                 gap: 1rem;
+            }
+            .left-sidebar, .right-sidebar {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -515,15 +551,31 @@
                 <button onclick="showUpload()" class="btn-primary">🚀 Upload Your Script</button>
             </div>
 
-            <!-- Horizontal Ad - Below hero, not annoying -->
-            <div class="horizontal-ad">
-                <div class="ad-label">Advertisement</div>
-                <script async="async" data-cfasync="false" src="https://pl29027394.profitablecpmratenetwork.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
-                <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
-            </div>
+            <div class="three-columns">
+                <!-- LEFT SIDEBAR ADS -->
+                <div class="left-sidebar">
+                    <div class="ad-box">
+                        <div class="ad-label">Sponsored</div>
+                        <script async="async" data-cfasync="false" src="https://pl29027394.profitablecpmratenetwork.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
+                        <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
+                    </div>
+                    <div class="ad-box">
+                        <div class="ad-label">Advertisement</div>
+                        <script>
+                            atOptions = {
+                                'key' : '673fb53f64c762401413eb44406c1c80',
+                                'format' : 'iframe',
+                                'height' : 300,
+                                'width' : 160,
+                                'params' : {}
+                            };
+                        </script>
+                        <script src="https://www.highperformanceformat.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
+                    </div>
+                </div>
 
-            <div class="main-content">
-                <div class="scripts-container">
+                <!-- MAIN CONTENT -->
+                <div class="main-content">
                     <div class="search-section">
                         <div class="search-bar">
                             <input type="text" id="searchInput" placeholder="🔍 Search scripts by title, author, or description..." class="search-input">
@@ -540,12 +592,10 @@
                     <div id="scriptsGrid" class="scripts-grid">
                         <div class="loading" style="text-align:center; padding:2rem;">Loading scripts...</div>
                     </div>
-                </div>
 
-                <!-- Sidebar Ads - Right column, not intrusive -->
-                <div class="sidebar-ads">
-                    <div class="ad-box">
-                        <div class="ad-label">Sponsored</div>
+                    <!-- BOTTOM AD -->
+                    <div class="horizontal-ad">
+                        <div class="ad-label">Advertisement</div>
                         <script>
                             atOptions = {
                                 'key' : '7c7fd511e2480eb4fe47887cda152595',
@@ -557,7 +607,15 @@
                         </script>
                         <script src="https://www.highperformanceformat.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
                     </div>
+                </div>
 
+                <!-- RIGHT SIDEBAR ADS -->
+                <div class="right-sidebar">
+                    <div class="ad-box">
+                        <div class="ad-label">Sponsored</div>
+                        <script async="async" data-cfasync="false" src="https://pl29027394.profitablecpmratenetwork.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
+                        <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
+                    </div>
                     <div class="ad-box">
                         <div class="ad-label">Recommended</div>
                         <script>
@@ -580,7 +638,7 @@
             <div class="upload-container">
                 <h1 style="margin-bottom: 1.5rem;">📤 Upload Your Script</h1>
                 <div id="uploadAlert" class="hidden" style="padding:1rem; border-radius:12px; margin-bottom:1rem;"></div>
-                <form id="uploadForm">
+                <form id="uploadForm" enctype="multipart/form-data">
                     <div class="form-group">
                         <label>Script Type *</label>
                         <select id="scriptType" required>
@@ -592,6 +650,19 @@
                     <div class="form-group">
                         <label>Title *</label>
                         <input type="text" id="title" required placeholder="e.g., Auto Farm Script V2" maxlength="100">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Thumbnail Image (Optional)</label>
+                        <input type="file" id="thumbnail" accept="image/*">
+                        <small>Upload a thumbnail for your script (JPG, PNG, GIF)</small>
+                        <img id="thumbnailPreview" class="thumbnail-preview hidden" alt="Preview">
+                    </div>
+
+                    <div class="form-group">
+                        <label>YouTube Showcase Video (Optional)</label>
+                        <input type="url" id="youtubeUrl" placeholder="https://youtube.com/watch?v=...">
+                        <small>Add a YouTube video showing your script in action</small>
                     </div>
 
                     <div class="form-group">
@@ -647,7 +718,38 @@
         let currentFilter = 'all';
         let likedScripts = JSON.parse(localStorage.getItem('likedScripts') || '{}');
         
-        // Check if URL has script ID on load
+        // Thumbnail preview
+        document.getElementById('thumbnail')?.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const preview = document.getElementById('thumbnailPreview');
+                    preview.src = event.target.result;
+                    preview.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // YouTube URL to embed ID
+        function getYouTubeId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+        
+        // Check if user can upload (1 per day)
+        function canUpload() {
+            const lastUpload = localStorage.getItem('lastUpload');
+            if (!lastUpload) return true;
+            const lastUploadDate = new Date(parseInt(lastUpload));
+            const now = new Date();
+            const diffDays = Math.floor((now - lastUploadDate) / (1000 * 60 * 60 * 24));
+            return diffDays >= 1;
+        }
+        
+        // Check URL for script ID
         function checkUrlForScript() {
             const urlParams = new URLSearchParams(window.location.search);
             const scriptId = urlParams.get('id');
@@ -674,7 +776,6 @@
             }
         });
         
-        // Show toast notification
         function showToast(message, isError = false) {
             const toast = document.createElement('div');
             toast.className = 'toast';
@@ -684,14 +785,12 @@
             setTimeout(() => toast.remove(), 3000);
         }
         
-        // Copy share link
         function copyShareLink(scriptId) {
             const shareUrl = `${window.location.origin}/?id=${scriptId}`;
             navigator.clipboard.writeText(shareUrl);
             showToast('🔗 Share link copied to clipboard!');
         }
         
-        // Page navigation
         function showHome() {
             document.getElementById('homePage').classList.remove('hidden');
             document.getElementById('uploadPage').classList.add('hidden');
@@ -701,12 +800,17 @@
         }
         
         function showUpload() {
+            if (!canUpload()) {
+                showToast('❌ You can only upload 1 script per day! Come back tomorrow.', true);
+                return;
+            }
             document.getElementById('homePage').classList.add('hidden');
             document.getElementById('uploadPage').classList.remove('hidden');
             document.getElementById('detailPage').classList.add('hidden');
             document.getElementById('uploadForm').reset();
             document.getElementById('validationResult').innerHTML = '';
             document.getElementById('uploadAlert').classList.add('hidden');
+            document.getElementById('thumbnailPreview').classList.add('hidden');
         }
         
         function showDetail(id) {
@@ -717,7 +821,6 @@
             loadScriptDetail(id);
         }
         
-        // Load scripts from API
         async function loadScripts() {
             try {
                 const response = await fetch(`${API_URL}/api/scripts`);
@@ -766,9 +869,10 @@
             grid.innerHTML = scripts.map(script => {
                 const hasLiked = likedScripts[script.id];
                 return `
-                    <div class="script-card">
+                    <div class="script-card" onclick="showDetail('${script.id}')">
+                        ${script.thumbnail ? `<img src="${script.thumbnail}" class="script-thumbnail" alt="${script.title}">` : ''}
                         <span class="script-type">${script.type === 'code' ? '💻 Lua Script' : '🔗 External Link'}</span>
-                        <h3 onclick="showDetail('${script.id}')">${escapeHtml(script.title)}</h3>
+                        <h3>${escapeHtml(script.title)}</h3>
                         <div class="script-meta">
                             <span>👤 ${escapeHtml(script.author)}</span>
                             <span>📅 ${new Date(script.createdAt).toLocaleDateString()}</span>
@@ -791,7 +895,6 @@
             }).join('');
         }
         
-        // Load single script detail
         async function loadScriptDetail(id) {
             try {
                 const response = await fetch(`${API_URL}/api/scripts?id=${id}`);
@@ -801,8 +904,19 @@
                 
                 let contentHtml = '';
                 
+                // YouTube embed
+                let youtubeHtml = '';
+                if (script.youtubeId) {
+                    youtubeHtml = `
+                        <div class="youtube-preview">
+                            <iframe src="https://www.youtube.com/embed/${script.youtubeId}" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    `;
+                }
+                
                 if (script.type === 'code') {
                     contentHtml = `
+                        ${youtubeHtml}
                         <h3>📝 Script Code:</h3>
                         <pre><code id="scriptCode">${escapeHtml(script.code)}</code></pre>
                         <div style="display: flex; gap: 1rem; margin-top: 1rem;">
@@ -812,6 +926,7 @@
                     `;
                 } else {
                     contentHtml = `
+                        ${youtubeHtml}
                         <div style="text-align:center; padding:2rem; background:#f1f5f9; border-radius:20px;">
                             <h3>🔗 External Script Link</h3>
                             <p>This script is hosted on an external platform</p>
@@ -830,6 +945,8 @@
                 document.getElementById('scriptContent').innerHTML = `
                     <div class="script-detail">
                         <button onclick="showHome()" class="btn-secondary" style="margin-bottom:1rem;">← Back to Home</button>
+                        
+                        ${script.thumbnail ? `<img src="${script.thumbnail}" style="width:100%; max-height:300px; object-fit:cover; border-radius:20px; margin-bottom:1rem;">` : ''}
                         
                         <div style="display: flex; justify-content: space-between; align-items: start; gap: 1rem; flex-wrap: wrap;">
                             <h1 style="flex: 1;">${escapeHtml(script.title)}</h1>
@@ -881,7 +998,6 @@
             }
         }
         
-        // Like script with prevention
         async function likeScript(id) {
             if (likedScripts[id]) {
                 showToast('You already liked this script!', true);
@@ -909,7 +1025,6 @@
             }
         }
         
-        // Copy code
         function copyCode() {
             const code = document.getElementById('scriptCode')?.innerText;
             if (code) {
@@ -918,7 +1033,6 @@
             }
         }
         
-        // External link with confirmation
         let currentLink = '';
         function openExternalLink(url) {
             currentLink = url;
@@ -935,16 +1049,45 @@
             closeModal();
         }
         
-        // Upload script
+        // Upload script with thumbnail and YouTube
         document.getElementById('uploadForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
+            
+            // Check rate limit
+            if (!canUpload()) {
+                showToast('❌ You can only upload 1 script per day! Come back tomorrow.', true);
+                return;
+            }
             
             const scriptType = document.getElementById('scriptType').value;
             const title = document.getElementById('title').value.trim();
             const description = document.getElementById('description').value.trim();
             const author = document.getElementById('author').value.trim();
+            const youtubeUrl = document.getElementById('youtubeUrl').value.trim();
+            const thumbnailFile = document.getElementById('thumbnail').files[0];
             
             let scriptData = { type: scriptType, title, description, author };
+            
+            // Add YouTube ID if provided
+            if (youtubeUrl) {
+                const youtubeId = getYouTubeId(youtubeUrl);
+                if (youtubeId) {
+                    scriptData.youtubeId = youtubeId;
+                }
+            }
+            
+            // Handle thumbnail (convert to base64 for now)
+            if (thumbnailFile) {
+                const reader = new FileReader();
+                const thumbnailPromise = new Promise((resolve) => {
+                    reader.onload = (event) => {
+                        scriptData.thumbnail = event.target.result;
+                        resolve();
+                    };
+                    reader.readAsDataURL(thumbnailFile);
+                });
+                await thumbnailPromise;
+            }
             
             if (scriptType === 'code') {
                 const code = document.getElementById('code').value.trim();
@@ -976,6 +1119,8 @@
                 const result = await response.json();
                 
                 if (response.ok) {
+                    // Save last upload time
+                    localStorage.setItem('lastUpload', Date.now().toString());
                     showToast('✅ Script uploaded successfully!');
                     setTimeout(() => {
                         showHome();
@@ -992,7 +1137,6 @@
             }
         });
         
-        // Filter buttons
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -1002,7 +1146,6 @@
             });
         });
         
-        // Search input
         document.getElementById('searchInput')?.addEventListener('input', () => {
             applyFiltersAndSearch();
         });
@@ -1014,13 +1157,11 @@
             return div.innerHTML;
         }
         
-        // Load scripts on start and check URL
         checkUrlForScript();
         if (!window.location.search.includes('id=')) {
             showHome();
         }
         
-        // Handle browser back/forward buttons
         window.addEventListener('popstate', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const scriptId = urlParams.get('id');
