@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScriptHub - Roblox Script Library</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">🎮 ScriptHub</a>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/upload.html">Upload Script</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="hero">
+            <h1>Roblox Script Hub</h1>
+            <p>Discover, share, and use community-made scripts</p>
+            <a href="/upload.html" class="btn-primary">Upload Your Script</a>
+        </header>
+
+        <div class="filters">
+            <input type="text" id="searchInput" placeholder="Search scripts..." class="search-box">
+            <select id="sortSelect" class="sort-select">
+                <option value="latest">Latest</option>
+                <option value="popular">Most Liked</option>
+                <option value="verified">Verified Only</option>
+            </select>
+        </div>
+
+        <div id="scriptsGrid" class="scripts-grid">
+            <div class="loading">Loading scripts...</div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
