@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="aHm-u6Lw7BRLde6l91yNdtVltbZu8np4hRcmCrn4iYI">
     <meta name="google-adsense-account" content="ca-pub-4130246379396222">
     <title>ScriptHub - Roblox Script Library</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4130246379396222"
@@ -29,7 +30,6 @@
             min-height: 100vh;
         }
 
-        /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 10px;
         }
@@ -99,7 +99,6 @@
             padding: 2rem;
         }
 
-        /* Hero Section */
         .hero {
             text-align: center;
             padding: 4rem 2rem;
@@ -125,7 +124,6 @@
             margin-bottom: 2rem;
         }
 
-        /* Buttons */
         .btn-primary {
             display: inline-block;
             padding: 12px 32px;
@@ -144,6 +142,11 @@
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
 
         .btn-secondary {
@@ -165,7 +168,6 @@
             color: white;
         }
 
-        /* Search and Filters */
         .search-section {
             background: white;
             border-radius: 20px;
@@ -215,7 +217,6 @@
             color: white;
         }
 
-        /* Script Grid */
         .scripts-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
@@ -303,8 +304,13 @@
             transition: background 0.3s;
         }
 
-        .like-btn:hover {
+        .like-btn:hover:not(:disabled) {
             background: #fee2e2;
+        }
+
+        .like-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .verified-badge {
@@ -313,7 +319,6 @@
             font-size: 0.85rem;
         }
 
-        /* Upload Form */
         .upload-container, .script-detail {
             max-width: 900px;
             margin: 0 auto;
@@ -352,7 +357,6 @@
             border-color: var(--primary);
         }
 
-        /* Ads Section */
         .ad-container {
             margin: 2rem 0;
             text-align: center;
@@ -361,7 +365,6 @@
             padding: 1rem;
         }
 
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -385,6 +388,29 @@
 
         .hidden {
             display: none;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            z-index: 3000;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
         @media (max-width: 768px) {
@@ -509,6 +535,7 @@
         const API_URL = window.location.origin;
         let currentScripts = [];
         let currentFilter = 'all';
+        let likedScripts = JSON.parse(localStorage.getItem('likedScripts') || '{}');
         
         // Toggle script type
         document.getElementById('scriptType')?.addEventListener('change', function() {
@@ -527,6 +554,16 @@
                 document.getElementById('link').required = true;
             }
         });
+        
+        // Show toast notification
+        function showToast(message, isError = false) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.style.background = isError ? '#dc2626' : '#10b981';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
         
         // Page navigation
         function showHome() {
@@ -568,7 +605,6 @@
         function applyFiltersAndSearch() {
             let filtered = [...currentScripts];
             
-            // Apply type filter
             if (currentFilter === 'code') {
                 filtered = filtered.filter(s => s.type === 'code');
             } else if (currentFilter === 'link') {
@@ -579,7 +615,6 @@
                 filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
             }
             
-            // Apply search
             const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
             if (searchTerm) {
                 filtered = filtered.filter(s => 
@@ -600,22 +635,27 @@
                 return;
             }
             
-            grid.innerHTML = scripts.map(script => `
-                <div class="script-card" onclick="showDetail('${script.id}')">
-                    <span class="script-type">${script.type === 'code' ? '💻 Lua Script' : '🔗 External Link'}</span>
-                    <h3>${escapeHtml(script.title)}</h3>
-                    <div class="script-meta">
-                        <span>👤 ${escapeHtml(script.author)}</span>
-                        <span>📅 ${new Date(script.createdAt).toLocaleDateString()}</span>
-                        ${script.verified ? '<span class="verified-badge">✓ Verified</span>' : ''}
+            grid.innerHTML = scripts.map(script => {
+                const hasLiked = likedScripts[script.id];
+                return `
+                    <div class="script-card" onclick="showDetail('${script.id}')">
+                        <span class="script-type">${script.type === 'code' ? '💻 Lua Script' : '🔗 External Link'}</span>
+                        <h3>${escapeHtml(script.title)}</h3>
+                        <div class="script-meta">
+                            <span>👤 ${escapeHtml(script.author)}</span>
+                            <span>📅 ${new Date(script.createdAt).toLocaleDateString()}</span>
+                            ${script.verified ? '<span class="verified-badge">✓ Verified</span>' : ''}
+                        </div>
+                        <div class="script-description">${escapeHtml(script.description.substring(0, 120))}${script.description.length > 120 ? '...' : ''}</div>
+                        <div class="script-footer">
+                            <button onclick="event.stopPropagation(); likeScript('${script.id}')" class="like-btn" ${hasLiked ? 'disabled' : ''}>
+                                ${hasLiked ? '❤️' : '🤍'} ${script.likes || 0}
+                            </button>
+                            <button onclick="event.stopPropagation(); showDetail('${script.id}')" class="btn-secondary">View →</button>
+                        </div>
                     </div>
-                    <div class="script-description">${escapeHtml(script.description.substring(0, 120))}${script.description.length > 120 ? '...' : ''}</div>
-                    <div class="script-footer">
-                        <button onclick="event.stopPropagation(); likeScript('${script.id}')" class="like-btn">❤️ ${script.likes || 0}</button>
-                        <button onclick="event.stopPropagation(); showDetail('${script.id}')" class="btn-secondary">View →</button>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
         
         // Load single script detail
@@ -623,6 +663,7 @@
             try {
                 const response = await fetch(`${API_URL}/api/scripts?id=${id}`);
                 const script = await response.json();
+                const hasLiked = likedScripts[script.id];
                 
                 let contentHtml = '';
                 
@@ -656,7 +697,9 @@
                         <p style="margin:1rem 0;"><strong>Description:</strong> ${escapeHtml(script.description)}</p>
                         ${contentHtml}
                         <div style="margin-top:2rem; text-align:center;">
-                            <button onclick="likeScript('${script.id}')" class="like-btn" style="font-size:1.2rem;">❤️ ${script.likes || 0} Likes</button>
+                            <button onclick="likeScript('${script.id}')" class="like-btn" style="font-size:1.2rem;" ${hasLiked ? 'disabled' : ''}>
+                                ${hasLiked ? '❤️' : '🤍'} ${script.likes || 0} Likes
+                            </button>
                         </div>
                     </div>
                 `;
@@ -665,13 +708,29 @@
             }
         }
         
-        // Like script
+        // Like script with prevention
         async function likeScript(id) {
+            // Check if already liked
+            if (likedScripts[id]) {
+                showToast('You already liked this script!', true);
+                return;
+            }
+            
             try {
-                await fetch(`${API_URL}/api/scripts?action=like&id=${id}`, { method: 'POST' });
-                loadScripts();
+                const response = await fetch(`${API_URL}/api/scripts?action=like&id=${id}`, { method: 'POST' });
+                
+                if (response.ok) {
+                    // Save to localStorage that user liked this script
+                    likedScripts[id] = true;
+                    localStorage.setItem('likedScripts', JSON.stringify(likedScripts));
+                    showToast('❤️ Liked! Thanks for your support');
+                    loadScripts(); // Refresh the list
+                } else {
+                    showToast('Failed to like. Try again.', true);
+                }
             } catch (error) {
                 console.error('Error liking:', error);
+                showToast('Error liking script', true);
             }
         }
         
@@ -680,7 +739,7 @@
             const code = document.getElementById('scriptCode')?.innerText;
             if (code) {
                 navigator.clipboard.writeText(code);
-                alert('✅ Code copied to clipboard!');
+                showToast('✅ Code copied to clipboard!');
             }
         }
         
@@ -715,14 +774,14 @@
             if (scriptType === 'code') {
                 const code = document.getElementById('code').value.trim();
                 if (!code) {
-                    alert('Please enter your Lua script code');
+                    showToast('Please enter your Lua script code', true);
                     return;
                 }
                 scriptData.code = code;
             } else {
                 const link = document.getElementById('link').value.trim();
                 if (!link) {
-                    alert('Please enter a valid link');
+                    showToast('Please enter a valid link', true);
                     return;
                 }
                 scriptData.link = link;
@@ -742,25 +801,16 @@
                 const result = await response.json();
                 
                 if (response.ok) {
-                    const alertDiv = document.getElementById('uploadAlert');
-                    alertDiv.style.background = '#d4edda';
-                    alertDiv.style.color = '#155724';
-                    alertDiv.innerHTML = '✅ Script uploaded successfully! Redirecting to home...';
-                    alertDiv.classList.remove('hidden');
-                    
+                    showToast('✅ Script uploaded successfully!');
                     setTimeout(() => {
                         showHome();
                         loadScripts();
-                    }, 2000);
+                    }, 1500);
                 } else {
-                    const alertDiv = document.getElementById('uploadAlert');
-                    alertDiv.style.background = '#f8d7da';
-                    alertDiv.style.color = '#721c24';
-                    alertDiv.innerHTML = '❌ ' + (result.error || 'Upload failed');
-                    alertDiv.classList.remove('hidden');
+                    showToast('❌ ' + (result.error || 'Upload failed'), true);
                 }
             } catch (error) {
-                alert('Upload failed: ' + error.message);
+                showToast('Upload failed: ' + error.message, true);
             } finally {
                 uploadBtn.textContent = 'Upload Script';
                 uploadBtn.disabled = false;
