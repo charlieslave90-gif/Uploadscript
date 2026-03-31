@@ -1,58 +1,61 @@
-import fs from 'fs';
-import path from 'path';
+import { put, list, del } from '@vercel/blob';
 
-// Use /tmp for Vercel (persists between requests but not forever)
-// For now, this works. We'll upgrade later.
-const DATA_FILE = path.join('/tmp', 'scripts-data.json');
-
-// Default scripts
-const defaultScripts = [
-    {
-        id: '1',
-        type: 'code',
-        title: 'Welcome Script',
-        author: 'ScriptHub',
-        description: 'Welcome to ScriptHub! This is an example script.',
-        code: 'print("Welcome to ScriptHub!")',
-        createdAt: new Date().toISOString(),
-        likes: 5,
-        verified: true,
-        likedBy: []
-    }
-];
-
-// Load scripts from file
-function loadScripts() {
+// Helper to get all scripts
+async function getAllScripts() {
     try {
-        if (fs.existsSync(DATA_FILE)) {
-            const data = fs.readFileSync(DATA_FILE, 'utf8');
-            const scripts = JSON.parse(data);
-            console.log(`Loaded ${scripts.length} scripts from file`);
-            return scripts;
-        } else {
-            console.log('No data file found, using defaults');
-            return defaultScripts;
+        const { blobs } = await list({ prefix: 'scripts/', limit: 1000 });
+        const scripts = [];
+        
+        for (const blob of blobs) {
+            const response = await fetch(blob.url);
+            const script = await response.json();
+            scripts.push(script);
         }
+        
+        return scripts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     } catch (error) {
         console.error('Error loading scripts:', error);
-        return defaultScripts;
+        return [];
     }
 }
 
-// Save scripts to file
-function saveScripts(scripts) {
+// Helper to get single script
+async function getScript(id) {
     try {
-        fs.writeFileSync(DATA_FILE, JSON.stringify(scripts, null, 2));
-        console.log(`Saved ${scripts.length} scripts to file`);
+        const { blobs } = await list({ prefix: `scripts/${id}`, limit: 1 });
+        if (blobs.length === 0) return null;
+        
+        const response = await fetch(blobs[0].url);
+        return await response.json();
+    } catch (error) {
+        console.error('Error loading script:', error);
+        return null;
+    }
+}
+
+// Helper to save script
+async function saveScript(script) {
+    const blob = await put(
+        `scripts/${script.id}.json`,
+        JSON.stringify(script),
+        { access: 'public' }
+    );
+    return blob.url;
+}
+
+// Helper to delete script
+async function deleteScript(id) {
+    try {
+        const { blobs } = await list({ prefix: `scripts/${id}`, limit: 1 });
+        for (const blob of blobs) {
+            await del(blob.url);
+        }
         return true;
     } catch (error) {
-        console.error('Error saving scripts:', error);
+        console.error('Error deleting:', error);
         return false;
     }
 }
-
-// Initialize scripts
-let scripts = loadScripts();
 
 // Rate limiting storage
 const uploadHistory = new Map();
@@ -69,8 +72,9 @@ function hasSpamLinks(text) {
     return spamPatterns.some(pattern => pattern.test(text));
 }
 
-function isDuplicate(title, author, code = null, link = null) {
-    return scripts.some(script => 
+async function isDuplicate(title, author, code = null, link = null) {
+    const allScripts = await getAllScripts();
+    return allScripts.some(script => 
         script.title.toLowerCase() === title.toLowerCase() ||
         (code && script.code === code) ||
         (link && script.link === link) ||
@@ -91,26 +95,26 @@ export default async function handler(req, res) {
     
     // GET - Fetch scripts
     if (req.method === 'GET') {
-        const { id, sort } = req.query;
-        
         try {
+            const { id, sort } = req.query;
+            
             if (id) {
-                const script = scripts.find(s => s.id === id);
+                const script = await getScript(id);
                 if (script) {
                     return res.status(200).json(script);
                 }
                 return res.status(404).json({ error: 'Script not found' });
             }
             
-            let sortedScripts = [...scripts];
+            let scripts = await getAllScripts();
             
             if (sort === 'recent') {
-                sortedScripts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                scripts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
             } else if (sort === 'popular') {
-                sortedScripts.sort((a, b) => (b.likes || 0) - (a.likes || 0));
+                scripts.sort((a, b) => (b.likes || 0) - (a.likes || 0));
             }
             
-            return res.status(200).json(sortedScripts);
+            return res.status(200).json(scripts);
         } catch (error) {
             console.error('GET Error:', error);
             return res.status(500).json({ error: 'Server error: ' + error.message });
@@ -119,18 +123,17 @@ export default async function handler(req, res) {
     
     // POST - Upload or like
     if (req.method === 'POST') {
-        const { action, id } = req.query;
-        
         try {
+            const { action, id } = req.query;
+            
             // Like a script
             if (action === 'like') {
-                const script = scripts.find(s => s.id === id);
+                const script = await getScript(id);
                 
                 if (!script) {
                     return res.status(404).json({ error: 'Script not found' });
                 }
                 
-                // Get user identifier
                 const userIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
                 const userAgent = req.headers['user-agent'] || '';
                 const userId = `${userIp}-${userAgent.substring(0, 50)}`;
@@ -143,7 +146,7 @@ export default async function handler(req, res) {
                 
                 script.likedBy.push(userId);
                 script.likes = (script.likes || 0) + 1;
-                saveScripts(scripts);
+                await saveScript(script);
                 
                 return res.status(200).json({ success: true, likes: script.likes });
             }
@@ -180,11 +183,12 @@ export default async function handler(req, res) {
             }
             
             if (type === 'link' && (!link || !link.startsWith('http'))) {
-                return res.status(400).json({ error: 'Please provide a valid URL starting with http:// or https://' });
+                return res.status(400).json({ error: 'Please provide a valid URL' });
             }
             
             // Check duplicates
-            if (isDuplicate(title, author, code, link)) {
+            const duplicate = await isDuplicate(title, author, code, link);
+            if (duplicate) {
                 return res.status(400).json({ error: 'A script with this title already exists' });
             }
             
@@ -208,14 +212,14 @@ export default async function handler(req, res) {
                 newScript.link = link;
             }
             
-            scripts.unshift(newScript);
-            saveScripts(scripts);
+            // Save to Blob
+            await saveScript(newScript);
             
             // Update rate limit
             recentUploads.push(now);
             uploadHistory.set(clientIp, recentUploads);
             
-            console.log(`New script uploaded: ${title} by ${author}`);
+            console.log(`✅ Script saved to Blob: ${title}`);
             
             return res.status(201).json(newScript);
             
