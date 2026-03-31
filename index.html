@@ -9,7 +9,6 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4130246379396222"
      crossorigin="anonymous"></script>
     <style>
-        /* Your existing CSS here - keep everything the same */
         :root {
             --primary: #6366f1;
             --primary-dark: #4f46e5;
@@ -29,6 +28,19 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 5px;
         }
 
         .navbar {
@@ -104,6 +116,12 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
         }
 
         .btn-primary {
@@ -470,13 +488,8 @@
             setTimeout(() => toast.remove(), 3000);
         }
         
-        function copyShareLink(scriptId, scriptSlug) {
-            let shareUrl;
-            if (scriptSlug) {
-                shareUrl = `${window.location.origin}/${scriptSlug}`;
-            } else {
-                shareUrl = `${window.location.origin}/?id=${scriptId}`;
-            }
+        function copyShareLink(scriptId) {
+            const shareUrl = `${window.location.origin}/?id=${scriptId}`;
             navigator.clipboard.writeText(shareUrl);
             showToast('🔗 Share link copied!');
         }
@@ -488,11 +501,11 @@
             loadScripts();
         }
         
-        function showDetail(slugOrId) {
+        function showDetail(id) {
             document.getElementById('homePage').classList.add('hidden');
             document.getElementById('detailPage').classList.remove('hidden');
-            window.history.pushState({}, '', `/${slugOrId}`);
-            loadScriptDetail(slugOrId);
+            window.history.pushState({}, '', `/?id=${id}`);
+            loadScriptDetail(id);
         }
         
         async function loadScripts() {
@@ -534,9 +547,8 @@
             
             grid.innerHTML = scripts.map(script => {
                 const hasLiked = likedScripts[script.id];
-                const url = script.slug || script.id;
                 return `
-                    <div class="script-card" onclick="showDetail('${url}')">
+                    <div class="script-card" onclick="showDetail('${script.id}')">
                         ${script.thumbnail ? `<img src="${script.thumbnail}" class="script-thumbnail">` : ''}
                         <span class="script-type">${script.type === 'code' ? '💻 Lua Script' : '🔗 External Link'}</span>
                         <h3>${escapeHtml(script.title)}</h3>
@@ -549,16 +561,16 @@
                             <button onclick="event.stopPropagation(); likeScript('${script.id}')" class="like-btn" ${hasLiked ? 'disabled' : ''}>
                                 ${hasLiked ? '❤️' : '🤍'} ${script.likes || 0}
                             </button>
-                            <button onclick="event.stopPropagation(); showDetail('${url}')" class="btn-secondary">View →</button>
+                            <button onclick="event.stopPropagation(); showDetail('${script.id}')" class="btn-secondary">View →</button>
                         </div>
                     </div>
                 `;
             }).join('');
         }
         
-        async function loadScriptDetail(slugOrId) {
+        async function loadScriptDetail(id) {
             try {
-                const response = await fetch(`${API_URL}/api/scripts?id=${encodeURIComponent(slugOrId)}`);
+                const response = await fetch(`${API_URL}/api/scripts?id=${id}`);
                 const script = await response.json();
                 
                 if (script.error) {
@@ -567,7 +579,7 @@
                 }
                 
                 const hasLiked = likedScripts[script.id];
-                const shareUrl = script.slug ? `${window.location.origin}/${script.slug}` : `${window.location.origin}/?id=${script.id}`;
+                const shareUrl = `${window.location.origin}/?id=${script.id}`;
                 
                 let youtubeHtml = '';
                 if (script.youtubeId) {
@@ -610,7 +622,7 @@
                         <div class="share-box">
                             <p style="margin-bottom:0.5rem;"><strong>🔗 Share this script:</strong></p>
                             <input type="text" id="shareUrl" value="${shareUrl}" readonly onclick="this.select()">
-                            <button onclick="copyShareLink('${script.id}', '${script.slug || ''}')" class="btn-primary" style="margin-top:10px;">Copy Share Link</button>
+                            <button onclick="copyShareLink('${script.id}')" class="btn-primary" style="margin-top:10px;">Copy Share Link</button>
                         </div>
                         
                         <p><strong>Description:</strong> ${escapeHtml(script.description)}</p>
@@ -641,8 +653,9 @@
                     localStorage.setItem('likedScripts', JSON.stringify(likedScripts));
                     showToast('❤️ Liked!');
                     loadScripts();
-                    const currentPath = window.location.pathname.substring(1);
-                    if (currentPath) loadScriptDetail(currentPath);
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const currentId = urlParams.get('id');
+                    if (currentId) loadScriptDetail(currentId);
                 }
             } catch (error) {
                 showToast('Error', true);
@@ -691,21 +704,19 @@
             return div.innerHTML;
         }
         
-        // Handle routing - THIS IS KEY FOR SLUGS TO WORK
+        // Handle URL with ?id=xxx
         function handleRouting() {
-            const path = window.location.pathname.substring(1);
-            // If there's a path and it's not empty, treat it as a slug
-            if (path && path !== '' && path !== 'index.html' && !path.includes('admin')) {
-                showDetail(path);
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            if (id) {
+                showDetail(id);
             } else {
                 showHome();
             }
         }
         
-        // Start the app
         handleRouting();
         
-        // Handle browser back/forward
         window.addEventListener('popstate', () => {
             handleRouting();
         });
