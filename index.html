@@ -772,7 +772,6 @@ body {
     let currentFilter = 'all';
     let likedScripts = JSON.parse(localStorage.getItem('likedScripts') || '{}');
     
-    // Show toast notification
     function showToast(message, isError = false) {
         const toast = document.createElement('div');
         toast.className = 'toast';
@@ -782,7 +781,6 @@ body {
         setTimeout(() => toast.remove(), 3000);
     }
     
-    // Copy share link
     function copyShareLink(scriptId, scriptSlug) {
         let shareUrl;
         if (scriptSlug) {
@@ -791,10 +789,9 @@ body {
             shareUrl = `${window.location.origin}/?id=${scriptId}`;
         }
         navigator.clipboard.writeText(shareUrl);
-        showToast('🔗 Share link copied to clipboard!');
+        showToast('🔗 Share link copied!');
     }
     
-    // Page navigation
     function showHome() {
         document.getElementById('homePage').classList.remove('hidden');
         document.getElementById('detailPage').classList.add('hidden');
@@ -805,12 +802,10 @@ body {
     function showDetail(idOrSlug) {
         document.getElementById('homePage').classList.add('hidden');
         document.getElementById('detailPage').classList.remove('hidden');
-        // Update URL with slug if it's a slug, otherwise use id
         window.history.pushState({}, '', `/${idOrSlug}`);
         loadScriptDetail(idOrSlug);
     }
     
-    // Load scripts from API
     async function loadScripts() {
         try {
             const response = await fetch(`${API_URL}/api/scripts`);
@@ -818,8 +813,7 @@ body {
             currentScripts = await response.json();
             applyFiltersAndSearch();
         } catch (error) {
-            console.error('Error:', error);
-            document.getElementById('scriptsGrid').innerHTML = '<div class="loading" style="text-align:center;">Error loading scripts. Please refresh.</div>';
+            document.getElementById('scriptsGrid').innerHTML = '<div class="loading">Error loading scripts</div>';
         }
     }
     
@@ -852,16 +846,16 @@ body {
         const grid = document.getElementById('scriptsGrid');
         
         if (!scripts || scripts.length === 0) {
-            grid.innerHTML = '<div class="loading" style="text-align:center; padding:2rem;">No scripts found.</div>';
+            grid.innerHTML = '<div class="loading">No scripts found</div>';
             return;
         }
         
         grid.innerHTML = scripts.map(script => {
             const hasLiked = likedScripts[script.id];
-            const scriptUrl = script.slug ? script.slug : script.id;
+            const url = script.slug || script.id;
             return `
-                <div class="script-card" onclick="showDetail('${scriptUrl}')">
-                    ${script.thumbnail ? `<img src="${script.thumbnail}" class="script-thumbnail" alt="${script.title}">` : ''}
+                <div class="script-card" onclick="showDetail('${url}')">
+                    ${script.thumbnail ? `<img src="${script.thumbnail}" class="script-thumbnail">` : ''}
                     <span class="script-type">${script.type === 'code' ? '💻 Lua Script' : '🔗 External Link'}</span>
                     <h3>${escapeHtml(script.title)}</h3>
                     <div class="script-meta">
@@ -869,17 +863,12 @@ body {
                         <span>📅 ${new Date(script.createdAt).toLocaleDateString()}</span>
                         ${script.verified ? '<span class="verified-badge">✓ Verified</span>' : ''}
                     </div>
-                    <div class="script-description">${escapeHtml(script.description.substring(0, 120))}${script.description.length > 120 ? '...' : ''}</div>
+                    <div class="script-description">${escapeHtml(script.description.substring(0, 120))}...</div>
                     <div class="script-footer">
-                        <div style="display: flex; gap: 0.5rem;">
-                            <button onclick="event.stopPropagation(); likeScript('${script.id}')" class="like-btn" ${hasLiked ? 'disabled' : ''}>
-                                ${hasLiked ? '❤️' : '🤍'} ${script.likes || 0}
-                            </button>
-                            <button onclick="event.stopPropagation(); copyShareLink('${script.id}', '${script.slug || ''}')" class="btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;">
-                                🔗
-                            </button>
-                        </div>
-                        <button onclick="event.stopPropagation(); showDetail('${scriptUrl}')" class="btn-secondary">View →</button>
+                        <button onclick="event.stopPropagation(); likeScript('${script.id}')" class="like-btn" ${hasLiked ? 'disabled' : ''}>
+                            ${hasLiked ? '❤️' : '🤍'} ${script.likes || 0}
+                        </button>
+                        <button onclick="event.stopPropagation(); showDetail('${url}')" class="btn-secondary">View →</button>
                     </div>
                 </div>
             `;
@@ -888,74 +877,46 @@ body {
     
     async function loadScriptDetail(idOrSlug) {
         try {
-            // Try to fetch by slug or id
             const response = await fetch(`${API_URL}/api/scripts?id=${encodeURIComponent(idOrSlug)}`);
             const script = await response.json();
             
-            if (!script || script.error) {
-                throw new Error('Script not found');
+            if (script.error) {
+                throw new Error(script.error);
             }
             
             const hasLiked = likedScripts[script.id];
             const shareUrl = script.slug ? `${window.location.origin}/${script.slug}` : `${window.location.origin}/?id=${script.id}`;
             
             let contentHtml = '';
-            
-            let youtubeHtml = '';
-            if (script.youtubeId) {
-                youtubeHtml = `
-                    <div class="youtube-preview">
-                        <iframe src="https://www.youtube.com/embed/${script.youtubeId}" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                `;
-            }
+            let youtubeHtml = script.youtubeId ? `
+                <div class="youtube-preview">
+                    <iframe src="https://www.youtube.com/embed/${script.youtubeId}" frameborder="0" allowfullscreen></iframe>
+                </div>
+            ` : '';
             
             if (script.type === 'code') {
                 contentHtml = `
                     ${youtubeHtml}
                     <h3>📝 Script Code:</h3>
                     <pre><code id="scriptCode">${escapeHtml(script.code)}</code></pre>
-                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
-                        <button onclick="copyCode()" class="btn-primary">📋 Copy Code</button>
-                        <button onclick="copyShareLink('${script.id}', '${script.slug || ''}')" class="btn-secondary">🔗 Copy Share Link</button>
-                    </div>
+                    <button onclick="copyCode()" class="btn-primary" style="margin-top:1rem;">📋 Copy Code</button>
                 `;
             } else {
                 contentHtml = `
                     ${youtubeHtml}
                     <div style="text-align:center; padding:2rem; background:#f1f5f9; border-radius:20px;">
-                        <h3>🔗 External Script Link</h3>
-                        <p>This script is hosted on an external platform</p>
-                        <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
-                            <button onclick="openExternalLink('${escapeHtml(script.link)}')" class="btn-primary">
-                                Open Script →
-                            </button>
-                            <button onclick="copyShareLink('${script.id}', '${script.slug || ''}')" class="btn-secondary">
-                                🔗 Copy Share Link
-                            </button>
-                        </div>
+                        <button onclick="openExternalLink('${escapeHtml(script.link)}')" class="btn-primary">Open Script →</button>
                     </div>
                 `;
             }
             
             document.getElementById('scriptContent').innerHTML = `
                 <div class="script-detail">
-                    <button onclick="showHome()" class="btn-secondary" style="margin-bottom:1rem;">← Back to Home</button>
+                    <button onclick="showHome()" class="btn-secondary" style="margin-bottom:1rem;">← Back</button>
                     
                     ${script.thumbnail ? `<img src="${script.thumbnail}" style="width:100%; max-height:300px; object-fit:cover; border-radius:20px; margin-bottom:1rem;">` : ''}
                     
-                    <div style="display: flex; justify-content: space-between; align-items: start; gap: 1rem; flex-wrap: wrap;">
-                        <h1 style="flex: 1;">${escapeHtml(script.title)}</h1>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <button onclick="copyShareLink('${script.id}', '${script.slug || ''}')" class="btn-secondary" style="font-size: 0.9rem;">
-                                🔗 Share
-                            </button>
-                            <div style="background: #f1f5f9; padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; color: #64748b;">
-                                📌 ${script.slug ? script.slug : script.id}
-                            </div>
-                        </div>
-                    </div>
-                    
+                    <h1>${escapeHtml(script.title)}</h1>
                     <div class="script-meta">
                         <span>👤 ${escapeHtml(script.author)}</span>
                         <span>📅 ${new Date(script.createdAt).toLocaleDateString()}</span>
@@ -963,63 +924,44 @@ body {
                     </div>
                     
                     <div class="share-box">
-                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
-                            <span style="color: #475569; font-size: 0.9rem;">🔗 Share this script:</span>
-                            <div style="display: flex; gap: 0.5rem; flex: 1; min-width: 200px;">
-                                <input type="text" id="shareUrl" value="${shareUrl}" readonly style="flex: 1; padding: 8px; border: 1px solid #e2e8f0; border-radius: 8px; background: white; font-size: 0.85rem;">
-                                <button onclick="copyShareLink('${script.id}', '${script.slug || ''}')" class="btn-primary" style="padding: 8px 16px;">Copy</button>
-                            </div>
-                        </div>
+                        <input type="text" id="shareUrl" value="${shareUrl}" readonly style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px;">
+                        <button onclick="copyShareLink('${script.id}', '${script.slug || ''}')" class="btn-primary" style="margin-top:10px;">Copy Share Link</button>
                     </div>
                     
-                    <p style="margin:1rem 0;"><strong>Description:</strong> ${escapeHtml(script.description)}</p>
+                    <p><strong>Description:</strong> ${escapeHtml(script.description)}</p>
                     ${contentHtml}
                     
                     <div style="margin-top:2rem; text-align:center;">
-                        <button onclick="likeScript('${script.id}')" class="like-btn" style="font-size:1.2rem;" ${hasLiked ? 'disabled' : ''}>
+                        <button onclick="likeScript('${script.id}')" class="like-btn" ${hasLiked ? 'disabled' : ''}>
                             ${hasLiked ? '❤️' : '🤍'} ${script.likes || 0} Likes
                         </button>
                     </div>
                 </div>
             `;
             
-            const shareInput = document.getElementById('shareUrl');
-            if (shareInput) {
-                shareInput.value = shareUrl;
-                shareInput.addEventListener('click', () => shareInput.select());
-            }
+            document.getElementById('shareUrl')?.addEventListener('click', function() { this.select(); });
             
         } catch (error) {
-            console.error('Error loading script:', error);
             document.getElementById('scriptContent').innerHTML = '<div class="loading">Script not found</div>';
         }
     }
     
     async function likeScript(id) {
         if (likedScripts[id]) {
-            showToast('You already liked this script!', true);
+            showToast('Already liked!', true);
             return;
         }
         
         try {
             const response = await fetch(`${API_URL}/api/scripts?action=like&id=${id}`, { method: 'POST' });
-            
             if (response.ok) {
                 likedScripts[id] = true;
                 localStorage.setItem('likedScripts', JSON.stringify(likedScripts));
-                showToast('❤️ Liked! Thanks for your support');
+                showToast('❤️ Liked!');
                 loadScripts();
-                
-                if (!document.getElementById('detailPage').classList.contains('hidden')) {
-                    const currentPath = window.location.pathname.substring(1);
-                    loadScriptDetail(currentPath);
-                }
-            } else {
-                showToast('Failed to like. Try again.', true);
             }
         } catch (error) {
-            console.error('Error liking:', error);
-            showToast('Error liking script', true);
+            showToast('Error', true);
         }
     }
     
@@ -1027,7 +969,7 @@ body {
         const code = document.getElementById('scriptCode')?.innerText;
         if (code) {
             navigator.clipboard.writeText(code);
-            showToast('✅ Code copied to clipboard!');
+            showToast('✅ Code copied!');
         }
     }
     
@@ -1047,7 +989,6 @@ body {
         closeModal();
     }
     
-    // Filter buttons
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -1057,10 +998,7 @@ body {
         });
     });
     
-    // Search input
-    document.getElementById('searchInput')?.addEventListener('input', () => {
-        applyFiltersAndSearch();
-    });
+    document.getElementById('searchInput')?.addEventListener('input', () => applyFiltersAndSearch());
     
     function escapeHtml(text) {
         if (!text) return '';
@@ -1069,30 +1007,37 @@ body {
         return div.innerHTML;
     }
     
-    // Check URL for script slug or ID
+    // Check URL for script (supports both /slug and ?id=xxx)
     function checkUrlForScript() {
         const path = window.location.pathname.substring(1);
+        const urlParams = new URLSearchParams(window.location.search);
+        const idParam = urlParams.get('id');
         
-        // If there's a path (not empty and not index.html)
-        if (path && path !== '' && path !== 'index.html') {
-            // Check if it's a script slug/id
-            if (!path.includes('.') && !path.includes('admin')) {
-                showDetail(path);
-                return true;
-            }
+        if (idParam) {
+            showDetail(idParam);
+            return true;
         }
+        
+        if (path && path !== '' && path !== 'index.html' && !path.includes('.')) {
+            showDetail(path);
+            return true;
+        }
+        
         return false;
     }
     
-    // Load scripts on start and check URL
     if (!checkUrlForScript()) {
         showHome();
     }
     
-    // Handle browser back/forward buttons
     window.addEventListener('popstate', () => {
         const path = window.location.pathname.substring(1);
-        if (path && path !== '' && path !== 'index.html') {
+        const urlParams = new URLSearchParams(window.location.search);
+        const idParam = urlParams.get('id');
+        
+        if (idParam) {
+            showDetail(idParam);
+        } else if (path && path !== '' && path !== 'index.html') {
             showDetail(path);
         } else {
             showHome();
