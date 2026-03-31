@@ -1,10 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-// Path to our data file
 const DATA_FILE = path.join(process.cwd(), 'scripts-data.json');
 
-// Load scripts from file
 function loadScripts() {
     try {
         if (fs.existsSync(DATA_FILE)) {
@@ -15,7 +13,6 @@ function loadScripts() {
         console.error('Error loading scripts:', error);
     }
     
-    // Default scripts
     return [
         {
             id: '1',
@@ -26,12 +23,12 @@ function loadScripts() {
             code: 'print("Welcome to ScriptHub!")',
             createdAt: new Date().toISOString(),
             likes: 5,
-            verified: true
+            verified: true,
+            likedBy: [] // Track who liked
         }
     ];
 }
 
-// Save scripts to file
 function saveScripts(scripts) {
     try {
         fs.writeFileSync(DATA_FILE, JSON.stringify(scripts, null, 2));
@@ -42,10 +39,8 @@ function saveScripts(scripts) {
     }
 }
 
-// Track uploads for rate limiting
 const uploadHistory = new Map();
 
-// Helper to check duplicates
 function isDuplicate(scripts, title, author, code = null, link = null) {
     return scripts.some(script => 
         script.title.toLowerCase() === title.toLowerCase() ||
@@ -56,7 +51,6 @@ function isDuplicate(scripts, title, author, code = null, link = null) {
     );
 }
 
-// Helper to check for spam links
 function hasSpamLinks(text) {
     const spamPatterns = [
         /discord\.gg\/[a-zA-Z0-9]+/i,
@@ -70,7 +64,6 @@ function hasSpamLinks(text) {
 let scripts = loadScripts();
 
 export default async function handler(req, res) {
-    // CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -105,15 +98,33 @@ export default async function handler(req, res) {
     if (req.method === 'POST') {
         const { action, id } = req.query;
         
-        // Like a script
+        // Like a script - PREVENT INFINITE LIKES
         if (action === 'like') {
             const script = scripts.find(s => s.id === id);
-            if (script) {
-                script.likes = (script.likes || 0) + 1;
-                saveScripts(scripts);
-                return res.status(200).json({ success: true, likes: script.likes });
+            if (!script) {
+                return res.status(404).json({ error: 'Script not found' });
             }
-            return res.status(404).json({ error: 'Script not found' });
+            
+            // Get user identifier (IP + User Agent)
+            const userIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+            const userAgent = req.headers['user-agent'] || '';
+            const userId = `${userIp}-${userAgent.substring(0, 50)}`;
+            
+            // Check if user already liked this script
+            if (!script.likedBy) {
+                script.likedBy = [];
+            }
+            
+            if (script.likedBy.includes(userId)) {
+                return res.status(400).json({ error: 'You already liked this script' });
+            }
+            
+            // Add like
+            script.likedBy.push(userId);
+            script.likes = (script.likes || 0) + 1;
+            saveScripts(scripts);
+            
+            return res.status(200).json({ success: true, likes: script.likes });
         }
         
         // Upload new script
@@ -151,7 +162,6 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Please provide a valid URL' });
         }
         
-        // Check duplicates
         if (isDuplicate(scripts, title, author, code, link)) {
             return res.status(400).json({ error: 'A similar script already exists' });
         }
@@ -165,7 +175,8 @@ export default async function handler(req, res) {
             description: description.substring(0, 500),
             createdAt: new Date().toISOString(),
             likes: 0,
-            verified: false
+            verified: false,
+            likedBy: [] // Track who liked
         };
         
         if (type === 'code') {
@@ -177,7 +188,6 @@ export default async function handler(req, res) {
         scripts.unshift(newScript);
         saveScripts(scripts);
         
-        // Update rate limit
         recentUploads.push(now);
         uploadHistory.set(clientIp, recentUploads);
         
