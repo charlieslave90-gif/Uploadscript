@@ -1,6 +1,5 @@
 import { put, list, del } from '@vercel/blob';
 
-// Helper to get all scripts
 async function getAllScripts() {
     try {
         const { blobs } = await list({ prefix: 'scripts/', limit: 1000 });
@@ -19,7 +18,6 @@ async function getAllScripts() {
     }
 }
 
-// Helper to get single script
 async function getScript(id) {
     try {
         const { blobs } = await list({ prefix: `scripts/${id}`, limit: 1 });
@@ -33,7 +31,6 @@ async function getScript(id) {
     }
 }
 
-// Helper to save script
 async function saveScript(script) {
     const blob = await put(
         `scripts/${script.id}.json`,
@@ -43,10 +40,9 @@ async function saveScript(script) {
     return blob.url;
 }
 
-// Rate limiting storage
+// Track uploads with IP + date for 1 per day limit
 const uploadHistory = new Map();
 
-// Helper functions
 function hasSpamLinks(text) {
     if (!text) return false;
     const spamPatterns = [
@@ -70,7 +66,6 @@ async function isDuplicate(title, author, code = null, link = null) {
 }
 
 export default async function handler(req, res) {
-    // CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -79,7 +74,6 @@ export default async function handler(req, res) {
         return res.status(200).end();
     }
     
-    // GET - Fetch scripts
     if (req.method === 'GET') {
         try {
             const { id, sort } = req.query;
@@ -107,12 +101,10 @@ export default async function handler(req, res) {
         }
     }
     
-    // POST - Upload or like
     if (req.method === 'POST') {
         try {
             const { action, id } = req.query;
             
-            // Like a script
             if (action === 'like') {
                 const script = await getScript(id);
                 
@@ -137,19 +129,21 @@ export default async function handler(req, res) {
                 return res.status(200).json({ success: true, likes: script.likes });
             }
             
-            // Upload new script
+            // Upload new script with rate limiting (1 per day)
             const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
             
-            // Rate limiting: 5 uploads per hour
+            // Check if user has uploaded in the last 24 hours
             const now = Date.now();
-            const userUploads = uploadHistory.get(clientIp) || [];
-            const recentUploads = userUploads.filter(time => now - time < 3600000);
+            const lastUpload = uploadHistory.get(clientIp);
             
-            if (recentUploads.length >= 5) {
-                return res.status(429).json({ error: 'Rate limit: Max 5 uploads per hour' });
+            if (lastUpload && (now - lastUpload) < 86400000) { // 24 hours
+                const hoursLeft = Math.ceil((86400000 - (now - lastUpload)) / 3600000);
+                return res.status(429).json({ 
+                    error: `You can only upload 1 script per day! Please wait ${hoursLeft} hour(s).` 
+                });
             }
             
-            const { type, title, author, description, code, link } = req.body;
+            const { type, title, author, description, code, link, thumbnail, youtubeId } = req.body;
             
             // Validation
             if (!title || !author || !description) {
@@ -192,18 +186,24 @@ export default async function handler(req, res) {
                 likedBy: []
             };
             
+            // Add optional fields
+            if (thumbnail) {
+                newScript.thumbnail = thumbnail;
+            }
+            if (youtubeId) {
+                newScript.youtubeId = youtubeId;
+            }
+            
             if (type === 'code') {
                 newScript.code = code.substring(0, 50000);
             } else {
                 newScript.link = link;
             }
             
-            // Save to Blob storage
             await saveScript(newScript);
             
             // Update rate limit
-            recentUploads.push(now);
-            uploadHistory.set(clientIp, recentUploads);
+            uploadHistory.set(clientIp, now);
             
             console.log(`✅ Script saved: ${title} by ${author}`);
             
