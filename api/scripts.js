@@ -43,20 +43,6 @@ async function saveScript(script) {
     return blob.url;
 }
 
-// Helper to delete script
-async function deleteScript(id) {
-    try {
-        const { blobs } = await list({ prefix: `scripts/${id}`, limit: 1 });
-        for (const blob of blobs) {
-            await del(blob.url);
-        }
-        return true;
-    } catch (error) {
-        console.error('Error deleting:', error);
-        return false;
-    }
-}
-
 // Rate limiting storage
 const uploadHistory = new Map();
 
@@ -154,7 +140,7 @@ export default async function handler(req, res) {
             // Upload new script
             const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
             
-            // Rate limiting
+            // Rate limiting: 5 uploads per hour
             const now = Date.now();
             const userUploads = uploadHistory.get(clientIp) || [];
             const recentUploads = userUploads.filter(time => now - time < 3600000);
@@ -183,7 +169,7 @@ export default async function handler(req, res) {
             }
             
             if (type === 'link' && (!link || !link.startsWith('http'))) {
-                return res.status(400).json({ error: 'Please provide a valid URL' });
+                return res.status(400).json({ error: 'Please provide a valid URL starting with http:// or https://' });
             }
             
             // Check duplicates
@@ -212,14 +198,14 @@ export default async function handler(req, res) {
                 newScript.link = link;
             }
             
-            // Save to Blob
+            // Save to Blob storage
             await saveScript(newScript);
             
             // Update rate limit
             recentUploads.push(now);
             uploadHistory.set(clientIp, recentUploads);
             
-            console.log(`✅ Script saved to Blob: ${title}`);
+            console.log(`✅ Script saved: ${title} by ${author}`);
             
             return res.status(201).json(newScript);
             
