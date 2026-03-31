@@ -230,7 +230,6 @@
             padding: 1.5rem;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             transition: all 0.3s;
-            cursor: pointer;
             position: relative;
             overflow: hidden;
         }
@@ -265,6 +264,11 @@
             font-size: 1.3rem;
             margin-bottom: 0.5rem;
             color: var(--dark);
+            cursor: pointer;
+        }
+
+        .script-card h3:hover {
+            color: var(--primary);
         }
 
         .script-meta {
@@ -355,6 +359,23 @@
         .form-group textarea:focus {
             outline: none;
             border-color: var(--primary);
+        }
+
+        .share-box {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 12px;
+            margin: 1rem 0;
+            border: 1px solid #e2e8f0;
+        }
+
+        .share-box input {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            cursor: pointer;
         }
 
         .ad-container {
@@ -537,6 +558,15 @@
         let currentFilter = 'all';
         let likedScripts = JSON.parse(localStorage.getItem('likedScripts') || '{}');
         
+        // Check if URL has script ID on load
+        function checkUrlForScript() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const scriptId = urlParams.get('id');
+            if (scriptId) {
+                showDetail(scriptId);
+            }
+        }
+        
         // Toggle script type
         document.getElementById('scriptType')?.addEventListener('change', function() {
             const codeGroup = document.getElementById('codeGroup');
@@ -565,11 +595,20 @@
             setTimeout(() => toast.remove(), 3000);
         }
         
+        // Copy share link
+        function copyShareLink(scriptId) {
+            const shareUrl = `${window.location.origin}/?id=${scriptId}`;
+            navigator.clipboard.writeText(shareUrl);
+            showToast('🔗 Share link copied to clipboard!');
+        }
+        
         // Page navigation
         function showHome() {
             document.getElementById('homePage').classList.remove('hidden');
             document.getElementById('uploadPage').classList.add('hidden');
             document.getElementById('detailPage').classList.add('hidden');
+            // Update URL without reload
+            window.history.pushState({}, '', '/');
             loadScripts();
         }
         
@@ -586,6 +625,8 @@
             document.getElementById('homePage').classList.add('hidden');
             document.getElementById('uploadPage').classList.add('hidden');
             document.getElementById('detailPage').classList.remove('hidden');
+            // Update URL with script ID
+            window.history.pushState({}, '', `/?id=${id}`);
             loadScriptDetail(id);
         }
         
@@ -638,9 +679,9 @@
             grid.innerHTML = scripts.map(script => {
                 const hasLiked = likedScripts[script.id];
                 return `
-                    <div class="script-card" onclick="showDetail('${script.id}')">
+                    <div class="script-card">
                         <span class="script-type">${script.type === 'code' ? '💻 Lua Script' : '🔗 External Link'}</span>
-                        <h3>${escapeHtml(script.title)}</h3>
+                        <h3 onclick="showDetail('${script.id}')">${escapeHtml(script.title)}</h3>
                         <div class="script-meta">
                             <span>👤 ${escapeHtml(script.author)}</span>
                             <span>📅 ${new Date(script.createdAt).toLocaleDateString()}</span>
@@ -648,9 +689,14 @@
                         </div>
                         <div class="script-description">${escapeHtml(script.description.substring(0, 120))}${script.description.length > 120 ? '...' : ''}</div>
                         <div class="script-footer">
-                            <button onclick="event.stopPropagation(); likeScript('${script.id}')" class="like-btn" ${hasLiked ? 'disabled' : ''}>
-                                ${hasLiked ? '❤️' : '🤍'} ${script.likes || 0}
-                            </button>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button onclick="event.stopPropagation(); likeScript('${script.id}')" class="like-btn" ${hasLiked ? 'disabled' : ''}>
+                                    ${hasLiked ? '❤️' : '🤍'} ${script.likes || 0}
+                                </button>
+                                <button onclick="event.stopPropagation(); copyShareLink('${script.id}')" class="btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;">
+                                    🔗
+                                </button>
+                            </div>
                             <button onclick="event.stopPropagation(); showDetail('${script.id}')" class="btn-secondary">View →</button>
                         </div>
                     </div>
@@ -664,6 +710,7 @@
                 const response = await fetch(`${API_URL}/api/scripts?id=${id}`);
                 const script = await response.json();
                 const hasLiked = likedScripts[script.id];
+                const shareUrl = `${window.location.origin}/?id=${script.id}`;
                 
                 let contentHtml = '';
                 
@@ -671,16 +718,24 @@
                     contentHtml = `
                         <h3>📝 Script Code:</h3>
                         <pre><code id="scriptCode">${escapeHtml(script.code)}</code></pre>
-                        <button onclick="copyCode()" class="btn-primary" style="margin-top:1rem;">📋 Copy Code</button>
+                        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                            <button onclick="copyCode()" class="btn-primary">📋 Copy Code</button>
+                            <button onclick="copyShareLink('${script.id}')" class="btn-secondary">🔗 Copy Share Link</button>
+                        </div>
                     `;
                 } else {
                     contentHtml = `
                         <div style="text-align:center; padding:2rem; background:#f1f5f9; border-radius:20px;">
                             <h3>🔗 External Script Link</h3>
                             <p>This script is hosted on an external platform</p>
-                            <button onclick="openExternalLink('${escapeHtml(script.link)}')" class="btn-primary" style="margin-top:1rem;">
-                                Open Script →
-                            </button>
+                            <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
+                                <button onclick="openExternalLink('${escapeHtml(script.link)}')" class="btn-primary">
+                                    Open Script →
+                                </button>
+                                <button onclick="copyShareLink('${script.id}')" class="btn-secondary">
+                                    🔗 Copy Share Link
+                                </button>
+                            </div>
                         </div>
                     `;
                 }
@@ -688,14 +743,38 @@
                 document.getElementById('scriptContent').innerHTML = `
                     <div class="script-detail">
                         <button onclick="showHome()" class="btn-secondary" style="margin-bottom:1rem;">← Back to Home</button>
-                        <h1>${escapeHtml(script.title)}</h1>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: start; gap: 1rem; flex-wrap: wrap;">
+                            <h1 style="flex: 1;">${escapeHtml(script.title)}</h1>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button onclick="copyShareLink('${script.id}')" class="btn-secondary" style="font-size: 0.9rem;">
+                                    🔗 Share
+                                </button>
+                                <div style="background: #f1f5f9; padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; color: #64748b;">
+                                    📌 ID: ${script.id}
+                                </div>
+                            </div>
+                        </div>
+                        
                         <div class="script-meta">
                             <span>👤 ${escapeHtml(script.author)}</span>
                             <span>📅 ${new Date(script.createdAt).toLocaleDateString()}</span>
                             ${script.verified ? '<span class="verified-badge">✓ Verified</span>' : ''}
                         </div>
+                        
+                        <div class="share-box">
+                            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+                                <span style="color: #475569; font-size: 0.9rem;">🔗 Share this script:</span>
+                                <div style="display: flex; gap: 0.5rem; flex: 1; min-width: 200px;">
+                                    <input type="text" id="shareUrl" value="${shareUrl}" readonly style="flex: 1; padding: 8px; border: 1px solid #e2e8f0; border-radius: 8px; background: white; font-size: 0.85rem;">
+                                    <button onclick="copyShareLink('${script.id}')" class="btn-primary" style="padding: 8px 16px;">Copy</button>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <p style="margin:1rem 0;"><strong>Description:</strong> ${escapeHtml(script.description)}</p>
                         ${contentHtml}
+                        
                         <div style="margin-top:2rem; text-align:center;">
                             <button onclick="likeScript('${script.id}')" class="like-btn" style="font-size:1.2rem;" ${hasLiked ? 'disabled' : ''}>
                                 ${hasLiked ? '❤️' : '🤍'} ${script.likes || 0} Likes
@@ -703,6 +782,14 @@
                         </div>
                     </div>
                 `;
+                
+                // Set the share URL input value and select on click
+                const shareInput = document.getElementById('shareUrl');
+                if (shareInput) {
+                    shareInput.value = shareUrl;
+                    shareInput.addEventListener('click', () => shareInput.select());
+                }
+                
             } catch (error) {
                 document.getElementById('scriptContent').innerHTML = '<div class="loading">Script not found</div>';
             }
@@ -710,7 +797,6 @@
         
         // Like script with prevention
         async function likeScript(id) {
-            // Check if already liked
             if (likedScripts[id]) {
                 showToast('You already liked this script!', true);
                 return;
@@ -720,11 +806,16 @@
                 const response = await fetch(`${API_URL}/api/scripts?action=like&id=${id}`, { method: 'POST' });
                 
                 if (response.ok) {
-                    // Save to localStorage that user liked this script
                     likedScripts[id] = true;
                     localStorage.setItem('likedScripts', JSON.stringify(likedScripts));
                     showToast('❤️ Liked! Thanks for your support');
-                    loadScripts(); // Refresh the list
+                    loadScripts();
+                    
+                    // Refresh detail if open
+                    const detailPage = document.getElementById('detailPage');
+                    if (!detailPage.classList.contains('hidden')) {
+                        loadScriptDetail(id);
+                    }
                 } else {
                     showToast('Failed to like. Try again.', true);
                 }
@@ -839,8 +930,22 @@
             return div.innerHTML;
         }
         
-        // Load scripts on start
-        showHome();
+        // Load scripts on start and check URL
+        checkUrlForScript();
+        if (!window.location.search.includes('id=')) {
+            showHome();
+        }
+        
+        // Handle browser back/forward buttons
+        window.addEventListener('popstate', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const scriptId = urlParams.get('id');
+            if (scriptId) {
+                showDetail(scriptId);
+            } else {
+                showHome();
+            }
+        });
     </script>
 </body>
 </html>
