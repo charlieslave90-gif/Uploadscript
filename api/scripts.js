@@ -1,6 +1,6 @@
 import { put, list, del } from '@vercel/blob';
 
-const ADMIN_PASSWORD = 'karah123';
+const ADMIN_PASSWORD = 'karah123'; // NEW PASSWORD
 
 async function getAllScripts() {
     try {
@@ -20,20 +20,10 @@ async function getAllScripts() {
     }
 }
 
-// Get script by ID OR slug
-async function getScript(identifier) {
+async function getScript(id) {
     try {
         const scripts = await getAllScripts();
-        
-        // Try to find by ID first
-        let script = scripts.find(s => s.id === identifier);
-        
-        // If not found by ID, try by slug
-        if (!script) {
-            script = scripts.find(s => s.slug === identifier);
-        }
-        
-        return script || null;
+        return scripts.find(s => s.id === id) || null;
     } catch (error) {
         console.error('Error loading script:', error);
         return null;
@@ -62,13 +52,6 @@ async function deleteScript(id) {
     }
 }
 
-function generateSlug(title) {
-    return title
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '');
-}
-
 function hasSpamLinks(text) {
     if (!text) return false;
     const spamPatterns = [
@@ -80,11 +63,10 @@ function hasSpamLinks(text) {
     return spamPatterns.some(pattern => pattern.test(text));
 }
 
-async function isDuplicate(title, slug) {
+async function isDuplicate(title) {
     const allScripts = await getAllScripts();
     return allScripts.some(script => 
-        script.title.toLowerCase() === title.toLowerCase() ||
-        script.slug === slug
+        script.title.toLowerCase() === title.toLowerCase()
     );
 }
 
@@ -97,7 +79,7 @@ export default async function handler(req, res) {
         return res.status(200).end();
     }
     
-    // GET scripts - supports both ID and slug
+    // GET scripts
     if (req.method === 'GET') {
         try {
             const { id, sort } = req.query;
@@ -189,7 +171,7 @@ export default async function handler(req, res) {
         }
         
         try {
-            const { type, title, author, description, code, link, thumbnail, youtubeId, customSlug } = req.body;
+            const { type, title, author, description, code, link, thumbnail, youtubeId } = req.body;
             
             if (!title || !author || !description) {
                 return res.status(400).json({ error: 'Missing required fields' });
@@ -211,22 +193,14 @@ export default async function handler(req, res) {
                 return res.status(400).json({ error: 'Invalid link' });
             }
             
-            // Generate slug
-            let slug = customSlug ? customSlug.toLowerCase().replace(/[^a-z0-9-]/g, '') : generateSlug(title);
-            
-            // Make sure slug is unique
-            let finalSlug = slug;
-            let counter = 1;
-            const allScripts = await getAllScripts();
-            while (allScripts.some(s => s.slug === finalSlug)) {
-                finalSlug = `${slug}-${counter}`;
-                counter++;
+            const duplicate = await isDuplicate(title);
+            if (duplicate) {
+                return res.status(400).json({ error: 'A script with this title already exists' });
             }
             
             const newId = Date.now().toString();
             const newScript = {
                 id: newId,
-                slug: finalSlug,
                 type: type || 'code',
                 title: title.substring(0, 100),
                 author: author.substring(0, 50),
@@ -251,7 +225,7 @@ export default async function handler(req, res) {
             return res.status(201).json(newScript);
         } catch (error) {
             console.error('Upload error:', error);
-            return res.status(500).json({ error: 'Server error: ' + error.message });
+            return res.status(500).json({ error: 'Server error' });
         }
     }
     
