@@ -3,23 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
+    <title>Admin Panel - ScriptHub</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
         }
+
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
         }
+
         .card {
             background: white;
             border-radius: 20px;
@@ -27,11 +30,13 @@
             margin-bottom: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
+
         .login-card {
             max-width: 400px;
             margin: 100px auto;
             text-align: center;
         }
+
         input, textarea, select {
             width: 100%;
             padding: 10px;
@@ -39,6 +44,7 @@
             border: 1px solid #ddd;
             border-radius: 8px;
         }
+
         button {
             background: #667eea;
             color: white;
@@ -48,58 +54,130 @@
             cursor: pointer;
             font-size: 16px;
             width: 100%;
+            margin-top: 10px;
         }
+
         button:hover {
             background: #5a67d8;
         }
+
         .delete-btn {
             background: #e53e3e;
-            margin-top: 10px;
         }
+
         .delete-btn:hover {
             background: #c53030;
         }
-        .script-item {
+
+        .edit-btn {
+            background: #48bb78;
+        }
+
+        .edit-btn:hover {
+            background: #38a169;
+        }
+
+        .script-item, .task-item {
             background: #f7fafc;
             padding: 15px;
             margin: 10px 0;
             border-radius: 10px;
             border: 1px solid #e2e8f0;
         }
+
+        .script-header, .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+
         .hidden {
             display: none;
         }
+
         .alert {
             padding: 10px;
             border-radius: 8px;
             margin: 10px 0;
         }
+
         .alert-success {
             background: #c6f6d5;
             color: #22543d;
         }
+
         .alert-error {
             background: #fed7d7;
             color: #742a2a;
         }
+
         hr {
             margin: 20px 0;
         }
+
         h2 {
             margin-bottom: 15px;
         }
-        .slug-preview {
-            background: #f0f0f0;
-            padding: 8px;
-            border-radius: 5px;
-            font-family: monospace;
-            font-size: 0.9rem;
-            margin-top: 5px;
+
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
         }
-        .info-text {
-            font-size: 0.8rem;
+
+        .tab-btn {
+            background: #e2e8f0;
+            color: #4a5568;
+            width: auto;
+            padding: 10px 20px;
+        }
+
+        .tab-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .task-type-select {
+            margin: 10px 0;
+        }
+
+        .task-url-input {
+            margin-top: 10px;
+        }
+
+        small {
             color: #718096;
-            margin-top: 5px;
+            font-size: 0.8rem;
         }
     </style>
 </head>
@@ -115,7 +193,7 @@
         <!-- Admin Panel -->
         <div id="adminPanel" class="hidden">
             <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
                     <h1>📊 Admin Panel</h1>
                     <button onclick="logout()" style="width: auto; background: #718096;">Logout</button>
                 </div>
@@ -123,117 +201,214 @@
 
             <div id="alertMsg" class="hidden"></div>
 
-            <!-- Upload Section -->
-            <div class="card">
-                <h2>📤 Upload Script</h2>
-                <form id="uploadForm">
-                    <select id="type" required>
-                        <option value="code">Lua Script</option>
-                        <option value="link">External Link</option>
-                    </select>
-                    <input type="text" id="title" placeholder="Title" required>
-                    
-                    <!-- Custom URL Slug -->
-                    <input type="text" id="customSlug" placeholder="Custom URL (optional - e.g., my-awesome-script)">
-                    <div id="slugPreview" class="slug-preview hidden"></div>
-                    <div class="info-text">Leave blank to auto-generate from title. Use letters, numbers, and hyphens only.</div>
-                    
-                    <input type="text" id="author" placeholder="Author" required>
-                    <textarea id="description" rows="3" placeholder="Description" required></textarea>
-                    <div id="codeDiv">
-                        <textarea id="code" rows="8" placeholder="Lua Script Code"></textarea>
-                    </div>
-                    <div id="linkDiv" class="hidden">
-                        <input type="url" id="link" placeholder="External Link (https://...)">
-                    </div>
-                    <input type="url" id="youtube" placeholder="YouTube URL (optional)">
-                    <input type="file" id="thumbnail" accept="image/*">
-                    <button type="submit">Upload Script</button>
-                </form>
+            <!-- Tab Navigation -->
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="switchTab('scripts')">📜 Manage Scripts</button>
+                <button class="tab-btn" onclick="switchTab('tasks')">✅ Manage Tasks</button>
             </div>
 
-            <!-- Delete Section -->
-            <div class="card">
-                <h2>🗑️ Delete Scripts</h2>
-                <div id="scriptsList">Loading...</div>
+            <!-- Scripts Tab -->
+            <div id="scriptsTab">
+                <div class="card">
+                    <h2>📤 Upload New Script</h2>
+                    <form id="uploadForm">
+                        <select id="type" required>
+                            <option value="code">Lua Script</option>
+                            <option value="link">External Link</option>
+                        </select>
+                        <input type="text" id="title" placeholder="Title" required>
+                        <input type="text" id="author" placeholder="Author" required>
+                        <textarea id="description" rows="3" placeholder="Description" required></textarea>
+                        <div id="codeDiv">
+                            <textarea id="code" rows="8" placeholder="Lua Script Code"></textarea>
+                        </div>
+                        <div id="linkDiv" class="hidden">
+                            <input type="url" id="link" placeholder="External Link (https://...)">
+                        </div>
+                        <input type="url" id="youtube" placeholder="YouTube URL (optional)">
+                        <input type="file" id="thumbnail" accept="image/*">
+                        <button type="submit">📤 Upload Script</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2>🗑️ Manage Scripts</h2>
+                    <div id="scriptsList">Loading...</div>
+                </div>
             </div>
+
+            <!-- Tasks Tab -->
+            <div id="tasksTab" class="hidden">
+                <div class="card">
+                    <h2>➕ Add New Task</h2>
+                    <form id="addTaskForm">
+                        <input type="text" id="taskName" placeholder="Task Name (e.g., 'Visit Discord')" required>
+                        <select id="taskType" required>
+                            <option value="link">External Link Task</option>
+                            <option value="ad">Watch Ad Task</option>
+                        </select>
+                        <div id="taskUrlDiv">
+                            <input type="url" id="taskUrl" placeholder="Task URL (https://...)">
+                            <small>Users will visit this link to complete the task</small>
+                        </div>
+                        <button type="submit">➕ Add Task</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2>📋 Manage Tasks</h2>
+                    <div id="tasksList">Loading tasks...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Script Modal -->
+    <div id="editScriptModal" class="modal">
+        <div class="modal-content">
+            <h2>✏️ Edit Script</h2>
+            <form id="editScriptForm">
+                <input type="hidden" id="editScriptId">
+                <input type="text" id="editTitle" placeholder="Title" required>
+                <input type="text" id="editAuthor" placeholder="Author" required>
+                <textarea id="editDescription" rows="3" placeholder="Description" required></textarea>
+                <select id="editType">
+                    <option value="code">Lua Script</option>
+                    <option value="link">External Link</option>
+                </select>
+                <div id="editCodeDiv">
+                    <textarea id="editCode" rows="8" placeholder="Lua Script Code"></textarea>
+                </div>
+                <div id="editLinkDiv" class="hidden">
+                    <input type="url" id="editLink" placeholder="External Link">
+                </div>
+                <input type="url" id="editYoutube" placeholder="YouTube URL">
+                <button type="submit">💾 Save Changes</button>
+                <button type="button" onclick="closeEditModal()" style="background: #718096;">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Task Modal -->
+    <div id="editTaskModal" class="modal">
+        <div class="modal-content">
+            <h2>✏️ Edit Task</h2>
+            <form id="editTaskForm">
+                <input type="hidden" id="editTaskIndex">
+                <input type="text" id="editTaskName" placeholder="Task Name" required>
+                <select id="editTaskType" required>
+                    <option value="link">External Link Task</option>
+                    <option value="ad">Watch Ad Task</option>
+                </select>
+                <div id="editTaskUrlDiv">
+                    <input type="url" id="editTaskUrl" placeholder="Task URL">
+                </div>
+                <button type="submit">💾 Save Changes</button>
+                <button type="button" onclick="closeEditTaskModal()" style="background: #718096;">Cancel</button>
+            </form>
         </div>
     </div>
 
     <script>
         const API_URL = window.location.origin;
-        const ADMIN_PASSWORD = 'karah123'; // CHANGE THIS!
+        const ADMIN_PASSWORD = 'karah123';
         
-        // Check if already logged in
-        if (localStorage.getItem('admin') === 'true') {
-            document.getElementById('loginForm').classList.add('hidden');
-            document.getElementById('adminPanel').classList.remove('hidden');
-            loadScripts();
-        }
+        // Tasks storage
+        let tasks = [];
         
-        function login() {
-            const pwd = document.getElementById('password').value;
-            if (pwd === ADMIN_PASSWORD) {
-                localStorage.setItem('admin', 'true');
-                document.getElementById('loginForm').classList.add('hidden');
-                document.getElementById('adminPanel').classList.remove('hidden');
-                showAlert('Logged in!', false);
-                loadScripts();
+        // Load tasks from localStorage
+        function loadTasks() {
+            const savedTasks = localStorage.getItem('adminTasks');
+            if (savedTasks) {
+                tasks = JSON.parse(savedTasks);
             } else {
-                showAlert('Wrong password!', true);
+                // Default tasks
+                tasks = [
+                    { name: "Join Discord Community", url: "https://discord.gg/example", type: "link" },
+                    { name: "Subscribe on YouTube", url: "https://youtube.com/@example", type: "link" },
+                    { name: "Watch 10 Second Ad", url: null, type: "ad" },
+                    { name: "Follow on Twitter", url: "https://twitter.com/example", type: "link" },
+                    { name: "Join Telegram", url: "https://t.me/example", type: "link" }
+                ];
+                saveTasks();
             }
+            displayTasks();
         }
         
-        function logout() {
-            localStorage.removeItem('admin');
-            document.getElementById('loginForm').classList.remove('hidden');
-            document.getElementById('adminPanel').classList.add('hidden');
+        function saveTasks() {
+            localStorage.setItem('adminTasks', JSON.stringify(tasks));
         }
         
-        function showAlert(msg, isError) {
-            const alertDiv = document.getElementById('alertMsg');
-            alertDiv.className = isError ? 'alert alert-error' : 'alert alert-success';
-            alertDiv.textContent = msg;
-            alertDiv.classList.remove('hidden');
-            setTimeout(() => alertDiv.classList.add('hidden'), 3000);
-        }
-        
-        // Live slug preview
-        const titleInput = document.getElementById('title');
-        const customSlugInput = document.getElementById('customSlug');
-        const slugPreview = document.getElementById('slugPreview');
-        
-        function updateSlugPreview() {
-            let slug = customSlugInput.value.trim();
-            if (!slug) {
-                slug = titleInput.value.trim()
-                    .toLowerCase()
-                    .replace(/[^a-z0-9]+/g, '-')
-                    .replace(/^-+|-+$/g, '');
+        function displayTasks() {
+            const container = document.getElementById('tasksList');
+            if (!tasks || tasks.length === 0) {
+                container.innerHTML = '<p>No tasks yet. Add some!</p>';
+                return;
             }
-            if (slug) {
-                slugPreview.innerHTML = `🔗 Your script will be at: <strong>/${slug}</strong>`;
-                slugPreview.classList.remove('hidden');
+            
+            container.innerHTML = tasks.map((task, index) => `
+                <div class="task-item">
+                    <div class="script-header">
+                        <div>
+                            <strong>${escapeHtml(task.name)}</strong><br>
+                            <small>Type: ${task.type === 'link' ? '🔗 External Link' : '📺 Watch Ad'}</small><br>
+                            ${task.url ? `<small>URL: ${escapeHtml(task.url)}</small>` : ''}
+                        </div>
+                        <div class="button-group">
+                            <button onclick="editTask(${index})" class="edit-btn" style="width: auto; padding: 5px 15px;">✏️ Edit</button>
+                            <button onclick="deleteTask(${index})" class="delete-btn" style="width: auto; padding: 5px 15px;">🗑️ Delete</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function addTask(name, type, url) {
+            tasks.push({ name, type, url: url || null });
+            saveTasks();
+            displayTasks();
+            showAlert('✅ Task added successfully!', false);
+        }
+        
+        function editTask(index) {
+            const task = tasks[index];
+            document.getElementById('editTaskIndex').value = index;
+            document.getElementById('editTaskName').value = task.name;
+            document.getElementById('editTaskType').value = task.type;
+            
+            const urlDiv = document.getElementById('editTaskUrlDiv');
+            const urlInput = document.getElementById('editTaskUrl');
+            
+            if (task.type === 'link') {
+                urlDiv.style.display = 'block';
+                urlInput.value = task.url || '';
+                urlInput.required = true;
             } else {
-                slugPreview.classList.add('hidden');
+                urlDiv.style.display = 'none';
+                urlInput.value = '';
+                urlInput.required = false;
+            }
+            
+            document.getElementById('editTaskModal').style.display = 'flex';
+        }
+        
+        function updateTask(index, name, type, url) {
+            tasks[index] = { name, type, url: url || null };
+            saveTasks();
+            displayTasks();
+            showAlert('✅ Task updated!', false);
+        }
+        
+        function deleteTask(index) {
+            if (confirm('Delete this task?')) {
+                tasks.splice(index, 1);
+                saveTasks();
+                displayTasks();
+                showAlert('🗑️ Task deleted', false);
             }
         }
         
-        titleInput.addEventListener('input', updateSlugPreview);
-        customSlugInput.addEventListener('input', updateSlugPreview);
-        
-        // Toggle script type
-        document.getElementById('type').addEventListener('change', function() {
-            if (this.value === 'code') {
-                document.getElementById('codeDiv').classList.remove('hidden');
-                document.getElementById('linkDiv').classList.add('hidden');
-            } else {
-                document.getElementById('codeDiv').classList.add('hidden');
-                document.getElementById('linkDiv').classList.remove('hidden');
-            }
-        });
-        
-        // Load scripts
+        // Script management functions
         async function loadScripts() {
             try {
                 const res = await fetch(`${API_URL}/api/scripts`);
@@ -245,21 +420,78 @@
                     return;
                 }
                 
-                container.innerHTML = scripts.map(s => `
+                container.innerHTML = scripts.map(script => `
                     <div class="script-item">
-                        <strong>${escapeHtml(s.title)}</strong><br>
-                        By: ${escapeHtml(s.author)} | ❤️ ${s.likes || 0}<br>
-                        <small>🔗 URL: /${s.slug || s.id}</small><br>
-                        <small>ID: ${s.id}</small><br>
-                        <button onclick="deleteScript('${s.id}')" class="delete-btn">Delete</button>
+                        <div class="script-header">
+                            <div>
+                                <strong>${escapeHtml(script.title)}</strong><br>
+                                By: ${escapeHtml(script.author)} | ❤️ ${script.likes || 0}<br>
+                                <small>ID: ${script.id} | Type: ${script.type === 'code' ? 'Lua Script' : 'External Link'}</small>
+                            </div>
+                            <div class="button-group">
+                                <button onclick="editScript('${script.id}')" class="edit-btn" style="width: auto; padding: 5px 15px;">✏️ Edit</button>
+                                <button onclick="deleteScript('${script.id}')" class="delete-btn" style="width: auto; padding: 5px 15px;">🗑️ Delete</button>
+                            </div>
+                        </div>
                     </div>
                 `).join('');
             } catch (err) {
-                document.getElementById('scriptsList').innerHTML = '<p>Error loading scripts. Make sure API is working.</p>';
+                document.getElementById('scriptsList').innerHTML = '<p>Error loading scripts</p>';
             }
         }
         
-        // Delete script
+        async function editScript(id) {
+            try {
+                const res = await fetch(`${API_URL}/api/scripts?id=${id}`);
+                const script = await res.json();
+                
+                document.getElementById('editScriptId').value = script.id;
+                document.getElementById('editTitle').value = script.title;
+                document.getElementById('editAuthor').value = script.author;
+                document.getElementById('editDescription').value = script.description;
+                document.getElementById('editType').value = script.type;
+                document.getElementById('editYoutube').value = script.youtubeId || '';
+                
+                if (script.type === 'code') {
+                    document.getElementById('editCodeDiv').classList.remove('hidden');
+                    document.getElementById('editLinkDiv').classList.add('hidden');
+                    document.getElementById('editCode').value = script.code || '';
+                } else {
+                    document.getElementById('editCodeDiv').classList.add('hidden');
+                    document.getElementById('editLinkDiv').classList.remove('hidden');
+                    document.getElementById('editLink').value = script.link || '';
+                }
+                
+                document.getElementById('editScriptModal').style.display = 'flex';
+            } catch (err) {
+                showAlert('Error loading script', true);
+            }
+        }
+        
+        async function updateScript(scriptData) {
+            try {
+                const res = await fetch(`${API_URL}/api/scripts?id=${scriptData.id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Admin-Password': ADMIN_PASSWORD
+                    },
+                    body: JSON.stringify(scriptData)
+                });
+                
+                if (res.ok) {
+                    showAlert('✅ Script updated!', false);
+                    loadScripts();
+                    closeEditModal();
+                } else {
+                    const data = await res.json();
+                    showAlert(data.error || 'Update failed', true);
+                }
+            } catch (err) {
+                showAlert('Error updating script', true);
+            }
+        }
+        
         async function deleteScript(id) {
             if (!confirm('Delete this script?')) return;
             
@@ -270,47 +502,80 @@
                 });
                 
                 if (res.ok) {
-                    showAlert('Deleted!', false);
+                    showAlert('✅ Script deleted!', false);
                     loadScripts();
                 } else {
-                    const data = await res.json();
-                    showAlert(data.error || 'Delete failed', true);
+                    showAlert('Delete failed', true);
                 }
             } catch (err) {
-                showAlert('Error: ' + err.message, true);
+                showAlert('Error deleting script', true);
             }
         }
         
+        // Toggle script type in forms
+        document.getElementById('type')?.addEventListener('change', function() {
+            const codeDiv = document.getElementById('codeDiv');
+            const linkDiv = document.getElementById('linkDiv');
+            if (this.value === 'code') {
+                codeDiv.classList.remove('hidden');
+                linkDiv.classList.add('hidden');
+            } else {
+                codeDiv.classList.add('hidden');
+                linkDiv.classList.remove('hidden');
+            }
+        });
+        
+        document.getElementById('editType')?.addEventListener('change', function() {
+            const codeDiv = document.getElementById('editCodeDiv');
+            const linkDiv = document.getElementById('editLinkDiv');
+            if (this.value === 'code') {
+                codeDiv.classList.remove('hidden');
+                linkDiv.classList.add('hidden');
+            } else {
+                codeDiv.classList.add('hidden');
+                linkDiv.classList.remove('hidden');
+            }
+        });
+        
+        document.getElementById('taskType')?.addEventListener('change', function() {
+            const urlDiv = document.getElementById('taskUrlDiv');
+            if (this.value === 'link') {
+                urlDiv.style.display = 'block';
+                document.getElementById('taskUrl').required = true;
+            } else {
+                urlDiv.style.display = 'none';
+                document.getElementById('taskUrl').required = false;
+            }
+        });
+        
+        document.getElementById('editTaskType')?.addEventListener('change', function() {
+            const urlDiv = document.getElementById('editTaskUrlDiv');
+            if (this.value === 'link') {
+                urlDiv.style.display = 'block';
+                document.getElementById('editTaskUrl').required = true;
+            } else {
+                urlDiv.style.display = 'none';
+                document.getElementById('editTaskUrl').required = false;
+            }
+        });
+        
         // Upload script
-        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+        document.getElementById('uploadForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const type = document.getElementById('type').value;
             const title = document.getElementById('title').value.trim();
-            const customSlug = document.getElementById('customSlug').value.trim();
             const author = document.getElementById('author').value.trim();
             const description = document.getElementById('description').value.trim();
             const youtubeUrl = document.getElementById('youtube').value.trim();
             
-            if (!title || !author || !description) {
-                showAlert('Please fill all required fields', true);
-                return;
-            }
-            
             let scriptData = { type, title, author, description };
             
-            // Add custom slug if provided
-            if (customSlug) {
-                scriptData.customSlug = customSlug;
-            }
-            
-            // YouTube ID
             if (youtubeUrl) {
                 const match = youtubeUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/);
                 if (match) scriptData.youtubeId = match[1];
             }
             
-            // Thumbnail
             const thumbFile = document.getElementById('thumbnail').files[0];
             if (thumbFile) {
                 const reader = new FileReader();
@@ -321,20 +586,13 @@
                 scriptData.thumbnail = thumbData;
             }
             
-            // Code or Link
             if (type === 'code') {
                 const code = document.getElementById('code').value.trim();
-                if (!code) {
-                    showAlert('Enter script code', true);
-                    return;
-                }
+                if (!code) { showAlert('Enter script code', true); return; }
                 scriptData.code = code;
             } else {
                 const link = document.getElementById('link').value.trim();
-                if (!link) {
-                    showAlert('Enter a link', true);
-                    return;
-                }
+                if (!link) { showAlert('Enter a link', true); return; }
                 scriptData.link = link;
             }
             
@@ -345,21 +603,16 @@
             try {
                 const res = await fetch(`${API_URL}/api/scripts`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Admin-Password': ADMIN_PASSWORD
-                    },
+                    headers: { 'Content-Type': 'application/json', 'X-Admin-Password': ADMIN_PASSWORD },
                     body: JSON.stringify(scriptData)
                 });
                 
-                const data = await res.json();
-                
                 if (res.ok) {
-                    showAlert(`✅ Uploaded! URL: /${data.slug}`, false);
+                    showAlert('✅ Uploaded!', false);
                     e.target.reset();
-                    slugPreview.classList.add('hidden');
                     loadScripts();
                 } else {
+                    const data = await res.json();
                     showAlert(data.error || 'Upload failed', true);
                 }
             } catch (err) {
@@ -370,6 +623,116 @@
             }
         });
         
+        // Add Task
+        document.getElementById('addTaskForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('taskName').value.trim();
+            const type = document.getElementById('taskType').value;
+            const url = type === 'link' ? document.getElementById('taskUrl').value.trim() : null;
+            
+            if (!name) { showAlert('Enter task name', true); return; }
+            if (type === 'link' && !url) { showAlert('Enter task URL', true); return; }
+            
+            addTask(name, type, url);
+            e.target.reset();
+            document.getElementById('taskUrlDiv').style.display = 'block';
+        });
+        
+        // Edit Script Form
+        document.getElementById('editScriptForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const id = document.getElementById('editScriptId').value;
+            const title = document.getElementById('editTitle').value.trim();
+            const author = document.getElementById('editAuthor').value.trim();
+            const description = document.getElementById('editDescription').value.trim();
+            const type = document.getElementById('editType').value;
+            const youtubeUrl = document.getElementById('editYoutube').value.trim();
+            
+            let scriptData = { id, type, title, author, description };
+            
+            if (youtubeUrl) {
+                const match = youtubeUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/);
+                if (match) scriptData.youtubeId = match[1];
+            }
+            
+            if (type === 'code') {
+                scriptData.code = document.getElementById('editCode').value.trim();
+            } else {
+                scriptData.link = document.getElementById('editLink').value.trim();
+            }
+            
+            await updateScript(scriptData);
+        });
+        
+        // Edit Task Form
+        document.getElementById('editTaskForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const index = parseInt(document.getElementById('editTaskIndex').value);
+            const name = document.getElementById('editTaskName').value.trim();
+            const type = document.getElementById('editTaskType').value;
+            const url = type === 'link' ? document.getElementById('editTaskUrl').value.trim() : null;
+            
+            updateTask(index, name, type, url);
+            closeEditTaskModal();
+        });
+        
+        function closeEditModal() {
+            document.getElementById('editScriptModal').style.display = 'none';
+        }
+        
+        function closeEditTaskModal() {
+            document.getElementById('editTaskModal').style.display = 'none';
+        }
+        
+        function switchTab(tab) {
+            const scriptsTab = document.getElementById('scriptsTab');
+            const tasksTab = document.getElementById('tasksTab');
+            const btns = document.querySelectorAll('.tab-btn');
+            
+            btns.forEach(btn => btn.classList.remove('active'));
+            
+            if (tab === 'scripts') {
+                scriptsTab.classList.remove('hidden');
+                tasksTab.classList.add('hidden');
+                btns[0].classList.add('active');
+                loadScripts();
+            } else {
+                scriptsTab.classList.add('hidden');
+                tasksTab.classList.remove('hidden');
+                btns[1].classList.add('active');
+                loadTasks();
+            }
+        }
+        
+        function showAlert(msg, isError) {
+            const alertDiv = document.getElementById('alertMsg');
+            alertDiv.className = isError ? 'alert alert-error' : 'alert alert-success';
+            alertDiv.textContent = msg;
+            alertDiv.classList.remove('hidden');
+            setTimeout(() => alertDiv.classList.add('hidden'), 3000);
+        }
+        
+        function login() {
+            const pwd = document.getElementById('password').value;
+            if (pwd === ADMIN_PASSWORD) {
+                localStorage.setItem('admin', 'true');
+                document.getElementById('loginForm').classList.add('hidden');
+                document.getElementById('adminPanel').classList.remove('hidden');
+                showAlert('Logged in!', false);
+                loadScripts();
+                loadTasks();
+            } else {
+                showAlert('Wrong password!', true);
+            }
+        }
+        
+        function logout() {
+            localStorage.removeItem('admin');
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('adminPanel').classList.add('hidden');
+        }
+        
         function escapeHtml(text) {
             if (!text) return '';
             return text.replace(/[&<>]/g, function(m) {
@@ -378,6 +741,14 @@
                 if (m === '>') return '&gt;';
                 return m;
             });
+        }
+        
+        // Check if already logged in
+        if (localStorage.getItem('admin') === 'true') {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('adminPanel').classList.remove('hidden');
+            loadScripts();
+            loadTasks();
         }
     </script>
 </body>
