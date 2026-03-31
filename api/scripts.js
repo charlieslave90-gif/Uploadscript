@@ -1,6 +1,6 @@
 import { put, list, del } from '@vercel/blob';
 
-const ADMIN_PASSWORD = 'karah123'; // CHANGE THIS!
+const ADMIN_PASSWORD = 'karah123';
 
 async function getAllScripts() {
     try {
@@ -20,20 +20,20 @@ async function getAllScripts() {
     }
 }
 
-async function getScript(idOrSlug) {
+// Get script by ID OR slug
+async function getScript(identifier) {
     try {
-        // Try to find by ID first, then by slug
-        const { blobs } = await list({ prefix: 'scripts/', limit: 1000 });
+        const scripts = await getAllScripts();
         
-        for (const blob of blobs) {
-            const response = await fetch(blob.url);
-            const script = await response.json();
-            
-            if (script.id === idOrSlug || script.slug === idOrSlug) {
-                return script;
-            }
+        // Try to find by ID first
+        let script = scripts.find(s => s.id === identifier);
+        
+        // If not found by ID, try by slug
+        if (!script) {
+            script = scripts.find(s => s.slug === identifier);
         }
-        return null;
+        
+        return script || null;
     } catch (error) {
         console.error('Error loading script:', error);
         return null;
@@ -97,7 +97,7 @@ export default async function handler(req, res) {
         return res.status(200).end();
     }
     
-    // GET scripts (supports both ID and slug)
+    // GET scripts - supports both ID and slug
     if (req.method === 'GET') {
         try {
             const { id, sort } = req.query;
@@ -166,7 +166,12 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Script ID required' });
         }
         
-        const deleted = await deleteScript(id);
+        const script = await getScript(id);
+        if (!script) {
+            return res.status(404).json({ error: 'Script not found' });
+        }
+        
+        const deleted = await deleteScript(script.id);
         
         if (deleted) {
             return res.status(200).json({ success: true });
@@ -175,7 +180,7 @@ export default async function handler(req, res) {
         }
     }
     
-    // UPLOAD script (with custom slug)
+    // UPLOAD script
     if (req.method === 'POST' && !req.query.action) {
         const adminPassword = req.headers['x-admin-password'];
         
@@ -206,13 +211,14 @@ export default async function handler(req, res) {
                 return res.status(400).json({ error: 'Invalid link' });
             }
             
-            // Generate or use custom slug
+            // Generate slug
             let slug = customSlug ? customSlug.toLowerCase().replace(/[^a-z0-9-]/g, '') : generateSlug(title);
             
-            // Ensure slug is unique
+            // Make sure slug is unique
             let finalSlug = slug;
             let counter = 1;
-            while (await isDuplicate(title, finalSlug)) {
+            const allScripts = await getAllScripts();
+            while (allScripts.some(s => s.slug === finalSlug)) {
                 finalSlug = `${slug}-${counter}`;
                 counter++;
             }
@@ -244,7 +250,8 @@ export default async function handler(req, res) {
             
             return res.status(201).json(newScript);
         } catch (error) {
-            return res.status(500).json({ error: 'Server error' });
+            console.error('Upload error:', error);
+            return res.status(500).json({ error: 'Server error: ' + error.message });
         }
     }
     
