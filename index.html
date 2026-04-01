@@ -131,9 +131,10 @@
             <p>Complete this task to copy the script:</p>
             <div id="tasksList"></div>
             <div id="adTask" class="ad-container hidden">
-                <div class="ad-label">Watch this ad to complete task</div>
-                <div id="adContent"></div>
-                <button onclick="completeAdTask()" class="btn-primary" style="margin-top:10px;">✅ I Watched The Ad</button>
+                <div class="ad-label">Watch these ads for 10 seconds to unlock</div>
+                <div id="adContent" style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin: 15px 0;"></div>
+                <div id="timerDisplay" style="font-size: 24px; font-weight: bold; color: #6366f1; margin: 10px 0;"></div>
+                <button id="completeAdBtn" class="btn-primary" style="margin-top:10px; background: #9ca3af; cursor: not-allowed;" disabled>⏳ Wait 10 seconds...</button>
             </div>
             <button onclick="closeChallengeModal()" class="btn-secondary" style="margin-top:10px;">Cancel</button>
         </div>
@@ -162,6 +163,8 @@
         let pendingScriptCode = null;
         let pendingUnlockTask = null;
         let pendingLootlabUrl = null;
+        let adTimerInterval = null;
+        let adTimeLeft = 10;
         
         function showToast(message, isError = false) {
             const toast = document.createElement('div');
@@ -238,10 +241,17 @@
         function showAdTask() {
             const adTaskDiv = document.getElementById('adTask');
             const adContent = document.getElementById('adContent');
+            const timerDisplay = document.getElementById('timerDisplay');
+            const completeBtn = document.getElementById('completeAdBtn');
             
+            // Reset timer
+            adTimeLeft = 10;
+            if (adTimerInterval) clearInterval(adTimerInterval);
+            
+            // Show ads side by side
             adContent.innerHTML = `
-                <div style="margin:10px 0; padding:10px; background:#f1f5f9; border-radius:8px;">
-                    <div class="ad-label">Watch 10 second ad to unlock</div>
+                <div style="flex: 1; min-width: 200px; padding: 10px; background: #f1f5f9; border-radius: 12px; text-align: center;">
+                    <div class="ad-label">Ad 1</div>
                     <script>
                         atOptions = {
                             'key' : '673fb53f64c762401413eb44406c1c80',
@@ -253,8 +263,8 @@
                     <\/script>
                     <script src="https://www.highperformanceformat.com/673fb53f64c762401413eb44406c1c80/invoke.js"><\/script>
                 </div>
-                <div style="margin:10px 0; padding:10px; background:#f1f5f9; border-radius:8px;">
-                    <div class="ad-label">Another ad option</div>
+                <div style="flex: 1; min-width: 200px; padding: 10px; background: #f1f5f9; border-radius: 12px; text-align: center;">
+                    <div class="ad-label">Ad 2</div>
                     <script>
                         atOptions = {
                             'key' : '5c4ab71c3e05e8f162c6845ea1c55950',
@@ -266,16 +276,53 @@
                     <\/script>
                     <script src="https://www.highperformanceformat.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"><\/script>
                 </div>
+                <div style="flex: 1; min-width: 200px; padding: 10px; background: #f1f5f9; border-radius: 12px; text-align: center;">
+                    <div class="ad-label">Ad 3</div>
+                    <script>
+                        atOptions = {
+                            'key' : '30772cccaf8ca1f9a16a3c555509b64f',
+                            'format' : 'iframe',
+                            'height' : 90,
+                            'width' : 728,
+                            'params' : {}
+                        };
+                    <\/script>
+                    <script src="https://www.highperformanceformat.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"><\/script>
+                </div>
             `;
             
+            timerDisplay.innerHTML = `⏱️ Wait ${adTimeLeft} seconds...`;
+            completeBtn.disabled = true;
+            completeBtn.style.background = '#9ca3af';
+            completeBtn.style.cursor = 'not-allowed';
+            completeBtn.textContent = `⏳ Wait ${adTimeLeft} seconds...`;
+            
             adTaskDiv.classList.remove('hidden');
-            window.adCompleted = false;
+            
+            // Start countdown timer
+            adTimerInterval = setInterval(() => {
+                adTimeLeft--;
+                timerDisplay.innerHTML = `⏱️ Wait ${adTimeLeft} seconds...`;
+                completeBtn.textContent = `⏳ Wait ${adTimeLeft} seconds...`;
+                
+                if (adTimeLeft <= 0) {
+                    clearInterval(adTimerInterval);
+                    timerDisplay.innerHTML = `✅ You can now unlock!`;
+                    completeBtn.disabled = false;
+                    completeBtn.style.background = 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)';
+                    completeBtn.style.cursor = 'pointer';
+                    completeBtn.textContent = `🔓 Unlock Script Now`;
+                }
+            }, 1000);
+            
+            // Store reference to clear interval later
+            window.adTimerInterval = adTimerInterval;
         }
         
         function completeAdTask() {
-            if (!window.adCompleted) {
-                window.adCompleted = true;
+            if (adTimeLeft <= 0) {
                 document.getElementById('adTask').classList.add('hidden');
+                if (window.adTimerInterval) clearInterval(window.adTimerInterval);
                 unlockScriptDirect();
                 showToast('✅ Ad watched! Script unlocked.');
             }
@@ -296,12 +343,13 @@
         }
         
         function closeChallengeModal() {
+            if (window.adTimerInterval) clearInterval(window.adTimerInterval);
             document.getElementById('challengeModal').style.display = 'none';
             pendingScriptId = null;
             pendingScriptCode = null;
             pendingUnlockTask = null;
             pendingLootlabUrl = null;
-            window.adCompleted = false;
+            adTimeLeft = 10;
         }
         // ============ END CHALLENGE ============
         
@@ -406,7 +454,7 @@
                             <button onclick="copyCodeDirect()" class="btn-primary" style="margin-top:1rem;">📋 Copy Code</button>
                         `;
                     } else {
-                        const taskText = script.unlockTask === 'lootlab' ? 'Visit LootLab link' : 'Watch an ad';
+                        const taskText = script.unlockTask === 'lootlab' ? 'Visit LootLab link' : 'Watch a 10-second ad';
                         contentHtml = `
                             ${youtubeHtml}
                             <div style="text-align:center; padding:2rem; background:#f1f5f9; border-radius:20px;">
