@@ -6,576 +6,9 @@
     <meta name="google-site-verification" content="aHm-u6Lw7BRLde6l91yNdtVltbZu8np4hRcmCrn4iYI">
     <meta name="google-adsense-account" content="ca-pub-4130246379396222">
     <title>ScriptHub - Roblox Script Library</title>
+    <link rel="stylesheet" href="styles.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4130246379396222"
      crossorigin="anonymous"></script>
-    <style>
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #8b5cf6;
-            --dark: #0f172a;
-            --light: #f8fafc;
-            --gray: #64748b;
-            --success: #10b981;
-            --warning: #f59e0b;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 5px;
-        }
-
-        .navbar {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            cursor: pointer;
-        }
-
-        .nav-links button {
-            background: none;
-            border: none;
-            color: var(--dark);
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            transition: color 0.3s;
-        }
-
-        .nav-links button:hover {
-            color: var(--primary);
-        }
-
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .three-columns {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .left-sidebar, .right-sidebar {
-            flex: 1;
-            position: sticky;
-            top: 100px;
-            align-self: flex-start;
-        }
-
-        .main-content {
-            flex: 3;
-        }
-
-        .hero {
-            text-align: center;
-            padding: 4rem 2rem;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 30px;
-            margin-bottom: 2rem;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 1rem;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--gray);
-            margin-bottom: 2rem;
-        }
-
-        .btn-primary {
-            display: inline-block;
-            padding: 12px 32px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 4px 15px rgba(99,102,241,0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(99,102,241,0.4);
-        }
-
-        .btn-secondary {
-            display: inline-block;
-            padding: 10px 24px;
-            background: white;
-            color: var(--primary);
-            border-radius: 50px;
-            border: 2px solid var(--primary);
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .btn-secondary:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        .search-section {
-            background: white;
-            border-radius: 20px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 12px 20px;
-            border: 2px solid #e2e8f0;
-            border-radius: 50px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .filters {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            padding: 8px 20px;
-            background: #f1f5f9;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
-        }
-
-        .filter-btn:hover {
-            background: #e2e8f0;
-        }
-
-        .filter-btn.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        .scripts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .script-card {
-            background: white;
-            border-radius: 20px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .script-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
-        }
-
-        .script-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-        }
-
-        .script-thumbnail {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .script-type {
-            display: inline-block;
-            padding: 4px 12px;
-            background: #e0e7ff;
-            color: var(--primary);
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .script-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-            color: var(--dark);
-        }
-
-        .script-meta {
-            display: flex;
-            gap: 1rem;
-            margin: 0.5rem 0;
-            color: var(--gray);
-            font-size: 0.85rem;
-            flex-wrap: wrap;
-        }
-
-        .script-description {
-            color: #475569;
-            margin: 1rem 0;
-            line-height: 1.5;
-        }
-
-        .script-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid #e2e8f0;
-        }
-
-        .like-btn {
-            background: none;
-            border: none;
-            color: #ef4444;
-            cursor: pointer;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-            padding: 5px 10px;
-            border-radius: 20px;
-            transition: background 0.3s;
-        }
-
-        .like-btn:hover:not(:disabled) {
-            background: #fee2e2;
-        }
-
-        .like-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .verified-badge {
-            color: var(--success);
-            font-weight: 600;
-            font-size: 0.85rem;
-        }
-
-        .script-detail {
-            background: white;
-            border-radius: 30px;
-            padding: 2rem;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
-
-        .script-detail h1 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-
-        .script-detail pre {
-            background: #1e1e1e;
-            color: #d4d4d4;
-            padding: 1.5rem;
-            border-radius: 12px;
-            overflow-x: auto;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            margin: 1rem 0;
-            max-height: 500px;
-        }
-
-        .share-box {
-            background: #f8fafc;
-            padding: 1rem;
-            border-radius: 12px;
-            margin: 1rem 0;
-            border: 1px solid #e2e8f0;
-        }
-
-        .share-box input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-family: monospace;
-            background: white;
-            cursor: pointer;
-        }
-
-        .share-box input:hover {
-            background: #f1f5f9;
-        }
-
-        .youtube-preview {
-            margin: 1rem 0;
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            border-radius: 12px;
-        }
-
-        .youtube-preview iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .challenge-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .challenge-content {
-            background: white;
-            border-radius: 30px;
-            padding: 2rem;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .task-item {
-            background: #f1f5f9;
-            padding: 1rem;
-            margin: 0.75rem 0;
-            border-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .task-completed {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .task-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 5px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.85rem;
-        }
-
-        .ad-container {
-            margin: 1rem 0;
-            padding: 1rem;
-            background: #f8fafc;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .unlock-btn {
-            background: var(--success);
-            margin-top: 1rem;
-        }
-
-        .unlock-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .ad-box {
-            background: white;
-            border-radius: 20px;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .ad-label {
-            font-size: 0.7rem;
-            color: #94a3b8;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .horizontal-ad {
-            margin: 2rem 0;
-            text-align: center;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 2rem;
-            border-radius: 20px;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #333;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            z-index: 3000;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        .loading {
-            text-align: center;
-            padding: 2rem;
-            color: white;
-        }
-
-        @media (max-width: 1024px) {
-            .three-columns {
-                flex-direction: column;
-            }
-            .left-sidebar, .right-sidebar {
-                position: static;
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 1rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-            .scripts-grid {
-                grid-template-columns: 1fr;
-            }
-            .nav-container {
-                flex-direction: column;
-                text-align: center;
-            }
-            .left-sidebar, .right-sidebar {
-                grid-template-columns: 1fr;
-            }
-            .container {
-                padding: 1rem;
-            }
-            .script-detail {
-                padding: 1.5rem;
-            }
-        }
-    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -695,14 +128,13 @@
     <div id="challengeModal" class="challenge-modal">
         <div class="challenge-content">
             <h2>🔓 Unlock Script</h2>
-            <p>Complete these tasks to copy the script:</p>
+            <p>Complete this task to copy the script:</p>
             <div id="tasksList"></div>
             <div id="adTask" class="ad-container hidden">
                 <div class="ad-label">Watch this ad to complete task</div>
                 <div id="adContent"></div>
                 <button onclick="completeAdTask()" class="btn-primary" style="margin-top:10px;">✅ I Watched The Ad</button>
             </div>
-            <button id="unlockBtn" class="btn-primary unlock-btn" disabled onclick="unlockScript()">🔒 Complete all tasks to unlock</button>
             <button onclick="closeChallengeModal()" class="btn-secondary" style="margin-top:10px;">Cancel</button>
         </div>
     </div>
@@ -720,328 +152,394 @@
     </div>
 
     <script>
-    const API_URL = window.location.origin;
-    let currentScripts = [];
-    let currentFilter = 'all';
-    let likedScripts = JSON.parse(localStorage.getItem('likedScripts') || '{}');
-    
-    let pendingScriptId = null;
-    let pendingScriptCode = null;
-
-    function showToast(message, isError = false) {
-        const toast = document.createElement('div');
-        toast.className = 'toast';
-        toast.style.background = isError ? '#dc2626' : '#10b981';
-        toast.textContent = message;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
-    }
-
-    function copyShareLink(scriptId) {
-        const shareUrl = `\( {window.location.origin}/?id= \){scriptId}`;
-        navigator.clipboard.writeText(shareUrl);
-        showToast('🔗 Share link copied!');
-    }
-
-    function showHome() {
-        document.getElementById('homePage').classList.remove('hidden');
-        document.getElementById('detailPage').classList.add('hidden');
-        window.history.pushState({}, '', '/');
-        loadScripts();
-    }
-
-    function showDetail(id) {
-        document.getElementById('homePage').classList.add('hidden');
-        document.getElementById('detailPage').classList.remove('hidden');
-        window.history.pushState({}, '', `/?id=${id}`);
-        loadScriptDetail(id);
-    }
-
-    // Challenge Modal (kept almost exactly as you wrote it)
-    function showChallengeModal(scriptId, scriptCode, unlockTask, lootlabUrl) {
-        pendingScriptId = scriptId;
-        pendingScriptCode = scriptCode;
+        const API_URL = window.location.origin;
+        let currentScripts = [];
+        let currentFilter = 'all';
+        let likedScripts = JSON.parse(localStorage.getItem('likedScripts') || '{}');
         
-        let tasksHtml = '';
-        if (unlockTask === 'lootlab' && lootlabUrl) {
-            tasksHtml = `
-                <div class="task-item">
-                    <span>🔗 Visit LootLab Link</span>
-                    <button onclick="completeLootlabTask('${lootlabUrl}')" class="task-btn">Complete</button>
-                </div>
-            `;
-        } else {
-            tasksHtml = `
-                <div class="task-item">
-                    <span>📺 Watch 10 Second Ad</span>
-                    <button onclick="showAdTask()" class="task-btn">Watch Ad</button>
-                </div>
-            `;
+        // Challenge variables
+        let pendingScriptId = null;
+        let pendingScriptCode = null;
+        let pendingUnlockTask = null;
+        let pendingLootlabUrl = null;
+        
+        function showToast(message, isError = false) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.style.background = isError ? '#dc2626' : '#10b981';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
         }
         
-        document.getElementById('tasksList').innerHTML = tasksHtml;
-        document.getElementById('challengeModal').style.display = 'flex';
-    }
-
-    function completeLootlabTask(url) {
-        window.open(url, '_blank');
-        setTimeout(() => unlockScriptDirect(), 3000);
-    }
-
-    function showAdTask() {
-        const adDiv = document.getElementById('adTask');
-        const adContent = document.getElementById('adContent');
-        adContent.innerHTML = `
-            <div style="margin:10px 0">
-                <div class="ad-label">Watch 10 second ad to unlock</div>
-                <script>atOptions = {'key':'673fb53f64c762401413eb44406c1c80','format':'iframe','height':300,'width':160,'params':{}};</script>
-                <script src="https://www.highperformanceformat.com/673fb53f64c762401413eb44406c1c80/invoke.js"><\/script>
-            </div>
-        `;
-        adDiv.classList.remove('hidden');
-    }
-
-    function completeAdTask() {
-        unlockScriptDirect();
-    }
-
-    function unlockScriptDirect() {
-        if (pendingScriptCode) {
-            navigator.clipboard.writeText(pendingScriptCode);
-            showToast('✅ Script copied to clipboard!');
-            closeChallengeModal();
+        function copyShareLink(scriptId) {
+            const shareUrl = `${window.location.origin}/?id=${scriptId}`;
+            navigator.clipboard.writeText(shareUrl);
+            showToast('🔗 Share link copied!');
+        }
+        
+        function showHome() {
+            document.getElementById('homePage').classList.remove('hidden');
+            document.getElementById('detailPage').classList.add('hidden');
+            window.history.pushState({}, '', '/');
+            loadScripts();
+        }
+        
+        function showDetail(id) {
+            document.getElementById('homePage').classList.add('hidden');
+            document.getElementById('detailPage').classList.remove('hidden');
+            window.history.pushState({}, '', `/?id=${id}`);
+            loadScriptDetail(id);
+        }
+        
+        // ============ CHALLENGE FUNCTIONS ============
+        function showChallengeModal(scriptId, scriptCode, unlockTask, lootlabUrl) {
+            pendingScriptId = scriptId;
+            pendingScriptCode = scriptCode;
+            pendingUnlockTask = unlockTask;
+            pendingLootlabUrl = lootlabUrl;
             
-            let unlocked = JSON.parse(localStorage.getItem('unlockedScripts') || '[]');
-            if (!unlocked.includes(pendingScriptId)) {
-                unlocked.push(pendingScriptId);
-                localStorage.setItem('unlockedScripts', JSON.stringify(unlocked));
-            }
-        }
-    }
-
-    function closeChallengeModal() {
-        document.getElementById('challengeModal').style.display = 'none';
-        pendingScriptId = null;
-        pendingScriptCode = null;
-    }
-
-    // ==================== FIXED LOADING ====================
-    async function loadScripts() {
-        const grid = document.getElementById('scriptsGrid');
-        grid.innerHTML = '<div class="loading">Loading scripts...</div>';
-
-        try {
-            const response = await fetch(`${API_URL}/api/scripts`);
+            const tasksList = document.getElementById('tasksList');
+            const adTaskDiv = document.getElementById('adTask');
+            adTaskDiv.classList.add('hidden');
             
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
-            }
+            let tasksHtml = '';
             
-            currentScripts = await response.json();
-            
-            if (!Array.isArray(currentScripts)) currentScripts = [];
-            
-            applyFiltersAndSearch();
-        } catch (error) {
-            console.error('Load error:', error);
-            grid.innerHTML = `
-                <div class="loading" style="color:#ef4444;">
-                    ❌ Could not load scripts.<br>
-                    <small>Check F12 Console for details</small>
-                </div>`;
-        }
-    }
-
-    function applyFiltersAndSearch() {
-        let filtered = [...currentScripts];
-        
-        if (currentFilter === 'code') {
-            filtered = filtered.filter(s => s.type === 'code');
-        } else if (currentFilter === 'link') {
-            filtered = filtered.filter(s => s.type === 'link');
-        } else if (currentFilter === 'popular') {
-            filtered.sort((a, b) => (b.likes || 0) - (a.likes || 0));
-        } else if (currentFilter === 'recent') {
-            filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        }
-        
-        const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
-        if (searchTerm) {
-            filtered = filtered.filter(s => 
-                (s.title || '').toLowerCase().includes(searchTerm) ||
-                (s.author || '').toLowerCase().includes(searchTerm) ||
-                (s.description || '').toLowerCase().includes(searchTerm)
-            );
-        }
-        
-        displayScripts(filtered);
-    }
-
-    function displayScripts(scripts) {
-        const grid = document.getElementById('scriptsGrid');
-        
-        if (!scripts || scripts.length === 0) {
-            grid.innerHTML = '<div class="loading">No scripts found.</div>';
-            return;
-        }
-        
-        grid.innerHTML = scripts.map(script => {
-            const hasLiked = likedScripts[script.id];
-            return `
-                <div class="script-card" onclick="showDetail('${script.id}')">
-                    \( {script.thumbnail ? `<img src=" \){script.thumbnail}" class="script-thumbnail">` : ''}
-                    <span class="script-type">${script.type === 'code' ? '💻 Lua Script' : '🔗 External Link'}</span>
-                    <h3>${escapeHtml(script.title)}</h3>
-                    <div class="script-meta">
-                        👤 ${escapeHtml(script.author)} • 📅 ${new Date(script.createdAt).toLocaleDateString()}
-                        ${script.verified ? ' ✓ Verified' : ''}
+            if (unlockTask === 'lootlab') {
+                tasksHtml = `
+                    <div class="task-item">
+                        <span>🔗 Visit LootLab Link</span>
+                        <button onclick="completeLootlabTask()" class="task-btn">Visit Link</button>
                     </div>
-                    <div class="script-description">${escapeHtml((script.description || '').substring(0, 120))}...</div>
-                    <div class="script-footer">
-                        <button onclick="event.stopPropagation(); likeScript('${script.id}')" class="like-btn" ${hasLiked ? 'disabled' : ''}>
-                            ${hasLiked ? '❤️' : '🤍'} ${script.likes || 0}
-                        </button>
-                        <button onclick="event.stopPropagation(); showDetail('${script.id}')" class="btn-secondary">View →</button>
-                    </div>
-                </div>
-            `;
-        }).join('');
-    }
-
-    // Keep the rest of your original functions exactly as they were
-    // (loadScriptDetail, likeScript, openExternalLink, copyCodeDirect, etc.)
-
-    async function loadScriptDetail(id) {
-        try {
-            const response = await fetch(`\( {API_URL}/api/scripts?id= \){id}`);
-            const script = await response.json();
-            
-            if (script.error) {
-                document.getElementById('scriptContent').innerHTML = '<div class="loading">Script not found</div>';
-                return;
-            }
-            
-            const unlockedScripts = JSON.parse(localStorage.getItem('unlockedScripts') || '[]');
-            const isUnlocked = unlockedScripts.includes(script.id);
-            
-            let contentHtml = '';
-            if (script.type === 'code') {
-                if (isUnlocked) {
-                    contentHtml = `
-                        <h3>📝 Script Code:</h3>
-                        <pre><code id="scriptCode">${escapeHtml(script.code)}</code></pre>
-                        <button onclick="copyCodeDirect()" class="btn-primary" style="margin-top:1rem;">📋 Copy Code</button>
-                    `;
-                } else {
-                    contentHtml = `
-                        <div style="text-align:center; padding:2rem; background:#f1f5f9; border-radius:20px;">
-                            <h3>🔒 Script Locked</h3>
-                            <p>Complete challenges to unlock and copy this script</p>
-                            <button onclick="showChallengeModal('\( {script.id}', \` \){escapeHtml(script.code)}\`, '\( {script.unlockTask || "ad"}', ' \){script.lootlabUrl || ""}')" class="btn-primary">🔓 Unlock Script</button>
-                        </div>
-                    `;
-                }
-            } else {
-                contentHtml = `
-                    <div style="text-align:center; padding:2rem; background:#f1f5f9; border-radius:20px;">
-                        <button onclick="openExternalLink('${escapeHtml(script.link)}')" class="btn-primary">🔗 Open Script →</button>
+                `;
+            } else if (unlockTask === 'ad') {
+                tasksHtml = `
+                    <div class="task-item">
+                        <span>📺 Watch 10 Second Ad</span>
+                        <button onclick="showAdTask()" class="task-btn">Watch Ad</button>
                     </div>
                 `;
             }
             
-            // Use your original detail HTML structure here if you want, or keep it simple
-            document.getElementById('scriptContent').innerHTML = `
-                <div class="script-detail">
-                    <button onclick="showHome()" class="btn-secondary" style="margin-bottom:1rem;">← Back to Home</button>
-                    \( {script.thumbnail ? `<img src=" \){script.thumbnail}" style="width:100%; max-height:300px; object-fit:cover; border-radius:20px; margin-bottom:1rem;">` : ''}
-                    <h1>${escapeHtml(script.title)}</h1>
-                    <div class="script-meta">
-                        👤 ${escapeHtml(script.author)} • 📅 ${new Date(script.createdAt).toLocaleDateString()}
-                    </div>
-                    <p><strong>Description:</strong> ${escapeHtml(script.description)}</p>
-                    ${contentHtml}
+            tasksList.innerHTML = tasksHtml;
+            document.getElementById('challengeModal').style.display = 'flex';
+        }
+        
+        function completeLootlabTask() {
+            if (pendingLootlabUrl) {
+                window.open(pendingLootlabUrl, '_blank');
+                setTimeout(() => {
+                    unlockScriptDirect();
+                }, 3000);
+                showToast('✅ Opening LootLab link. Script will unlock in 3 seconds...');
+            }
+        }
+        
+        function showAdTask() {
+            const adTaskDiv = document.getElementById('adTask');
+            const adContent = document.getElementById('adContent');
+            
+            adContent.innerHTML = `
+                <div style="margin:10px 0; padding:10px; background:#f1f5f9; border-radius:8px;">
+                    <div class="ad-label">Watch 10 second ad to unlock</div>
+                    <script>
+                        atOptions = {
+                            'key' : '673fb53f64c762401413eb44406c1c80',
+                            'format' : 'iframe',
+                            'height' : 300,
+                            'width' : 160,
+                            'params' : {}
+                        };
+                    <\/script>
+                    <script src="https://www.highperformanceformat.com/673fb53f64c762401413eb44406c1c80/invoke.js"><\/script>
+                </div>
+                <div style="margin:10px 0; padding:10px; background:#f1f5f9; border-radius:8px;">
+                    <div class="ad-label">Another ad option</div>
+                    <script>
+                        atOptions = {
+                            'key' : '5c4ab71c3e05e8f162c6845ea1c55950',
+                            'format' : 'iframe',
+                            'height' : 250,
+                            'width' : 300,
+                            'params' : {}
+                        };
+                    <\/script>
+                    <script src="https://www.highperformanceformat.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"><\/script>
                 </div>
             `;
-        } catch (error) {
-            console.error('Detail error:', error);
-            document.getElementById('scriptContent').innerHTML = '<div class="loading">Script not found</div>';
+            
+            adTaskDiv.classList.remove('hidden');
+            window.adCompleted = false;
         }
-    }
-
-    function copyCodeDirect() {
-        const code = document.getElementById('scriptCode')?.innerText;
-        if (code) {
-            navigator.clipboard.writeText(code);
-            showToast('✅ Code copied!');
-        }
-    }
-
-    async function likeScript(id) {
-        if (likedScripts[id]) return;
-        try {
-            const response = await fetch(`\( {API_URL}/api/scripts?action=like&id= \){id}`, { method: 'POST' });
-            if (response.ok) {
-                likedScripts[id] = true;
-                localStorage.setItem('likedScripts', JSON.stringify(likedScripts));
-                showToast('❤️ Liked!');
-                loadScripts();
-                const urlParams = new URLSearchParams(window.location.search);
-                const currentId = urlParams.get('id');
-                if (currentId) loadScriptDetail(currentId);
+        
+        function completeAdTask() {
+            if (!window.adCompleted) {
+                window.adCompleted = true;
+                document.getElementById('adTask').classList.add('hidden');
+                unlockScriptDirect();
+                showToast('✅ Ad watched! Script unlocked.');
             }
-        } catch (error) {
-            showToast('Error liking script', true);
         }
-    }
-
-    let currentLink = '';
-    function openExternalLink(url) {
-        currentLink = url;
-        document.getElementById('externalLinkUrl').innerText = url;
-        document.getElementById('linkModal').style.display = 'flex';
-    }
-
-    function closeModal() {
-        document.getElementById('linkModal').style.display = 'none';
-    }
-
-    function visitLink() {
-        window.open(currentLink, '_blank');
-        closeModal();
-    }
-
-    function escapeHtml(text) {
-        if (!text) return '';
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-
-    // Filter & Search
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentFilter = btn.dataset.filter;
-            applyFiltersAndSearch();
+        
+        function unlockScriptDirect() {
+            if (pendingScriptCode) {
+                navigator.clipboard.writeText(pendingScriptCode);
+                showToast('✅ Script copied to clipboard!');
+                closeChallengeModal();
+                
+                let unlocked = JSON.parse(localStorage.getItem('unlockedScripts') || '[]');
+                if (!unlocked.includes(pendingScriptId)) {
+                    unlocked.push(pendingScriptId);
+                    localStorage.setItem('unlockedScripts', JSON.stringify(unlocked));
+                }
+            }
+        }
+        
+        function closeChallengeModal() {
+            document.getElementById('challengeModal').style.display = 'none';
+            pendingScriptId = null;
+            pendingScriptCode = null;
+            pendingUnlockTask = null;
+            pendingLootlabUrl = null;
+            window.adCompleted = false;
+        }
+        // ============ END CHALLENGE ============
+        
+        async function loadScripts() {
+            try {
+                const response = await fetch(`${API_URL}/api/scripts`);
+                if (!response.ok) throw new Error('Failed to load');
+                currentScripts = await response.json();
+                applyFiltersAndSearch();
+            } catch (error) {
+                document.getElementById('scriptsGrid').innerHTML = '<div class="loading">Error loading scripts</div>';
+            }
+        }
+        
+        function applyFiltersAndSearch() {
+            let filtered = [...currentScripts];
+            
+            if (currentFilter === 'code') {
+                filtered = filtered.filter(s => s.type === 'code');
+            } else if (currentFilter === 'link') {
+                filtered = filtered.filter(s => s.type === 'link');
+            } else if (currentFilter === 'popular') {
+                filtered.sort((a, b) => (b.likes || 0) - (a.likes || 0));
+            } else if (currentFilter === 'recent') {
+                filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            }
+            
+            const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
+            if (searchTerm) {
+                filtered = filtered.filter(s => 
+                    s.title.toLowerCase().includes(searchTerm) ||
+                    s.author.toLowerCase().includes(searchTerm) ||
+                    s.description.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            displayScripts(filtered);
+        }
+        
+        function displayScripts(scripts) {
+            const grid = document.getElementById('scriptsGrid');
+            
+            if (!scripts || scripts.length === 0) {
+                grid.innerHTML = '<div class="loading">No scripts found.</div>';
+                return;
+            }
+            
+            grid.innerHTML = scripts.map(script => {
+                const hasLiked = likedScripts[script.id];
+                return `
+                    <div class="script-card" onclick="showDetail('${script.id}')">
+                        ${script.thumbnail ? `<img src="${script.thumbnail}" class="script-thumbnail">` : ''}
+                        <span class="script-type">${script.type === 'code' ? '💻 Lua Script' : '🔗 External Link'}</span>
+                        <h3>${escapeHtml(script.title)}</h3>
+                        <div class="script-meta">
+                            👤 ${escapeHtml(script.author)} • 📅 ${new Date(script.createdAt).toLocaleDateString()}
+                            ${script.verified ? ' ✓ Verified' : ''}
+                        </div>
+                        <div class="script-description">${escapeHtml(script.description.substring(0, 120))}...</div>
+                        <div class="script-footer">
+                            <button onclick="event.stopPropagation(); likeScript('${script.id}')" class="like-btn" ${hasLiked ? 'disabled' : ''}>
+                                ${hasLiked ? '❤️' : '🤍'} ${script.likes || 0}
+                            </button>
+                            <button onclick="event.stopPropagation(); showDetail('${script.id}')" class="btn-secondary">View →</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        async function loadScriptDetail(id) {
+            try {
+                const response = await fetch(`${API_URL}/api/scripts?id=${id}`);
+                const script = await response.json();
+                
+                if (script.error) {
+                    document.getElementById('scriptContent').innerHTML = '<div class="loading">Script not found</div>';
+                    return;
+                }
+                
+                const hasLiked = likedScripts[script.id];
+                const shareUrl = `${window.location.origin}/?id=${script.id}`;
+                const unlockedScripts = JSON.parse(localStorage.getItem('unlockedScripts') || '[]');
+                const isUnlocked = unlockedScripts.includes(script.id);
+                
+                let youtubeHtml = '';
+                if (script.youtubeId) {
+                    youtubeHtml = `
+                        <div class="youtube-preview">
+                            <iframe src="https://www.youtube.com/embed/${script.youtubeId}" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    `;
+                }
+                
+                let contentHtml = '';
+                if (script.type === 'code') {
+                    if (isUnlocked) {
+                        contentHtml = `
+                            ${youtubeHtml}
+                            <h3>📝 Script Code:</h3>
+                            <pre><code id="scriptCode">${escapeHtml(script.code)}</code></pre>
+                            <button onclick="copyCodeDirect()" class="btn-primary" style="margin-top:1rem;">📋 Copy Code</button>
+                        `;
+                    } else {
+                        const taskText = script.unlockTask === 'lootlab' ? 'Visit LootLab link' : 'Watch an ad';
+                        contentHtml = `
+                            ${youtubeHtml}
+                            <div style="text-align:center; padding:2rem; background:#f1f5f9; border-radius:20px;">
+                                <h3>🔒 Script Locked</h3>
+                                <p>${taskText} to unlock this script</p>
+                                <button onclick="showChallengeModal('${script.id}', \`${escapeHtml(script.code)}\`, '${script.unlockTask || 'ad'}', '${script.lootlabUrl || ''}')" class="btn-primary">🔓 Unlock Script</button>
+                            </div>
+                        `;
+                    }
+                } else {
+                    contentHtml = `
+                        ${youtubeHtml}
+                        <div style="text-align:center; padding:2rem; background:#f1f5f9; border-radius:20px;">
+                            <button onclick="openExternalLink('${escapeHtml(script.link)}')" class="btn-primary">🔗 Open Script →</button>
+                        </div>
+                    `;
+                }
+                
+                document.getElementById('scriptContent').innerHTML = `
+                    <div class="script-detail">
+                        <button onclick="showHome()" class="btn-secondary" style="margin-bottom:1rem;">← Back to Home</button>
+                        
+                        ${script.thumbnail ? `<img src="${script.thumbnail}" style="width:100%; max-height:300px; object-fit:cover; border-radius:20px; margin-bottom:1rem;">` : ''}
+                        
+                        <h1>${escapeHtml(script.title)}</h1>
+                        <div class="script-meta">
+                            👤 ${escapeHtml(script.author)} • 📅 ${new Date(script.createdAt).toLocaleDateString()}
+                            ${script.verified ? ' ✓ Verified' : ''}
+                        </div>
+                        
+                        <div class="share-box">
+                            <p style="margin-bottom:0.5rem;"><strong>🔗 Share this script:</strong></p>
+                            <input type="text" id="shareUrl" value="${shareUrl}" readonly onclick="this.select()">
+                            <button onclick="copyShareLink('${script.id}')" class="btn-primary" style="margin-top:10px;">Copy Share Link</button>
+                        </div>
+                        
+                        <p><strong>Description:</strong> ${escapeHtml(script.description)}</p>
+                        ${contentHtml}
+                        
+                        <div style="margin-top:2rem; text-align:center;">
+                            <button onclick="likeScript('${script.id}')" class="like-btn" style="font-size:1.2rem;" ${hasLiked ? 'disabled' : ''}>
+                                ${hasLiked ? '❤️' : '🤍'} ${script.likes || 0} Likes
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                const shareInput = document.getElementById('shareUrl');
+                if (shareInput) {
+                    shareInput.value = shareUrl;
+                    shareInput.addEventListener('click', () => shareInput.select());
+                }
+                
+            } catch (error) {
+                document.getElementById('scriptContent').innerHTML = '<div class="loading">Script not found</div>';
+            }
+        }
+        
+        function copyCodeDirect() {
+            const code = document.getElementById('scriptCode')?.innerText;
+            if (code) {
+                navigator.clipboard.writeText(code);
+                showToast('✅ Code copied!');
+            }
+        }
+        
+        async function likeScript(id) {
+            if (likedScripts[id]) {
+                showToast('Already liked!', true);
+                return;
+            }
+            try {
+                const response = await fetch(`${API_URL}/api/scripts?action=like&id=${id}`, { method: 'POST' });
+                if (response.ok) {
+                    likedScripts[id] = true;
+                    localStorage.setItem('likedScripts', JSON.stringify(likedScripts));
+                    showToast('❤️ Liked!');
+                    loadScripts();
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const currentId = urlParams.get('id');
+                    if (currentId) loadScriptDetail(currentId);
+                }
+            } catch (error) {
+                showToast('Error', true);
+            }
+        }
+        
+        let currentLink = '';
+        function openExternalLink(url) {
+            currentLink = url;
+            document.getElementById('externalLinkUrl').innerText = url;
+            document.getElementById('linkModal').style.display = 'flex';
+        }
+        
+        function closeModal() {
+            document.getElementById('linkModal').style.display = 'none';
+        }
+        
+        function visitLink() {
+            window.open(currentLink, '_blank');
+            closeModal();
+        }
+        
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                applyFiltersAndSearch();
+            });
         });
-    });
-
-    document.getElementById('searchInput')?.addEventListener('input', applyFiltersAndSearch);
-
-    // Routing
-    function handleRouting() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const id = urlParams.get('id');
-        if (id) {
-            showDetail(id);
-        } else {
-            showHome();
+        
+        document.getElementById('searchInput')?.addEventListener('input', () => applyFiltersAndSearch());
+        
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
-    }
-
-    handleRouting();
-    window.addEventListener('popstate', handleRouting);
-</script>
+        
+        function handleRouting() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            if (id) {
+                showDetail(id);
+            } else {
+                showHome();
+            }
+        }
+        
+        handleRouting();
+        window.addEventListener('popstate', handleRouting);
+    </script>
 </body>
 </html>
