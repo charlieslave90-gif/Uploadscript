@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="styles.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4130246379396222"
      crossorigin="anonymous"></script>
+    <script async="async" data-cfasync="false" src="https://pl29027394.profitablecpmratenetwork.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
+    <script src="https://pl29027395.profitablecpmratenetwork.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -26,7 +28,6 @@
             <div class="left-sidebar">
                 <div class="ad-box">
                     <div class="ad-label">Sponsored</div>
-                    <script async="async" data-cfasync="false" src="https://pl29027394.profitablecpmratenetwork.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
                     <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
                 </div>
                 <div class="ad-box">
@@ -41,6 +42,10 @@
                         };
                     </script>
                     <script src="https://www.highperformanceformat.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
+                </div>
+                <div class="ad-box">
+                    <div class="ad-label">Network Ad</div>
+                    <script src="https://pl29027395.profitablecpmratenetwork.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
                 </div>
             </div>
 
@@ -104,8 +109,20 @@
             <div class="right-sidebar">
                 <div class="ad-box">
                     <div class="ad-label">Sponsored</div>
-                    <script async="async" data-cfasync="false" src="https://pl29027394.profitablecpmratenetwork.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
-                    <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
+                    <div id="container-b90454a4e93508bbbd6a0d811d5605d4-right"></div>
+                    <script>
+                        // Re-run the ad for right sidebar
+                        (function() {
+                            var container = document.getElementById('container-b90454a4e93508bbbd6a0d811d5605d4-right');
+                            if (container) {
+                                var script = document.createElement('script');
+                                script.src = 'https://pl29027394.profitablecpmratenetwork.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js';
+                                script.async = true;
+                                script.setAttribute('data-cfasync', 'false');
+                                container.appendChild(script);
+                            }
+                        })();
+                    </script>
                 </div>
                 <div class="ad-box">
                     <div class="ad-label">Recommended</div>
@@ -119,6 +136,10 @@
                         };
                     </script>
                     <script src="https://www.highperformanceformat.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
+                </div>
+                <div class="ad-box">
+                    <div class="ad-label">Network</div>
+                    <script src="https://pl29027395.profitablecpmratenetwork.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
                 </div>
             </div>
         </div>
@@ -141,10 +162,6 @@
         let currentScripts = [];
         let currentFilter = 'all';
         let likedScripts = JSON.parse(localStorage.getItem('likedScripts') || '{}');
-        
-        // Timer variables
-        let waitTimer = null;
-        let waitSeconds = 20;
         
         function showToast(message, isError = false) {
             const toast = document.createElement('div');
@@ -173,39 +190,6 @@
             document.getElementById('detailPage').classList.remove('hidden');
             window.history.pushState({}, '', `/?id=${id}`);
             loadScriptDetail(id);
-        }
-        
-        function startWaitTimer(callback) {
-            waitSeconds = 20;
-            const timerDisplay = document.getElementById('waitTimer');
-            const copyBtn = document.getElementById('copyCodeBtn');
-            
-            if (timerDisplay) timerDisplay.innerHTML = `⏱️ Wait ${waitSeconds} seconds to copy...`;
-            if (copyBtn) {
-                copyBtn.disabled = true;
-                copyBtn.style.background = '#9ca3af';
-                copyBtn.style.cursor = 'not-allowed';
-            }
-            
-            if (waitTimer) clearInterval(waitTimer);
-            
-            waitTimer = setInterval(() => {
-                waitSeconds--;
-                if (timerDisplay) timerDisplay.innerHTML = `⏱️ Wait ${waitSeconds} seconds to copy...`;
-                if (copyBtn) copyBtn.textContent = `⏳ Wait ${waitSeconds}s`;
-                
-                if (waitSeconds <= 0) {
-                    clearInterval(waitTimer);
-                    if (timerDisplay) timerDisplay.innerHTML = `✅ You can now copy the script!`;
-                    if (copyBtn) {
-                        copyBtn.disabled = false;
-                        copyBtn.style.background = 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)';
-                        copyBtn.style.cursor = 'pointer';
-                        copyBtn.textContent = `📋 Copy Script`;
-                    }
-                    if (callback) callback();
-                }
-            }, 1000);
         }
         
         async function loadScripts() {
@@ -287,8 +271,6 @@
                 
                 const hasLiked = likedScripts[script.id];
                 const shareUrl = `${window.location.origin}/?id=${script.id}`;
-                const unlockedScripts = JSON.parse(localStorage.getItem('unlockedScripts') || '[]');
-                const isUnlocked = unlockedScripts.includes(script.id);
                 
                 let youtubeHtml = '';
                 if (script.youtubeId) {
@@ -301,24 +283,12 @@
                 
                 let contentHtml = '';
                 if (script.type === 'code') {
-                    if (isUnlocked) {
-                        contentHtml = `
-                            ${youtubeHtml}
-                            <h3>📝 Script Code:</h3>
-                            <pre><code id="scriptCode">${escapeHtml(script.code)}</code></pre>
-                            <button onclick="copyCodeDirect()" class="btn-primary" style="margin-top:1rem;">📋 Copy Code</button>
-                        `;
-                    } else {
-                        contentHtml = `
-                            ${youtubeHtml}
-                            <div style="text-align:center; padding:2rem; background:#f1f5f9; border-radius:20px;">
-                                <h3>🔒 Script Locked</h3>
-                                <p>Wait 20 seconds to unlock this script</p>
-                                <div id="waitTimer" style="font-size: 20px; font-weight: bold; color: #6366f1; margin: 15px 0;">⏱️ Wait 20 seconds...</div>
-                                <button id="unlockBtn" class="btn-primary" onclick="unlockScript('${script.id}', \`${escapeHtml(script.code)}\`)">🔓 Start 20s Wait</button>
-                            </div>
-                        `;
-                    }
+                    contentHtml = `
+                        ${youtubeHtml}
+                        <h3>📝 Script Code:</h3>
+                        <pre><code id="scriptCode">${escapeHtml(script.code)}</code></pre>
+                        <button onclick="copyCodeDirect()" class="btn-primary" style="margin-top:1rem;">📋 Copy Code</button>
+                    `;
                 } else {
                     contentHtml = `
                         ${youtubeHtml}
@@ -366,44 +336,6 @@
             } catch (error) {
                 document.getElementById('scriptContent').innerHTML = '<div class="loading">Script not found</div>';
             }
-        }
-        
-        function unlockScript(scriptId, scriptCode) {
-            const unlockBtn = document.getElementById('unlockBtn');
-            const waitTimerDiv = document.getElementById('waitTimer');
-            
-            if (unlockBtn) {
-                unlockBtn.disabled = true;
-                unlockBtn.style.background = '#9ca3af';
-                unlockBtn.style.cursor = 'not-allowed';
-                unlockBtn.textContent = '⏳ Waiting...';
-            }
-            
-            let secondsLeft = 20;
-            if (waitTimerDiv) {
-                waitTimerDiv.innerHTML = `⏱️ Wait ${secondsLeft} seconds...`;
-            }
-            
-            const timer = setInterval(() => {
-                secondsLeft--;
-                if (waitTimerDiv) waitTimerDiv.innerHTML = `⏱️ Wait ${secondsLeft} seconds...`;
-                
-                if (secondsLeft <= 0) {
-                    clearInterval(timer);
-                    if (waitTimerDiv) waitTimerDiv.innerHTML = `✅ Script unlocked! You can now copy.`;
-                    
-                    // Mark as unlocked in localStorage
-                    let unlocked = JSON.parse(localStorage.getItem('unlockedScripts') || '[]');
-                    if (!unlocked.includes(scriptId)) {
-                        unlocked.push(scriptId);
-                        localStorage.setItem('unlockedScripts', JSON.stringify(unlocked));
-                    }
-                    
-                    // Refresh the page to show the code
-                    loadScriptDetail(scriptId);
-                    showToast('✅ Script unlocked! You can now copy the code.');
-                }
-            }, 1000);
         }
         
         function copyCodeDirect() {
