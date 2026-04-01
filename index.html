@@ -379,7 +379,6 @@
             background: #f1f5f9;
         }
 
-        /* YouTube Embed */
         .youtube-preview {
             margin: 1rem 0;
             position: relative;
@@ -397,7 +396,6 @@
             height: 100%;
         }
 
-        /* Challenge Modal */
         .challenge-modal {
             display: none;
             position: fixed;
@@ -467,7 +465,6 @@
             cursor: not-allowed;
         }
 
-        /* Ad Containers */
         .ad-box {
             background: white;
             border-radius: 20px;
@@ -490,7 +487,6 @@
             text-align: center;
         }
 
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -527,7 +523,6 @@
             border-radius: 8px;
             z-index: 3000;
             animation: slideIn 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
         @keyframes slideIn {
@@ -545,7 +540,6 @@
             text-align: center;
             padding: 2rem;
             color: white;
-            font-size: 1.1rem;
         }
 
         @media (max-width: 1024px) {
@@ -564,12 +558,6 @@
             .hero h1 {
                 font-size: 2rem;
             }
-            .hero p {
-                font-size: 1rem;
-            }
-            .hero {
-                padding: 2rem 1rem;
-            }
             .scripts-grid {
                 grid-template-columns: 1fr;
             }
@@ -585,9 +573,6 @@
             }
             .script-detail {
                 padding: 1.5rem;
-            }
-            .script-detail h1 {
-                font-size: 1.5rem;
             }
         }
     </style>
@@ -635,7 +620,7 @@
                     </div>
 
                     <div class="search-section">
-                        <input type="text" id="searchInput" placeholder="🔍 Search scripts by title, author, or description..." class="search-input">
+                        <input type="text" id="searchInput" placeholder="🔍 Search scripts..." class="search-input">
                         <div class="filters">
                             <button class="filter-btn active" data-filter="all">All</button>
                             <button class="filter-btn" data-filter="code">Lua Scripts</button>
@@ -740,31 +725,21 @@
         let currentFilter = 'all';
         let likedScripts = JSON.parse(localStorage.getItem('likedScripts') || '{}');
         
-        // Challenge System
-        let pendingScriptId = null;
-        let pendingScriptCode = null;
-        let tasks = [];
-        let completedTasks = [];
-        
-        // Default tasks (you can edit these or they'll load from localStorage)
-        let defaultTasks = [
+        // ============ TASKS (YOU CAN EDIT THESE) ============
+        const TASKS = [
             { name: "Join Discord Community", url: "https://discord.gg/example", type: "link" },
             { name: "Subscribe on YouTube", url: "https://youtube.com/@example", type: "link" },
             { name: "Watch 10 Second Ad", url: null, type: "ad" },
             { name: "Follow on Twitter", url: "https://twitter.com/example", type: "link" },
+            { name: "Visit LootLink", url: "https://lootlab.gg/example", type: "link" },
             { name: "Join Telegram", url: "https://t.me/example", type: "link" }
         ];
+        // ===================================================
         
-        // Load tasks from localStorage (admin can edit these)
-        function loadTasks() {
-            const savedTasks = localStorage.getItem('siteTasks');
-            if (savedTasks) {
-                tasks = JSON.parse(savedTasks);
-            } else {
-                tasks = [...defaultTasks];
-                localStorage.setItem('siteTasks', JSON.stringify(tasks));
-            }
-        }
+        let pendingScriptId = null;
+        let pendingScriptCode = null;
+        let currentTasks = [];
+        let completedTasks = [];
         
         function showToast(message, isError = false) {
             const toast = document.createElement('div');
@@ -795,17 +770,21 @@
             loadScriptDetail(id);
         }
         
-        // Challenge Functions
+        // ============ CHALLENGE FUNCTIONS ============
         function showChallengeModal(scriptId, scriptCode) {
             pendingScriptId = scriptId;
             pendingScriptCode = scriptCode;
             completedTasks = [];
             
-            // Load completed tasks from localStorage
+            // Load previously completed tasks for this script
             const savedCompleted = localStorage.getItem(`completed_${scriptId}`);
             if (savedCompleted) {
                 completedTasks = JSON.parse(savedCompleted);
             }
+            
+            // Select 3 random tasks
+            const shuffled = [...TASKS].sort(() => 0.5 - Math.random());
+            currentTasks = shuffled.slice(0, 3);
             
             renderTasks();
             document.getElementById('challengeModal').style.display = 'flex';
@@ -813,19 +792,14 @@
         
         function renderTasks() {
             const tasksContainer = document.getElementById('tasksList');
-            const adTaskDiv = document.getElementById('adTask');
-            
-            // Select 3 random tasks
-            const shuffled = [...tasks].sort(() => 0.5 - Math.random());
-            const selectedTasks = shuffled.slice(0, 3);
             
             let tasksHtml = '';
-            selectedTasks.forEach((task, index) => {
+            currentTasks.forEach((task, index) => {
                 const isCompleted = completedTasks.includes(index);
                 tasksHtml += `
                     <div class="task-item ${isCompleted ? 'task-completed' : ''}">
                         <span>${isCompleted ? '✅' : '📋'} ${escapeHtml(task.name)}</span>
-                        ${!isCompleted ? `<button onclick="completeTask(${index}, '${task.type}', '${task.url || ''}')" class="task-btn">Complete</button>` : '<span>✓ Done</span>'}
+                        ${!isCompleted ? `<button onclick="completeTask(${index})" class="task-btn">Complete</button>` : '<span>✓ Done</span>'}
                     </div>
                 `;
             });
@@ -833,25 +807,25 @@
             tasksContainer.innerHTML = tasksHtml;
             
             // Check if all tasks are completed
-            const allCompleted = selectedTasks.every((_, index) => completedTasks.includes(index));
+            const allCompleted = currentTasks.every((_, index) => completedTasks.includes(index));
             const unlockBtn = document.getElementById('unlockBtn');
             if (allCompleted) {
                 unlockBtn.disabled = false;
                 unlockBtn.textContent = '🔓 Unlock Script Now';
             } else {
                 unlockBtn.disabled = true;
-                unlockBtn.textContent = '🔒 Complete all tasks to unlock';
+                unlockBtn.textContent = `🔒 Complete ${currentTasks.length - completedTasks.length} more task(s) to unlock`;
             }
         }
         
-        function completeTask(taskIndex, taskType, taskUrl) {
-            if (taskType === 'ad') {
-                // Show ad
+        function completeTask(taskIndex) {
+            const task = currentTasks[taskIndex];
+            
+            if (task.type === 'ad') {
                 showAdTask(taskIndex);
-            } else if (taskUrl) {
-                // Open link in new tab
-                window.open(taskUrl, '_blank');
-                // Mark as completed after delay
+            } else if (task.url) {
+                window.open(task.url, '_blank');
+                // Mark as completed after 3 seconds
                 setTimeout(() => {
                     if (!completedTasks.includes(taskIndex)) {
                         completedTasks.push(taskIndex);
@@ -867,10 +841,9 @@
             const adTaskDiv = document.getElementById('adTask');
             const adContent = document.getElementById('adContent');
             
-            // Add ad codes
             adContent.innerHTML = `
                 <div style="margin: 10px 0;">
-                    <div class="ad-label">Watch this ad to unlock</div>
+                    <div class="ad-label">Watch this ad to complete the task</div>
                     <script>
                         atOptions = {
                             'key' : '673fb53f64c762401413eb44406c1c80',
@@ -883,7 +856,7 @@
                     <script src="https://www.highperformanceformat.com/673fb53f64c762401413eb44406c1c80/invoke.js"><\/script>
                 </div>
                 <div style="margin: 10px 0;">
-                    <div class="ad-label">Another option</div>
+                    <div class="ad-label">Another ad option</div>
                     <script>
                         atOptions = {
                             'key' : '5c4ab71c3e05e8f162c6845ea1c55950',
@@ -913,9 +886,8 @@
         }
         
         function unlockScript() {
-            const allCompleted = true; // Check if all tasks are completed
-            if (pendingScriptCode) {
-                // Copy to clipboard
+            const allCompleted = currentTasks.every((_, index) => completedTasks.includes(index));
+            if (allCompleted && pendingScriptCode) {
                 navigator.clipboard.writeText(pendingScriptCode);
                 showToast('✅ Script copied to clipboard!');
                 closeChallengeModal();
@@ -933,7 +905,10 @@
             document.getElementById('challengeModal').style.display = 'none';
             pendingScriptId = null;
             pendingScriptCode = null;
+            currentTasks = [];
+            completedTasks = [];
         }
+        // ============ END CHALLENGE FUNCTIONS ============
         
         async function loadScripts() {
             try {
@@ -984,15 +959,14 @@
                 const hasLiked = likedScripts[script.id];
                 return `
                     <div class="script-card" onclick="showDetail('${script.id}')">
-                        ${script.thumbnail ? `<img src="${script.thumbnail}" class="script-thumbnail" alt="${script.title}">` : ''}
+                        ${script.thumbnail ? `<img src="${script.thumbnail}" class="script-thumbnail">` : ''}
                         <span class="script-type">${script.type === 'code' ? '💻 Lua Script' : '🔗 External Link'}</span>
                         <h3>${escapeHtml(script.title)}</h3>
                         <div class="script-meta">
-                            <span>👤 ${escapeHtml(script.author)}</span>
-                            <span>📅 ${new Date(script.createdAt).toLocaleDateString()}</span>
-                            ${script.verified ? '<span class="verified-badge">✓ Verified</span>' : ''}
+                            👤 ${escapeHtml(script.author)} • 📅 ${new Date(script.createdAt).toLocaleDateString()}
+                            ${script.verified ? ' ✓ Verified' : ''}
                         </div>
-                        <div class="script-description">${escapeHtml(script.description.substring(0, 120))}${script.description.length > 120 ? '...' : ''}</div>
+                        <div class="script-description">${escapeHtml(script.description.substring(0, 120))}...</div>
                         <div class="script-footer">
                             <button onclick="event.stopPropagation(); likeScript('${script.id}')" class="like-btn" ${hasLiked ? 'disabled' : ''}>
                                 ${hasLiked ? '❤️' : '🤍'} ${script.likes || 0}
@@ -1064,9 +1038,8 @@
                         
                         <h1>${escapeHtml(script.title)}</h1>
                         <div class="script-meta">
-                            <span>👤 ${escapeHtml(script.author)}</span>
-                            <span>📅 ${new Date(script.createdAt).toLocaleDateString()}</span>
-                            ${script.verified ? '<span class="verified-badge">✓ Verified</span>' : ''}
+                            👤 ${escapeHtml(script.author)} • 📅 ${new Date(script.createdAt).toLocaleDateString()}
+                            ${script.verified ? ' ✓ Verified' : ''}
                         </div>
                         
                         <div class="share-box">
@@ -1108,28 +1081,22 @@
         
         async function likeScript(id) {
             if (likedScripts[id]) {
-                showToast('You already liked this script!', true);
+                showToast('Already liked!', true);
                 return;
             }
-            
             try {
                 const response = await fetch(`${API_URL}/api/scripts?action=like&id=${id}`, { method: 'POST' });
-                
                 if (response.ok) {
                     likedScripts[id] = true;
                     localStorage.setItem('likedScripts', JSON.stringify(likedScripts));
-                    showToast('❤️ Liked! Thanks for your support');
+                    showToast('❤️ Liked!');
                     loadScripts();
-                    
                     const urlParams = new URLSearchParams(window.location.search);
                     const currentId = urlParams.get('id');
                     if (currentId) loadScriptDetail(currentId);
-                } else {
-                    showToast('Failed to like. Try again.', true);
                 }
             } catch (error) {
-                console.error('Error liking:', error);
-                showToast('Error liking script', true);
+                showToast('Error', true);
             }
         }
         
@@ -1149,7 +1116,6 @@
             closeModal();
         }
         
-        // Filter buttons
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -1159,10 +1125,7 @@
             });
         });
         
-        // Search input
-        document.getElementById('searchInput')?.addEventListener('input', () => {
-            applyFiltersAndSearch();
-        });
+        document.getElementById('searchInput')?.addEventListener('input', () => applyFiltersAndSearch());
         
         function escapeHtml(text) {
             if (!text) return '';
@@ -1171,7 +1134,6 @@
             return div.innerHTML;
         }
         
-        // Handle URL with ?id=xxx
         function handleRouting() {
             const urlParams = new URLSearchParams(window.location.search);
             const id = urlParams.get('id');
@@ -1182,14 +1144,8 @@
             }
         }
         
-        // Initialize
-        loadTasks();
         handleRouting();
-        
-        // Handle browser back/forward
-        window.addEventListener('popstate', () => {
-            handleRouting();
-        });
+        window.addEventListener('popstate', () => handleRouting());
     </script>
 </body>
 </html>
