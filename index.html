@@ -297,34 +297,44 @@
             completeBtn.style.cursor = 'not-allowed';
             completeBtn.textContent = `⏳ Wait ${adTimeLeft} seconds...`;
             
+            // Remove old event listener and add new one
+            const newBtn = completeBtn.cloneNode(true);
+            completeBtn.parentNode.replaceChild(newBtn, completeBtn);
+            newBtn.id = 'completeAdBtn';
+            newBtn.onclick = function() { completeAdTask(); };
+            
             adTaskDiv.classList.remove('hidden');
             
             // Start countdown timer
             adTimerInterval = setInterval(() => {
                 adTimeLeft--;
-                timerDisplay.innerHTML = `⏱️ Wait ${adTimeLeft} seconds...`;
-                completeBtn.textContent = `⏳ Wait ${adTimeLeft} seconds...`;
+                const timerDisplayElem = document.getElementById('timerDisplay');
+                const btnElem = document.getElementById('completeAdBtn');
+                
+                if (timerDisplayElem) timerDisplayElem.innerHTML = `⏱️ Wait ${adTimeLeft} seconds...`;
+                if (btnElem) btnElem.textContent = `⏳ Wait ${adTimeLeft} seconds...`;
                 
                 if (adTimeLeft <= 0) {
                     clearInterval(adTimerInterval);
-                    timerDisplay.innerHTML = `✅ You can now unlock!`;
-                    completeBtn.disabled = false;
-                    completeBtn.style.background = 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)';
-                    completeBtn.style.cursor = 'pointer';
-                    completeBtn.textContent = `🔓 Unlock Script Now`;
+                    if (timerDisplayElem) timerDisplayElem.innerHTML = `✅ You can now unlock!`;
+                    if (btnElem) {
+                        btnElem.disabled = false;
+                        btnElem.style.background = 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)';
+                        btnElem.style.cursor = 'pointer';
+                        btnElem.textContent = `🔓 Unlock Script Now`;
+                    }
                 }
             }, 1000);
-            
-            // Store reference to clear interval later
-            window.adTimerInterval = adTimerInterval;
         }
         
         function completeAdTask() {
             if (adTimeLeft <= 0) {
                 document.getElementById('adTask').classList.add('hidden');
-                if (window.adTimerInterval) clearInterval(window.adTimerInterval);
+                if (adTimerInterval) clearInterval(adTimerInterval);
                 unlockScriptDirect();
                 showToast('✅ Ad watched! Script unlocked.');
+            } else {
+                showToast(`⏳ Please wait ${adTimeLeft} more seconds...`, true);
             }
         }
         
@@ -339,11 +349,16 @@
                     unlocked.push(pendingScriptId);
                     localStorage.setItem('unlockedScripts', JSON.stringify(unlocked));
                 }
+                
+                // Refresh the script detail to show unlocked state
+                if (pendingScriptId) {
+                    loadScriptDetail(pendingScriptId);
+                }
             }
         }
         
         function closeChallengeModal() {
-            if (window.adTimerInterval) clearInterval(window.adTimerInterval);
+            if (adTimerInterval) clearInterval(adTimerInterval);
             document.getElementById('challengeModal').style.display = 'none';
             pendingScriptId = null;
             pendingScriptCode = null;
