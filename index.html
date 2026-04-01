@@ -16,6 +16,8 @@
             --dark: #0f172a;
             --light: #f8fafc;
             --gray: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
         }
 
         * {
@@ -28,19 +30,6 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-        }
-
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 5px;
         }
 
         .navbar {
@@ -133,6 +122,11 @@
             border: none;
             cursor: pointer;
             font-weight: 600;
+            transition: transform 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
         }
 
         .btn-secondary {
@@ -192,6 +186,7 @@
             padding: 1.5rem;
             cursor: pointer;
             transition: transform 0.3s;
+            position: relative;
         }
 
         .script-card:hover {
@@ -252,6 +247,7 @@
             padding: 1rem;
             border-radius: 12px;
             overflow-x: auto;
+            max-height: 400px;
         }
 
         .share-box {
@@ -267,6 +263,71 @@
             border: 1px solid #ddd;
             border-radius: 8px;
             font-family: monospace;
+        }
+
+        /* Challenge Modal */
+        .challenge-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .challenge-content {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .task-item {
+            background: #f1f5f9;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .task-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .task-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .ad-container {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .unlock-btn {
+            background: var(--success);
+            margin-top: 1rem;
+        }
+
+        .unlock-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .ad-box {
@@ -408,32 +469,19 @@
                         <div class="ad-label">Advertisement</div>
                         <script>
                             atOptions = {
-                                'key' : '7c7fd511e2480eb4fe47887cda152595',
+                                'key' : '30772cccaf8ca1f9a16a3c555509b64f',
                                 'format' : 'iframe',
-                                'height' : 60,
-                                'width' : 468,
+                                'height' : 90,
+                                'width' : 728,
                                 'params' : {}
                             };
                         </script>
-                        <script src="https://www.highperformanceformat.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
+                        <script src="https://www.highperformanceformat.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
                     </div>
                 </div>
 
                 <div id="detailPage" class="hidden">
                     <div id="scriptContent"></div>
-                    <div class="horizontal-ad" style="margin-top: 2rem;">
-                        <div class="ad-label">Advertisement</div>
-                        <script>
-                            atOptions = {
-                                'key' : '7c7fd511e2480eb4fe47887cda152595',
-                                'format' : 'iframe',
-                                'height' : 60,
-                                'width' : 468,
-                                'params' : {}
-                            };
-                        </script>
-                        <script src="https://www.highperformanceformat.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
-                    </div>
                 </div>
             </div>
 
@@ -448,16 +496,32 @@
                     <div class="ad-label">Recommended</div>
                     <script>
                         atOptions = {
-                            'key' : '673fb53f64c762401413eb44406c1c80',
+                            'key' : '5c4ab71c3e05e8f162c6845ea1c55950',
                             'format' : 'iframe',
-                            'height' : 300,
-                            'width' : 160,
+                            'height' : 250,
+                            'width' : 300,
                             'params' : {}
                         };
                     </script>
-                    <script src="https://www.highperformanceformat.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
+                    <script src="https://www.highperformanceformat.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Challenge Modal -->
+    <div id="challengeModal" class="challenge-modal">
+        <div class="challenge-content">
+            <h2>🔓 Unlock Script</h2>
+            <p>Complete these tasks to copy the script:</p>
+            <div id="tasksList"></div>
+            <div id="adTask" class="ad-container hidden">
+                <div class="ad-label">Watch this ad to complete task</div>
+                <div id="adContent"></div>
+                <button onclick="completeAdTask()" class="btn-primary" style="margin-top:10px;">✅ I Watched The Ad</button>
+            </div>
+            <button id="unlockBtn" class="btn-primary unlock-btn" disabled onclick="unlockScript()">🔓 Unlock Script</button>
+            <button onclick="closeChallengeModal()" class="btn-secondary" style="margin-top:10px;">Cancel</button>
         </div>
     </div>
 
@@ -478,6 +542,21 @@
         let currentScripts = [];
         let currentFilter = 'all';
         let likedScripts = JSON.parse(localStorage.getItem('likedScripts') || '{}');
+        
+        // Challenge System
+        let pendingScriptId = null;
+        let pendingScriptCode = null;
+        let tasks = [];
+        let completedTasks = [];
+        
+        // You can add your own task links here
+        const taskLinks = [
+            { name: "Visit Our Discord", url: "https://discord.gg/example", type: "link" },
+            { name: "Subscribe on YouTube", url: "https://youtube.com/@example", type: "link" },
+            { name: "Follow on Twitter", url: "https://twitter.com/example", type: "link" },
+            { name: "Join Telegram", url: "https://t.me/example", type: "link" },
+            { name: "Watch 10s Ad", url: null, type: "ad" }
+        ];
         
         function showToast(message, isError = false) {
             const toast = document.createElement('div');
@@ -506,6 +585,150 @@
             document.getElementById('detailPage').classList.remove('hidden');
             window.history.pushState({}, '', `/?id=${id}`);
             loadScriptDetail(id);
+        }
+        
+        // Challenge Functions
+        function showChallengeModal(scriptId, scriptCode) {
+            pendingScriptId = scriptId;
+            pendingScriptCode = scriptCode;
+            completedTasks = [];
+            
+            // Load completed tasks from localStorage
+            const savedCompleted = localStorage.getItem(`completed_${scriptId}`);
+            if (savedCompleted) {
+                completedTasks = JSON.parse(savedCompleted);
+            }
+            
+            renderTasks();
+            document.getElementById('challengeModal').style.display = 'flex';
+        }
+        
+        function renderTasks() {
+            const tasksContainer = document.getElementById('tasksList');
+            const adTaskDiv = document.getElementById('adTask');
+            let tasksHtml = '';
+            
+            // Show 3 random tasks
+            const shuffled = [...taskLinks].sort(() => 0.5 - Math.random());
+            tasks = shuffled.slice(0, 3);
+            
+            tasks.forEach((task, index) => {
+                const isCompleted = completedTasks.includes(index);
+                tasksHtml += `
+                    <div class="task-item ${isCompleted ? 'task-completed' : ''}">
+                        <span>${isCompleted ? '✅' : '📋'} ${task.name}</span>
+                        ${!isCompleted ? `<button onclick="completeTask(${index})" class="task-btn">Complete</button>` : '<span>✓ Done</span>'}
+                    </div>
+                `;
+            });
+            
+            tasksContainer.innerHTML = tasksHtml;
+            
+            // Check if all tasks are completed
+            const allCompleted = tasks.every((_, index) => completedTasks.includes(index));
+            const unlockBtn = document.getElementById('unlockBtn');
+            if (allCompleted) {
+                unlockBtn.disabled = false;
+                unlockBtn.textContent = '🔓 Unlock Script Now';
+            } else {
+                unlockBtn.disabled = true;
+                unlockBtn.textContent = '🔒 Complete all tasks to unlock';
+            }
+        }
+        
+        function completeTask(taskIndex) {
+            const task = tasks[taskIndex];
+            
+            if (task.type === 'ad') {
+                // Show ad
+                showAdTask(taskIndex);
+            } else if (task.url) {
+                // Open link in new tab
+                window.open(task.url, '_blank');
+                // Mark as completed after a delay
+                setTimeout(() => {
+                    if (!completedTasks.includes(taskIndex)) {
+                        completedTasks.push(taskIndex);
+                        localStorage.setItem(`completed_${pendingScriptId}`, JSON.stringify(completedTasks));
+                        renderTasks();
+                        showToast('✅ Task completed!');
+                    }
+                }, 3000);
+            }
+        }
+        
+        function showAdTask(taskIndex) {
+            const adTaskDiv = document.getElementById('adTask');
+            const adContent = document.getElementById('adContent');
+            
+            // Add multiple ad options
+            adContent.innerHTML = `
+                <div style="margin: 10px 0;">
+                    <div class="ad-label">Watch 10 second ad</div>
+                    <script>
+                        atOptions = {
+                            'key' : '673fb53f64c762401413eb44406c1c80',
+                            'format' : 'iframe',
+                            'height' : 300,
+                            'width' : 160,
+                            'params' : {}
+                        };
+                    </script>
+                    <script src="https://www.highperformanceformat.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
+                </div>
+                <div style="margin: 10px 0;">
+                    <div class="ad-label">Another ad option</div>
+                    <script>
+                        atOptions = {
+                            'key' : '5c4ab71c3e05e8f162c6845ea1c55950',
+                            'format' : 'iframe',
+                            'height' : 250,
+                            'width' : 300,
+                            'params' : {}
+                        };
+                    </script>
+                    <script src="https://www.highperformanceformat.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
+                </div>
+            `;
+            
+            adTaskDiv.classList.remove('hidden');
+            
+            // Store which task we're completing
+            window.currentAdTaskIndex = taskIndex;
+        }
+        
+        function completeAdTask() {
+            const taskIndex = window.currentAdTaskIndex;
+            if (!completedTasks.includes(taskIndex)) {
+                completedTasks.push(taskIndex);
+                localStorage.setItem(`completed_${pendingScriptId}`, JSON.stringify(completedTasks));
+                document.getElementById('adTask').classList.add('hidden');
+                renderTasks();
+                showToast('✅ Ad watched! Task completed.');
+            }
+        }
+        
+        function unlockScript() {
+            const allCompleted = tasks.every((_, index) => completedTasks.includes(index));
+            if (allCompleted && pendingScriptCode) {
+                // Copy to clipboard
+                navigator.clipboard.writeText(pendingScriptCode);
+                showToast('✅ Script copied to clipboard!');
+                closeChallengeModal();
+                
+                // Mark script as unlocked for this user
+                let unlockedScripts = JSON.parse(localStorage.getItem('unlockedScripts') || '[]');
+                if (!unlockedScripts.includes(pendingScriptId)) {
+                    unlockedScripts.push(pendingScriptId);
+                    localStorage.setItem('unlockedScripts', JSON.stringify(unlockedScripts));
+                }
+            }
+        }
+        
+        function closeChallengeModal() {
+            document.getElementById('challengeModal').style.display = 'none';
+            pendingScriptId = null;
+            pendingScriptCode = null;
         }
         
         async function loadScripts() {
@@ -580,6 +803,8 @@
                 
                 const hasLiked = likedScripts[script.id];
                 const shareUrl = `${window.location.origin}/?id=${script.id}`;
+                const unlockedScripts = JSON.parse(localStorage.getItem('unlockedScripts') || '[]');
+                const isUnlocked = unlockedScripts.includes(script.id);
                 
                 let youtubeHtml = '';
                 if (script.youtubeId) {
@@ -592,12 +817,23 @@
                 
                 let contentHtml = '';
                 if (script.type === 'code') {
-                    contentHtml = `
-                        ${youtubeHtml}
-                        <h3>📝 Script Code:</h3>
-                        <pre><code id="scriptCode">${escapeHtml(script.code)}</code></pre>
-                        <button onclick="copyCode()" class="btn-primary" style="margin-top:1rem;">📋 Copy Code</button>
-                    `;
+                    if (isUnlocked) {
+                        contentHtml = `
+                            ${youtubeHtml}
+                            <h3>📝 Script Code:</h3>
+                            <pre><code id="scriptCode">${escapeHtml(script.code)}</code></pre>
+                            <button onclick="copyCodeDirect()" class="btn-primary" style="margin-top:1rem;">📋 Copy Code</button>
+                        `;
+                    } else {
+                        contentHtml = `
+                            ${youtubeHtml}
+                            <div style="text-align:center; padding:2rem; background:#f1f5f9; border-radius:20px;">
+                                <h3>🔒 Script Locked</h3>
+                                <p>Complete challenges to unlock and copy this script</p>
+                                <button onclick="showChallengeModal('${script.id}', \`${escapeHtml(script.code)}\`)" class="btn-primary">🔓 Unlock Script</button>
+                            </div>
+                        `;
+                    }
                 } else {
                     contentHtml = `
                         ${youtubeHtml}
@@ -641,6 +877,14 @@
             }
         }
         
+        function copyCodeDirect() {
+            const code = document.getElementById('scriptCode')?.innerText;
+            if (code) {
+                navigator.clipboard.writeText(code);
+                showToast('✅ Code copied!');
+            }
+        }
+        
         async function likeScript(id) {
             if (likedScripts[id]) {
                 showToast('Already liked!', true);
@@ -659,14 +903,6 @@
                 }
             } catch (error) {
                 showToast('Error', true);
-            }
-        }
-        
-        function copyCode() {
-            const code = document.getElementById('scriptCode')?.innerText;
-            if (code) {
-                navigator.clipboard.writeText(code);
-                showToast('✅ Code copied!');
             }
         }
         
@@ -704,7 +940,6 @@
             return div.innerHTML;
         }
         
-        // Handle URL with ?id=xxx
         function handleRouting() {
             const urlParams = new URLSearchParams(window.location.search);
             const id = urlParams.get('id');
@@ -716,10 +951,7 @@
         }
         
         handleRouting();
-        
-        window.addEventListener('popstate', () => {
-            handleRouting();
-        });
+        window.addEventListener('popstate', () => handleRouting());
     </script>
 </body>
 </html>
