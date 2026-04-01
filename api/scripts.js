@@ -63,12 +63,49 @@ function hasSpamLinks(text) {
     return spamPatterns.some(pattern => pattern.test(text));
 }
 
+// ============ DUPLICATE DETECTION ============
+async function findDuplicateScripts() {
+    const allScripts = await getAllScripts();
+    const duplicates = [];
+    const seenTitles = new Map();
+    
+    for (const script of allScripts) {
+        const titleLower = script.title.toLowerCase();
+        if (seenTitles.has(titleLower)) {
+            // Found duplicate - keep the newer one, delete the older
+            const existing = seenTitles.get(titleLower);
+            if (new Date(script.createdAt) > new Date(existing.createdAt)) {
+                duplicates.push(existing.id);
+                seenTitles.set(titleLower, script);
+            } else {
+                duplicates.push(script.id);
+            }
+        } else {
+            seenTitles.set(titleLower, script);
+        }
+    }
+    
+    return duplicates;
+}
+
+async function autoDeleteDuplicates() {
+    const duplicates = await findDuplicateScripts();
+    
+    for (const dupId of duplicates) {
+        console.log(`🗑️ Auto-deleting duplicate script: ${dupId}`);
+        await deleteScript(dupId);
+    }
+    
+    return duplicates.length;
+}
+
 async function isDuplicate(title, currentId = null) {
     const allScripts = await getAllScripts();
     return allScripts.some(script => 
         script.title.toLowerCase() === title.toLowerCase() && script.id !== currentId
     );
 }
+// ============ END DUPLICATE DETECTION ============
 
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -83,6 +120,14 @@ export default async function handler(req, res) {
     if (req.method === 'GET') {
         try {
             const { id, sort } = req.query;
+            
+            // Run auto-delete on duplicates when fetching scripts
+            if (!id) {
+                const deletedCount = await autoDeleteDuplicates();
+                if (deletedCount > 0) {
+                    console.log(`✅ Auto-deleted ${deletedCount} duplicate scripts`);
+                }
+            }
             
             if (id) {
                 const script = await getScript(id);
@@ -167,10 +212,10 @@ export default async function handler(req, res) {
                 return res.status(400).json({ error: 'Please provide a valid URL' });
             }
             
-            // Check duplicate title
+            // Check for duplicate BEFORE uploading
             const duplicate = await isDuplicate(title);
             if (duplicate) {
-                return res.status(400).json({ error: 'A script with this title already exists' });
+                return res.status(400).json({ error: 'A script with this title already exists! Duplicate prevented.' });
             }
             
             const newId = Date.now().toString();
@@ -186,7 +231,6 @@ export default async function handler(req, res) {
                 likedBy: []
             };
             
-            // Add unlock task
             if (unlockTask) {
                 newScript.unlockTask = unlockTask;
                 if (unlockTask === 'lootlab' && lootlabUrl) {
@@ -194,7 +238,6 @@ export default async function handler(req, res) {
                 }
             }
             
-            // Add optional fields
             if (thumbnail) newScript.thumbnail = thumbnail;
             if (youtubeId) newScript.youtubeId = youtubeId;
             
@@ -236,7 +279,14 @@ export default async function handler(req, res) {
                 return res.status(404).json({ error: 'Script not found' });
             }
             
-            // Update fields
+            // Check for duplicate title (excluding current script)
+            if (title && title !== existingScript.title) {
+                const duplicate = await isDuplicate(title, id);
+                if (duplicate) {
+                    return res.status(400).json({ error: 'Another script with this title already exists!' });
+                }
+            }
+            
             if (title) existingScript.title = title.substring(0, 100);
             if (author) existingScript.author = author.substring(0, 50);
             if (description) existingScript.description = description.substring(0, 500);
@@ -244,7 +294,6 @@ export default async function handler(req, res) {
             if (thumbnail) existingScript.thumbnail = thumbnail;
             if (youtubeId) existingScript.youtubeId = youtubeId;
             
-            // Update unlock task
             if (unlockTask) {
                 existingScript.unlockTask = unlockTask;
                 if (unlockTask === 'lootlab' && lootlabUrl) {
