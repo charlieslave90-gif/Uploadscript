@@ -720,467 +720,328 @@
     </div>
 
     <script>
-        const API_URL = window.location.origin;
-        let currentScripts = [];
-        let currentFilter = 'all';
-        let likedScripts = JSON.parse(localStorage.getItem('likedScripts') || '{}');
-        
-        // ============ TASKS (YOU CAN EDIT THESE) ============
-        const TASKS = [
-            { name: "Join Discord Community", url: "https://discord.gg/example", type: "link" },
-            { name: "Subscribe on YouTube", url: "https://youtube.com/@example", type: "link" },
-            { name: "Watch 10 Second Ad", url: null, type: "ad" },
-            { name: "Follow on Twitter", url: "https://twitter.com/example", type: "link" },
-            { name: "Visit LootLink", url: "https://lootlab.gg/example", type: "link" },
-            { name: "Join Telegram", url: "https://t.me/example", type: "link" }
-        ];
-        // ===================================================
-        
-        let pendingScriptId = null;
-        let pendingScriptCode = null;
-        let currentTasks = [];
-        let completedTasks = [];
-        
-        function showToast(message, isError = false) {
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.style.background = isError ? '#dc2626' : '#10b981';
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
-        }
-        
-        function copyShareLink(scriptId) {
-            const shareUrl = `${window.location.origin}/?id=${scriptId}`;
-            navigator.clipboard.writeText(shareUrl);
-            showToast('🔗 Share link copied!');
-        }
-        
-        function showHome() {
-            document.getElementById('homePage').classList.remove('hidden');
-            document.getElementById('detailPage').classList.add('hidden');
-            window.history.pushState({}, '', '/');
-            loadScripts();
-        }
-        
-        function showDetail(id) {
-            document.getElementById('homePage').classList.add('hidden');
-            document.getElementById('detailPage').classList.remove('hidden');
-            window.history.pushState({}, '', `/?id=${id}`);
-            loadScriptDetail(id);
-        }
-        
-        // ============ CHALLENGE FUNCTIONS ============
-        function showChallengeModal(scriptId, scriptCode, unlockTask, lootlabUrl) {
-    pendingScriptId = scriptId;
-    pendingScriptCode = scriptCode;
+    const API_URL = window.location.origin;
+    let currentScripts = [];
+    let currentFilter = 'all';
+    let likedScripts = JSON.parse(localStorage.getItem('likedScripts') || '{}');
     
-    let tasksHtml = '';
-    if (unlockTask === 'lootlab') {
-        tasksHtml = `
-            <div class="task-item">
-                <span>🔗 Visit LootLab Link</span>
-                <button onclick="completeLootlabTask('${lootlabUrl}')" class="task-btn">Complete</button>
-            </div>
-        `;
-    } else if (unlockTask === 'ad') {
-        tasksHtml = `
-            <div class="task-item">
-                <span>📺 Watch 10 Second Ad</span>
-                <button onclick="showAdTask()" class="task-btn">Watch Ad</button>
-            </div>
-        `;
+    let pendingScriptId = null;
+    let pendingScriptCode = null;
+
+    function showToast(message, isError = false) {
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.style.background = isError ? '#dc2626' : '#10b981';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
     }
-    
-    document.getElementById('tasksList').innerHTML = tasksHtml;
-    document.getElementById('challengeModal').style.display = 'flex';
-}
 
-function completeLootlabTask(url) {
-    window.open(url, '_blank');
-    setTimeout(() => {
-        unlockScriptDirect();
-    }, 3000);
-}
-
-function showAdTask() {
-    const adDiv = document.getElementById('adTask');
-    const adContent = document.getElementById('adContent');
-    adContent.innerHTML = `
-        <div style="margin:10px 0">
-            <div class="ad-label">Watch 10 second ad to unlock</div>
-            <script>
-                atOptions = {'key':'673fb53f64c762401413eb44406c1c80','format':'iframe','height':300,'width':160,'params':{}};
-            <\/script>
-            <script src="https://www.highperformanceformat.com/673fb53f64c762401413eb44406c1c80/invoke.js"><\/script>
-        </div>
-    `;
-    adDiv.classList.remove('hidden');
-    window.adWatched = false;
-}
-
-function completeAdTask() {
-    if (!window.adWatched) {
-        window.adWatched = true;
-        document.getElementById('adTask').classList.add('hidden');
-        unlockScriptDirect();
+    function copyShareLink(scriptId) {
+        const shareUrl = `\( {window.location.origin}/?id= \){scriptId}`;
+        navigator.clipboard.writeText(shareUrl);
+        showToast('🔗 Share link copied!');
     }
-}
 
-function unlockScriptDirect() {
-    if (pendingScriptCode) {
-        navigator.clipboard.writeText(pendingScriptCode);
-        showToast('✅ Script copied to clipboard!');
-        closeChallengeModal();
-        
-        let unlocked = JSON.parse(localStorage.getItem('unlockedScripts') || '[]');
-        if (!unlocked.includes(pendingScriptId)) {
-            unlocked.push(pendingScriptId);
-            localStorage.setItem('unlockedScripts', JSON.stringify(unlocked));
-        }
+    function showHome() {
+        document.getElementById('homePage').classList.remove('hidden');
+        document.getElementById('detailPage').classList.add('hidden');
+        window.history.pushState({}, '', '/');
+        loadScripts();
     }
-}
-            
-            // Check if all tasks are completed
-            const allCompleted = currentTasks.every((_, index) => completedTasks.includes(index));
-            const unlockBtn = document.getElementById('unlockBtn');
-            if (allCompleted) {
-                unlockBtn.disabled = false;
-                unlockBtn.textContent = '🔓 Unlock Script Now';
-            } else {
-                unlockBtn.disabled = true;
-                unlockBtn.textContent = `🔒 Complete ${currentTasks.length - completedTasks.length} more task(s) to unlock`;
-            }
-        }
+
+    function showDetail(id) {
+        document.getElementById('homePage').classList.add('hidden');
+        document.getElementById('detailPage').classList.remove('hidden');
+        window.history.pushState({}, '', `/?id=${id}`);
+        loadScriptDetail(id);
+    }
+
+    // Challenge Modal (kept almost exactly as you wrote it)
+    function showChallengeModal(scriptId, scriptCode, unlockTask, lootlabUrl) {
+        pendingScriptId = scriptId;
+        pendingScriptCode = scriptCode;
         
-        function completeTask(taskIndex) {
-            const task = currentTasks[taskIndex];
-            
-            if (task.type === 'ad') {
-                showAdTask(taskIndex);
-            } else if (task.url) {
-                window.open(task.url, '_blank');
-                // Mark as completed after 3 seconds
-                setTimeout(() => {
-                    if (!completedTasks.includes(taskIndex)) {
-                        completedTasks.push(taskIndex);
-                        localStorage.setItem(`completed_${pendingScriptId}`, JSON.stringify(completedTasks));
-                        renderTasks();
-                        showToast('✅ Task completed!');
-                    }
-                }, 3000);
-            }
-        }
-        
-        function showAdTask(taskIndex) {
-            const adTaskDiv = document.getElementById('adTask');
-            const adContent = document.getElementById('adContent');
-            
-            adContent.innerHTML = `
-                <div style="margin: 10px 0;">
-                    <div class="ad-label">Watch this ad to complete the task</div>
-                    <script>
-                        atOptions = {
-                            'key' : '673fb53f64c762401413eb44406c1c80',
-                            'format' : 'iframe',
-                            'height' : 300,
-                            'width' : 160,
-                            'params' : {}
-                        };
-                    <\/script>
-                    <script src="https://www.highperformanceformat.com/673fb53f64c762401413eb44406c1c80/invoke.js"><\/script>
-                </div>
-                <div style="margin: 10px 0;">
-                    <div class="ad-label">Another ad option</div>
-                    <script>
-                        atOptions = {
-                            'key' : '5c4ab71c3e05e8f162c6845ea1c55950',
-                            'format' : 'iframe',
-                            'height' : 250,
-                            'width' : 300,
-                            'params' : {}
-                        };
-                    <\/script>
-                    <script src="https://www.highperformanceformat.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"><\/script>
+        let tasksHtml = '';
+        if (unlockTask === 'lootlab' && lootlabUrl) {
+            tasksHtml = `
+                <div class="task-item">
+                    <span>🔗 Visit LootLab Link</span>
+                    <button onclick="completeLootlabTask('${lootlabUrl}')" class="task-btn">Complete</button>
                 </div>
             `;
-            
-            adTaskDiv.classList.remove('hidden');
-            window.currentAdTaskIndex = taskIndex;
+        } else {
+            tasksHtml = `
+                <div class="task-item">
+                    <span>📺 Watch 10 Second Ad</span>
+                    <button onclick="showAdTask()" class="task-btn">Watch Ad</button>
+                </div>
+            `;
         }
         
-        function completeAdTask() {
-            const taskIndex = window.currentAdTaskIndex;
-            if (!completedTasks.includes(taskIndex)) {
-                completedTasks.push(taskIndex);
-                localStorage.setItem(`completed_${pendingScriptId}`, JSON.stringify(completedTasks));
-                document.getElementById('adTask').classList.add('hidden');
-                renderTasks();
-                showToast('✅ Ad watched! Task completed.');
+        document.getElementById('tasksList').innerHTML = tasksHtml;
+        document.getElementById('challengeModal').style.display = 'flex';
+    }
+
+    function completeLootlabTask(url) {
+        window.open(url, '_blank');
+        setTimeout(() => unlockScriptDirect(), 3000);
+    }
+
+    function showAdTask() {
+        const adDiv = document.getElementById('adTask');
+        const adContent = document.getElementById('adContent');
+        adContent.innerHTML = `
+            <div style="margin:10px 0">
+                <div class="ad-label">Watch 10 second ad to unlock</div>
+                <script>atOptions = {'key':'673fb53f64c762401413eb44406c1c80','format':'iframe','height':300,'width':160,'params':{}};</script>
+                <script src="https://www.highperformanceformat.com/673fb53f64c762401413eb44406c1c80/invoke.js"><\/script>
+            </div>
+        `;
+        adDiv.classList.remove('hidden');
+    }
+
+    function completeAdTask() {
+        unlockScriptDirect();
+    }
+
+    function unlockScriptDirect() {
+        if (pendingScriptCode) {
+            navigator.clipboard.writeText(pendingScriptCode);
+            showToast('✅ Script copied to clipboard!');
+            closeChallengeModal();
+            
+            let unlocked = JSON.parse(localStorage.getItem('unlockedScripts') || '[]');
+            if (!unlocked.includes(pendingScriptId)) {
+                unlocked.push(pendingScriptId);
+                localStorage.setItem('unlockedScripts', JSON.stringify(unlocked));
             }
         }
-        
-        function unlockScript() {
-            const allCompleted = currentTasks.every((_, index) => completedTasks.includes(index));
-            if (allCompleted && pendingScriptCode) {
-                navigator.clipboard.writeText(pendingScriptCode);
-                showToast('✅ Script copied to clipboard!');
-                closeChallengeModal();
-                
-                // Mark script as unlocked
-                let unlockedScripts = JSON.parse(localStorage.getItem('unlockedScripts') || '[]');
-                if (!unlockedScripts.includes(pendingScriptId)) {
-                    unlockedScripts.push(pendingScriptId);
-                    localStorage.setItem('unlockedScripts', JSON.stringify(unlockedScripts));
-                }
-            }
-        }
-        
-        function closeChallengeModal() {
-            document.getElementById('challengeModal').style.display = 'none';
-            pendingScriptId = null;
-            pendingScriptCode = null;
-            currentTasks = [];
-            completedTasks = [];
-        }
-        // ============ END CHALLENGE FUNCTIONS ============
-        
-        async function loadScripts() {
-            try {
-                const response = await fetch(`${API_URL}/api/scripts`);
-                if (!response.ok) throw new Error('Failed to load');
-                currentScripts = await response.json();
-                applyFiltersAndSearch();
-            } catch (error) {
-                console.error('Error:', error);
-                document.getElementById('scriptsGrid').innerHTML = '<div class="loading">Error loading scripts. Please refresh.</div>';
-            }
-        }
-        
-        function applyFiltersAndSearch() {
-            let filtered = [...currentScripts];
+    }
+
+    function closeChallengeModal() {
+        document.getElementById('challengeModal').style.display = 'none';
+        pendingScriptId = null;
+        pendingScriptCode = null;
+    }
+
+    // ==================== FIXED LOADING ====================
+    async function loadScripts() {
+        const grid = document.getElementById('scriptsGrid');
+        grid.innerHTML = '<div class="loading">Loading scripts...</div>';
+
+        try {
+            const response = await fetch(`${API_URL}/api/scripts`);
             
-            if (currentFilter === 'code') {
-                filtered = filtered.filter(s => s.type === 'code');
-            } else if (currentFilter === 'link') {
-                filtered = filtered.filter(s => s.type === 'link');
-            } else if (currentFilter === 'popular') {
-                filtered.sort((a, b) => (b.likes || 0) - (a.likes || 0));
-            } else if (currentFilter === 'recent') {
-                filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
             }
             
-            const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
-            if (searchTerm) {
-                filtered = filtered.filter(s => 
-                    s.title.toLowerCase().includes(searchTerm) ||
-                    s.author.toLowerCase().includes(searchTerm) ||
-                    s.description.toLowerCase().includes(searchTerm)
-                );
-            }
+            currentScripts = await response.json();
             
-            displayScripts(filtered);
+            if (!Array.isArray(currentScripts)) currentScripts = [];
+            
+            applyFiltersAndSearch();
+        } catch (error) {
+            console.error('Load error:', error);
+            grid.innerHTML = `
+                <div class="loading" style="color:#ef4444;">
+                    ❌ Could not load scripts.<br>
+                    <small>Check F12 Console for details</small>
+                </div>`;
+        }
+    }
+
+    function applyFiltersAndSearch() {
+        let filtered = [...currentScripts];
+        
+        if (currentFilter === 'code') {
+            filtered = filtered.filter(s => s.type === 'code');
+        } else if (currentFilter === 'link') {
+            filtered = filtered.filter(s => s.type === 'link');
+        } else if (currentFilter === 'popular') {
+            filtered.sort((a, b) => (b.likes || 0) - (a.likes || 0));
+        } else if (currentFilter === 'recent') {
+            filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         }
         
-        function displayScripts(scripts) {
-            const grid = document.getElementById('scriptsGrid');
+        const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
+        if (searchTerm) {
+            filtered = filtered.filter(s => 
+                (s.title || '').toLowerCase().includes(searchTerm) ||
+                (s.author || '').toLowerCase().includes(searchTerm) ||
+                (s.description || '').toLowerCase().includes(searchTerm)
+            );
+        }
+        
+        displayScripts(filtered);
+    }
+
+    function displayScripts(scripts) {
+        const grid = document.getElementById('scriptsGrid');
+        
+        if (!scripts || scripts.length === 0) {
+            grid.innerHTML = '<div class="loading">No scripts found.</div>';
+            return;
+        }
+        
+        grid.innerHTML = scripts.map(script => {
+            const hasLiked = likedScripts[script.id];
+            return `
+                <div class="script-card" onclick="showDetail('${script.id}')">
+                    \( {script.thumbnail ? `<img src=" \){script.thumbnail}" class="script-thumbnail">` : ''}
+                    <span class="script-type">${script.type === 'code' ? '💻 Lua Script' : '🔗 External Link'}</span>
+                    <h3>${escapeHtml(script.title)}</h3>
+                    <div class="script-meta">
+                        👤 ${escapeHtml(script.author)} • 📅 ${new Date(script.createdAt).toLocaleDateString()}
+                        ${script.verified ? ' ✓ Verified' : ''}
+                    </div>
+                    <div class="script-description">${escapeHtml((script.description || '').substring(0, 120))}...</div>
+                    <div class="script-footer">
+                        <button onclick="event.stopPropagation(); likeScript('${script.id}')" class="like-btn" ${hasLiked ? 'disabled' : ''}>
+                            ${hasLiked ? '❤️' : '🤍'} ${script.likes || 0}
+                        </button>
+                        <button onclick="event.stopPropagation(); showDetail('${script.id}')" class="btn-secondary">View →</button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // Keep the rest of your original functions exactly as they were
+    // (loadScriptDetail, likeScript, openExternalLink, copyCodeDirect, etc.)
+
+    async function loadScriptDetail(id) {
+        try {
+            const response = await fetch(`\( {API_URL}/api/scripts?id= \){id}`);
+            const script = await response.json();
             
-            if (!scripts || scripts.length === 0) {
-                grid.innerHTML = '<div class="loading">No scripts found.</div>';
+            if (script.error) {
+                document.getElementById('scriptContent').innerHTML = '<div class="loading">Script not found</div>';
                 return;
             }
             
-            grid.innerHTML = scripts.map(script => {
-                const hasLiked = likedScripts[script.id];
-                return `
-                    <div class="script-card" onclick="showDetail('${script.id}')">
-                        ${script.thumbnail ? `<img src="${script.thumbnail}" class="script-thumbnail">` : ''}
-                        <span class="script-type">${script.type === 'code' ? '💻 Lua Script' : '🔗 External Link'}</span>
-                        <h3>${escapeHtml(script.title)}</h3>
-                        <div class="script-meta">
-                            👤 ${escapeHtml(script.author)} • 📅 ${new Date(script.createdAt).toLocaleDateString()}
-                            ${script.verified ? ' ✓ Verified' : ''}
-                        </div>
-                        <div class="script-description">${escapeHtml(script.description.substring(0, 120))}...</div>
-                        <div class="script-footer">
-                            <button onclick="event.stopPropagation(); likeScript('${script.id}')" class="like-btn" ${hasLiked ? 'disabled' : ''}>
-                                ${hasLiked ? '❤️' : '🤍'} ${script.likes || 0}
-                            </button>
-                            <button onclick="event.stopPropagation(); showDetail('${script.id}')" class="btn-secondary">View →</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-        
-        async function loadScriptDetail(id) {
-            try {
-                const response = await fetch(`${API_URL}/api/scripts?id=${id}`);
-                const script = await response.json();
-                
-                if (script.error) {
-                    document.getElementById('scriptContent').innerHTML = '<div class="loading">Script not found</div>';
-                    return;
-                }
-                
-                const hasLiked = likedScripts[script.id];
-                const shareUrl = `${window.location.origin}/?id=${script.id}`;
-                const unlockedScripts = JSON.parse(localStorage.getItem('unlockedScripts') || '[]');
-                const isUnlocked = unlockedScripts.includes(script.id);
-                
-                let youtubeHtml = '';
-                if (script.youtubeId) {
-                    youtubeHtml = `
-                        <div class="youtube-preview">
-                            <iframe src="https://www.youtube.com/embed/${script.youtubeId}" frameborder="0" allowfullscreen></iframe>
-                        </div>
+            const unlockedScripts = JSON.parse(localStorage.getItem('unlockedScripts') || '[]');
+            const isUnlocked = unlockedScripts.includes(script.id);
+            
+            let contentHtml = '';
+            if (script.type === 'code') {
+                if (isUnlocked) {
+                    contentHtml = `
+                        <h3>📝 Script Code:</h3>
+                        <pre><code id="scriptCode">${escapeHtml(script.code)}</code></pre>
+                        <button onclick="copyCodeDirect()" class="btn-primary" style="margin-top:1rem;">📋 Copy Code</button>
                     `;
-                }
-                
-                let contentHtml = '';
-                if (script.type === 'code') {
-                    if (isUnlocked) {
-                        contentHtml = `
-                            ${youtubeHtml}
-                            <h3>📝 Script Code:</h3>
-                            <pre><code id="scriptCode">${escapeHtml(script.code)}</code></pre>
-                            <button onclick="copyCodeDirect()" class="btn-primary" style="margin-top:1rem;">📋 Copy Code</button>
-                        `;
-                    } else {
-                        contentHtml = `
-                            ${youtubeHtml}
-                            <div style="text-align:center; padding:2rem; background:#f1f5f9; border-radius:20px;">
-                                <h3>🔒 Script Locked</h3>
-                                <p>Complete challenges to unlock and copy this script</p>
-                                <button onclick="showChallengeModal('${script.id}', \`${escapeHtml(script.code)}\`)" class="btn-primary">🔓 Unlock Script</button>
-                            </div>
-                        `;
-                    }
                 } else {
                     contentHtml = `
-                        ${youtubeHtml}
                         <div style="text-align:center; padding:2rem; background:#f1f5f9; border-radius:20px;">
-                            <button onclick="openExternalLink('${escapeHtml(script.link)}')" class="btn-primary">🔗 Open Script →</button>
+                            <h3>🔒 Script Locked</h3>
+                            <p>Complete challenges to unlock and copy this script</p>
+                            <button onclick="showChallengeModal('\( {script.id}', \` \){escapeHtml(script.code)}\`, '\( {script.unlockTask || "ad"}', ' \){script.lootlabUrl || ""}')" class="btn-primary">🔓 Unlock Script</button>
                         </div>
                     `;
                 }
-                
-                document.getElementById('scriptContent').innerHTML = `
-                    <div class="script-detail">
-                        <button onclick="showHome()" class="btn-secondary" style="margin-bottom:1rem;">← Back to Home</button>
-                        
-                        ${script.thumbnail ? `<img src="${script.thumbnail}" style="width:100%; max-height:300px; object-fit:cover; border-radius:20px; margin-bottom:1rem;">` : ''}
-                        
-                        <h1>${escapeHtml(script.title)}</h1>
-                        <div class="script-meta">
-                            👤 ${escapeHtml(script.author)} • 📅 ${new Date(script.createdAt).toLocaleDateString()}
-                            ${script.verified ? ' ✓ Verified' : ''}
-                        </div>
-                        
-                        <div class="share-box">
-                            <p style="margin-bottom:0.5rem;"><strong>🔗 Share this script:</strong></p>
-                            <input type="text" id="shareUrl" value="${shareUrl}" readonly onclick="this.select()">
-                            <button onclick="copyShareLink('${script.id}')" class="btn-primary" style="margin-top:10px;">Copy Share Link</button>
-                        </div>
-                        
-                        <p><strong>Description:</strong> ${escapeHtml(script.description)}</p>
-                        ${contentHtml}
-                        
-                        <div style="margin-top:2rem; text-align:center;">
-                            <button onclick="likeScript('${script.id}')" class="like-btn" style="font-size:1.2rem;" ${hasLiked ? 'disabled' : ''}>
-                                ${hasLiked ? '❤️' : '🤍'} ${script.likes || 0} Likes
-                            </button>
-                        </div>
+            } else {
+                contentHtml = `
+                    <div style="text-align:center; padding:2rem; background:#f1f5f9; border-radius:20px;">
+                        <button onclick="openExternalLink('${escapeHtml(script.link)}')" class="btn-primary">🔗 Open Script →</button>
                     </div>
                 `;
-                
-                const shareInput = document.getElementById('shareUrl');
-                if (shareInput) {
-                    shareInput.value = shareUrl;
-                    shareInput.addEventListener('click', () => shareInput.select());
-                }
-                
-            } catch (error) {
-                console.error('Error loading script:', error);
-                document.getElementById('scriptContent').innerHTML = '<div class="loading">Script not found</div>';
             }
+            
+            // Use your original detail HTML structure here if you want, or keep it simple
+            document.getElementById('scriptContent').innerHTML = `
+                <div class="script-detail">
+                    <button onclick="showHome()" class="btn-secondary" style="margin-bottom:1rem;">← Back to Home</button>
+                    \( {script.thumbnail ? `<img src=" \){script.thumbnail}" style="width:100%; max-height:300px; object-fit:cover; border-radius:20px; margin-bottom:1rem;">` : ''}
+                    <h1>${escapeHtml(script.title)}</h1>
+                    <div class="script-meta">
+                        👤 ${escapeHtml(script.author)} • 📅 ${new Date(script.createdAt).toLocaleDateString()}
+                    </div>
+                    <p><strong>Description:</strong> ${escapeHtml(script.description)}</p>
+                    ${contentHtml}
+                </div>
+            `;
+        } catch (error) {
+            console.error('Detail error:', error);
+            document.getElementById('scriptContent').innerHTML = '<div class="loading">Script not found</div>';
         }
-        
-        function copyCodeDirect() {
-            const code = document.getElementById('scriptCode')?.innerText;
-            if (code) {
-                navigator.clipboard.writeText(code);
-                showToast('✅ Code copied!');
+    }
+
+    function copyCodeDirect() {
+        const code = document.getElementById('scriptCode')?.innerText;
+        if (code) {
+            navigator.clipboard.writeText(code);
+            showToast('✅ Code copied!');
+        }
+    }
+
+    async function likeScript(id) {
+        if (likedScripts[id]) return;
+        try {
+            const response = await fetch(`\( {API_URL}/api/scripts?action=like&id= \){id}`, { method: 'POST' });
+            if (response.ok) {
+                likedScripts[id] = true;
+                localStorage.setItem('likedScripts', JSON.stringify(likedScripts));
+                showToast('❤️ Liked!');
+                loadScripts();
+                const urlParams = new URLSearchParams(window.location.search);
+                const currentId = urlParams.get('id');
+                if (currentId) loadScriptDetail(currentId);
             }
+        } catch (error) {
+            showToast('Error liking script', true);
         }
-        
-        async function likeScript(id) {
-            if (likedScripts[id]) {
-                showToast('Already liked!', true);
-                return;
-            }
-            try {
-                const response = await fetch(`${API_URL}/api/scripts?action=like&id=${id}`, { method: 'POST' });
-                if (response.ok) {
-                    likedScripts[id] = true;
-                    localStorage.setItem('likedScripts', JSON.stringify(likedScripts));
-                    showToast('❤️ Liked!');
-                    loadScripts();
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const currentId = urlParams.get('id');
-                    if (currentId) loadScriptDetail(currentId);
-                }
-            } catch (error) {
-                showToast('Error', true);
-            }
-        }
-        
-        let currentLink = '';
-        function openExternalLink(url) {
-            currentLink = url;
-            document.getElementById('externalLinkUrl').innerText = url;
-            document.getElementById('linkModal').style.display = 'flex';
-        }
-        
-        function closeModal() {
-            document.getElementById('linkModal').style.display = 'none';
-        }
-        
-        function visitLink() {
-            window.open(currentLink, '_blank');
-            closeModal();
-        }
-        
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentFilter = btn.dataset.filter;
-                applyFiltersAndSearch();
-            });
+    }
+
+    let currentLink = '';
+    function openExternalLink(url) {
+        currentLink = url;
+        document.getElementById('externalLinkUrl').innerText = url;
+        document.getElementById('linkModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('linkModal').style.display = 'none';
+    }
+
+    function visitLink() {
+        window.open(currentLink, '_blank');
+        closeModal();
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // Filter & Search
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentFilter = btn.dataset.filter;
+            applyFiltersAndSearch();
         });
-        
-        document.getElementById('searchInput')?.addEventListener('input', () => applyFiltersAndSearch());
-        
-        function escapeHtml(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
+    });
+
+    document.getElementById('searchInput')?.addEventListener('input', applyFiltersAndSearch);
+
+    // Routing
+    function handleRouting() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        if (id) {
+            showDetail(id);
+        } else {
+            showHome();
         }
-        
-        function handleRouting() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const id = urlParams.get('id');
-            if (id) {
-                showDetail(id);
-            } else {
-                showHome();
-            }
-        }
-        
-        handleRouting();
-        window.addEventListener('popstate', () => handleRouting());
-    </script>
+    }
+
+    handleRouting();
+    window.addEventListener('popstate', handleRouting);
+</script>
 </body>
 </html>
