@@ -1,83 +1,89 @@
 import { put, list, del } from '@vercel/blob';
 
-const ADMIN_PASSWORD = 'karah123'; // ← CHANGE THIS TO A STRONG PASSWORD!
+const ADMIN_PASSWORD = 'karah123';
 
-// Helper: Get all scripts from Blob storage
 async function getAllScripts() {
     try {
-        const { blobs } = await list({ 
-            prefix: 'scripts/', 
-            limit: 1000 
-        });
-
+        const { blobs } = await list({ prefix: 'scripts/', limit: 1000 });
         const scripts = [];
-
+        
         for (const blob of blobs) {
-            try {
-                const response = await fetch(blob.url);
-                if (!response.ok) continue;
-                
-                const text = await response.text();
-                const script = JSON.parse(text);
-                scripts.push(script);
-            } catch (e) {
-                console.error('Failed to parse blob:', blob.url, e);
-            }
+            const response = await fetch(blob.url);
+            const script = await response.json();
+            scripts.push(script);
         }
-
+        
         return scripts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     } catch (error) {
-        console.error('Error in getAllScripts:', error);
+        console.error('Error loading scripts:', error);
         return [];
     }
 }
 
-async function getScript(id) {
+async function getScript(identifier) {
     try {
         const scripts = await getAllScripts();
-        return scripts.find(s => s.id === id) || null;
+        return scripts.find(s => s.id === identifier) || null;
     } catch (error) {
-        console.error('Error in getScript:', error);
+        console.error('Error loading script:', error);
         return null;
     }
 }
 
 async function saveScript(script) {
-    await put(
+    const blob = await put(
         `scripts/${script.id}.json`,
-        JSON.stringify(script, null, 2),
+        JSON.stringify(script),
         { access: 'public' }
     );
+    return blob.url;
 }
 
 async function deleteScript(id) {
     try {
-        const { blobs } = await list({ prefix: `scripts/${id}` });
+        const { blobs } = await list({ prefix: `scripts/${id}`, limit: 1 });
         for (const blob of blobs) {
             await del(blob.url);
         }
         return true;
     } catch (error) {
-        console.error('Delete error:', error);
+        console.error('Error deleting script:', error);
         return false;
     }
 }
 
+function hasSpamLinks(text) {
+    if (!text) return false;
+    const spamPatterns = [
+        /discord\.gg\/[a-zA-Z0-9]+/i,
+        /discord\.com\/invite\/[a-zA-Z0-9]+/i,
+        /t\.me\/[a-zA-Z0-9]+/i,
+        /telegram\.me\/[a-zA-Z0-9]+/i
+    ];
+    return spamPatterns.some(pattern => pattern.test(text));
+}
+
+async function isDuplicate(title, currentId = null) {
+    const allScripts = await getAllScripts();
+    return allScripts.some(script => 
+        script.title.toLowerCase() === title.toLowerCase() && script.id !== currentId
+    );
+}
+
 export default async function handler(req, res) {
-    // CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Admin-Password');
-
+    
     if (req.method === 'OPTIONS') {
         return res.status(200).end();
     }
-
+    
     // ==================== GET SCRIPTS ====================
     if (req.method === 'GET') {
         try {
-            const { id } = req.query;
-
+            const { id, sort } = req.query;
+            
             if (id) {
                 const script = await getScript(id);
                 if (script) {
@@ -85,35 +91,42 @@ export default async function handler(req, res) {
                 }
                 return res.status(404).json({ error: 'Script not found' });
             }
-
-            const scripts = await getAllScripts();
+            
+            let scripts = await getAllScripts();
+            
+            if (sort === 'recent') {
+                scripts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            } else if (sort === 'popular') {
+                scripts.sort((a, b) => (b.likes || 0) - (a.likes || 0));
+            }
+            
             return res.status(200).json(scripts);
         } catch (error) {
             console.error('GET Error:', error);
             return res.status(500).json({ error: 'Server error' });
         }
     }
-
+    
     // ==================== LIKE SCRIPT ====================
     if (req.method === 'POST' && req.query.action === 'like') {
         try {
             const { id } = req.query;
-            let script = await getScript(id);
+            const script = await getScript(id);
             
             if (!script) {
                 return res.status(404).json({ error: 'Script not found' });
             }
-
-            const userIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown';
+            
+            const userIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
             
             if (!script.likedBy) script.likedBy = [];
+            
             if (script.likedBy.includes(userIp)) {
                 return res.status(400).json({ error: 'You already liked this script' });
             }
-
+            
             script.likedBy.push(userIp);
             script.likes = (script.likes || 0) + 1;
-            
             await saveScript(script);
             
             return res.status(200).json({ success: true, likes: script.likes });
@@ -122,24 +135,45 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: 'Server error' });
         }
     }
-
-    // Admin password check for write operations
-    const adminPassword = req.headers['x-admin-password'];
-    if (adminPassword !== ADMIN_PASSWORD) {
-        return res.status(401).json({ error: 'Unauthorized. Invalid admin password.' });
-    }
-
-    // ==================== UPLOAD SCRIPT (POST) ====================
+    
+    // ==================== UPLOAD SCRIPT ====================
     if (req.method === 'POST' && !req.query.action) {
+        const adminPassword = req.headers['x-admin-password'];
+        
+        if (adminPassword !== ADMIN_PASSWORD) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+        
         try {
             const { type, title, author, description, code, link, thumbnail, youtubeId, unlockTask, lootlabUrl } = req.body;
-
+            
             if (!title || !author || !description) {
                 return res.status(400).json({ error: 'Missing title, author, or description' });
             }
-
-            const newId = Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
             
+            if (title.length < 3) {
+                return res.status(400).json({ error: 'Title must be at least 3 characters' });
+            }
+            
+            if (hasSpamLinks(title) || hasSpamLinks(author) || hasSpamLinks(description)) {
+                return res.status(400).json({ error: 'No Discord/Telegram invites allowed' });
+            }
+            
+            if (type === 'code' && (!code || code.length < 10)) {
+                return res.status(400).json({ error: 'Script code must be at least 10 characters' });
+            }
+            
+            if (type === 'link' && (!link || !link.startsWith('http'))) {
+                return res.status(400).json({ error: 'Please provide a valid URL' });
+            }
+            
+            // Check duplicate title
+            const duplicate = await isDuplicate(title);
+            if (duplicate) {
+                return res.status(400).json({ error: 'A script with this title already exists' });
+            }
+            
+            const newId = Date.now().toString();
             const newScript = {
                 id: newId,
                 type: type || 'code',
@@ -148,69 +182,132 @@ export default async function handler(req, res) {
                 description: description.substring(0, 500),
                 createdAt: new Date().toISOString(),
                 likes: 0,
-                likedBy: [],
                 verified: false,
-                unlockTask: unlockTask || 'ad',
-                lootlabUrl: lootlabUrl || null
+                likedBy: []
             };
-
+            
+            // Add unlock task
+            if (unlockTask) {
+                newScript.unlockTask = unlockTask;
+                if (unlockTask === 'lootlab' && lootlabUrl) {
+                    newScript.lootlabUrl = lootlabUrl;
+                }
+            }
+            
+            // Add optional fields
             if (thumbnail) newScript.thumbnail = thumbnail;
             if (youtubeId) newScript.youtubeId = youtubeId;
-
-            if (type === 'code' && code) {
+            
+            if (type === 'code') {
                 newScript.code = code.substring(0, 50000);
-            } else if (type === 'link' && link) {
+            } else {
                 newScript.link = link;
             }
-
+            
             await saveScript(newScript);
+            
             console.log(`✅ Script uploaded: ${title}`);
-
+            
             return res.status(201).json(newScript);
+            
         } catch (error) {
             console.error('Upload Error:', error);
             return res.status(500).json({ error: 'Server error: ' + error.message });
         }
     }
-
-    // ==================== UPDATE SCRIPT (PUT) ====================
+    
+    // ==================== UPDATE SCRIPT ====================
     if (req.method === 'PUT') {
+        const adminPassword = req.headers['x-admin-password'];
+        
+        if (adminPassword !== ADMIN_PASSWORD) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+        
         try {
-            const { id, ...updates } = req.body;
-            if (!id) return res.status(400).json({ error: 'Script ID required' });
-
-            let script = await getScript(id);
-            if (!script) return res.status(404).json({ error: 'Script not found' });
-
-            Object.assign(script, updates);
-            await saveScript(script);
-
-            return res.status(200).json({ success: true, script });
+            const { id, title, author, description, type, code, link, thumbnail, youtubeId, unlockTask, lootlabUrl } = req.body;
+            
+            if (!id) {
+                return res.status(400).json({ error: 'Script ID required' });
+            }
+            
+            const existingScript = await getScript(id);
+            if (!existingScript) {
+                return res.status(404).json({ error: 'Script not found' });
+            }
+            
+            // Update fields
+            if (title) existingScript.title = title.substring(0, 100);
+            if (author) existingScript.author = author.substring(0, 50);
+            if (description) existingScript.description = description.substring(0, 500);
+            if (type) existingScript.type = type;
+            if (thumbnail) existingScript.thumbnail = thumbnail;
+            if (youtubeId) existingScript.youtubeId = youtubeId;
+            
+            // Update unlock task
+            if (unlockTask) {
+                existingScript.unlockTask = unlockTask;
+                if (unlockTask === 'lootlab' && lootlabUrl) {
+                    existingScript.lootlabUrl = lootlabUrl;
+                } else {
+                    delete existingScript.lootlabUrl;
+                }
+            }
+            
+            if (type === 'code' && code) {
+                existingScript.code = code.substring(0, 50000);
+                delete existingScript.link;
+            } else if (type === 'link' && link) {
+                existingScript.link = link;
+                delete existingScript.code;
+            }
+            
+            await saveScript(existingScript);
+            
+            console.log(`✅ Script updated: ${existingScript.title}`);
+            
+            return res.status(200).json({ success: true, script: existingScript });
+            
         } catch (error) {
             console.error('Update Error:', error);
             return res.status(500).json({ error: 'Server error: ' + error.message });
         }
     }
-
+    
     // ==================== DELETE SCRIPT ====================
     if (req.method === 'DELETE') {
+        const adminPassword = req.headers['x-admin-password'];
+        
+        if (adminPassword !== ADMIN_PASSWORD) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+        
         try {
             const { id } = req.query;
-            if (!id) return res.status(400).json({ error: 'Script ID required' });
-
-            const script = await getScript(id);
-            if (!script) return res.status(404).json({ error: 'Script not found' });
-
-            const deleted = await deleteScript(id);
-            if (deleted) {
-                return res.status(200).json({ success: true, message: 'Script deleted' });
+            
+            if (!id) {
+                return res.status(400).json({ error: 'Script ID required' });
             }
-            return res.status(500).json({ error: 'Failed to delete' });
+            
+            const script = await getScript(id);
+            if (!script) {
+                return res.status(404).json({ error: 'Script not found' });
+            }
+            
+            const deleted = await deleteScript(script.id);
+            
+            if (deleted) {
+                console.log(`🗑️ Script deleted: ${script.title}`);
+                return res.status(200).json({ success: true });
+            } else {
+                return res.status(500).json({ error: 'Failed to delete' });
+            }
+            
         } catch (error) {
             console.error('Delete Error:', error);
-            return res.status(500).json({ error: 'Server error: ' + error.message });
+            return res.status(500).json({ error: 'Server error' });
         }
     }
-
+    
     return res.status(405).json({ error: 'Method not allowed' });
 }
