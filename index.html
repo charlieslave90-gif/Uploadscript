@@ -771,40 +771,75 @@
         }
         
         // ============ CHALLENGE FUNCTIONS ============
-        function showChallengeModal(scriptId, scriptCode) {
-            pendingScriptId = scriptId;
-            pendingScriptCode = scriptCode;
-            completedTasks = [];
-            
-            // Load previously completed tasks for this script
-            const savedCompleted = localStorage.getItem(`completed_${scriptId}`);
-            if (savedCompleted) {
-                completedTasks = JSON.parse(savedCompleted);
-            }
-            
-            // Select 3 random tasks
-            const shuffled = [...TASKS].sort(() => 0.5 - Math.random());
-            currentTasks = shuffled.slice(0, 3);
-            
-            renderTasks();
-            document.getElementById('challengeModal').style.display = 'flex';
-        }
+        function showChallengeModal(scriptId, scriptCode, unlockTask, lootlabUrl) {
+    pendingScriptId = scriptId;
+    pendingScriptCode = scriptCode;
+    
+    let tasksHtml = '';
+    if (unlockTask === 'lootlab') {
+        tasksHtml = `
+            <div class="task-item">
+                <span>🔗 Visit LootLab Link</span>
+                <button onclick="completeLootlabTask('${lootlabUrl}')" class="task-btn">Complete</button>
+            </div>
+        `;
+    } else if (unlockTask === 'ad') {
+        tasksHtml = `
+            <div class="task-item">
+                <span>📺 Watch 10 Second Ad</span>
+                <button onclick="showAdTask()" class="task-btn">Watch Ad</button>
+            </div>
+        `;
+    }
+    
+    document.getElementById('tasksList').innerHTML = tasksHtml;
+    document.getElementById('challengeModal').style.display = 'flex';
+}
+
+function completeLootlabTask(url) {
+    window.open(url, '_blank');
+    setTimeout(() => {
+        unlockScriptDirect();
+    }, 3000);
+}
+
+function showAdTask() {
+    const adDiv = document.getElementById('adTask');
+    const adContent = document.getElementById('adContent');
+    adContent.innerHTML = `
+        <div style="margin:10px 0">
+            <div class="ad-label">Watch 10 second ad to unlock</div>
+            <script>
+                atOptions = {'key':'673fb53f64c762401413eb44406c1c80','format':'iframe','height':300,'width':160,'params':{}};
+            <\/script>
+            <script src="https://www.highperformanceformat.com/673fb53f64c762401413eb44406c1c80/invoke.js"><\/script>
+        </div>
+    `;
+    adDiv.classList.remove('hidden');
+    window.adWatched = false;
+}
+
+function completeAdTask() {
+    if (!window.adWatched) {
+        window.adWatched = true;
+        document.getElementById('adTask').classList.add('hidden');
+        unlockScriptDirect();
+    }
+}
+
+function unlockScriptDirect() {
+    if (pendingScriptCode) {
+        navigator.clipboard.writeText(pendingScriptCode);
+        showToast('✅ Script copied to clipboard!');
+        closeChallengeModal();
         
-        function renderTasks() {
-            const tasksContainer = document.getElementById('tasksList');
-            
-            let tasksHtml = '';
-            currentTasks.forEach((task, index) => {
-                const isCompleted = completedTasks.includes(index);
-                tasksHtml += `
-                    <div class="task-item ${isCompleted ? 'task-completed' : ''}">
-                        <span>${isCompleted ? '✅' : '📋'} ${escapeHtml(task.name)}</span>
-                        ${!isCompleted ? `<button onclick="completeTask(${index})" class="task-btn">Complete</button>` : '<span>✓ Done</span>'}
-                    </div>
-                `;
-            });
-            
-            tasksContainer.innerHTML = tasksHtml;
+        let unlocked = JSON.parse(localStorage.getItem('unlockedScripts') || '[]');
+        if (!unlocked.includes(pendingScriptId)) {
+            unlocked.push(pendingScriptId);
+            localStorage.setItem('unlockedScripts', JSON.stringify(unlocked));
+        }
+    }
+}
             
             // Check if all tasks are completed
             const allCompleted = currentTasks.every((_, index) => completedTasks.includes(index));
