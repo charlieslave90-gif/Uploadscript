@@ -278,8 +278,6 @@
                 
                 const hasLiked = likedScripts[script.id];
                 const shareUrl = `${window.location.origin}/?id=${script.id}`;
-                const unlockedScripts = JSON.parse(localStorage.getItem('unlockedScripts') || '[]');
-                const isUnlocked = unlockedScripts.includes(script.id);
                 
                 let youtubeHtml = '';
                 if (script.youtubeId) {
@@ -288,24 +286,12 @@
                 
                 let contentHtml = '';
                 if (script.type === 'code') {
-                    if (isUnlocked) {
-                        contentHtml = `
-                            ${youtubeHtml}
-                            <h3>📝 Script Code:</h3>
-                            <pre><code id="scriptCode">${escapeHtml(script.code)}</code></pre>
-                            <button onclick="copyCodeDirect()" class="btn-primary" style="margin-top:1rem;">📋 Copy Code</button>
-                        `;
-                    } else {
-                        const taskText = script.unlockTask === 'lootlab' ? 'Visit LootLab link' : 'Watch a 10-second ad';
-                        contentHtml = `
-                            ${youtubeHtml}
-                            <div style="text-align:center; padding:2rem; background:#f1f5f9; border-radius:20px;">
-                                <h3>🔒 Script Locked</h3>
-                                <p>${taskText} to unlock this script</p>
-                                <button onclick="startWaitTimer('${script.id}', \`${escapeHtml(script.code)}\`, '${script.unlockTask || 'ad'}', '${script.lootlabUrl || ''}')" class="btn-primary">🔓 Unlock Script</button>
-                            </div>
-                        `;
-                    }
+                    contentHtml = `
+                        ${youtubeHtml}
+                        <h3>📝 Script Code:</h3>
+                        <pre><code id="scriptCode">${escapeHtml(script.code)}</code></pre>
+                        <button onclick="copyCodeDirect()" class="btn-primary" style="margin-top:1rem;">📋 Copy Code</button>
+                    `;
                 } else {
                     contentHtml = `
                         ${youtubeHtml}
@@ -338,38 +324,6 @@
             } catch (error) {
                 document.getElementById('scriptContent').innerHTML = '<div class="loading">Script not found</div>';
             }
-        }
-        
-        function startWaitTimer(scriptId, scriptCode, unlockTask, lootlabUrl) {
-            if (unlockTask === 'lootlab') {
-                window.open(lootlabUrl, '_blank');
-                setTimeout(() => {
-                    unlockScript(scriptId, scriptCode);
-                }, 3000);
-                showToast('Opening LootLab link. Script will unlock in 3 seconds...');
-            } else {
-                showToast('Please wait 20 seconds...');
-                let seconds = 20;
-                const interval = setInterval(() => {
-                    seconds--;
-                    if (seconds <= 0) {
-                        clearInterval(interval);
-                        unlockScript(scriptId, scriptCode);
-                        showToast('✅ Script unlocked!');
-                    }
-                }, 1000);
-            }
-        }
-        
-        function unlockScript(scriptId, scriptCode) {
-            navigator.clipboard.writeText(scriptCode);
-            showToast('✅ Script copied to clipboard!');
-            let unlocked = JSON.parse(localStorage.getItem('unlockedScripts') || '[]');
-            if (!unlocked.includes(scriptId)) {
-                unlocked.push(scriptId);
-                localStorage.setItem('unlockedScripts', JSON.stringify(unlocked));
-            }
-            loadScriptDetail(scriptId);
         }
         
         function copyCodeDirect() {
