@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - ScriptHub</title>
+    <title>secret gsy slut panel</title>
     <style>
         * {
             margin: 0;
@@ -188,8 +188,10 @@
             background: white;
             padding: 2rem;
             border-radius: 20px;
-            max-width: 500px;
+            max-width: 600px;
             width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
         }
     </style>
 </head>
@@ -218,8 +220,8 @@
                 <h2>📤 Upload New Script</h2>
                 <form id="uploadForm">
                     <select id="type" required>
-                        <option value="code">Lua Script</option>
-                        <option value="link">External Link</option>
+                        <option value="code">Lua Script (Paste Code)</option>
+                        <option value="link">External Link (Pastebin, LootLab, etc.)</option>
                     </select>
                     <input type="text" id="title" placeholder="Title" required>
                     <input type="text" id="author" placeholder="Author" required>
@@ -245,7 +247,8 @@
                         <textarea id="code" rows="8" placeholder="Lua Script Code"></textarea>
                     </div>
                     <div id="linkDiv" class="hidden">
-                        <input type="url" id="link" placeholder="External Link (https://...)">
+                        <input type="url" id="link" placeholder="External Link (https://pastebin.com/..., https://lootlab.gg/...)">
+                        <small>Example: https://pastebin.com/raw/xxxxx or https://lootlab.gg/xxxxx</small>
                     </div>
                     <input type="url" id="youtube" placeholder="YouTube URL (optional)">
                     <input type="file" id="thumbnail" accept="image/*">
@@ -287,14 +290,14 @@
                 </div>
                 
                 <select id="editType">
-                    <option value="code">Lua Script</option>
+                    <option value="code">Lua Script (Paste Code)</option>
                     <option value="link">External Link</option>
                 </select>
                 <div id="editCodeDiv">
                     <textarea id="editCode" rows="8" placeholder="Lua Script Code"></textarea>
                 </div>
                 <div id="editLinkDiv" class="hidden">
-                    <input type="url" id="editLink" placeholder="External Link">
+                    <input type="url" id="editLink" placeholder="External Link (https://...)">
                 </div>
                 <input type="url" id="editYoutube" placeholder="YouTube URL">
                 <button type="submit">💾 Save Changes</button>
@@ -366,6 +369,7 @@
                                     <strong>${escapeHtml(script.title)}</strong><br>
                                     By: ${escapeHtml(script.author)} | ❤️ ${script.likes || 0}<br>
                                     <small>ID: ${script.id}</small><br>
+                                    <small>Type: ${script.type === 'code' ? '💻 Lua Script' : '🔗 External Link'}</small><br>
                                     ${taskDisplay}
                                 </div>
                                 <div class="button-group">
@@ -463,6 +467,7 @@
             }
         }
         
+        // Toggle script type in upload form
         document.getElementById('type')?.addEventListener('change', function() {
             if (this.value === 'code') {
                 document.getElementById('codeDiv').classList.remove('hidden');
@@ -473,6 +478,7 @@
             }
         });
         
+        // Toggle script type in edit form
         document.getElementById('editType')?.addEventListener('change', function() {
             if (this.value === 'code') {
                 document.getElementById('editCodeDiv').classList.remove('hidden');
@@ -483,6 +489,7 @@
             }
         });
         
+        // Upload script
         document.getElementById('uploadForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -526,13 +533,20 @@
                 scriptData.thumbnail = thumbData;
             }
             
+            // IMPORTANT: Handle both code and link
             if (type === 'code') {
                 const code = document.getElementById('code').value.trim();
-                if (!code) { showAlert('Enter script code', true); return; }
+                if (!code) {
+                    showAlert('Enter script code', true);
+                    return;
+                }
                 scriptData.code = code;
             } else {
                 const link = document.getElementById('link').value.trim();
-                if (!link) { showAlert('Enter a link', true); return; }
+                if (!link) {
+                    showAlert('Enter a valid external link', true);
+                    return;
+                }
                 scriptData.link = link;
             }
             
@@ -564,6 +578,7 @@
             }
         });
         
+        // Edit script form
         document.getElementById('editScriptForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
             
