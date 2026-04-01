@@ -124,22 +124,6 @@
         </div>
     </div>
 
-    <!-- Challenge Modal -->
-    <div id="challengeModal" class="challenge-modal">
-        <div class="challenge-content">
-            <h2>🔓 Unlock Script</h2>
-            <p>Complete this task to copy the script:</p>
-            <div id="tasksList"></div>
-            <div id="adTask" class="ad-container hidden">
-                <div class="ad-label">Watch these ads for 10 seconds to unlock</div>
-                <div id="adContent" style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin: 15px 0;"></div>
-                <div id="timerDisplay" style="font-size: 24px; font-weight: bold; color: #6366f1; margin: 10px 0;"></div>
-                <button id="completeAdBtn" class="btn-primary" style="margin-top:10px; background: #9ca3af; cursor: not-allowed;" disabled>⏳ Wait 10 seconds...</button>
-            </div>
-            <button onclick="closeChallengeModal()" class="btn-secondary" style="margin-top:10px;">Cancel</button>
-        </div>
-    </div>
-
     <div id="linkModal" class="modal">
         <div class="modal-content">
             <h3>⚠️ External Link</h3>
@@ -158,13 +142,9 @@
         let currentFilter = 'all';
         let likedScripts = JSON.parse(localStorage.getItem('likedScripts') || '{}');
         
-        // Challenge variables
-        let pendingScriptId = null;
-        let pendingScriptCode = null;
-        let pendingUnlockTask = null;
-        let pendingLootlabUrl = null;
-        let adTimerInterval = null;
-        let adTimeLeft = 10;
+        // Timer variables
+        let waitTimer = null;
+        let waitSeconds = 20;
         
         function showToast(message, isError = false) {
             const toast = document.createElement('div');
@@ -195,178 +175,38 @@
             loadScriptDetail(id);
         }
         
-        // ============ CHALLENGE FUNCTIONS ============
-        function showChallengeModal(scriptId, scriptCode, unlockTask, lootlabUrl) {
-            pendingScriptId = scriptId;
-            pendingScriptCode = scriptCode;
-            pendingUnlockTask = unlockTask;
-            pendingLootlabUrl = lootlabUrl;
+        function startWaitTimer(callback) {
+            waitSeconds = 20;
+            const timerDisplay = document.getElementById('waitTimer');
+            const copyBtn = document.getElementById('copyCodeBtn');
             
-            const tasksList = document.getElementById('tasksList');
-            const adTaskDiv = document.getElementById('adTask');
-            adTaskDiv.classList.add('hidden');
-            
-            let tasksHtml = '';
-            
-            if (unlockTask === 'lootlab') {
-                tasksHtml = `
-                    <div class="task-item">
-                        <span>🔗 Visit LootLab Link</span>
-                        <button onclick="completeLootlabTask()" class="task-btn">Visit Link</button>
-                    </div>
-                `;
-            } else if (unlockTask === 'ad') {
-                tasksHtml = `
-                    <div class="task-item">
-                        <span>📺 Watch 10 Second Ad</span>
-                        <button onclick="showAdTask()" class="task-btn">Watch Ad</button>
-                    </div>
-                `;
+            if (timerDisplay) timerDisplay.innerHTML = `⏱️ Wait ${waitSeconds} seconds to copy...`;
+            if (copyBtn) {
+                copyBtn.disabled = true;
+                copyBtn.style.background = '#9ca3af';
+                copyBtn.style.cursor = 'not-allowed';
             }
             
-            tasksList.innerHTML = tasksHtml;
-            document.getElementById('challengeModal').style.display = 'flex';
-        }
-        
-        function completeLootlabTask() {
-            if (pendingLootlabUrl) {
-                window.open(pendingLootlabUrl, '_blank');
-                setTimeout(() => {
-                    unlockScriptDirect();
-                }, 3000);
-                showToast('✅ Opening LootLab link. Script will unlock in 3 seconds...');
-            }
-        }
-        
-        function showAdTask() {
-            const adTaskDiv = document.getElementById('adTask');
-            const adContent = document.getElementById('adContent');
-            const timerDisplay = document.getElementById('timerDisplay');
-            const completeBtn = document.getElementById('completeAdBtn');
+            if (waitTimer) clearInterval(waitTimer);
             
-            // Reset timer
-            adTimeLeft = 10;
-            if (adTimerInterval) clearInterval(adTimerInterval);
-            
-            // Show ads side by side
-            adContent.innerHTML = `
-                <div style="flex: 1; min-width: 200px; padding: 10px; background: #f1f5f9; border-radius: 12px; text-align: center;">
-                    <div class="ad-label">Ad 1</div>
-                    <script>
-                        atOptions = {
-                            'key' : '673fb53f64c762401413eb44406c1c80',
-                            'format' : 'iframe',
-                            'height' : 300,
-                            'width' : 160,
-                            'params' : {}
-                        };
-                    <\/script>
-                    <script src="https://www.highperformanceformat.com/673fb53f64c762401413eb44406c1c80/invoke.js"><\/script>
-                </div>
-                <div style="flex: 1; min-width: 200px; padding: 10px; background: #f1f5f9; border-radius: 12px; text-align: center;">
-                    <div class="ad-label">Ad 2</div>
-                    <script>
-                        atOptions = {
-                            'key' : '5c4ab71c3e05e8f162c6845ea1c55950',
-                            'format' : 'iframe',
-                            'height' : 250,
-                            'width' : 300,
-                            'params' : {}
-                        };
-                    <\/script>
-                    <script src="https://www.highperformanceformat.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"><\/script>
-                </div>
-                <div style="flex: 1; min-width: 200px; padding: 10px; background: #f1f5f9; border-radius: 12px; text-align: center;">
-                    <div class="ad-label">Ad 3</div>
-                    <script>
-                        atOptions = {
-                            'key' : '30772cccaf8ca1f9a16a3c555509b64f',
-                            'format' : 'iframe',
-                            'height' : 90,
-                            'width' : 728,
-                            'params' : {}
-                        };
-                    <\/script>
-                    <script src="https://www.highperformanceformat.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"><\/script>
-                </div>
-            `;
-            
-            timerDisplay.innerHTML = `⏱️ Wait ${adTimeLeft} seconds...`;
-            completeBtn.disabled = true;
-            completeBtn.style.background = '#9ca3af';
-            completeBtn.style.cursor = 'not-allowed';
-            completeBtn.textContent = `⏳ Wait ${adTimeLeft} seconds...`;
-            
-            // Remove old event listener and add new one
-            const newBtn = completeBtn.cloneNode(true);
-            completeBtn.parentNode.replaceChild(newBtn, completeBtn);
-            newBtn.id = 'completeAdBtn';
-            newBtn.onclick = function() { completeAdTask(); };
-            
-            adTaskDiv.classList.remove('hidden');
-            
-            // Start countdown timer
-            adTimerInterval = setInterval(() => {
-                adTimeLeft--;
-                const timerDisplayElem = document.getElementById('timerDisplay');
-                const btnElem = document.getElementById('completeAdBtn');
+            waitTimer = setInterval(() => {
+                waitSeconds--;
+                if (timerDisplay) timerDisplay.innerHTML = `⏱️ Wait ${waitSeconds} seconds to copy...`;
+                if (copyBtn) copyBtn.textContent = `⏳ Wait ${waitSeconds}s`;
                 
-                if (timerDisplayElem) timerDisplayElem.innerHTML = `⏱️ Wait ${adTimeLeft} seconds...`;
-                if (btnElem) btnElem.textContent = `⏳ Wait ${adTimeLeft} seconds...`;
-                
-                if (adTimeLeft <= 0) {
-                    clearInterval(adTimerInterval);
-                    if (timerDisplayElem) timerDisplayElem.innerHTML = `✅ You can now unlock!`;
-                    if (btnElem) {
-                        btnElem.disabled = false;
-                        btnElem.style.background = 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)';
-                        btnElem.style.cursor = 'pointer';
-                        btnElem.textContent = `🔓 Unlock Script Now`;
+                if (waitSeconds <= 0) {
+                    clearInterval(waitTimer);
+                    if (timerDisplay) timerDisplay.innerHTML = `✅ You can now copy the script!`;
+                    if (copyBtn) {
+                        copyBtn.disabled = false;
+                        copyBtn.style.background = 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)';
+                        copyBtn.style.cursor = 'pointer';
+                        copyBtn.textContent = `📋 Copy Script`;
                     }
+                    if (callback) callback();
                 }
             }, 1000);
         }
-        
-        function completeAdTask() {
-            if (adTimeLeft <= 0) {
-                document.getElementById('adTask').classList.add('hidden');
-                if (adTimerInterval) clearInterval(adTimerInterval);
-                unlockScriptDirect();
-                showToast('✅ Ad watched! Script unlocked.');
-            } else {
-                showToast(`⏳ Please wait ${adTimeLeft} more seconds...`, true);
-            }
-        }
-        
-        function unlockScriptDirect() {
-            if (pendingScriptCode) {
-                navigator.clipboard.writeText(pendingScriptCode);
-                showToast('✅ Script copied to clipboard!');
-                closeChallengeModal();
-                
-                let unlocked = JSON.parse(localStorage.getItem('unlockedScripts') || '[]');
-                if (!unlocked.includes(pendingScriptId)) {
-                    unlocked.push(pendingScriptId);
-                    localStorage.setItem('unlockedScripts', JSON.stringify(unlocked));
-                }
-                
-                // Refresh the script detail to show unlocked state
-                if (pendingScriptId) {
-                    loadScriptDetail(pendingScriptId);
-                }
-            }
-        }
-        
-        function closeChallengeModal() {
-            if (adTimerInterval) clearInterval(adTimerInterval);
-            document.getElementById('challengeModal').style.display = 'none';
-            pendingScriptId = null;
-            pendingScriptCode = null;
-            pendingUnlockTask = null;
-            pendingLootlabUrl = null;
-            adTimeLeft = 10;
-        }
-        // ============ END CHALLENGE ============
         
         async function loadScripts() {
             try {
@@ -469,13 +309,13 @@
                             <button onclick="copyCodeDirect()" class="btn-primary" style="margin-top:1rem;">📋 Copy Code</button>
                         `;
                     } else {
-                        const taskText = script.unlockTask === 'lootlab' ? 'Visit LootLab link' : 'Watch a 10-second ad';
                         contentHtml = `
                             ${youtubeHtml}
                             <div style="text-align:center; padding:2rem; background:#f1f5f9; border-radius:20px;">
                                 <h3>🔒 Script Locked</h3>
-                                <p>${taskText} to unlock this script</p>
-                                <button onclick="showChallengeModal('${script.id}', \`${escapeHtml(script.code)}\`, '${script.unlockTask || 'ad'}', '${script.lootlabUrl || ''}')" class="btn-primary">🔓 Unlock Script</button>
+                                <p>Wait 20 seconds to unlock this script</p>
+                                <div id="waitTimer" style="font-size: 20px; font-weight: bold; color: #6366f1; margin: 15px 0;">⏱️ Wait 20 seconds...</div>
+                                <button id="unlockBtn" class="btn-primary" onclick="unlockScript('${script.id}', \`${escapeHtml(script.code)}\`)">🔓 Start 20s Wait</button>
                             </div>
                         `;
                     }
@@ -526,6 +366,44 @@
             } catch (error) {
                 document.getElementById('scriptContent').innerHTML = '<div class="loading">Script not found</div>';
             }
+        }
+        
+        function unlockScript(scriptId, scriptCode) {
+            const unlockBtn = document.getElementById('unlockBtn');
+            const waitTimerDiv = document.getElementById('waitTimer');
+            
+            if (unlockBtn) {
+                unlockBtn.disabled = true;
+                unlockBtn.style.background = '#9ca3af';
+                unlockBtn.style.cursor = 'not-allowed';
+                unlockBtn.textContent = '⏳ Waiting...';
+            }
+            
+            let secondsLeft = 20;
+            if (waitTimerDiv) {
+                waitTimerDiv.innerHTML = `⏱️ Wait ${secondsLeft} seconds...`;
+            }
+            
+            const timer = setInterval(() => {
+                secondsLeft--;
+                if (waitTimerDiv) waitTimerDiv.innerHTML = `⏱️ Wait ${secondsLeft} seconds...`;
+                
+                if (secondsLeft <= 0) {
+                    clearInterval(timer);
+                    if (waitTimerDiv) waitTimerDiv.innerHTML = `✅ Script unlocked! You can now copy.`;
+                    
+                    // Mark as unlocked in localStorage
+                    let unlocked = JSON.parse(localStorage.getItem('unlockedScripts') || '[]');
+                    if (!unlocked.includes(scriptId)) {
+                        unlocked.push(scriptId);
+                        localStorage.setItem('unlockedScripts', JSON.stringify(unlocked));
+                    }
+                    
+                    // Refresh the page to show the code
+                    loadScriptDetail(scriptId);
+                    showToast('✅ Script unlocked! You can now copy the code.');
+                }
+            }, 1000);
         }
         
         function copyCodeDirect() {
