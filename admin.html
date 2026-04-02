@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>secret gsy slut panel</title>
+    <title>Admin Panel - ScriptHub</title>
     <style>
         * {
             margin: 0;
@@ -77,7 +77,7 @@
             background: #38a169;
         }
 
-        .script-item {
+        .script-item, .key-item {
             background: #f7fafc;
             padding: 15px;
             margin: 10px 0;
@@ -85,7 +85,7 @@
             border: 1px solid #e2e8f0;
         }
 
-        .script-header {
+        .script-header, .key-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -93,14 +93,31 @@
             gap: 10px;
         }
 
-        .task-badge {
+        .key-code {
+            font-family: monospace;
+            font-size: 14px;
+            background: #e2e8f0;
+            padding: 4px 8px;
+            border-radius: 6px;
             display: inline-block;
-            background: #e0e7ff;
-            color: #4f46e5;
+        }
+
+        .badge {
+            display: inline-block;
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 0.75rem;
-            margin: 5px 5px 0 0;
+            font-weight: 600;
+        }
+
+        .badge-active {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .badge-inactive {
+            background: #fed7d7;
+            color: #742a2a;
         }
 
         .button-group {
@@ -136,39 +153,23 @@
             margin-bottom: 15px;
         }
 
-        .task-option {
-            background: #f1f5f9;
-            padding: 15px;
-            border-radius: 12px;
-            margin: 10px 0;
-            border: 2px solid #e2e8f0;
-            cursor: pointer;
-            transition: all 0.3s;
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
-        .task-option:hover {
-            border-color: #667eea;
-            background: #f8fafc;
-        }
-
-        .task-option.selected {
-            border-color: #48bb78;
-            background: #f0fdf4;
-        }
-
-        .task-option input {
+        .tab-btn {
+            background: #e2e8f0;
+            color: #4a5568;
             width: auto;
-            margin-right: 10px;
+            padding: 10px 20px;
         }
 
-        .task-option label {
-            cursor: pointer;
-            font-weight: 500;
-        }
-
-        .task-url-input {
-            margin-top: 10px;
-            padding-left: 25px;
+        .tab-btn.active {
+            background: #667eea;
+            color: white;
         }
 
         .modal {
@@ -188,10 +189,8 @@
             background: white;
             padding: 2rem;
             border-radius: 20px;
-            max-width: 600px;
+            max-width: 500px;
             width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
         }
     </style>
 </head>
@@ -215,93 +214,80 @@
 
             <div id="alertMsg" class="hidden"></div>
 
-            <!-- Upload Section -->
-            <div class="card">
-                <h2>📤 Upload New Script</h2>
-                <form id="uploadForm">
-                    <select id="type" required>
-                        <option value="code">Lua Script (Paste Code)</option>
-                        <option value="link">External Link (Pastebin, LootLab, etc.)</option>
-                    </select>
-                    <input type="text" id="title" placeholder="Title" required>
-                    <input type="text" id="author" placeholder="Author" required>
-                    <textarea id="description" rows="3" placeholder="Description" required></textarea>
-                    
-                    <!-- Task Selection for Unlocking -->
-                    <h3 style="margin: 15px 0 10px 0;">🔓 Unlock Requirements</h3>
-                    <div id="taskSelection">
-                        <div class="task-option" onclick="selectTask('lootlab')">
-                            <input type="radio" name="unlockTask" value="lootlab" id="taskLootlab">
-                            <label for="taskLootlab">🔗 Visit LootLab Link</label>
-                            <div id="lootlabUrlDiv" class="task-url-input hidden">
-                                <input type="url" id="lootlabUrl" placeholder="https://loot-link.com/s?xxxxx">
-                            </div>
-                        </div>
-                        <div class="task-option" onclick="selectTask('ad')">
-                            <input type="radio" name="unlockTask" value="ad" id="taskAd">
-                            <label for="taskAd">📺 Watch 10 Second Ad</label>
-                        </div>
-                    </div>
-                    
-                    <div id="codeDiv">
-                        <textarea id="code" rows="8" placeholder="Lua Script Code"></textarea>
-                    </div>
-                    <div id="linkDiv" class="hidden">
-                        <input type="url" id="link" placeholder="External Link (https://pastebin.com/..., https://lootlab.gg/...)">
-                        <small>Example: https://pastebin.com/raw/xxxxx or https://lootlab.gg/xxxxx</small>
-                    </div>
-                    <input type="url" id="youtube" placeholder="YouTube URL (optional)">
-                    <input type="file" id="thumbnail" accept="image/*">
-                    <button type="submit">📤 Upload Script</button>
-                </form>
+            <!-- Tab Navigation -->
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="switchTab('scripts')">📜 Manage Scripts</button>
+                <button class="tab-btn" onclick="switchTab('keys')">🔑 Manage Keys</button>
             </div>
 
-            <!-- Scripts List -->
-            <div class="card">
-                <h2>📜 Manage Scripts</h2>
-                <div id="scriptsList">Loading...</div>
+            <!-- Scripts Tab -->
+            <div id="scriptsTab">
+                <div class="card">
+                    <h2>📤 Upload New Script</h2>
+                    <form id="uploadForm">
+                        <select id="type" required>
+                            <option value="code">Lua Script</option>
+                            <option value="link">External Link</option>
+                        </select>
+                        <input type="text" id="title" placeholder="Title" required>
+                        <input type="text" id="author" placeholder="Author" required>
+                        <textarea id="description" rows="3" placeholder="Description" required></textarea>
+                        
+                        <div id="codeDiv">
+                            <textarea id="code" rows="8" placeholder="Lua Script Code"></textarea>
+                        </div>
+                        <div id="linkDiv" class="hidden">
+                            <input type="url" id="link" placeholder="External Link (https://...)">
+                        </div>
+                        <input type="url" id="youtube" placeholder="YouTube URL (optional)">
+                        <input type="file" id="thumbnail" accept="image/*">
+                        <button type="submit">📤 Upload Script</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2>📜 Manage Scripts</h2>
+                    <div id="scriptsList">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Keys Tab -->
+            <div id="keysTab" class="hidden">
+                <div class="card">
+                    <h2>➕ Add New Key</h2>
+                    <form id="addKeyForm">
+                        <input type="text" id="keyCode" placeholder="Key Code (e.g., SCX-88832-H44421-J3331)" required>
+                        <input type="text" id="keyScriptId" placeholder="Script ID this key unlocks (optional)">
+                        <select id="keyStatus">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                        <button type="submit">➕ Add Key</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2>🔑 Manage Keys</h2>
+                    <div id="keysList">Loading keys...</div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Edit Script Modal -->
-    <div id="editScriptModal" class="modal">
+    <!-- Edit Key Modal -->
+    <div id="editKeyModal" class="modal">
         <div class="modal-content">
-            <h2>✏️ Edit Script</h2>
-            <form id="editScriptForm">
-                <input type="hidden" id="editScriptId">
-                <input type="text" id="editTitle" placeholder="Title" required>
-                <input type="text" id="editAuthor" placeholder="Author" required>
-                <textarea id="editDescription" rows="3" placeholder="Description" required></textarea>
-                
-                <h3 style="margin: 15px 0 10px 0;">🔓 Unlock Requirements</h3>
-                <div id="editTaskSelection">
-                    <div class="task-option" onclick="editSelectTask('lootlab')">
-                        <input type="radio" name="editUnlockTask" value="lootlab" id="editTaskLootlab">
-                        <label>🔗 Visit LootLab Link</label>
-                        <div id="editLootlabUrlDiv" class="task-url-input hidden">
-                            <input type="url" id="editLootlabUrl" placeholder="https://loot-link.com/s?xxxxx">
-                        </div>
-                    </div>
-                    <div class="task-option" onclick="editSelectTask('ad')">
-                        <input type="radio" name="editUnlockTask" value="ad" id="editTaskAd">
-                        <label>📺 Watch 10 Second Ad</label>
-                    </div>
-                </div>
-                
-                <select id="editType">
-                    <option value="code">Lua Script (Paste Code)</option>
-                    <option value="link">External Link</option>
+            <h2>✏️ Edit Key</h2>
+            <form id="editKeyForm">
+                <input type="hidden" id="editKeyId">
+                <input type="text" id="editKeyCode" placeholder="Key Code" required>
+                <input type="text" id="editKeyScriptId" placeholder="Script ID (optional)">
+                <select id="editKeyStatus">
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
                 </select>
-                <div id="editCodeDiv">
-                    <textarea id="editCode" rows="8" placeholder="Lua Script Code"></textarea>
-                </div>
-                <div id="editLinkDiv" class="hidden">
-                    <input type="url" id="editLink" placeholder="External Link (https://...)">
-                </div>
-                <input type="url" id="editYoutube" placeholder="YouTube URL">
                 <button type="submit">💾 Save Changes</button>
-                <button type="button" onclick="closeEditModal()" style="background: #718096;">Cancel</button>
+                <button type="button" onclick="closeEditKeyModal()" style="background: #718096;">Cancel</button>
             </form>
         </div>
     </div>
@@ -310,29 +296,97 @@
         const API_URL = window.location.origin;
         const ADMIN_PASSWORD = 'karah123';
         
-        function selectTask(type) {
-            document.querySelectorAll('#taskSelection .task-option').forEach(opt => opt.classList.remove('selected'));
-            if (type === 'lootlab') {
-                document.getElementById('taskLootlab').checked = true;
-                document.getElementById('lootlabUrlDiv').classList.remove('hidden');
-                document.getElementById('taskLootlab').closest('.task-option').classList.add('selected');
+        // Keys storage
+        let keys = [];
+        
+        function loadKeys() {
+            const savedKeys = localStorage.getItem('adminKeys');
+            if (savedKeys) {
+                keys = JSON.parse(savedKeys);
             } else {
-                document.getElementById('taskAd').checked = true;
-                document.getElementById('lootlabUrlDiv').classList.add('hidden');
-                document.getElementById('taskAd').closest('.task-option').classList.add('selected');
+                // Default keys
+                keys = [
+                    { id: '1', code: 'DEMO-KEY-12345', scriptId: '', status: 'active', createdAt: new Date().toISOString(), usedBy: [] },
+                    { id: '2', code: 'SCX-88832-H44421-J3331', scriptId: '', status: 'active', createdAt: new Date().toISOString(), usedBy: [] }
+                ];
+                saveKeys();
+            }
+            displayKeys();
+        }
+        
+        function saveKeys() {
+            localStorage.setItem('adminKeys', JSON.stringify(keys));
+        }
+        
+        function displayKeys() {
+            const container = document.getElementById('keysList');
+            if (!keys || keys.length === 0) {
+                container.innerHTML = '<p>No keys yet. Add some!</p>';
+                return;
+            }
+            
+            container.innerHTML = keys.map(key => `
+                <div class="key-item">
+                    <div class="key-header">
+                        <div>
+                            <strong><span class="key-code">${escapeHtml(key.code)}</span></strong><br>
+                            <small>ID: ${key.id}</small><br>
+                            <small>Script ID: ${key.scriptId || 'Any script'}</small><br>
+                            <small>Status: <span class="badge ${key.status === 'active' ? 'badge-active' : 'badge-inactive'}">${key.status}</span></small>
+                            <small>Used: ${key.usedBy?.length || 0} times</small>
+                        </div>
+                        <div class="button-group">
+                            <button onclick="editKey('${key.id}')" class="edit-btn" style="width: auto; padding: 5px 15px;">✏️ Edit</button>
+                            <button onclick="deleteKey('${key.id}')" class="delete-btn" style="width: auto; padding: 5px 15px;">🗑️ Delete</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function addKey(code, scriptId, status) {
+            const newKey = {
+                id: Date.now().toString(),
+                code: code.toUpperCase(),
+                scriptId: scriptId || '',
+                status: status || 'active',
+                createdAt: new Date().toISOString(),
+                usedBy: []
+            };
+            keys.push(newKey);
+            saveKeys();
+            displayKeys();
+            showAlert('✅ Key added successfully!', false);
+        }
+        
+        function editKey(id) {
+            const key = keys.find(k => k.id === id);
+            if (!key) return;
+            
+            document.getElementById('editKeyId').value = key.id;
+            document.getElementById('editKeyCode').value = key.code;
+            document.getElementById('editKeyScriptId').value = key.scriptId || '';
+            document.getElementById('editKeyStatus').value = key.status;
+            
+            document.getElementById('editKeyModal').style.display = 'flex';
+        }
+        
+        function updateKey(id, code, scriptId, status) {
+            const index = keys.findIndex(k => k.id === id);
+            if (index !== -1) {
+                keys[index] = { ...keys[index], code: code.toUpperCase(), scriptId: scriptId || '', status: status };
+                saveKeys();
+                displayKeys();
+                showAlert('✅ Key updated!', false);
             }
         }
         
-        function editSelectTask(type) {
-            document.querySelectorAll('#editTaskSelection .task-option').forEach(opt => opt.classList.remove('selected'));
-            if (type === 'lootlab') {
-                document.getElementById('editTaskLootlab').checked = true;
-                document.getElementById('editLootlabUrlDiv').classList.remove('hidden');
-                document.getElementById('editTaskLootlab').closest('.task-option').classList.add('selected');
-            } else {
-                document.getElementById('editTaskAd').checked = true;
-                document.getElementById('editLootlabUrlDiv').classList.add('hidden');
-                document.getElementById('editTaskAd').closest('.task-option').classList.add('selected');
+        function deleteKey(id) {
+            if (confirm('Delete this key?')) {
+                keys = keys.filter(k => k.id !== id);
+                saveKeys();
+                displayKeys();
+                showAlert('🗑️ Key deleted', false);
             }
         }
         
@@ -355,31 +409,22 @@
                     return;
                 }
                 
-                container.innerHTML = scripts.map(script => {
-                    let taskDisplay = '';
-                    if (script.unlockTask === 'lootlab') {
-                        taskDisplay = `<span class="task-badge">🔗 LootLab: ${script.lootlabUrl || ''}</span>`;
-                    } else if (script.unlockTask === 'ad') {
-                        taskDisplay = `<span class="task-badge">📺 Watch 10s Ad</span>`;
-                    }
-                    return `
-                        <div class="script-item">
-                            <div class="script-header">
-                                <div>
-                                    <strong>${escapeHtml(script.title)}</strong><br>
-                                    By: ${escapeHtml(script.author)} | ❤️ ${script.likes || 0}<br>
-                                    <small>ID: ${script.id}</small><br>
-                                    <small>Type: ${script.type === 'code' ? '💻 Lua Script' : '🔗 External Link'}</small><br>
-                                    ${taskDisplay}
-                                </div>
-                                <div class="button-group">
-                                    <button onclick="editScript('${script.id}')" class="edit-btn" style="width: auto; padding: 5px 15px;">✏️ Edit</button>
-                                    <button onclick="deleteScript('${script.id}')" class="delete-btn" style="width: auto; padding: 5px 15px;">🗑️ Delete</button>
-                                </div>
+                container.innerHTML = scripts.map(script => `
+                    <div class="script-item">
+                        <div class="script-header">
+                            <div>
+                                <strong>${escapeHtml(script.title)}</strong><br>
+                                By: ${escapeHtml(script.author)} | ❤️ ${script.likes || 0}<br>
+                                <small>ID: ${script.id}</small><br>
+                                <small>Type: ${script.type === 'code' ? '💻 Lua Script' : '🔗 External Link'}</small>
+                            </div>
+                            <div class="button-group">
+                                <button onclick="editScript('${script.id}')" class="edit-btn" style="width: auto; padding: 5px 15px;">✏️ Edit</button>
+                                <button onclick="deleteScript('${script.id}')" class="delete-btn" style="width: auto; padding: 5px 15px;">🗑️ Delete</button>
                             </div>
                         </div>
-                    `;
-                }).join('');
+                    </div>
+                `).join('');
             } catch (err) {
                 document.getElementById('scriptsList').innerHTML = '<p>Error loading scripts</p>';
             }
@@ -389,63 +434,9 @@
             try {
                 const res = await fetch(`${API_URL}/api/scripts?id=${id}`);
                 const script = await res.json();
-                
-                document.getElementById('editScriptId').value = script.id;
-                document.getElementById('editTitle').value = script.title;
-                document.getElementById('editAuthor').value = script.author;
-                document.getElementById('editDescription').value = script.description;
-                document.getElementById('editType').value = script.type;
-                document.getElementById('editYoutube').value = script.youtubeId || '';
-                
-                // Set unlock task
-                if (script.unlockTask === 'lootlab') {
-                    document.getElementById('editTaskLootlab').checked = true;
-                    document.getElementById('editLootlabUrl').value = script.lootlabUrl || '';
-                    document.getElementById('editLootlabUrlDiv').classList.remove('hidden');
-                    document.getElementById('editTaskLootlab').closest('.task-option').classList.add('selected');
-                } else {
-                    document.getElementById('editTaskAd').checked = true;
-                    document.getElementById('editLootlabUrlDiv').classList.add('hidden');
-                    document.getElementById('editTaskAd').closest('.task-option').classList.add('selected');
-                }
-                
-                if (script.type === 'code') {
-                    document.getElementById('editCodeDiv').classList.remove('hidden');
-                    document.getElementById('editLinkDiv').classList.add('hidden');
-                    document.getElementById('editCode').value = script.code || '';
-                } else {
-                    document.getElementById('editCodeDiv').classList.add('hidden');
-                    document.getElementById('editLinkDiv').classList.remove('hidden');
-                    document.getElementById('editLink').value = script.link || '';
-                }
-                
-                document.getElementById('editScriptModal').style.display = 'flex';
+                alert('Edit functionality - implement as needed');
             } catch (err) {
                 showAlert('Error loading script', true);
-            }
-        }
-        
-        async function updateScript(scriptData) {
-            try {
-                const res = await fetch(`${API_URL}/api/scripts`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Admin-Password': ADMIN_PASSWORD
-                    },
-                    body: JSON.stringify(scriptData)
-                });
-                
-                if (res.ok) {
-                    showAlert('✅ Script updated!', false);
-                    loadScripts();
-                    closeEditModal();
-                } else {
-                    const data = await res.json();
-                    showAlert(data.error || 'Update failed', true);
-                }
-            } catch (err) {
-                showAlert('Error updating script', true);
             }
         }
         
@@ -467,7 +458,6 @@
             }
         }
         
-        // Toggle script type in upload form
         document.getElementById('type')?.addEventListener('change', function() {
             if (this.value === 'code') {
                 document.getElementById('codeDiv').classList.remove('hidden');
@@ -478,18 +468,6 @@
             }
         });
         
-        // Toggle script type in edit form
-        document.getElementById('editType')?.addEventListener('change', function() {
-            if (this.value === 'code') {
-                document.getElementById('editCodeDiv').classList.remove('hidden');
-                document.getElementById('editLinkDiv').classList.add('hidden');
-            } else {
-                document.getElementById('editCodeDiv').classList.add('hidden');
-                document.getElementById('editLinkDiv').classList.remove('hidden');
-            }
-        });
-        
-        // Upload script
         document.getElementById('uploadForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -499,24 +477,7 @@
             const description = document.getElementById('description').value.trim();
             const youtubeUrl = document.getElementById('youtube').value.trim();
             
-            // Get unlock task
-            let unlockTask = null;
-            let lootlabUrl = null;
-            if (document.getElementById('taskLootlab').checked) {
-                unlockTask = 'lootlab';
-                lootlabUrl = document.getElementById('lootlabUrl').value.trim();
-                if (!lootlabUrl) {
-                    showAlert('Please enter LootLab URL', true);
-                    return;
-                }
-            } else if (document.getElementById('taskAd').checked) {
-                unlockTask = 'ad';
-            } else {
-                showAlert('Please select an unlock requirement', true);
-                return;
-            }
-            
-            let scriptData = { type, title, author, description, unlockTask, lootlabUrl };
+            let scriptData = { type, title, author, description };
             
             if (youtubeUrl) {
                 const match = youtubeUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/);
@@ -533,20 +494,13 @@
                 scriptData.thumbnail = thumbData;
             }
             
-            // IMPORTANT: Handle both code and link
             if (type === 'code') {
                 const code = document.getElementById('code').value.trim();
-                if (!code) {
-                    showAlert('Enter script code', true);
-                    return;
-                }
+                if (!code) { showAlert('Enter script code', true); return; }
                 scriptData.code = code;
             } else {
                 const link = document.getElementById('link').value.trim();
-                if (!link) {
-                    showAlert('Enter a valid external link', true);
-                    return;
-                }
+                if (!link) { showAlert('Enter a link', true); return; }
                 scriptData.link = link;
             }
             
@@ -564,7 +518,6 @@
                 if (res.ok) {
                     showAlert('✅ Uploaded!', false);
                     e.target.reset();
-                    document.getElementById('lootlabUrlDiv').classList.add('hidden');
                     loadScripts();
                 } else {
                     const data = await res.json();
@@ -578,48 +531,54 @@
             }
         });
         
-        // Edit script form
-        document.getElementById('editScriptForm')?.addEventListener('submit', async (e) => {
+        document.getElementById('addKeyForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
+            const code = document.getElementById('keyCode').value.trim();
+            const scriptId = document.getElementById('keyScriptId').value.trim();
+            const status = document.getElementById('keyStatus').value;
             
-            const id = document.getElementById('editScriptId').value;
-            const title = document.getElementById('editTitle').value.trim();
-            const author = document.getElementById('editAuthor').value.trim();
-            const description = document.getElementById('editDescription').value.trim();
-            const type = document.getElementById('editType').value;
-            const youtubeUrl = document.getElementById('editYoutube').value.trim();
-            
-            let unlockTask = null;
-            let lootlabUrl = null;
-            if (document.getElementById('editTaskLootlab').checked) {
-                unlockTask = 'lootlab';
-                lootlabUrl = document.getElementById('editLootlabUrl').value.trim();
-                if (!lootlabUrl) {
-                    showAlert('Please enter LootLab URL', true);
-                    return;
-                }
-            } else if (document.getElementById('editTaskAd').checked) {
-                unlockTask = 'ad';
+            if (!code) {
+                showAlert('Enter key code', true);
+                return;
             }
             
-            let scriptData = { id, type, title, author, description, unlockTask, lootlabUrl };
-            
-            if (youtubeUrl) {
-                const match = youtubeUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/);
-                if (match) scriptData.youtubeId = match[1];
-            }
-            
-            if (type === 'code') {
-                scriptData.code = document.getElementById('editCode').value.trim();
-            } else {
-                scriptData.link = document.getElementById('editLink').value.trim();
-            }
-            
-            await updateScript(scriptData);
+            addKey(code, scriptId, status);
+            e.target.reset();
         });
         
-        function closeEditModal() {
-            document.getElementById('editScriptModal').style.display = 'none';
+        document.getElementById('editKeyForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const id = document.getElementById('editKeyId').value;
+            const code = document.getElementById('editKeyCode').value.trim();
+            const scriptId = document.getElementById('editKeyScriptId').value.trim();
+            const status = document.getElementById('editKeyStatus').value;
+            
+            updateKey(id, code, scriptId, status);
+            closeEditKeyModal();
+        });
+        
+        function closeEditKeyModal() {
+            document.getElementById('editKeyModal').style.display = 'none';
+        }
+        
+        function switchTab(tab) {
+            const scriptsTab = document.getElementById('scriptsTab');
+            const keysTab = document.getElementById('keysTab');
+            const btns = document.querySelectorAll('.tab-btn');
+            
+            btns.forEach(btn => btn.classList.remove('active'));
+            
+            if (tab === 'scripts') {
+                scriptsTab.classList.remove('hidden');
+                keysTab.classList.add('hidden');
+                btns[0].classList.add('active');
+                loadScripts();
+            } else {
+                scriptsTab.classList.add('hidden');
+                keysTab.classList.remove('hidden');
+                btns[1].classList.add('active');
+                loadKeys();
+            }
         }
         
         function login() {
@@ -630,6 +589,7 @@
                 document.getElementById('adminPanel').classList.remove('hidden');
                 showAlert('Logged in!', false);
                 loadScripts();
+                loadKeys();
             } else {
                 showAlert('Wrong password!', true);
             }
@@ -655,6 +615,7 @@
             document.getElementById('loginForm').classList.add('hidden');
             document.getElementById('adminPanel').classList.remove('hidden');
             loadScripts();
+            loadKeys();
         }
     </script>
 </body>
