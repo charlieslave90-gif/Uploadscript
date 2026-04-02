@@ -117,17 +117,19 @@
                     </div>
                 </div>
 
-                <!-- Keys Page - Simple Key Entry Only -->
+                <!-- Keys Page - Shows all available keys -->
                 <div id="keysPage" class="hidden">
-                    <div class="hero" style="padding: 3rem 2rem;">
-                        <h1>🔑 Enter Your Key</h1>
-                        <p>Enter your key code to unlock scripts</p>
+                    <div class="hero">
+                        <h1>🔑 Available Keys</h1>
+                        <p>Copy a key and use it to unlock scripts</p>
                     </div>
 
-                    <div class="search-section" style="max-width: 500px; margin: 0 auto;">
-                        <input type="text" id="keyInputPage" placeholder="Enter key code (e.g., SCX-88832-H44421-J3331)" style="width: 100%; padding: 15px; font-size: 16px; text-align: center; font-family: monospace; letter-spacing: 1px;">
-                        <button onclick="verifyKeyFromPage()" class="btn-primary" style="margin-top: 15px; width: 100%;">🔓 Submit Key</button>
-                        <div id="keyMessagePage" style="margin-top: 15px; font-size: 14px; text-align: center;"></div>
+                    <div class="search-section">
+                        <input type="text" id="keySearchInput" placeholder="🔍 Search keys..." class="search-input">
+                    </div>
+
+                    <div id="keysGrid" class="scripts-grid">
+                        <div class="loading">Loading keys...</div>
                     </div>
 
                     <div class="horizontal-ad" style="margin-top: 2rem;">
@@ -236,6 +238,9 @@
         // Track viewed scripts
         let viewedScripts = JSON.parse(localStorage.getItem('viewedScripts') || '{}');
         
+        // Keys array
+        let allKeys = [];
+        
         function showToast(message, isError = false) {
             const toast = document.createElement('div');
             toast.className = 'toast';
@@ -251,6 +256,11 @@
             showToast('🔗 Share link copied!');
         }
         
+        function copyKeyToClipboard(keyCode) {
+            navigator.clipboard.writeText(keyCode);
+            showToast('✅ Key copied: ' + keyCode);
+        }
+        
         function showHome() {
             document.getElementById('homePage').classList.remove('hidden');
             document.getElementById('keysPage').classList.add('hidden');
@@ -264,8 +274,7 @@
             document.getElementById('keysPage').classList.remove('hidden');
             document.getElementById('detailPage').classList.add('hidden');
             window.history.pushState({}, '', '/keys');
-            document.getElementById('keyInputPage').value = '';
-            document.getElementById('keyMessagePage').innerHTML = '';
+            loadKeys();
         }
         
         function showDetail(id) {
@@ -288,43 +297,53 @@
             }
         }
         
-        // Key verification from Keys Page (SIMPLE)
-        async function verifyKeyFromPage() {
-            const enteredKey = document.getElementById('keyInputPage').value.trim().toUpperCase();
-            const messageDiv = document.getElementById('keyMessagePage');
-            
-            // Get keys from localStorage (created in admin panel)
-            const adminKeys = JSON.parse(localStorage.getItem('adminKeys') || '[]');
-            const validKey = adminKeys.find(k => k.code === enteredKey && k.status === 'active');
-            
-            if (validKey) {
-                // Mark key as used
-                if (!validKey.usedBy) validKey.usedBy = [];
-                validKey.usedBy.push(Date.now());
-                localStorage.setItem('adminKeys', JSON.stringify(adminKeys));
-                
-                // If key is for a specific script
-                if (validKey.scriptId) {
-                    let unlocked = JSON.parse(localStorage.getItem('unlockedScripts') || '[]');
-                    if (!unlocked.includes(validKey.scriptId)) {
-                        unlocked.push(validKey.scriptId);
-                        localStorage.setItem('unlockedScripts', JSON.stringify(unlocked));
-                    }
-                    messageDiv.innerHTML = '<span style="color: #10b981;">✅ Key verified! Redirecting to script...</span>';
-                    setTimeout(() => {
-                        showDetail(validKey.scriptId);
-                    }, 1500);
-                } else {
-                    messageDiv.innerHTML = '<span style="color: #10b981;">✅ Key verified! You can now access locked scripts.</span>';
-                    setTimeout(() => {
-                        showHome();
-                        loadScripts();
-                    }, 1500);
-                }
+        // Load keys from localStorage (admin creates these)
+        function loadKeys() {
+            const savedKeys = localStorage.getItem('adminKeys');
+            if (savedKeys) {
+                allKeys = JSON.parse(savedKeys);
             } else {
-                messageDiv.innerHTML = '<span style="color: #e53e3e;">❌ Invalid key! Please check and try again.</span>';
+                allKeys = [];
             }
+            displayKeys();
         }
+        
+        function displayKeys() {
+            const grid = document.getElementById('keysGrid');
+            const searchTerm = document.getElementById('keySearchInput')?.value.toLowerCase() || '';
+            
+            let filteredKeys = allKeys.filter(k => k.status === 'active');
+            
+            if (searchTerm) {
+                filteredKeys = filteredKeys.filter(k => 
+                    k.code.toLowerCase().includes(searchTerm) ||
+                    (k.scriptId && k.scriptId.toLowerCase().includes(searchTerm))
+                );
+            }
+            
+            if (!filteredKeys || filteredKeys.length === 0) {
+                grid.innerHTML = '<div class="loading">No keys available. Check back later!</div>';
+                return;
+            }
+            
+            grid.innerHTML = filteredKeys.map(key => `
+                <div class="script-card">
+                    <span class="script-type">🔑 Premium Key</span>
+                    <h3 style="font-family: monospace; font-size: 18px; word-break: break-all;">${escapeHtml(key.code)}</h3>
+                    <div class="script-meta">
+                        📅 Created: ${new Date(key.createdAt).toLocaleDateString()}
+                        ${key.scriptId ? `<br>🎯 For Script ID: ${escapeHtml(key.scriptId)}` : '🎯 For: Any Script'}
+                        ${key.usedBy ? `<br>📊 Used: ${key.usedBy.length} times` : ''}
+                    </div>
+                    <div class="script-footer">
+                        <button onclick="copyKeyToClipboard('${escapeHtml(key.code)}')" class="btn-primary" style="flex: 1;">📋 Copy Key</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Key search
+        document.getElementById('keySearchInput')?.addEventListener('input', () => displayKeys());
         
         async function loadScripts() {
             try {
@@ -416,8 +435,8 @@
                             ${youtubeHtml}
                             <div style="text-align:center; padding:2rem; background:#f1f5f9; border-radius:20px;">
                                 <h3>🔒 Script Locked</h3>
-                                <p>Go to the <strong>Keys</strong> page and enter a valid key to unlock this script</p>
-                                <button onclick="showKeys()" class="btn-primary">🔑 Go to Keys Page</button>
+                                <p>Go to the <strong>Keys</strong> page to get a key and unlock this script</p>
+                                <button onclick="showKeys()" class="btn-primary">🔑 Get Keys</button>
                             </div>
                         `;
                     }
