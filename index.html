@@ -10,11 +10,11 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4130246379396222"
      crossorigin="anonymous"></script>
     
-    <!-- Ad Network Scripts -->
+    <!-- Scripts before closing head -->
     <script data-cfasync="false" src="//dcbbwymp1bhlf.cloudfront.net/?wbbcd=1251105"></script>
+    <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
     <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
     <script src="https://pl29027395.profitablecpmratenetwork.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
-    <script src="https://pl29027397.profitablecpmratenetwork.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -51,6 +51,8 @@
                     </script>
                     <script src="https://www.highperformanceformat.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
                 </div>
+                
+                <!-- Native Banner -->
                 <div class="ad-box">
                     <div class="ad-label">Native Banner</div>
                     <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
@@ -166,6 +168,11 @@
         </div>
     </div>
 
+    <!-- Footer with Hyperlink -->
+    <footer style="text-align: center; padding: 20px; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3);">
+        <a href="https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8" target="_blank" rel="nofollow noopener" style="color: #94a3b8; text-decoration: none; font-size: 12px;">Ads by TheoreticalAssertShame</a>
+    </footer>
+
     <div id="linkModal" class="modal">
         <div class="modal-content">
             <h3>⚠️ External Link</h3>
@@ -178,11 +185,32 @@
         </div>
     </div>
 
+    <!-- Social Bar and Popunder - Right before closing body -->
+    <script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
+    
+    <!-- Popunder (one per page) -->
+    <script>
+        (function() {
+            // Popunder - opens once per session
+            if (!sessionStorage.getItem('popunder_shown')) {
+                sessionStorage.setItem('popunder_shown', 'true');
+                var popunder = window.open('https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8', '_blank');
+                if (popunder) {
+                    popunder.blur();
+                    window.focus();
+                }
+            }
+        })();
+    </script>
+
     <script>
         const API_URL = window.location.origin;
         let currentScripts = [];
         let currentFilter = 'all';
         let likedScripts = JSON.parse(localStorage.getItem('likedScripts') || '{}');
+        
+        // Track which scripts users have viewed (prevents double counting)
+        let viewedScripts = JSON.parse(localStorage.getItem('viewedScripts') || '{}');
         
         function showToast(message, isError = false) {
             const toast = document.createElement('div');
@@ -211,6 +239,27 @@
             document.getElementById('detailPage').classList.remove('hidden');
             window.history.pushState({}, '', `/?id=${id}`);
             loadScriptDetail(id);
+            
+            // Record view (only if not viewed before by this user)
+            recordView(id);
+        }
+        
+        // Record view without double counting
+        async function recordView(scriptId) {
+            if (viewedScripts[scriptId]) {
+                console.log('Already viewed, not counting again');
+                return;
+            }
+            
+            viewedScripts[scriptId] = true;
+            localStorage.setItem('viewedScripts', JSON.stringify(viewedScripts));
+            
+            try {
+                await fetch(`${API_URL}/api/scripts?action=view&id=${scriptId}`, { method: 'POST' });
+                console.log('View recorded for script:', scriptId);
+            } catch (error) {
+                console.error('Error recording view:', error);
+            }
         }
         
         async function loadScripts() {
@@ -256,7 +305,10 @@
                         ${script.thumbnail ? `<img src="${script.thumbnail}" class="script-thumbnail">` : ''}
                         <span class="script-type">${script.type === 'code' ? '💻 Lua Script' : '🔗 External Link'}</span>
                         <h3>${escapeHtml(script.title)}</h3>
-                        <div class="script-meta">👤 ${escapeHtml(script.author)} • 📅 ${new Date(script.createdAt).toLocaleDateString()} ${script.verified ? ' ✓ Verified' : ''}</div>
+                        <div class="script-meta">
+                            👤 ${escapeHtml(script.author)} • 📅 ${new Date(script.createdAt).toLocaleDateString()}
+                            ${script.verified ? ' ✓ Verified' : ''} • 👁️ ${script.views || 0} views
+                        </div>
                         <div class="script-description">${escapeHtml(script.description.substring(0, 120))}...</div>
                         <div class="script-footer">
                             <button onclick="event.stopPropagation(); likeScript('${script.id}')" class="like-btn" ${hasLiked ? 'disabled' : ''}>${hasLiked ? '❤️' : '🤍'} ${script.likes || 0}</button>
@@ -306,7 +358,10 @@
                         <button onclick="showHome()" class="btn-secondary" style="margin-bottom:1rem;">← Back to Home</button>
                         ${script.thumbnail ? `<img src="${script.thumbnail}" style="width:100%; max-height:300px; object-fit:cover; border-radius:20px; margin-bottom:1rem;">` : ''}
                         <h1>${escapeHtml(script.title)}</h1>
-                        <div class="script-meta">👤 ${escapeHtml(script.author)} • 📅 ${new Date(script.createdAt).toLocaleDateString()} ${script.verified ? ' ✓ Verified' : ''}</div>
+                        <div class="script-meta">
+                            👤 ${escapeHtml(script.author)} • 📅 ${new Date(script.createdAt).toLocaleDateString()}
+                            ${script.verified ? ' ✓ Verified' : ''} • 👁️ ${script.views || 0} views
+                        </div>
                         <div class="share-box">
                             <p><strong>🔗 Share this script:</strong></p>
                             <input type="text" id="shareUrl" value="${shareUrl}" readonly onclick="this.select()">
