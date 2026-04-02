@@ -22,6 +22,7 @@
             <div class="logo" onclick="showHome()">🎮 ScriptHub</div>
             <div class="nav-links">
                 <button onclick="showHome()">Home</button>
+                <button onclick="showKeys()">🔑 Keys</button>
             </div>
         </div>
     </nav>
@@ -61,6 +62,7 @@
 
             <!-- MAIN CONTENT -->
             <div class="main-content">
+                <!-- Home Page -->
                 <div id="homePage">
                     <div class="hero">
                         <h1>Roblox Script Hub</h1>
@@ -115,6 +117,38 @@
                     </div>
                 </div>
 
+                <!-- Keys Page -->
+                <div id="keysPage" class="hidden">
+                    <div class="hero">
+                        <h1>🔑 Unlock Scripts with Keys</h1>
+                        <p>Enter your key code to unlock premium scripts</p>
+                    </div>
+
+                    <div class="search-section">
+                        <div style="text-align: center; max-width: 500px; margin: 0 auto;">
+                            <input type="text" id="keyInputPage" placeholder="Enter your key code (e.g., SCX-88832-H44421-J3331)" style="width: 100%; padding: 15px; font-size: 16px; text-align: center; font-family: monospace; letter-spacing: 1px;">
+                            <button onclick="verifyKeyFromPage()" class="btn-primary" style="margin-top: 15px; width: 100%;">🔓 Unlock Script</button>
+                            <div id="keyMessagePage" style="margin-top: 15px; font-size: 14px;"></div>
+                        </div>
+                    </div>
+
+                    <div class="horizontal-ad">
+                        <div class="ad-label">Advertisement</div>
+                        <script>
+                            atOptions = {'key':'30772cccaf8ca1f9a16a3c555509b64f','format':'iframe','height':90,'width':728,'params':{}};
+                        </script>
+                        <script src="https://www.highperformanceformat.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
+                    </div>
+
+                    <div class="search-section">
+                        <h3 style="margin-bottom: 15px;">📜 Your Unlocked Scripts</h3>
+                        <div id="unlockedScriptsList">
+                            <p class="loading">Loading your unlocked scripts...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Script Detail Page -->
                 <div id="detailPage" class="hidden">
                     <div id="scriptContent"></div>
                     <div class="horizontal-ad" style="margin-top: 2rem;">
@@ -185,20 +219,6 @@
         </div>
     </div>
 
-    <!-- Key Entry Modal -->
-    <div id="keyModal" class="modal">
-        <div class="modal-content">
-            <h2>🔑 Enter Key to Unlock</h2>
-            <p>Enter your key code to unlock this script:</p>
-            <input type="text" id="keyInput" placeholder="Enter key code (e.g., SCX-88832-H44421-J3331)" style="width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ddd; border-radius: 8px; font-family: monospace;">
-            <div id="keyMessage" style="margin: 10px 0; font-size: 14px;"></div>
-            <div style="display:flex; gap:1rem; margin-top:1rem;">
-                <button onclick="verifyKey()" class="btn-primary">Verify Key</button>
-                <button onclick="closeKeyModal()" class="btn-secondary">Cancel</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Social Bar and Popunder - Right before closing body -->
     <script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
     
@@ -225,13 +245,6 @@
         // Track viewed scripts
         let viewedScripts = JSON.parse(localStorage.getItem('viewedScripts') || '{}');
         
-        // Key variables
-        let pendingKeyScriptId = null;
-        let pendingKeyScriptCode = null;
-        
-        // Load keys from localStorage (admin manages these)
-        let adminKeys = JSON.parse(localStorage.getItem('adminKeys') || '[]');
-        
         function showToast(message, isError = false) {
             const toast = document.createElement('div');
             toast.className = 'toast';
@@ -249,13 +262,23 @@
         
         function showHome() {
             document.getElementById('homePage').classList.remove('hidden');
+            document.getElementById('keysPage').classList.add('hidden');
             document.getElementById('detailPage').classList.add('hidden');
             window.history.pushState({}, '', '/');
             loadScripts();
         }
         
+        function showKeys() {
+            document.getElementById('homePage').classList.add('hidden');
+            document.getElementById('keysPage').classList.remove('hidden');
+            document.getElementById('detailPage').classList.add('hidden');
+            window.history.pushState({}, '', '/keys');
+            loadUnlockedScripts();
+        }
+        
         function showDetail(id) {
             document.getElementById('homePage').classList.add('hidden');
+            document.getElementById('keysPage').classList.add('hidden');
             document.getElementById('detailPage').classList.remove('hidden');
             window.history.pushState({}, '', `/?id=${id}`);
             loadScriptDetail(id);
@@ -273,54 +296,69 @@
             }
         }
         
-        // Key functions
-        function showKeyModal(scriptId, scriptCode) {
-            pendingKeyScriptId = scriptId;
-            pendingKeyScriptCode = scriptCode;
-            document.getElementById('keyInput').value = '';
-            document.getElementById('keyMessage').innerHTML = '';
-            document.getElementById('keyModal').style.display = 'flex';
-        }
-        
-        function closeKeyModal() {
-            document.getElementById('keyModal').style.display = 'none';
-            pendingKeyScriptId = null;
-            pendingKeyScriptCode = null;
-        }
-        
-        function verifyKey() {
-            const enteredKey = document.getElementById('keyInput').value.trim().toUpperCase();
-            const messageDiv = document.getElementById('keyMessage');
-            
-            // Reload keys from localStorage
-            adminKeys = JSON.parse(localStorage.getItem('adminKeys') || '[]');
-            
-            const validKey = adminKeys.find(k => k.code === enteredKey && k.status === 'active');
-            
-            if (validKey) {
-                if (validKey.scriptId && validKey.scriptId !== pendingKeyScriptId) {
-                    messageDiv.innerHTML = '<span style="color: #e53e3e;">❌ This key is not valid for this script!</span>';
+        // Load unlocked scripts for the keys page
+        async function loadUnlockedScripts() {
+            try {
+                const response = await fetch(`${API_URL}/api/scripts`);
+                const scripts = await response.json();
+                const unlockedIds = JSON.parse(localStorage.getItem('unlockedScripts') || '[]');
+                const unlockedScripts = scripts.filter(s => unlockedIds.includes(s.id));
+                
+                const container = document.getElementById('unlockedScriptsList');
+                if (unlockedScripts.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; color: #64748b;">No scripts unlocked yet. Enter a key above to unlock scripts!</p>';
                     return;
                 }
                 
+                container.innerHTML = unlockedScripts.map(script => `
+                    <div class="script-card" onclick="showDetail('${script.id}')" style="cursor: pointer; margin-bottom: 15px;">
+                        ${script.thumbnail ? `<img src="${script.thumbnail}" class="script-thumbnail">` : ''}
+                        <span class="script-type">${script.type === 'code' ? '💻 Lua Script' : '🔗 External Link'}</span>
+                        <h3>${escapeHtml(script.title)}</h3>
+                        <div class="script-meta">👤 ${escapeHtml(script.author)} • 📅 ${new Date(script.createdAt).toLocaleDateString()}</div>
+                        <div class="script-description">${escapeHtml(script.description.substring(0, 120))}...</div>
+                        <div class="script-footer">
+                            <button onclick="event.stopPropagation(); showDetail('${script.id}')" class="btn-secondary">View Script →</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                document.getElementById('unlockedScriptsList').innerHTML = '<p>Error loading scripts</p>';
+            }
+        }
+        
+        // Key verification from Keys Page
+        async function verifyKeyFromPage() {
+            const enteredKey = document.getElementById('keyInputPage').value.trim().toUpperCase();
+            const messageDiv = document.getElementById('keyMessagePage');
+            
+            const adminKeys = JSON.parse(localStorage.getItem('adminKeys') || '[]');
+            const validKey = adminKeys.find(k => k.code === enteredKey && k.status === 'active');
+            
+            if (validKey) {
+                // Mark key as used
                 if (!validKey.usedBy) validKey.usedBy = [];
                 validKey.usedBy.push(Date.now());
                 localStorage.setItem('adminKeys', JSON.stringify(adminKeys));
                 
-                messageDiv.innerHTML = '<span style="color: #10b981;">✅ Key verified! Unlocking script...</span>';
-                
-                setTimeout(() => {
-                    navigator.clipboard.writeText(pendingKeyScriptCode);
-                    showToast('✅ Script unlocked and copied to clipboard!');
-                    closeKeyModal();
-                    
+                // Find which script this key unlocks (if any)
+                if (validKey.scriptId) {
                     let unlocked = JSON.parse(localStorage.getItem('unlockedScripts') || '[]');
-                    if (!unlocked.includes(pendingKeyScriptId)) {
-                        unlocked.push(pendingKeyScriptId);
+                    if (!unlocked.includes(validKey.scriptId)) {
+                        unlocked.push(validKey.scriptId);
                         localStorage.setItem('unlockedScripts', JSON.stringify(unlocked));
                     }
-                    location.reload();
-                }, 1500);
+                    messageDiv.innerHTML = '<span style="color: #10b981;">✅ Key verified! Script unlocked. Redirecting...</span>';
+                    setTimeout(() => {
+                        showDetail(validKey.scriptId);
+                    }, 1500);
+                } else {
+                    messageDiv.innerHTML = '<span style="color: #10b981;">✅ Key verified! You can now access scripts.</span>';
+                    setTimeout(() => {
+                        showHome();
+                        loadScripts();
+                    }, 1500);
+                }
             } else {
                 messageDiv.innerHTML = '<span style="color: #e53e3e;">❌ Invalid key! Please check and try again.</span>';
             }
@@ -416,8 +454,8 @@
                             ${youtubeHtml}
                             <div style="text-align:center; padding:2rem; background:#f1f5f9; border-radius:20px;">
                                 <h3>🔒 Script Locked</h3>
-                                <p>Enter a valid key to unlock this script</p>
-                                <button onclick="showKeyModal('${script.id}', \`${escapeHtml(script.code)}\`)" class="btn-primary">🔑 Enter Key</button>
+                                <p>Go to the <strong>Keys</strong> page and enter a valid key to unlock this script</p>
+                                <button onclick="showKeys()" class="btn-primary">🔑 Go to Keys Page</button>
                             </div>
                         `;
                     }
@@ -514,11 +552,19 @@
         }
         
         function handleRouting() {
+            const path = window.location.pathname;
             const urlParams = new URLSearchParams(window.location.search);
             const id = urlParams.get('id');
-            if (id) showDetail(id);
-            else showHome();
+            
+            if (path === '/keys') {
+                showKeys();
+            } else if (id) {
+                showDetail(id);
+            } else {
+                showHome();
+            }
         }
+        
         handleRouting();
         window.addEventListener('popstate', handleRouting);
     </script>
