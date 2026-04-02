@@ -117,34 +117,25 @@
                     </div>
                 </div>
 
-                <!-- Keys Page -->
+                <!-- Keys Page - Simple Key Entry Only -->
                 <div id="keysPage" class="hidden">
-                    <div class="hero">
-                        <h1>🔑 Unlock Scripts with Keys</h1>
-                        <p>Enter your key code to unlock premium scripts</p>
+                    <div class="hero" style="padding: 3rem 2rem;">
+                        <h1>🔑 Enter Your Key</h1>
+                        <p>Enter your key code to unlock scripts</p>
                     </div>
 
-                    <div class="search-section">
-                        <div style="text-align: center; max-width: 500px; margin: 0 auto;">
-                            <input type="text" id="keyInputPage" placeholder="Enter your key code (e.g., SCX-88832-H44421-J3331)" style="width: 100%; padding: 15px; font-size: 16px; text-align: center; font-family: monospace; letter-spacing: 1px;">
-                            <button onclick="verifyKeyFromPage()" class="btn-primary" style="margin-top: 15px; width: 100%;">🔓 Unlock Script</button>
-                            <div id="keyMessagePage" style="margin-top: 15px; font-size: 14px;"></div>
-                        </div>
+                    <div class="search-section" style="max-width: 500px; margin: 0 auto;">
+                        <input type="text" id="keyInputPage" placeholder="Enter key code (e.g., SCX-88832-H44421-J3331)" style="width: 100%; padding: 15px; font-size: 16px; text-align: center; font-family: monospace; letter-spacing: 1px;">
+                        <button onclick="verifyKeyFromPage()" class="btn-primary" style="margin-top: 15px; width: 100%;">🔓 Submit Key</button>
+                        <div id="keyMessagePage" style="margin-top: 15px; font-size: 14px; text-align: center;"></div>
                     </div>
 
-                    <div class="horizontal-ad">
+                    <div class="horizontal-ad" style="margin-top: 2rem;">
                         <div class="ad-label">Advertisement</div>
                         <script>
                             atOptions = {'key':'30772cccaf8ca1f9a16a3c555509b64f','format':'iframe','height':90,'width':728,'params':{}};
                         </script>
                         <script src="https://www.highperformanceformat.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
-                    </div>
-
-                    <div class="search-section">
-                        <h3 style="margin-bottom: 15px;">📜 Your Unlocked Scripts</h3>
-                        <div id="unlockedScriptsList">
-                            <p class="loading">Loading your unlocked scripts...</p>
-                        </div>
                     </div>
                 </div>
 
@@ -273,7 +264,8 @@
             document.getElementById('keysPage').classList.remove('hidden');
             document.getElementById('detailPage').classList.add('hidden');
             window.history.pushState({}, '', '/keys');
-            loadUnlockedScripts();
+            document.getElementById('keyInputPage').value = '';
+            document.getElementById('keyMessagePage').innerHTML = '';
         }
         
         function showDetail(id) {
@@ -296,42 +288,12 @@
             }
         }
         
-        // Load unlocked scripts for the keys page
-        async function loadUnlockedScripts() {
-            try {
-                const response = await fetch(`${API_URL}/api/scripts`);
-                const scripts = await response.json();
-                const unlockedIds = JSON.parse(localStorage.getItem('unlockedScripts') || '[]');
-                const unlockedScripts = scripts.filter(s => unlockedIds.includes(s.id));
-                
-                const container = document.getElementById('unlockedScriptsList');
-                if (unlockedScripts.length === 0) {
-                    container.innerHTML = '<p style="text-align: center; color: #64748b;">No scripts unlocked yet. Enter a key above to unlock scripts!</p>';
-                    return;
-                }
-                
-                container.innerHTML = unlockedScripts.map(script => `
-                    <div class="script-card" onclick="showDetail('${script.id}')" style="cursor: pointer; margin-bottom: 15px;">
-                        ${script.thumbnail ? `<img src="${script.thumbnail}" class="script-thumbnail">` : ''}
-                        <span class="script-type">${script.type === 'code' ? '💻 Lua Script' : '🔗 External Link'}</span>
-                        <h3>${escapeHtml(script.title)}</h3>
-                        <div class="script-meta">👤 ${escapeHtml(script.author)} • 📅 ${new Date(script.createdAt).toLocaleDateString()}</div>
-                        <div class="script-description">${escapeHtml(script.description.substring(0, 120))}...</div>
-                        <div class="script-footer">
-                            <button onclick="event.stopPropagation(); showDetail('${script.id}')" class="btn-secondary">View Script →</button>
-                        </div>
-                    </div>
-                `).join('');
-            } catch (error) {
-                document.getElementById('unlockedScriptsList').innerHTML = '<p>Error loading scripts</p>';
-            }
-        }
-        
-        // Key verification from Keys Page
+        // Key verification from Keys Page (SIMPLE)
         async function verifyKeyFromPage() {
             const enteredKey = document.getElementById('keyInputPage').value.trim().toUpperCase();
             const messageDiv = document.getElementById('keyMessagePage');
             
+            // Get keys from localStorage (created in admin panel)
             const adminKeys = JSON.parse(localStorage.getItem('adminKeys') || '[]');
             const validKey = adminKeys.find(k => k.code === enteredKey && k.status === 'active');
             
@@ -341,19 +303,19 @@
                 validKey.usedBy.push(Date.now());
                 localStorage.setItem('adminKeys', JSON.stringify(adminKeys));
                 
-                // Find which script this key unlocks (if any)
+                // If key is for a specific script
                 if (validKey.scriptId) {
                     let unlocked = JSON.parse(localStorage.getItem('unlockedScripts') || '[]');
                     if (!unlocked.includes(validKey.scriptId)) {
                         unlocked.push(validKey.scriptId);
                         localStorage.setItem('unlockedScripts', JSON.stringify(unlocked));
                     }
-                    messageDiv.innerHTML = '<span style="color: #10b981;">✅ Key verified! Script unlocked. Redirecting...</span>';
+                    messageDiv.innerHTML = '<span style="color: #10b981;">✅ Key verified! Redirecting to script...</span>';
                     setTimeout(() => {
                         showDetail(validKey.scriptId);
                     }, 1500);
                 } else {
-                    messageDiv.innerHTML = '<span style="color: #10b981;">✅ Key verified! You can now access scripts.</span>';
+                    messageDiv.innerHTML = '<span style="color: #10b981;">✅ Key verified! You can now access locked scripts.</span>';
                     setTimeout(() => {
                         showHome();
                         loadScripts();
