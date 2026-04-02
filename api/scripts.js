@@ -128,13 +128,27 @@ export default async function handler(req, res) {
         }
     }
     
+    // VIEW (track unique views)
+    if (req.method === 'POST' && req.query.action === 'view') {
+        try {
+            const { id } = req.query;
+            const script = await getScript(id);
+            if (!script) return res.status(404).json({ error: 'Script not found' });
+            script.views = (script.views || 0) + 1;
+            await saveScript(script);
+            return res.status(200).json({ success: true, views: script.views });
+        } catch (error) {
+            return res.status(500).json({ error: 'Server error' });
+        }
+    }
+    
     // UPLOAD
     if (req.method === 'POST' && !req.query.action) {
         const adminPassword = req.headers['x-admin-password'];
         if (adminPassword !== ADMIN_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
         
         try {
-            const { type, title, author, description, code, link, thumbnail, youtubeId, unlockTask, lootlabUrl } = req.body;
+            const { type, title, author, description, code, link, thumbnail, youtubeId } = req.body;
             if (!title || !author || !description) return res.status(400).json({ error: 'Missing fields' });
             if (title.length < 3) return res.status(400).json({ error: 'Title too short' });
             if (hasSpamLinks(title) || hasSpamLinks(author) || hasSpamLinks(description)) return res.status(400).json({ error: 'No Discord/Telegram invites' });
@@ -148,9 +162,8 @@ export default async function handler(req, res) {
             const newScript = {
                 id: newId, type: type || 'code', title: title.substring(0, 100), author: author.substring(0, 50),
                 description: description.substring(0, 500), createdAt: new Date().toISOString(),
-                likes: 0, verified: false, likedBy: []
+                likes: 0, views: 0, verified: false, likedBy: []
             };
-            if (unlockTask) { newScript.unlockTask = unlockTask; if (unlockTask === 'lootlab' && lootlabUrl) newScript.lootlabUrl = lootlabUrl; }
             if (thumbnail) newScript.thumbnail = thumbnail;
             if (youtubeId) newScript.youtubeId = youtubeId;
             if (type === 'code') newScript.code = code.substring(0, 50000);
@@ -169,7 +182,7 @@ export default async function handler(req, res) {
         if (adminPassword !== ADMIN_PASSWORD) return res.status(401).json({ error: 'Unauthorized' });
         
         try {
-            const { id, title, author, description, type, code, link, thumbnail, youtubeId, unlockTask, lootlabUrl } = req.body;
+            const { id, title, author, description, type, code, link, thumbnail, youtubeId } = req.body;
             if (!id) return res.status(400).json({ error: 'Script ID required' });
             const existingScript = await getScript(id);
             if (!existingScript) return res.status(404).json({ error: 'Script not found' });
@@ -184,7 +197,6 @@ export default async function handler(req, res) {
             if (type) existingScript.type = type;
             if (thumbnail) existingScript.thumbnail = thumbnail;
             if (youtubeId) existingScript.youtubeId = youtubeId;
-            if (unlockTask) { existingScript.unlockTask = unlockTask; if (unlockTask === 'lootlab' && lootlabUrl) existingScript.lootlabUrl = lootlabUrl; else delete existingScript.lootlabUrl; }
             
             if (type === 'code' && code) { existingScript.code = code.substring(0, 50000); delete existingScript.link; }
             else if (type === 'link' && link) { existingScript.link = link; delete existingScript.code; }
