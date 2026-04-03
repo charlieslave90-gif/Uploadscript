@@ -72,9 +72,9 @@
                         <p>Discover, share, and use the best Roblox scripts</p>
                     </div>
                     
-                    <!-- INSTRUCTIONS SECTION - Only shows if not completed -->
+                    <!-- INSTRUCTIONS SECTION -->
                     <div id="instructionsSection" class="instructions-card">
-                        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px; padding: 2rem; color: white; text-align: center;">
+                        <div style="background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%); border-radius: 20px; padding: 2rem; color: white; text-align: center;">
                             <h2>📋 Welcome to ScriptHub!</h2>
                             <p style="margin: 1rem 0;">To access scripts, please complete these simple steps:</p>
                             <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin: 1.5rem 0;">
@@ -91,11 +91,11 @@
                                     <p>Click "I Understand"</p>
                                 </div>
                             </div>
-                            <button id="completeInstructionsBtn" class="btn-primary" onclick="completeInstructions()" style="background: white; color: #667eea;">✅ I Understand - Show Scripts</button>
+                            <button id="completeInstructionsBtn" class="btn-primary" onclick="completeInstructions()" style="background: white; color: #8b5cf6;">✅ I Understand - Show Scripts</button>
                         </div>
                     </div>
 
-                    <!-- SCRIPTS SECTION - Hidden until instructions completed -->
+                    <!-- SCRIPTS SECTION -->
                     <div id="scriptsSection" style="display: none;">
                         <div class="search-section">
                             <input type="text" id="searchInput" placeholder="🔍 Search scripts..." class="search-input">
@@ -109,13 +109,13 @@
                         </div>
 
                         <div id="scriptsGrid" class="scripts-grid">
-                            <div class="loading">Loading scripts from Rscripts.net...</div>
+                            <div class="loading">Loading scripts...</div>
                         </div>
 
                         <!-- Pagination -->
                         <div id="pagination" class="pagination" style="display: flex; justify-content: center; gap: 10px; margin-top: 30px; flex-wrap: wrap;">
                             <button id="prevBtn" class="btn-secondary" onclick="prevPage()" style="display: none;">← Previous</button>
-                            <span id="pageInfo" style="color: white; padding: 10px;"></span>
+                            <span id="pageInfo" style="color: #a3a3a3; padding: 10px;"></span>
                             <button id="nextBtn" class="btn-secondary" onclick="nextPage()" style="display: none;">Next →</button>
                         </div>
                     </div>
@@ -176,8 +176,8 @@
     </div>
 
     <!-- Footer -->
-    <footer style="text-align: center; padding: 20px; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3);">
-        <a href="https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8" target="_blank" rel="nofollow noopener" style="color: #94a3b8; text-decoration: none; font-size: 12px;">Ads by TheoreticalAssertShame</a>
+    <footer style="text-align: center; padding: 20px; margin-top: 40px; border-top: 1px solid #2a2a2a; background: #0f0f0f;">
+        <a href="https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8" target="_blank" rel="nofollow noopener" style="color: #666; text-decoration: none; font-size: 12px;">Ads by TheoreticalAssertShame</a>
     </footer>
 
     <div id="linkModal" class="modal">
@@ -203,6 +203,14 @@
         let currentFilter = 'all';
         let currentSearch = '';
         
+        // Auto-scroll to script section
+        function scrollToScripts() {
+            const scriptsSection = document.getElementById('scriptsSection');
+            if (scriptsSection && scriptsSection.style.display !== 'none') {
+                scriptsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+        
         // Check if user has completed instructions
         function checkInstructionsCompleted() {
             const completed = localStorage.getItem('instructionsCompleted');
@@ -210,6 +218,7 @@
                 document.getElementById('instructionsSection').style.display = 'none';
                 document.getElementById('scriptsSection').style.display = 'block';
                 loadScripts();
+                setTimeout(scrollToScripts, 500);
             } else {
                 document.getElementById('instructionsSection').style.display = 'block';
                 document.getElementById('scriptsSection').style.display = 'none';
@@ -222,6 +231,7 @@
             document.getElementById('scriptsSection').style.display = 'block';
             loadScripts();
             showToast('✅ Thanks! Scripts are now available.');
+            setTimeout(scrollToScripts, 500);
         }
         
         function showToast(message, isError = false) {
@@ -240,6 +250,7 @@
             currentPage = 1;
             if (localStorage.getItem('instructionsCompleted') === 'true') {
                 loadScripts();
+                setTimeout(scrollToScripts, 500);
             }
         }
         
@@ -254,6 +265,7 @@
             if (currentPage > 1) {
                 currentPage--;
                 loadScripts();
+                setTimeout(scrollToScripts, 300);
             }
         }
         
@@ -261,12 +273,13 @@
             if (currentPage < maxPages) {
                 currentPage++;
                 loadScripts();
+                setTimeout(scrollToScripts, 300);
             }
         }
         
         async function loadScripts() {
             const grid = document.getElementById('scriptsGrid');
-            grid.innerHTML = '<div class="loading">Loading scripts from Rscripts.net...</div>';
+            grid.innerHTML = '<div class="loading">Loading scripts...</div>';
             
             try {
                 let url = `${API_URL}/scripts?page=${currentPage}&orderBy=date&sort=desc`;
@@ -350,8 +363,12 @@
                 const response = await fetch(`${API_URL}/script?id=${id}`);
                 const data = await response.json();
                 
+                // If script not found, redirect to home page
                 if (data.error || !data.script) {
-                    contentDiv.innerHTML = `<div class="loading">Script not found: ${data.error || 'Unknown error'}</div>`;
+                    showToast('Script not found. Redirecting to home...', true);
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 2000);
                     return;
                 }
                 
@@ -399,7 +416,7 @@
                                 <h3>✅ Tested Executors:</h3>
                                 <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
                                     ${script.testedExecutors.map(e => `
-                                        <div style="background: #f1f5f9; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem;">
+                                        <div style="background: #2a2a2a; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem;">
                                             ${e.title}
                                         </div>
                                     `).join('')}
@@ -411,7 +428,10 @@
                 
             } catch (error) {
                 console.error('Error loading script detail:', error);
-                contentDiv.innerHTML = '<div class="loading">Error loading script. Please try again.</div>';
+                showToast('Error loading script. Redirecting to home...', true);
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 2000);
             }
         }
         
@@ -441,6 +461,7 @@
                 currentFilter = btn.dataset.filter;
                 currentPage = 1;
                 loadScripts();
+                setTimeout(scrollToScripts, 300);
             });
         });
         
@@ -451,6 +472,7 @@
                 currentSearch = e.target.value;
                 currentPage = 1;
                 loadScripts();
+                setTimeout(scrollToScripts, 300);
             }, 500);
         });
         
