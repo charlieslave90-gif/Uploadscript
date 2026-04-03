@@ -24,7 +24,7 @@
         });
     </script>
     
-    <!-- Scripts -->
+    <!-- AD NETWORK SCRIPTS (All Ads) -->
     <script data-cfasync="false" src="//dcbbwymp1bhlf.cloudfront.net/?wbbcd=1251105"></script>
     <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
     <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
@@ -44,7 +44,6 @@
             line-height: 1.5;
         }
 
-        /* Navbar */
         .navbar {
             position: sticky;
             top: 0;
@@ -105,14 +104,12 @@
             color: #a855f7;
         }
 
-        /* Container */
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
         }
 
-        /* Hero */
         .hero {
             text-align: center;
             margin-bottom: 2rem;
@@ -132,7 +129,6 @@
             color: #a1a1aa;
         }
 
-        /* Instructions */
         .instructions-card {
             background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(217, 70, 239, 0.05));
             border: 1px solid rgba(168, 85, 247, 0.2);
@@ -159,7 +155,19 @@
             display: block;
         }
 
-        /* Search Bar */
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title i {
+            color: #a855f7;
+        }
+
         .search-bar {
             background: #141414;
             border: 1px solid #252525;
@@ -184,7 +192,6 @@
             outline: none;
         }
 
-        /* Filters */
         .filters {
             display: flex;
             gap: 0.5rem;
@@ -209,7 +216,6 @@
             color: white;
         }
 
-        /* Stats Bar */
         .stats-bar {
             display: flex;
             justify-content: space-between;
@@ -233,15 +239,6 @@
             font-size: 0.8rem;
         }
 
-        /* Scripts Grid - 3 columns */
-        .scripts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        /* Trending Grid */
         .trending-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -249,7 +246,13 @@
             margin-bottom: 2rem;
         }
 
-        /* Script Card */
+        .scripts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
         .script-card {
             background: #141414;
             border: 1px solid #252525;
@@ -269,6 +272,9 @@
             height: 160px;
             object-fit: cover;
             background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .script-info {
@@ -325,7 +331,6 @@
             color: #a855f7;
         }
 
-        /* Sidebar */
         .two-columns {
             display: flex;
             gap: 2rem;
@@ -374,7 +379,6 @@
             margin-bottom: 0.25rem;
         }
 
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -492,44 +496,51 @@
                         <button id="completeInstructionsBtn" class="filter-btn" onclick="completeInstructions()" style="background: #a855f7; color: white;">✅ I Understand</button>
                     </div>
 
-                    <!-- Trending Section -->
+                    <!-- TRENDING SECTION - AT THE TOP -->
                     <div id="trendingSection" style="margin-bottom: 2rem;">
-                        <h2 style="font-size: 1.3rem; margin-bottom: 1rem;"><i class="fas fa-fire" style="color: #f59e0b;"></i> Trending Now</h2>
+                        <div class="section-title">
+                            <i class="fas fa-fire" style="color: #f59e0b;"></i> Trending Now
+                            <span style="font-size: 0.7rem; color: #71717a; font-weight: normal;">🔥 Hottest scripts this week</span>
+                        </div>
                         <div id="trendingGrid" class="trending-grid">
                             <div class="loading">Loading trending scripts...</div>
                         </div>
                     </div>
 
-                    <!-- Search -->
-                    <div class="search-bar">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="searchInput" placeholder="Search scripts...">
-                    </div>
-
-                    <!-- Filters -->
-                    <div class="filters">
-                        <button class="filter-btn active" data-filter="all">All</button>
-                        <button class="filter-btn" data-filter="noKey">No Key System</button>
-                        <button class="filter-btn" data-filter="mobile">Mobile Ready</button>
-                        <button class="filter-btn" data-filter="free">Free Scripts</button>
-                        <button class="filter-btn" data-filter="verified">Verified Only</button>
-                    </div>
-
-                    <!-- Stats -->
-                    <div class="stats-bar">
-                        <div class="stats">
-                            <i class="fas fa-users"></i>
-                            <span>5,572 users browsing</span>
-                        </div>
-                        <select id="sortSelect" class="sort-select">
-                            <option value="date">Newest First</option>
-                            <option value="views">Most Views</option>
-                            <option value="likes">Most Liked</option>
-                        </select>
-                    </div>
-
-                    <!-- Scripts Section -->
+                    <!-- SCRIPTS SECTION - BELOW TRENDING -->
                     <div id="scriptsSection" style="display: none;">
+                        <div class="section-title">
+                            <i class="fas fa-code"></i> All Scripts
+                        </div>
+
+                        <!-- Search Bar -->
+                        <div class="search-bar">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchInput" placeholder="Search scripts...">
+                        </div>
+
+                        <!-- Filters -->
+                        <div class="filters">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="noKey">No Key System</button>
+                            <button class="filter-btn" data-filter="mobile">Mobile Ready</button>
+                            <button class="filter-btn" data-filter="free">Free Scripts</button>
+                            <button class="filter-btn" data-filter="verified">Verified Only</button>
+                        </div>
+
+                        <!-- Stats -->
+                        <div class="stats-bar">
+                            <div class="stats">
+                                <i class="fas fa-users"></i>
+                                <span>5,572 users browsing</span>
+                            </div>
+                            <select id="sortSelect" class="sort-select">
+                                <option value="date">Newest First</option>
+                                <option value="views">Most Views</option>
+                                <option value="likes">Most Liked</option>
+                            </select>
+                        </div>
+
                         <div id="scriptsGrid" class="scripts-grid">
                             <div class="loading">Loading scripts...</div>
                         </div>
@@ -547,24 +558,15 @@
                 </div>
             </div>
 
-            <!-- RIGHT SIDEBAR ADS -->
+            <!-- RIGHT SIDEBAR - ALL 10+ ADS -->
             <div class="right-sidebar">
-                <div class="sidebar-card">
-                    <div class="sidebar-title"><i class="fas fa-chart-line"></i> Top Creators</div>
-                    <div id="topCreators">
-                        <div style="padding: 0.5rem 0; border-bottom: 1px solid #1a1a1a;">1. ScriptMaster</div>
-                        <div style="padding: 0.5rem 0; border-bottom: 1px solid #1a1a1a;">2. CodeWizard</div>
-                        <div style="padding: 0.5rem 0;">3. ExploitKing</div>
-                    </div>
-                </div>
-
-                <!-- Ad 1 -->
+                <!-- Ad 1: Native Banner -->
                 <div class="ad-box">
                     <div class="ad-label">Advertisement</div>
                     <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
                 </div>
 
-                <!-- Ad 2 -->
+                <!-- Ad 2: 300x90 Banner -->
                 <div class="ad-box">
                     <div class="ad-label">Sponsored</div>
                     <script>
@@ -573,13 +575,54 @@
                     <script src="https://www.highperformanceformat.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
                 </div>
 
-                <!-- Ad 3 -->
+                <!-- Ad 3: 300x250 Banner -->
                 <div class="ad-box">
                     <div class="ad-label">Recommended</div>
                     <script>
                         atOptions = {'key':'5c4ab71c3e05e8f162c6845ea1c55950','format':'iframe','height':250,'width':300,'params':{}};
                     </script>
                     <script src="https://www.highperformanceformat.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
+                </div>
+
+                <!-- Ad 4: 160x300 Banner -->
+                <div class="ad-box">
+                    <div class="ad-label">Network</div>
+                    <script>
+                        atOptions = {'key':'673fb53f64c762401413eb44406c1c80','format':'iframe','height':300,'width':160,'params':{}};
+                    </script>
+                    <script src="https://www.highperformanceformat.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
+                </div>
+
+                <!-- Ad 5: 160x600 Banner -->
+                <div class="ad-box">
+                    <div class="ad-label">Large Ad</div>
+                    <script>
+                        atOptions = {'key':'9ad3c1db141549482622fa057c0a1495','format':'iframe','height':600,'width':160,'params':{}};
+                    </script>
+                    <script src="https://www.highperformanceformat.com/9ad3c1db141549482622fa057c0a1495/invoke.js"></script>
+                </div>
+
+                <!-- Ad 6: 468x60 Banner -->
+                <div class="ad-box">
+                    <div class="ad-label">Banner</div>
+                    <script>
+                        atOptions = {'key':'7c7fd511e2480eb4fe47887cda152595','format':'iframe','height':60,'width':468,'params':{}};
+                    </script>
+                    <script src="https://www.highperformanceformat.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
+                </div>
+
+                <!-- Ad 7: Profitable CPM Network -->
+                <div class="ad-box">
+                    <div class="ad-label">Network Ad</div>
+                    <script src="https://pl29027395.profitablecpmratenetwork.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
+                </div>
+
+                <!-- Top Creators (Not an ad) -->
+                <div class="sidebar-card">
+                    <div class="sidebar-title"><i class="fas fa-trophy"></i> Top Creators</div>
+                    <div style="padding: 0.5rem 0; border-bottom: 1px solid #1a1a1a;">1. ScriptMaster</div>
+                    <div style="padding: 0.5rem 0; border-bottom: 1px solid #1a1a1a;">2. CodeWizard</div>
+                    <div style="padding: 0.5rem 0;">3. ExploitKing</div>
                 </div>
             </div>
         </div>
@@ -616,17 +659,10 @@
             setTimeout(() => toast.remove(), 3000);
         }
         
-        function scrollToScripts() {
-            const scriptsSection = document.getElementById('scriptsSection');
-            if (scriptsSection && scriptsSection.style.display !== 'none') {
-                scriptsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-        
-        // Load Trending Scripts
+        // Load Trending Scripts (at the top)
         async function loadTrending() {
             const trendingGrid = document.getElementById('trendingGrid');
-            trendingGrid.innerHTML = '<div class="loading">Loading trending...</div>';
+            trendingGrid.innerHTML = '<div class="loading">Loading trending scripts...</div>';
             
             try {
                 const response = await fetch(`${API_URL}/trending`);
@@ -637,11 +673,11 @@
                         const script = item.script;
                         return `
                             <div class="script-card" onclick="showDetail('${item._id}')">
-                                ${script.image ? `<img src="${script.image}" class="script-image" onerror="this.style.display='none'">` : '<div class="script-image" style="display: flex; align-items: center; justify-content: center;"><i class="fas fa-code" style="font-size: 3rem; color: #a855f7;"></i></div>'}
+                                ${script.image ? `<img src="${script.image}" class="script-image" onerror="this.style.display='none'">` : '<div class="script-image"><i class="fas fa-fire" style="font-size: 2.5rem; color: #f59e0b;"></i></div>'}
                                 <div class="script-info">
                                     <div class="script-title">
                                         ${escapeHtml(script.title || 'Untitled')}
-                                        <span class="script-badge"><i class="fas fa-fire"></i> Trending</span>
+                                        <span class="script-badge"><i class="fas fa-chart-line"></i> Trending</span>
                                     </div>
                                     <div class="script-meta">
                                         <span><i class="fas fa-user"></i> ${escapeHtml(item.user?.username || 'Unknown')}</span>
@@ -670,7 +706,6 @@
                 document.getElementById('instructionsSection').style.display = 'none';
                 document.getElementById('scriptsSection').style.display = 'block';
                 loadScripts();
-                scrollToScripts();
             } else {
                 document.getElementById('instructionsSection').style.display = 'block';
                 document.getElementById('scriptsSection').style.display = 'none';
@@ -683,7 +718,6 @@
             document.getElementById('scriptsSection').style.display = 'block';
             loadScripts();
             showToast('✅ Scripts are now available!');
-            scrollToScripts();
         }
         
         function showHome() {
@@ -692,8 +726,8 @@
             window.history.pushState({}, '', '/');
             if (localStorage.getItem('instructionsCompleted') === 'true') {
                 loadScripts();
-                scrollToScripts();
             }
+            loadTrending();
         }
         
         function showDetail(id) {
@@ -707,7 +741,6 @@
             if (currentPage > 1) {
                 currentPage--;
                 loadScripts();
-                scrollToScripts();
             }
         }
         
@@ -715,7 +748,6 @@
             if (currentPage < maxPages) {
                 currentPage++;
                 loadScripts();
-                scrollToScripts();
             }
         }
         
@@ -764,7 +796,7 @@
             
             grid.innerHTML = currentScripts.map(script => `
                 <div class="script-card" onclick="showDetail('${script._id}')">
-                    ${script.image ? `<img src="${script.image}" class="script-image" onerror="this.style.display='none'">` : '<div class="script-image" style="display: flex; align-items: center; justify-content: center;"><i class="fas fa-code" style="font-size: 3rem; color: #a855f7;"></i></div>'}
+                    ${script.image ? `<img src="${script.image}" class="script-image" onerror="this.style.display='none'">` : '<div class="script-image"><i class="fas fa-code" style="font-size: 2rem; color: #a855f7;"></i></div>'}
                     <div class="script-info">
                         <div class="script-title">${escapeHtml(script.title)}</div>
                         <div class="script-meta">
