@@ -239,14 +239,14 @@
             font-size: 0.8rem;
         }
 
-        .trending-grid {
+        .scripts-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
 
-        .scripts-grid {
+        .trending-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 1.5rem;
@@ -496,18 +496,7 @@
                         <button id="completeInstructionsBtn" class="filter-btn" onclick="completeInstructions()" style="background: #a855f7; color: white;">✅ I Understand</button>
                     </div>
 
-                    <!-- TRENDING SECTION - AT THE TOP -->
-                    <div id="trendingSection" style="margin-bottom: 2rem;">
-                        <div class="section-title">
-                            <i class="fas fa-fire" style="color: #f59e0b;"></i> Trending Now
-                            <span style="font-size: 0.7rem; color: #71717a; font-weight: normal;">🔥 Hottest scripts this week</span>
-                        </div>
-                        <div id="trendingGrid" class="trending-grid">
-                            <div class="loading">Loading trending scripts...</div>
-                        </div>
-                    </div>
-
-                    <!-- SCRIPTS SECTION - BELOW TRENDING -->
+                    <!-- ALL SCRIPTS SECTION - AT THE TOP -->
                     <div id="scriptsSection" style="display: none;">
                         <div class="section-title">
                             <i class="fas fa-code"></i> All Scripts
@@ -548,6 +537,17 @@
                             <button id="prevBtn" class="filter-btn" onclick="prevPage()" style="display: none;">← Previous</button>
                             <span id="pageInfo" style="color: #71717a;"></span>
                             <button id="nextBtn" class="filter-btn" onclick="nextPage()" style="display: none;">Next →</button>
+                        </div>
+                    </div>
+
+                    <!-- TRENDING SECTION - BELOW ALL SCRIPTS -->
+                    <div id="trendingSection" style="margin-top: 2rem;">
+                        <div class="section-title">
+                            <i class="fas fa-fire" style="color: #f59e0b;"></i> Trending Now
+                            <span style="font-size: 0.7rem; color: #71717a; font-weight: normal;">🔥 Hottest scripts this week</span>
+                        </div>
+                        <div id="trendingGrid" class="trending-grid">
+                            <div class="loading">Loading trending scripts...</div>
                         </div>
                     </div>
                 </div>
@@ -659,7 +659,7 @@
             setTimeout(() => toast.remove(), 3000);
         }
         
-        // Load Trending Scripts (at the top)
+        // Load Trending Scripts (below All Scripts)
         async function loadTrending() {
             const trendingGrid = document.getElementById('trendingGrid');
             trendingGrid.innerHTML = '<div class="loading">Loading trending scripts...</div>';
