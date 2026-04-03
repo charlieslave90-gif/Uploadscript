@@ -28,6 +28,102 @@
     <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
     <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
     <script src="https://pl29027395.profitablecpmratenetwork.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
+    
+    <style>
+        /* Countdown animation */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .countdown-timer {
+            font-size: 48px;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+            border-radius: 60px;
+            margin: 20px 0;
+            animation: pulse 1s infinite;
+            font-family: monospace;
+        }
+        
+        .countdown-container {
+            text-align: center;
+            padding: 20px;
+            background: #1a1a1a;
+            border-radius: 20px;
+            border: 1px solid #2a2a2a;
+            margin: 20px 0;
+        }
+        
+        .countdown-spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #2a2a2a;
+            border-top: 4px solid #8b5cf6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 15px;
+            vertical-align: middle;
+        }
+        
+        .script-hidden {
+            filter: blur(5px);
+            pointer-events: none;
+            user-select: none;
+        }
+        
+        .unlock-button {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: transform 0.3s;
+        }
+        
+        .unlock-button:hover {
+            transform: scale(1.05);
+        }
+        
+        .unlock-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .script-code-wrapper {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .lock-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -202,13 +298,76 @@
         let maxPages = 1;
         let currentFilter = 'all';
         let currentSearch = '';
+        let countdownInterval = null;
         
-        // Auto-scroll to script section
+        // Auto-scroll to script hub section
         function scrollToScripts() {
             const scriptsSection = document.getElementById('scriptsSection');
             if (scriptsSection && scriptsSection.style.display !== 'none') {
                 scriptsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
+        }
+        
+        // Scroll to script hub on any page load
+        function scrollToScriptHub() {
+            setTimeout(() => {
+                const scriptsSection = document.getElementById('scriptsSection');
+                const homePage = document.getElementById('homePage');
+                if (scriptsSection && scriptsSection.style.display !== 'none') {
+                    scriptsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else if (homePage && !homePage.classList.contains('hidden')) {
+                    const hero = document.querySelector('.hero');
+                    if (hero) hero.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 300);
+        }
+        
+        // Start countdown for script unlock
+        function startCountdown(scriptCodeElement, copyButton, seconds = 10) {
+            let timeLeft = seconds;
+            const countdownContainer = document.createElement('div');
+            countdownContainer.className = 'countdown-container';
+            countdownContainer.innerHTML = `
+                <div class="countdown-spinner"></div>
+                <span style="font-size: 18px;">Please wait </span>
+                <span class="countdown-timer" style="font-size: 32px; display: inline-block; min-width: 80px;">${timeLeft}</span>
+                <span style="font-size: 18px;"> seconds...</span>
+                <div style="margin-top: 10px; font-size: 14px; color: #a3a3a3;">⏳ Script will unlock automatically</div>
+            `;
+            
+            // Hide the script code and show countdown
+            const scriptCodeWrapper = scriptCodeElement.parentElement;
+            const originalContent = scriptCodeElement.style.display;
+            scriptCodeElement.style.display = 'none';
+            scriptCodeElement.parentElement.insertBefore(countdownContainer, scriptCodeElement);
+            
+            if (copyButton) {
+                copyButton.disabled = true;
+                copyButton.style.opacity = '0.5';
+                copyButton.style.cursor = 'not-allowed';
+                copyButton.textContent = `⏳ Wait ${timeLeft}s...`;
+            }
+            
+            countdownInterval = setInterval(() => {
+                timeLeft--;
+                const timerSpan = countdownContainer.querySelector('.countdown-timer');
+                if (timerSpan) timerSpan.textContent = timeLeft;
+                if (copyButton) copyButton.textContent = `⏳ Wait ${timeLeft}s...`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    // Remove countdown and show script
+                    countdownContainer.remove();
+                    scriptCodeElement.style.display = originalContent || 'block';
+                    if (copyButton) {
+                        copyButton.disabled = false;
+                        copyButton.style.opacity = '1';
+                        copyButton.style.cursor = 'pointer';
+                        copyButton.textContent = '📋 Copy Code';
+                    }
+                    showToast('✅ Script unlocked! You can now copy the code.');
+                }
+            }, 1000);
         }
         
         // Check if user has completed instructions
@@ -218,7 +377,7 @@
                 document.getElementById('instructionsSection').style.display = 'none';
                 document.getElementById('scriptsSection').style.display = 'block';
                 loadScripts();
-                setTimeout(scrollToScripts, 500);
+                scrollToScriptHub();
             } else {
                 document.getElementById('instructionsSection').style.display = 'block';
                 document.getElementById('scriptsSection').style.display = 'none';
@@ -231,7 +390,7 @@
             document.getElementById('scriptsSection').style.display = 'block';
             loadScripts();
             showToast('✅ Thanks! Scripts are now available.');
-            setTimeout(scrollToScripts, 500);
+            scrollToScriptHub();
         }
         
         function showToast(message, isError = false) {
@@ -250,7 +409,7 @@
             currentPage = 1;
             if (localStorage.getItem('instructionsCompleted') === 'true') {
                 loadScripts();
-                setTimeout(scrollToScripts, 500);
+                scrollToScriptHub();
             }
         }
         
@@ -265,7 +424,7 @@
             if (currentPage > 1) {
                 currentPage--;
                 loadScripts();
-                setTimeout(scrollToScripts, 300);
+                scrollToScriptHub();
             }
         }
         
@@ -273,7 +432,7 @@
             if (currentPage < maxPages) {
                 currentPage++;
                 loadScripts();
-                setTimeout(scrollToScripts, 300);
+                scrollToScriptHub();
             }
         }
         
@@ -363,7 +522,6 @@
                 const response = await fetch(`${API_URL}/script?id=${id}`);
                 const data = await response.json();
                 
-                // If script not found, redirect to home page
                 if (data.error || !data.script) {
                     showToast('Script not found. Redirecting to home...', true);
                     setTimeout(() => {
@@ -387,6 +545,10 @@
                 const gameLink = script.game?.gameLink || '#';
                 const gameTitle = script.game?.title || 'Unknown Game';
                 
+                // Create unique IDs for this script's elements
+                const scriptCodeId = `scriptCode_${Date.now()}`;
+                const copyBtnId = `copyBtn_${Date.now()}`;
+                
                 contentDiv.innerHTML = `
                     <div class="script-detail">
                         <button onclick="showHome()" class="btn-secondary" style="margin-bottom:1rem;">← Back to Home</button>
@@ -406,8 +568,10 @@
                         ${script.rawScript ? `
                             <div style="margin-top: 1rem;">
                                 <h3>📝 Script Code:</h3>
-                                <pre><code id="scriptCode">${escapeHtml(rawScriptContent)}</code></pre>
-                                <button onclick="copyCode()" class="btn-primary" style="margin-top:1rem;">📋 Copy Code</button>
+                                <div class="script-code-wrapper">
+                                    <pre><code id="${scriptCodeId}">${escapeHtml(rawScriptContent)}</code></pre>
+                                    <button id="${copyBtnId}" class="btn-primary" style="margin-top:1rem;">📋 Copy Code</button>
+                                </div>
                             </div>
                         ` : '<p>No script content available</p>'}
                         
@@ -425,6 +589,23 @@
                         ` : ''}
                     </div>
                 `;
+                
+                // Start countdown for the copy button
+                if (script.rawScript) {
+                    const codeElement = document.getElementById(scriptCodeId);
+                    const copyButton = document.getElementById(copyBtnId);
+                    if (codeElement && copyButton) {
+                        startCountdown(codeElement, copyButton, 10);
+                    }
+                }
+                
+                // Auto-scroll to script content
+                setTimeout(() => {
+                    const scriptDetail = document.querySelector('.script-detail');
+                    if (scriptDetail) {
+                        scriptDetail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }, 100);
                 
             } catch (error) {
                 console.error('Error loading script detail:', error);
@@ -461,7 +642,7 @@
                 currentFilter = btn.dataset.filter;
                 currentPage = 1;
                 loadScripts();
-                setTimeout(scrollToScripts, 300);
+                scrollToScriptHub();
             });
         });
         
@@ -472,7 +653,7 @@
                 currentSearch = e.target.value;
                 currentPage = 1;
                 loadScripts();
-                setTimeout(scrollToScripts, 300);
+                scrollToScriptHub();
             }, 500);
         });
         
