@@ -24,11 +24,12 @@
         });
     </script>
     
-    <!-- AD NETWORK SCRIPTS (All Ads) -->
+    <!-- ALL AD NETWORK SCRIPTS (No LootLab) -->
     <script data-cfasync="false" src="//dcbbwymp1bhlf.cloudfront.net/?wbbcd=1251105"></script>
     <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
     <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
     <script src="https://pl29027395.profitablecpmratenetwork.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
+    <script src="https://pl29027397.profitablecpmratenetwork.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
     
     <style>
         * {
@@ -496,19 +497,17 @@
                         <button id="completeInstructionsBtn" class="filter-btn" onclick="completeInstructions()" style="background: #a855f7; color: white;">✅ I Understand</button>
                     </div>
 
-                    <!-- ALL SCRIPTS SECTION - AT THE TOP -->
+                    <!-- ALL SCRIPTS SECTION -->
                     <div id="scriptsSection" style="display: none;">
                         <div class="section-title">
                             <i class="fas fa-code"></i> All Scripts
                         </div>
 
-                        <!-- Search Bar -->
                         <div class="search-bar">
                             <i class="fas fa-search"></i>
                             <input type="text" id="searchInput" placeholder="Search scripts...">
                         </div>
 
-                        <!-- Filters -->
                         <div class="filters">
                             <button class="filter-btn active" data-filter="all">All</button>
                             <button class="filter-btn" data-filter="noKey">No Key System</button>
@@ -517,7 +516,6 @@
                             <button class="filter-btn" data-filter="verified">Verified Only</button>
                         </div>
 
-                        <!-- Stats -->
                         <div class="stats-bar">
                             <div class="stats">
                                 <i class="fas fa-users"></i>
@@ -540,11 +538,10 @@
                         </div>
                     </div>
 
-                    <!-- TRENDING SECTION - BELOW ALL SCRIPTS -->
+                    <!-- TRENDING SECTION -->
                     <div id="trendingSection" style="margin-top: 2rem;">
                         <div class="section-title">
                             <i class="fas fa-fire" style="color: #f59e0b;"></i> Trending Now
-                            <span style="font-size: 0.7rem; color: #71717a; font-weight: normal;">🔥 Hottest scripts this week</span>
                         </div>
                         <div id="trendingGrid" class="trending-grid">
                             <div class="loading">Loading trending scripts...</div>
@@ -558,7 +555,7 @@
                 </div>
             </div>
 
-            <!-- RIGHT SIDEBAR - ALL 10+ ADS -->
+            <!-- RIGHT SIDEBAR - ALL ADS -->
             <div class="right-sidebar">
                 <!-- Ad 1: Native Banner -->
                 <div class="ad-box">
@@ -611,10 +608,25 @@
                     <script src="https://www.highperformanceformat.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
                 </div>
 
-                <!-- Ad 7: Profitable CPM Network -->
+                <!-- Ad 7: 320x50 Mobile Banner -->
+                <div class="ad-box">
+                    <div class="ad-label">Mobile Ad</div>
+                    <script>
+                        atOptions = {'key':'7e841472d1ac01ddccd7fa985576e83c','format':'iframe','height':50,'width':320,'params':{}};
+                    </script>
+                    <script src="https://www.highperformanceformat.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
+                </div>
+
+                <!-- Ad 8: Profitable CPM Network -->
                 <div class="ad-box">
                     <div class="ad-label">Network Ad</div>
                     <script src="https://pl29027395.profitablecpmratenetwork.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
+                </div>
+
+                <!-- Ad 9: pl29027397 -->
+                <div class="ad-box">
+                    <div class="ad-label">Network</div>
+                    <script src="https://pl29027397.profitablecpmratenetwork.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
                 </div>
 
                 <!-- Top Creators (Not an ad) -->
@@ -640,6 +652,7 @@
         </div>
     </div>
 
+    <!-- Social Bar -->
     <script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
     
     <script>
@@ -659,7 +672,16 @@
             setTimeout(() => toast.remove(), 3000);
         }
         
-        // Load Trending Scripts (below All Scripts)
+        // Copy function that works with the button
+        function copyScriptCode(codeId) {
+            const codeElement = document.getElementById(codeId);
+            if (codeElement) {
+                const code = codeElement.innerText;
+                navigator.clipboard.writeText(code);
+                showToast('✅ Code copied to clipboard!');
+            }
+        }
+        
         async function loadTrending() {
             const trendingGrid = document.getElementById('trendingGrid');
             trendingGrid.innerHTML = '<div class="loading">Loading trending scripts...</div>';
@@ -815,25 +837,25 @@
             `).join('');
         }
         
-        function startCountdown(scriptCodeElement, copyButton, seconds = 10) {
+        function startCountdown(codeElement, button, codeId, seconds = 10) {
             let timeLeft = seconds;
-            const container = document.createElement('div');
-            container.className = 'countdown-container';
-            container.innerHTML = `<div class="countdown-spinner"></div> Please wait ${timeLeft} seconds...`;
             
-            scriptCodeElement.style.display = 'none';
-            scriptCodeElement.parentElement.insertBefore(container, scriptCodeElement);
-            if (copyButton) copyButton.disabled = true;
+            // Hide code, show countdown
+            codeElement.style.display = 'none';
+            button.disabled = true;
+            button.textContent = `⏳ Wait ${timeLeft}s...`;
             
             const interval = setInterval(() => {
                 timeLeft--;
-                container.innerHTML = `<div class="countdown-spinner"></div> Please wait ${timeLeft} seconds...`;
+                button.textContent = `⏳ Wait ${timeLeft}s...`;
+                
                 if (timeLeft <= 0) {
                     clearInterval(interval);
-                    container.remove();
-                    scriptCodeElement.style.display = 'block';
-                    if (copyButton) copyButton.disabled = false;
-                    showToast('✅ Script unlocked!');
+                    codeElement.style.display = 'block';
+                    button.disabled = false;
+                    button.textContent = '📋 Copy Code';
+                    button.onclick = () => copyScriptCode(codeId);
+                    showToast('✅ Script unlocked! You can now copy the code.');
                 }
             }, 1000);
         }
@@ -875,16 +897,21 @@
                         </div>
                         <p style="margin-bottom: 1rem;">${escapeHtml(script.description || 'No description')}</p>
                         ${script.rawScript ? `
-                            <pre style="background: #0a0a0a; padding: 1rem; border-radius: 12px; overflow-x: auto; font-size: 0.8rem; display: none;" id="${codeId}"><code>${escapeHtml(rawContent)}</code></pre>
-                            <button id="${btnId}" class="filter-btn" style="background: #a855f7; color: white; margin-top: 1rem;">📋 Copy Code (Wait 10s)</button>
-                        ` : '<p>No script content</p>'}
+                            <div style="margin-top: 1rem;">
+                                <h3 style="margin-bottom: 0.5rem;">📝 Script Code:</h3>
+                                <pre style="background: #0a0a0a; padding: 1rem; border-radius: 12px; overflow-x: auto; font-size: 0.8rem; display: none;" id="${codeId}"><code>${escapeHtml(rawContent)}</code></pre>
+                                <button id="${btnId}" class="filter-btn" style="background: #a855f7; color: white; margin-top: 1rem;">⏳ Wait 10 seconds...</button>
+                            </div>
+                        ` : '<p>No script content available</p>'}
                     </div>
                 `;
                 
                 if (script.rawScript) {
                     const codeEl = document.getElementById(codeId);
                     const btnEl = document.getElementById(btnId);
-                    if (codeEl && btnEl) startCountdown(codeEl, btnEl, 10);
+                    if (codeEl && btnEl) {
+                        startCountdown(codeEl, btnEl, codeId, 10);
+                    }
                 }
             } catch (error) {
                 contentDiv.innerHTML = '<div class="loading">Error loading script</div>';
@@ -937,7 +964,6 @@
             }
         }
         
-        // Load trending on startup
         loadTrending();
         handleRouting();
         window.addEventListener('popstate', handleRouting);
