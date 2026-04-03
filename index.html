@@ -203,28 +203,11 @@
         let currentFilter = 'all';
         let currentSearch = '';
         
-        // Auto-scroll to script section (enhanced for heavy ads - scrolls past navbar/ads)
+        // Auto-scroll to script section
         function scrollToScripts() {
             const scriptsSection = document.getElementById('scriptsSection');
             if (scriptsSection && scriptsSection.style.display !== 'none') {
-                const headerOffset = 120; // extra offset because of heavy ads + navbar
-                const elementPosition = scriptsSection.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.scrollY - headerOffset;
-                
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
-                
-                // Extra scroll "until it finds it" - safety for ad-heavy pages
-                setTimeout(() => {
-                    if (window.scrollY < offsetPosition - 50) {
-                        window.scrollTo({
-                            top: offsetPosition,
-                            behavior: 'smooth'
-                        });
-                    }
-                }, 800);
+                scriptsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
         
@@ -299,7 +282,7 @@
             grid.innerHTML = '<div class="loading">Loading scripts...</div>';
             
             try {
-                let url = `\( {API_URL}/scripts?page= \){currentPage}&orderBy=date&sort=desc`;
+                let url = `${API_URL}/scripts?page=${currentPage}&orderBy=date&sort=desc`;
                 
                 if (currentFilter === 'noKey') url += '&noKeySystem=true';
                 else if (currentFilter === 'mobile') url += '&mobileOnly=true';
@@ -350,7 +333,7 @@
             
             grid.innerHTML = currentScripts.map(script => `
                 <div class="script-card" onclick="showDetail('${script._id}')">
-                    \( {script.image ? `<img src=" \){script.image}" class="script-thumbnail" onerror="this.style.display='none'">` : ''}
+                    ${script.image ? `<img src="${script.image}" class="script-thumbnail" onerror="this.style.display='none'">` : ''}
                     <span class="script-type">${script.keySystem ? '🔑 Key System' : '🔓 No Key'} | ${script.mobileReady ? '📱 Mobile' : '💻 PC'}</span>
                     <h3>${escapeHtml(script.title)}</h3>
                     <div class="script-meta">
@@ -377,7 +360,7 @@
             contentDiv.innerHTML = '<div class="loading">Loading script...</div>';
             
             try {
-                const response = await fetch(`\( {API_URL}/script?id= \){id}`);
+                const response = await fetch(`${API_URL}/script?id=${id}`);
                 const data = await response.json();
                 
                 // If script not found, redirect to home page
@@ -408,7 +391,7 @@
                     <div class="script-detail">
                         <button onclick="showHome()" class="btn-secondary" style="margin-bottom:1rem;">← Back to Home</button>
                         
-                        \( {script.image ? `<img src=" \){script.image}" style="width:100%; max-height:300px; object-fit:cover; border-radius:20px; margin-bottom:1rem;" onerror="this.style.display='none'">` : ''}
+                        ${script.image ? `<img src="${script.image}" style="width:100%; max-height:300px; object-fit:cover; border-radius:20px; margin-bottom:1rem;" onerror="this.style.display='none'">` : ''}
                         
                         <h1>${escapeHtml(script.title)}</h1>
                         <div class="script-meta">
@@ -417,31 +400,14 @@
                             ${script.paid ? '💰 Paid' : '🆓 Free'} • ${script.keySystem ? '🔑 Has Key System' : '🔓 No Key System'}
                         </div>
                         
-                        <p><strong>Game:</strong> <a href="\( {gameLink}" target="_blank"> \){escapeHtml(gameTitle)}</a></p>
+                        <p><strong>Game:</strong> <a href="${gameLink}" target="_blank">${escapeHtml(gameTitle)}</a></p>
                         <p><strong>Description:</strong> ${escapeHtml(script.description || 'No description')}</p>
                         
                         ${script.rawScript ? `
-                            <div style="margin-top: 1rem;" id="scriptUnlockContainer">
+                            <div style="margin-top: 1rem;">
                                 <h3>📝 Script Code:</h3>
-                                <div id="countdownWrapper">
-                                    <div style="background: #1f1f1f; border-radius: 16px; padding: 2rem; text-align: center; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2);">
-                                        <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 1rem;">
-                                            <span style="font-size: 2.5rem;">🔒</span>
-                                            <h4 style="margin: 0; color: #c084fc; font-size: 1.4rem;">Script is Locked</h4>
-                                        </div>
-                                        <div id="countdown" style="font-size: 4.5rem; font-weight: 800; color: #8b5cf6; letter-spacing: -2px; line-height: 1; margin-bottom: 0.5rem;">10</div>
-                                        <p id="countdownText" style="margin: 0 0 1.5rem 0; color: #a3a3a3; font-size: 1.1rem;">seconds to unlock</p>
-                                        <div style="height: 12px; background: #333; border-radius: 9999px; margin-bottom: 1.5rem; overflow: hidden;">
-                                            <div id="progress" style="height: 100%; background: linear-gradient(90deg, #8b5cf6, #c084fc); width: 100%;"></div>
-                                        </div>
-                                        <button id="unlockCopyBtn" class="btn-primary" style="width: 100%; background: #8b5cf6; color: white; font-weight: bold; cursor: not-allowed; opacity: 0.8;">⏳ Wait 10 seconds...</button>
-                                        <p style="font-size: 0.8rem; color: #666; margin-top: 1rem;">Due to heavy ads, please wait to access the full script</p>
-                                    </div>
-                                </div>
-                                <div id="revealedCode" style="display: none;">
-                                    <pre style="background:#111; padding:1rem; border-radius:12px; overflow:auto; max-height:400px; font-size:0.95rem;"><code id="scriptCode">${escapeHtml(rawScriptContent)}</code></pre>
-                                    <button onclick="copyCode()" class="btn-primary" style="margin-top:1rem; width:100%;">📋 Copy Script Code</button>
-                                </div>
+                                <pre><code id="scriptCode">${escapeHtml(rawScriptContent)}</code></pre>
+                                <button onclick="copyCode()" class="btn-primary" style="margin-top:1rem;">📋 Copy Code</button>
                             </div>
                         ` : '<p>No script content available</p>'}
                         
@@ -460,13 +426,6 @@
                     </div>
                 `;
                 
-                // AUTO START 10-SECOND COUNTDOWN + ANIMATION (script stays hidden until unlocked)
-                if (script.rawScript) {
-                    setTimeout(() => {
-                        startCountdown();
-                    }, 500);
-                }
-                
             } catch (error) {
                 console.error('Error loading script detail:', error);
                 showToast('Error loading script. Redirecting to home...', true);
@@ -474,38 +433,6 @@
                     window.location.href = '/';
                 }, 2000);
             }
-        }
-        
-        // 10-second countdown with animation (script code hidden until finished)
-        function startCountdown() {
-            let timeLeft = 10;
-            const countdownEl = document.getElementById('countdown');
-            const progressEl = document.getElementById('progress');
-            const countdownWrapper = document.getElementById('countdownWrapper');
-            const revealedCode = document.getElementById('revealedCode');
-            
-            if (!countdownEl || !progressEl) return;
-            
-            // Reset and start smooth progress bar animation (10 seconds)
-            progressEl.style.transition = 'none';
-            progressEl.style.width = '100%';
-            void progressEl.offsetWidth; // force reflow
-            progressEl.style.transition = 'width 10s linear';
-            progressEl.style.width = '0%';
-            
-            // Live countdown number
-            const interval = setInterval(() => {
-                timeLeft--;
-                if (countdownEl) countdownEl.textContent = timeLeft;
-                
-                if (timeLeft <= 0) {
-                    clearInterval(interval);
-                    // Unlock everything
-                    if (countdownWrapper) countdownWrapper.style.display = 'none';
-                    if (revealedCode) revealedCode.style.display = 'block';
-                    showToast('✅ Script unlocked! You can now copy the code.');
-                }
-            }, 1000);
         }
         
         function copyCode() {
