@@ -10,6 +10,19 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4130246379396222"
      crossorigin="anonymous"></script>
     
+    <!-- Linkvertise Monetization Script -->
+    <script src="https://publisher.linkvertise.com/cdn/linkvertise.js"></script>
+    <script>
+        linkvertise(4752730, {
+            whitelist: [
+                "https://rblxscripts2.vercel.app/?id=69cfb7c84d82cd3c779d6525",
+                "https://rblxscripts2.vercel.app/",
+                "https://rblxscripts2.vercel.app/key.html"
+            ], 
+            blacklist: []
+        });
+    </script>
+    
     <!-- Scripts before closing head -->
     <script data-cfasync="false" src="//dcbbwymp1bhlf.cloudfront.net/?wbbcd=1251105"></script>
     <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
@@ -46,15 +59,6 @@
                     <script src="https://www.highperformanceformat.com/9ad3c1db141549482622fa057c0a1495/invoke.js"></script>
                 </div>
                 <div class="ad-box">
-                    <div class="ad-label">Recommended</div>
-                    <script>
-                        atOptions = {'key':'7c7fd511e2480eb4fe47887cda152595','format':'iframe','height':60,'width':468,'params':{}};
-                    </script>
-                    <script src="https://www.highperformanceformat.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
-                </div>
-                
-                <!-- Native Banner -->
-                <div class="ad-box">
                     <div class="ad-label">Native Banner</div>
                     <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
                 </div>
@@ -68,58 +72,52 @@
                         <p>Discover, share, and use the best Roblox scripts</p>
                     </div>
                     
-                    <div class="horizontal-ad">
-                        <div class="ad-label">Sponsored Content</div>
-                        <script>
-                            atOptions = {'key':'5c4ab71c3e05e8f162c6845ea1c55950','format':'iframe','height':250,'width':300,'params':{}};
-                        </script>
-                        <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
-                    </div>
-
-                    <div class="horizontal-ad">
-                        <div class="ad-label">Advertisement</div>
-                        <script>
-                            atOptions = {'key':'30772cccaf8ca1f9a16a3c555509b64f','format':'iframe','height':90,'width':728,'params':{}};
-                        </script>
-                        <script src="https://www.highperformanceformat.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
-                    </div>
-
-                    <div class="search-section">
-                        <input type="text" id="searchInput" placeholder="🔍 Search scripts..." class="search-input">
-                        <div class="filters">
-                            <button class="filter-btn active" data-filter="all">All</button>
-                            <button class="filter-btn" data-filter="noKey">No Key System</button>
-                            <button class="filter-btn" data-filter="mobile">Mobile Ready</button>
-                            <button class="filter-btn" data-filter="free">Free Scripts</button>
-                            <button class="filter-btn" data-filter="verified">Verified Only</button>
+                    <!-- INSTRUCTIONS SECTION - Only shows if not completed -->
+                    <div id="instructionsSection" class="instructions-card">
+                        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px; padding: 2rem; color: white; text-align: center;">
+                            <h2>📋 Welcome to ScriptHub!</h2>
+                            <p style="margin: 1rem 0;">To access scripts, please complete these simple steps:</p>
+                            <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin: 1.5rem 0;">
+                                <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 12px; flex: 1; min-width: 150px;">
+                                    <span style="font-size: 2rem;">1️⃣</span>
+                                    <p>Disable Ad Blocker</p>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 12px; flex: 1; min-width: 150px;">
+                                    <span style="font-size: 2rem;">2️⃣</span>
+                                    <p>Wait 10 seconds</p>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 12px; flex: 1; min-width: 150px;">
+                                    <span style="font-size: 2rem;">3️⃣</span>
+                                    <p>Click "I Understand"</p>
+                                </div>
+                            </div>
+                            <button id="completeInstructionsBtn" class="btn-primary" onclick="completeInstructions()" style="background: white; color: #667eea;">✅ I Understand - Show Scripts</button>
                         </div>
                     </div>
 
-                    <div id="scriptsGrid" class="scripts-grid">
-                        <div class="loading">Loading scripts from Rscripts.net...</div>
-                    </div>
+                    <!-- SCRIPTS SECTION - Hidden until instructions completed -->
+                    <div id="scriptsSection" style="display: none;">
+                        <div class="search-section">
+                            <input type="text" id="searchInput" placeholder="🔍 Search scripts..." class="search-input">
+                            <div class="filters">
+                                <button class="filter-btn active" data-filter="all">All</button>
+                                <button class="filter-btn" data-filter="noKey">No Key System</button>
+                                <button class="filter-btn" data-filter="mobile">Mobile Ready</button>
+                                <button class="filter-btn" data-filter="free">Free Scripts</button>
+                                <button class="filter-btn" data-filter="verified">Verified Only</button>
+                            </div>
+                        </div>
 
-                    <!-- Pagination -->
-                    <div id="pagination" class="pagination" style="display: flex; justify-content: center; gap: 10px; margin-top: 30px; flex-wrap: wrap;">
-                        <button id="prevBtn" class="btn-secondary" onclick="prevPage()" style="display: none;">← Previous</button>
-                        <span id="pageInfo" style="color: white; padding: 10px;"></span>
-                        <button id="nextBtn" class="btn-secondary" onclick="nextPage()" style="display: none;">Next →</button>
-                    </div>
+                        <div id="scriptsGrid" class="scripts-grid">
+                            <div class="loading">Loading scripts from Rscripts.net...</div>
+                        </div>
 
-                    <div class="horizontal-ad">
-                        <div class="ad-label">More Ads</div>
-                        <script>
-                            atOptions = {'key':'5c4ab71c3e05e8f162c6845ea1c55950','format':'iframe','height':250,'width':300,'params':{}};
-                        </script>
-                        <script src="https://www.highperformanceformat.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
-                    </div>
-                    
-                    <div class="horizontal-ad">
-                        <div class="ad-label">Mobile Ad</div>
-                        <script>
-                            atOptions = {'key':'7e841472d1ac01ddccd7fa985576e83c','format':'iframe','height':50,'width':320,'params':{}};
-                        </script>
-                        <script src="https://www.highperformanceformat.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
+                        <!-- Pagination -->
+                        <div id="pagination" class="pagination" style="display: flex; justify-content: center; gap: 10px; margin-top: 30px; flex-wrap: wrap;">
+                            <button id="prevBtn" class="btn-secondary" onclick="prevPage()" style="display: none;">← Previous</button>
+                            <span id="pageInfo" style="color: white; padding: 10px;"></span>
+                            <button id="nextBtn" class="btn-secondary" onclick="nextPage()" style="display: none;">Next →</button>
+                        </div>
                     </div>
                 </div>
 
@@ -177,7 +175,7 @@
         </div>
     </div>
 
-    <!-- Footer with Hyperlink -->
+    <!-- Footer -->
     <footer style="text-align: center; padding: 20px; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3);">
         <a href="https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8" target="_blank" rel="nofollow noopener" style="color: #94a3b8; text-decoration: none; font-size: 12px;">Ads by TheoreticalAssertShame</a>
     </footer>
@@ -194,23 +192,9 @@
         </div>
     </div>
 
-    <!-- Social Bar and Popunder - Right before closing body -->
+    <!-- Social Bar and Popunder -->
     <script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
     
-    <!-- Popunder (one per page) -->
-    <script>
-        (function() {
-            if (!sessionStorage.getItem('popunder_shown')) {
-                sessionStorage.setItem('popunder_shown', 'true');
-                var popunder = window.open('https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8', '_blank');
-                if (popunder) {
-                    popunder.blur();
-                    window.focus();
-                }
-            }
-        })();
-    </script>
-
     <script>
         const API_URL = 'https://rscripts.net/api/v2';
         let currentScripts = [];
@@ -218,6 +202,27 @@
         let maxPages = 1;
         let currentFilter = 'all';
         let currentSearch = '';
+        
+        // Check if user has completed instructions
+        function checkInstructionsCompleted() {
+            const completed = localStorage.getItem('instructionsCompleted');
+            if (completed === 'true') {
+                document.getElementById('instructionsSection').style.display = 'none';
+                document.getElementById('scriptsSection').style.display = 'block';
+                loadScripts();
+            } else {
+                document.getElementById('instructionsSection').style.display = 'block';
+                document.getElementById('scriptsSection').style.display = 'none';
+            }
+        }
+        
+        function completeInstructions() {
+            localStorage.setItem('instructionsCompleted', 'true');
+            document.getElementById('instructionsSection').style.display = 'none';
+            document.getElementById('scriptsSection').style.display = 'block';
+            loadScripts();
+            showToast('✅ Thanks! Scripts are now available.');
+        }
         
         function showToast(message, isError = false) {
             const toast = document.createElement('div');
@@ -233,7 +238,9 @@
             document.getElementById('detailPage').classList.add('hidden');
             window.history.pushState({}, '', '/');
             currentPage = 1;
-            loadScripts();
+            if (localStorage.getItem('instructionsCompleted') === 'true') {
+                loadScripts();
+            }
         }
         
         function showDetail(id) {
@@ -264,7 +271,6 @@
             try {
                 let url = `${API_URL}/scripts?page=${currentPage}&orderBy=date&sort=desc`;
                 
-                // Apply filters
                 if (currentFilter === 'noKey') url += '&noKeySystem=true';
                 else if (currentFilter === 'mobile') url += '&mobileOnly=true';
                 else if (currentFilter === 'free') url += '&notPaid=true';
@@ -283,7 +289,6 @@
                 currentScripts = data.scripts || [];
                 maxPages = data.info?.maxPages || 1;
                 
-                // Update pagination UI
                 const prevBtn = document.getElementById('prevBtn');
                 const nextBtn = document.getElementById('nextBtn');
                 const pageInfo = document.getElementById('pageInfo');
@@ -326,6 +331,13 @@
                     <div class="script-footer">
                         <button onclick="event.stopPropagation(); viewScript('${script._id}')" class="btn-secondary">View Script →</button>
                     </div>
+                    <div class="horizontal-ad" style="margin-top: 1rem;">
+                        <div class="ad-label">Advertisement</div>
+                        <script>
+                            atOptions = {'key':'30772cccaf8ca1f9a16a3c555509b64f','format':'iframe','height':90,'width':728,'params':{}};
+                        <\/script>
+                        <script src="https://www.highperformanceformat.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"><\/script>
+                    </div>
                 </div>
             `).join('');
         }
@@ -345,7 +357,6 @@
                 
                 const script = data.script;
                 
-                // Fetch the raw script content
                 let rawScriptContent = '';
                 if (script.rawScript) {
                     try {
@@ -423,7 +434,6 @@
             return div.innerHTML;
         }
         
-        // Filter buttons
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -434,7 +444,6 @@
             });
         });
         
-        // Search input
         let searchTimeout;
         document.getElementById('searchInput')?.addEventListener('input', (e) => {
             clearTimeout(searchTimeout);
@@ -458,9 +467,11 @@
             const urlParams = new URLSearchParams(window.location.search);
             const id = urlParams.get('id');
             if (id) {
-                showDetail(id);
+                document.getElementById('homePage').classList.add('hidden');
+                document.getElementById('detailPage').classList.remove('hidden');
+                loadScriptDetail(id);
             } else {
-                showHome();
+                checkInstructionsCompleted();
             }
         }
         
