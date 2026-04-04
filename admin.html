@@ -192,6 +192,12 @@
             max-width: 500px;
             width: 90%;
         }
+
+        .key-info {
+            font-size: 12px;
+            color: #718096;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -304,10 +310,11 @@
             if (savedKeys) {
                 keys = JSON.parse(savedKeys);
             } else {
-                // Default keys
+                // Default keys including the new "dead rails" key
                 keys = [
                     { id: '1', code: 'DEMO-KEY-12345', scriptId: '', status: 'active', createdAt: new Date().toISOString(), usedBy: [] },
-                    { id: '2', code: 'SCX-88832-H44421-J3331', scriptId: '', status: 'active', createdAt: new Date().toISOString(), usedBy: [] }
+                    { id: '2', code: 'SCX-88832-H44421-J3331', scriptId: '', status: 'active', createdAt: new Date().toISOString(), usedBy: [] },
+                    { id: '3', code: 'lajewjew67', scriptId: '', status: 'active', createdAt: new Date().toISOString(), usedBy: [], description: 'Dead Rails Key' }
                 ];
                 saveKeys();
             }
@@ -329,7 +336,9 @@
                 <div class="key-item">
                     <div class="key-header">
                         <div>
-                            <strong><span class="key-code">${escapeHtml(key.code)}</span></strong><br>
+                            <strong><span class="key-code">${escapeHtml(key.code)}</span></strong>
+                            ${key.description ? `<span class="badge" style="background:#e9d8fd; color:#553c9a; margin-left:8px;">${escapeHtml(key.description)}</span>` : ''}
+                            <br>
                             <small>ID: ${key.id}</small><br>
                             <small>Script ID: ${key.scriptId || 'Any script'}</small><br>
                             <small>Status: <span class="badge ${key.status === 'active' ? 'badge-active' : 'badge-inactive'}">${key.status}</span></small>
@@ -344,14 +353,15 @@
             `).join('');
         }
         
-        function addKey(code, scriptId, status) {
+        function addKey(code, scriptId, status, description = '') {
             const newKey = {
                 id: Date.now().toString(),
                 code: code.toUpperCase(),
                 scriptId: scriptId || '',
                 status: status || 'active',
                 createdAt: new Date().toISOString(),
-                usedBy: []
+                usedBy: [],
+                description: description
             };
             keys.push(newKey);
             saveKeys();
@@ -542,7 +552,7 @@
                 return;
             }
             
-            addKey(code, scriptId, status);
+            addKey(code, scriptId, status, '');
             e.target.reset();
         });
         
@@ -611,12 +621,34 @@
             });
         }
         
+        // Check for admin session on load
         if (localStorage.getItem('admin') === 'true') {
             document.getElementById('loginForm').classList.add('hidden');
             document.getElementById('adminPanel').classList.remove('hidden');
             loadScripts();
             loadKeys();
         }
+        
+        // Function to specifically add the Dead Rails key if needed (can be called manually)
+        window.ensureDeadRailsKey = function() {
+            const deadRailsKeyExists = keys.some(k => k.code === 'lajewjew67');
+            if (!deadRailsKeyExists) {
+                keys.push({
+                    id: Date.now().toString(),
+                    code: 'lajewjew67',
+                    scriptId: '',
+                    status: 'active',
+                    createdAt: new Date().toISOString(),
+                    usedBy: [],
+                    description: 'Dead Rails Key'
+                });
+                saveKeys();
+                displayKeys();
+                showAlert('🔑 Dead Rails Key (lajewjew67) added!', false);
+            } else {
+                showAlert('Dead Rails key already exists!', false);
+            }
+        };
     </script>
 </body>
 </html>
