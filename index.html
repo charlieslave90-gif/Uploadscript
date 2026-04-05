@@ -16,9 +16,9 @@
     <script>
         linkvertise(4752730, {
             whitelist: [
-                "https://rblxscripts2.vercel.app/?id=69cfb7c84d82cd3c779d6525",
                 "https://rblxscripts2.vercel.app/",
-                "https://rblxscripts2.vercel.app/key.html"
+                "https://rblxscripts2.vercel.app/key.html",
+                "https://rblxscripts2.vercel.app/?id=*"
             ], 
             blacklist: []
         });
@@ -840,7 +840,7 @@
         function startCountdown(codeElement, button, codeId, seconds = 10) {
             let timeLeft = seconds;
             
-            // Hide code, show countdown
+            // Hide code, show countdown on button
             codeElement.style.display = 'none';
             button.disabled = true;
             button.textContent = `⏳ Wait ${timeLeft}s...`;
