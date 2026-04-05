@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lua Hard dck Obfuscator | gay anti deobfoscate</title>
+    <title>Lua best free Obfuscator | anti deobfoscator gay</title>
     <style>
         * {
             margin: 0;
@@ -237,16 +237,6 @@
             background: #0c0f17;
             border-top: 1px solid #1f2330;
         }
-
-        select {
-            background: #1a1f2e;
-            border: 1px solid #2a2f3f;
-            padding: 8px 12px;
-            border-radius: 8px;
-            color: white;
-            font-family: monospace;
-            font-size: 12px;
-        }
     </style>
 </head>
 <body>
@@ -321,6 +311,9 @@ end"></textarea>
         const enableDeadCode = document.getElementById('enableDeadCode');
         const enableMathObf = document.getElementById('enableMathObf');
 
+        // Protection link to embed in output
+        const PROTECTION_LINK = "https://rblxscripts2.vercel.app/obfuscate.html";
+
         function showToast(message, isError = false) {
             const existingToast = document.querySelector('.toast');
             if (existingToast) existingToast.remove();
@@ -354,55 +347,6 @@ end"></textarea>
                 result += String.fromCharCode(str.charCodeAt(i) ^ key);
             }
             return result;
-        }
-
-        // Obfuscate math expressions
-        function obfuscateMath(expr) {
-            const patterns = [
-                { pattern: /(\d+)\s*\+\s*(\d+)/g, transform: (a,b) => `(${a}+${b})` },
-                { pattern: /(\d+)\s*\*\s*(\d+)/g, transform: (a,b) => `(${a}*${b})` }
-            ];
-            let result = expr;
-            // Replace numbers with obfuscated versions
-            result = result.replace(/\b(\d+)\b/g, (match) => {
-                if (match.length > 2 && Math.random() > 0.5) {
-                    const a = randomNumber(1, 50);
-                    const b = parseInt(match) - a;
-                    return `(${a}+${b})`;
-                }
-                return match;
-            });
-            return result;
-        }
-
-        // Generate control flow obfuscation wrapper
-        function controlFlowObfuscate(code) {
-            const switchVar = '_' + randomString(8);
-            const cases = [];
-            const originalLines = code.split('\n');
-            const chunks = [];
-            
-            for (let i = 0; i < originalLines.length; i += 3) {
-                const chunk = originalLines.slice(i, i + 3).join('\n');
-                if (chunk.trim()) chunks.push(chunk);
-            }
-            
-            if (chunks.length < 2) return code;
-            
-            for (let i = 0; i < chunks.length; i++) {
-                cases.push(`    [${i}] = function()\n        ${chunks[i]}\n    end`);
-            }
-            
-            const flowCode = `do\n    local ${switchVar} = 0\n    local ${randomString(6)} = {\n${cases.join(',\n')}\n    }\n    while ${switchVar} < ${chunks.length} do\n        ${randomString(6)}[${switchVar}]()\n        ${switchVar} = ${switchVar} + 1\n    end\nend`;
-            
-            return flowCode;
-        }
-
-        // Anti-debug protection
-        function antiDebugWrapper(code) {
-            const checkVar = randomString(8);
-            const timerVar = randomString(8);
-            return `do\n    local ${checkVar} = debug and debug.getinfo or nil\n    if ${checkVar} then\n        error("Protected environment")\n    end\n    local ${timerVar} = os.clock()\n    ${code}\n    if os.clock() - ${timerVar} > 60 then\n        error("Execution timeout")\n    end\nend`;
         }
 
         // Generate dead code that doesn't affect functionality
@@ -448,7 +392,35 @@ end"></textarea>
             return result;
         }
 
-        // Main obfuscation function
+        // Control flow obfuscation wrapper
+        function controlFlowObfuscate(code) {
+            const switchVar = '_' + randomString(8);
+            const cases = [];
+            const originalLines = code.split('\n');
+            const chunks = [];
+            
+            for (let i = 0; i < originalLines.length; i += 3) {
+                const chunk = originalLines.slice(i, i + 3).join('\n');
+                if (chunk.trim()) chunks.push(chunk);
+            }
+            
+            if (chunks.length < 2) return code;
+            
+            for (let i = 0; i < chunks.length; i++) {
+                cases.push(`    [${i}] = function()\n        ${chunks[i]}\n    end`);
+            }
+            
+            return `do\n    local ${switchVar} = 0\n    local ${randomString(6)} = {\n${cases.join(',\n')}\n    }\n    while ${switchVar} < ${chunks.length} do\n        ${randomString(6)}[${switchVar}]()\n        ${switchVar} = ${switchVar} + 1\n    end\nend`;
+        }
+
+        // Anti-debug protection
+        function antiDebugWrapper(code) {
+            const checkVar = randomString(8);
+            const timerVar = randomString(8);
+            return `do\n    local ${checkVar} = debug and debug.getinfo or nil\n    if ${checkVar} then\n        error("Protected environment")\n    end\n    local ${timerVar} = os.clock()\n    ${code}\n    if os.clock() - ${timerVar} > 60 then\n        error("Execution timeout")\n    end\nend`;
+        }
+
+        // Main obfuscation function with protection header
         function hardObfuscate(code) {
             if (!code.trim()) {
                 throw new Error('Please enter some Lua code to obfuscate');
@@ -517,7 +489,7 @@ end"></textarea>
                 obfuscated = injected.join('\n');
             }
 
-            // Step 5: Control flow obfuscation (wrap in switch)
+            // Step 5: Control flow obfuscation
             if (enableControlFlow.checked && obfuscated.split('\n').length > 10) {
                 obfuscated = controlFlowObfuscate(obfuscated);
                 stats.controlFlowApplied = true;
@@ -529,8 +501,12 @@ end"></textarea>
                 stats.antiDebugApplied = true;
             }
 
-            // Final cleanup - ensure no empty lines cause issues
+            // Final cleanup
             obfuscated = obfuscated.replace(/\n\s*\n/g, '\n');
+            
+            // ADD PROTECTION HEADER WITH THE LINK (embedded in output script)
+            const protectionHeader = `--[[ Protected by ${PROTECTION_LINK} ]]--\n--[[ Unauthorized decompilation is prohibited ]]--\n\n`;
+            obfuscated = protectionHeader + obfuscated;
             
             stats.obfuscatedLength = obfuscated.length;
             stats.obfuscatedLines = obfuscated.split('\n').length;
