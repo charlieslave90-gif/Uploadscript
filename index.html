@@ -5,7 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="google-site-verification" content="aHm-u6Lw7BRLde6l91yNdtVltbZu8np4hRcmCrn4iYI">
     <meta name="google-adsense-account" content="ca-pub-4130246379396222">
-    <title>ScriptHub | Roblox Scripts</title>
+    
+    <!-- SEO Meta Tags for Google -->
+    <title>ScriptHub - Best Free Roblox Scripts | Keyless & Auto Farm Scripts</title>
+    <meta name="description" content="Discover thousands of free Roblox scripts including auto farm, keyless scripts, ESP, aimbot, and more. Updated daily with working scripts for all popular Roblox games like Blox Fruits, Pet Simulator, Anime Adventures.">
+    <meta name="keywords" content="roblox script, free roblox scripts, roblox auto farm, roblox keyless script, roblox esp, roblox aimbot, roblox exploit, blox fruits script, pet simulator script, anime adventures script, roblox hack, roblox executor, roblox pastebin">
+    <meta name="author" content="ScriptHub">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <meta name="revisit-after" content="1 day">
+    
+    <!-- Open Graph for social media -->
+    <meta property="og:title" content="ScriptHub - Free Roblox Scripts">
+    <meta property="og:description" content="Thousands of free Roblox scripts updated daily">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://rblxscripts2.vercel.app/">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ScriptHub - Free Roblox Scripts">
+    <meta name="twitter:description" content="Thousands of free Roblox scripts updated daily">
+    
+    <!-- Hidden SEO Keywords for better ranking -->
+    <div style="display: none; position: absolute; opacity: 0; height: 0; width: 0; overflow: hidden;" aria-hidden="true">
+        roblox script, free roblox script, roblox auto farm, roblox keyless script, roblox esp script, roblox aimbot, blox fruits script, pet simulator script, anime adventures script, roblox exploit, roblox hack, roblox executor, roblox pastebin 2025, roblox script 2026, working roblox script, undetected roblox script, roblox mobile script, roblox pc script, roblox android script, roblox ios script, best roblox script, roblox script hub, rscripts alternative, scriptblox alternative, roblox no key script, roblox key bypass, roblox gui script, roblox admin script, roblox fly script, roblox speed script, roblox infinite yield, roblox dex explorer, roblox krnl, roblox synapse, roblox wave, roblox delta, roblox codex, roblox executor free, roblox script pastebin, roblox script 2025, roblox script 2026, roblox auto farm script, roblox auto clicker, roblox auto win, roblox esp hack, roblox aim assist, roblox silent aim, roblox wall hack, roblox teleport script, roblox dupe script, roblox money script, roblox level script, roblox xp script, roblox stat script, roblox unlock all, roblox free items, roblox gamepass script, roblox admin commands, roblox mod menu, roblox script download, roblox script free download, roblox script no virus, roblox script safe, roblox script updated daily
+    </div>
     
     <!-- Linkvertise Publisher Script -->
     <script src="https://publisher.linkvertise.com/cdn/linkvertise.js"></script>
@@ -55,26 +79,31 @@
         .sort-select { background: white; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 30px; font-size: 0.8rem; }
         
         .scripts-grid, .trending-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .script-card { background: white; border-radius: 20px; overflow: hidden; transition: all 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer; }
+        .script-card { background: white; border-radius: 20px; overflow: hidden; transition: all 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .script-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.1); }
-        .script-image { width: 100%; height: 160px; object-fit: cover; background: linear-gradient(135deg, #a855f7, #d946ef); display: flex; align-items: center; justify-content: center; }
+        .script-thumbnail { width: 100%; height: 160px; object-fit: cover; background: linear-gradient(135deg, #a855f7, #d946ef); display: flex; align-items: center; justify-content: center; font-size: 3rem; }
         .script-info { padding: 16px; }
         .script-title { font-weight: 700; font-size: 1rem; margin-bottom: 8px; display: flex; justify-content: space-between; }
         .script-badge { font-size: 0.65rem; padding: 2px 8px; border-radius: 12px; background: #f0f0f0; color: #a855f7; }
-        .script-meta { display: flex; gap: 12px; font-size: 0.7rem; color: #8a9bb0; margin-bottom: 8px; }
+        .script-meta { display: flex; gap: 12px; font-size: 0.7rem; color: #8a9bb0; margin-bottom: 8px; flex-wrap: wrap; }
         .script-description { font-size: 0.8rem; color: #4a5568; margin-bottom: 12px; line-height: 1.4; }
         .script-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
         .tag { font-size: 0.65rem; padding: 2px 8px; border-radius: 12px; background: #f0f0f0; color: #a855f7; }
+        
+        /* Action Buttons on Cards */
+        .script-actions { display: flex; gap: 10px; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; flex-wrap: wrap; }
+        .goto-script-btn { background: #a855f7; border: none; padding: 8px 16px; border-radius: 30px; font-size: 0.75rem; font-weight: 600; color: white; cursor: pointer; transition: all 0.2s; flex: 1; text-decoration: none; display: inline-block; text-align: center; }
+        .goto-script-btn:hover { background: #d946ef; }
+        .copy-script-btn { background: #1e2f3f; border: none; padding: 8px 16px; border-radius: 30px; font-size: 0.75rem; font-weight: 500; color: white; cursor: pointer; transition: all 0.2s; flex: 1; }
+        .copy-script-btn:hover { background: #a855f7; }
+        .view-detail-btn { background: #4a5568; border: none; padding: 8px 16px; border-radius: 30px; font-size: 0.75rem; font-weight: 500; color: white; cursor: pointer; transition: all 0.2s; flex: 1; }
+        .view-detail-btn:hover { background: #a855f7; }
         
         /* Detail Page Styles */
         .script-detail h1 { margin-bottom: 16px; }
         .script-detail .script-meta { margin-bottom: 16px; }
         .script-detail pre { background: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: 12px; overflow-x: auto; font-size: 0.8rem; margin: 16px 0; }
-        .script-actions { display: flex; gap: 16px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e2e8f0; justify-content: center; }
-        .script-link a { display: inline-block; background: #a855f7; color: white; padding: 10px 24px; border-radius: 50px; text-decoration: none; font-weight: 600; }
-        .script-link a:hover { background: #d946ef; }
-        .copy-script-btn { background: #1e2f3f; border: none; padding: 10px 24px; border-radius: 50px; font-size: 0.9rem; font-weight: 600; color: white; cursor: pointer; }
-        .copy-script-btn:hover { background: #a855f7; }
+        .detail-actions { display: flex; gap: 16px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e2e8f0; justify-content: center; flex-wrap: wrap; }
         
         .sidebar-card { background: white; border-radius: 20px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .sidebar-title { font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
@@ -157,6 +186,19 @@
                 <div style="padding: 8px 0; border-bottom: 1px solid #e2e8f0;">2. CodeWizard</div>
                 <div style="padding: 8px 0;">3. ExploitKing</div>
             </div>
+            <div class="sidebar-card">
+                <div class="sidebar-title">📌 Popular Tags</div>
+                <div class="script-tags">
+                    <span class="tag">Auto Farm</span>
+                    <span class="tag">Keyless</span>
+                    <span class="tag">ESP</span>
+                    <span class="tag">Aimbot</span>
+                    <span class="tag">Mobile</span>
+                    <span class="tag">PC</span>
+                    <span class="tag">Free</span>
+                    <span class="tag">Working</span>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -171,10 +213,60 @@
     let currentSearch = '';
     let currentSort = 'date';
 
-    function showToast(msg) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000); }
+    function showToast(msg, isError = false) { 
+        const t = document.createElement('div'); 
+        t.className = 'toast'; 
+        t.textContent = msg; 
+        if (isError) t.style.background = '#dc2626';
+        document.body.appendChild(t); 
+        setTimeout(() => t.remove(), 3000); 
+    }
     function escapeHtml(t) { if (!t) return ''; const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 
-    function openScriptById(scriptId) {
+    // Generate tags from script data for SEO
+    function generateTags(script) {
+        let tags = [];
+        if (script.keySystem === false) tags.push('Keyless');
+        if (script.mobileReady) tags.push('Mobile');
+        if (!script.mobileReady) tags.push('PC');
+        if (script.paid === false) tags.push('Free');
+        if (script.title.toLowerCase().includes('farm')) tags.push('Auto Farm');
+        if (script.title.toLowerCase().includes('esp')) tags.push('ESP');
+        if (script.title.toLowerCase().includes('aim')) tags.push('Aimbot');
+        if (tags.length === 0) tags.push('Working Script');
+        return tags.slice(0, 4);
+    }
+
+    // Direct Go to Script - Opens raw URL directly (before ID page)
+    function goToScript(rawUrl) {
+        window.open(rawUrl, '_blank');
+    }
+
+    // Copy script to clipboard
+    async function copyScriptToClipboard(scriptId) {
+        try {
+            const res = await fetch(`${API_URL}/script?id=${scriptId}`);
+            const data = await res.json();
+            if (data.error || !data.script) {
+                showToast('❌ Failed to load script', true);
+                return;
+            }
+            const script = data.script;
+            if (script.rawScript) {
+                const rawRes = await fetch(script.rawScript);
+                const code = await rawRes.text();
+                await navigator.clipboard.writeText(code);
+                showToast('✅ Script copied to clipboard!');
+            } else {
+                showToast('❌ No script content available', true);
+            }
+        } catch(e) {
+            showToast('❌ Failed to copy script', true);
+        }
+    }
+
+    // View detail page (with ID)
+    function viewDetail(scriptId) {
         window.location.href = `/?id=${scriptId}`;
     }
 
@@ -187,14 +279,24 @@
             if (data.success && data.success.length) {
                 grid.innerHTML = data.success.map(item => {
                     const s = item.script;
+                    const thumbnail = s.image || null;
+                    const rawUrl = s.rawScript || `https://rscripts.net/script/${item._id}`;
+                    const tags = generateTags(s);
                     return `
-                        <div class="script-card" onclick="openScriptById('${item._id}')">
-                            <div class="script-image"><i class="fas fa-fire" style="font-size: 2rem; color: white;"></i></div>
+                        <div class="script-card">
+                            <div class="script-thumbnail">
+                                ${thumbnail ? `<img src="${thumbnail}" style="width:100%; height:100%; object-fit:cover;" onerror="this.parentElement.innerHTML='<i class=\'fas fa-fire\' style=\'font-size: 3rem; color: white;\'></i>'">` : '<i class="fas fa-fire" style="font-size: 3rem; color: white;"></i>'}
+                            </div>
                             <div class="script-info">
                                 <div class="script-title">${escapeHtml(s.title || 'Untitled')}<span class="script-badge">🔥 Trending</span></div>
                                 <div class="script-meta"><span>👤 ${escapeHtml(item.user?.username || 'Unknown')}</span><span>👁️ ${item.views || 0} views</span></div>
                                 <div class="script-description">${escapeHtml((s.description || 'No description').substring(0, 100))}...</div>
-                                <div class="script-tags">${s.keySystem ? '<span class="tag">🔑 Key System</span>' : '<span class="tag">🔓 Keyless</span>'}${s.mobileReady ? '<span class="tag">📱 Mobile</span>' : '<span class="tag">💻 PC</span>'}</div>
+                                <div class="script-tags">${tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+                                <div class="script-actions">
+                                    <button class="goto-script-btn" onclick="event.stopPropagation(); goToScript('${rawUrl}'); return false;">🔗 Go to Script</button>
+                                    <button class="copy-script-btn" onclick="event.stopPropagation(); copyScriptToClipboard('${item._id}'); return false;">📋 Copy</button>
+                                    <button class="view-detail-btn" onclick="event.stopPropagation(); viewDetail('${item._id}'); return false;">📄 Detail</button>
+                                </div>
                             </div>
                         </div>
                     `;
@@ -227,26 +329,40 @@
     function displayScripts() {
         const grid = document.getElementById('scriptsGrid');
         if (!currentScripts.length) { grid.innerHTML = '<div class="loading">No scripts found</div>'; return; }
-        grid.innerHTML = currentScripts.map(s => `
-            <div class="script-card" onclick="openScriptById('${s._id}')">
-                <div class="script-image"><i class="fas fa-code" style="font-size: 2rem; color: white;"></i></div>
-                <div class="script-info">
-                    <div class="script-title">${escapeHtml(s.title)}</div>
-                    <div class="script-meta"><span>👤 ${escapeHtml(s.user?.username || 'Unknown')}</span><span>👁️ ${s.views || 0}</span><span>❤️ ${s.likes || 0}</span></div>
-                    <div class="script-description">${escapeHtml((s.description || 'No description').substring(0, 100))}...</div>
-                    <div class="script-tags">${s.keySystem ? '<span class="tag">🔑 Key System</span>' : '<span class="tag">🔓 Keyless</span>'}${s.mobileReady ? '<span class="tag">📱 Mobile</span>' : '<span class="tag">💻 PC</span>'}${s.paid ? '<span class="tag">💰 Paid</span>' : '<span class="tag">🆓 Free</span>'}</div>
+        grid.innerHTML = currentScripts.map(s => {
+            const thumbnail = s.image || null;
+            const rawUrl = s.rawScript || `https://rscripts.net/script/${s._id}`;
+            const tags = generateTags(s);
+            return `
+                <div class="script-card">
+                    <div class="script-thumbnail">
+                        ${thumbnail ? `<img src="${thumbnail}" style="width:100%; height:100%; object-fit:cover;" onerror="this.parentElement.innerHTML='<i class=\'fas fa-code\' style=\'font-size: 3rem; color: white;\'></i>'">` : '<i class="fas fa-code" style="font-size: 3rem; color: white;"></i>'}
+                    </div>
+                    <div class="script-info">
+                        <div class="script-title">${escapeHtml(s.title)}</div>
+                        <div class="script-meta"><span>👤 ${escapeHtml(s.user?.username || 'Unknown')}</span><span>👁️ ${s.views || 0}</span><span>❤️ ${s.likes || 0}</span></div>
+                        <div class="script-description">${escapeHtml((s.description || 'No description').substring(0, 100))}...</div>
+                        <div class="script-tags">${tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+                        <div class="script-actions">
+                            <button class="goto-script-btn" onclick="event.stopPropagation(); goToScript('${rawUrl}'); return false;">🔗 Go to Script</button>
+                            <button class="copy-script-btn" onclick="event.stopPropagation(); copyScriptToClipboard('${s._id}'); return false;">📋 Copy</button>
+                            <button class="view-detail-btn" onclick="event.stopPropagation(); viewDetail('${s._id}'); return false;">📄 Detail</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
     }
 
-    // === DETAIL PAGE WITH COPY BUTTON ===
     async function loadScriptDetail(scriptId) {
         const detailDiv = document.getElementById('detailPage');
         const homeDiv = document.getElementById('homePage');
         detailDiv.innerHTML = '<div class="loading">Loading script...</div>';
         detailDiv.classList.remove('hidden');
         homeDiv.classList.add('hidden');
+        
+        // Update page title for SEO
+        document.title = `Script Detail - ScriptHub`;
         
         try {
             const res = await fetch(`${API_URL}/script?id=${scriptId}`);
@@ -259,8 +375,12 @@
             
             const script = data.script;
             const rawUrl = script.rawScript || `https://rscripts.net/script/${script._id}`;
+            const thumbnail = script.image || null;
+            const tags = generateTags(script);
             
-            // Fetch script content for copy button
+            // Update SEO title for this specific script
+            document.title = `${script.title} - Free Roblox Script | ScriptHub`;
+            
             let scriptContent = '';
             if (script.rawScript) {
                 try {
@@ -272,19 +392,21 @@
             detailDiv.innerHTML = `
                 <div class="script-detail">
                     <button onclick="goBackHome()" class="filter-tag" style="margin-bottom:20px;">← Back to Home</button>
+                    ${thumbnail ? `<img src="${thumbnail}" style="width:100%; max-height:300px; object-fit:cover; border-radius:20px; margin-bottom:20px;" onerror="this.style.display='none'">` : ''}
                     <h1>${escapeHtml(script.title)}</h1>
                     <div class="script-meta">
                         <span>👤 ${escapeHtml(script.user?.username || 'Unknown')}</span>
                         <span>👁️ ${script.views || 0} views</span>
                         <span>❤️ ${script.likes || 0} likes</span>
                     </div>
+                    <div class="script-tags" style="margin-bottom:16px;">${tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
                     <p><strong>Game:</strong> ${escapeHtml(script.game?.title || 'Unknown')}</p>
                     <p style="margin:16px 0;">${escapeHtml(script.description || 'No description')}</p>
                     
                     ${script.rawScript ? `<pre><code id="scriptCodeContent">${escapeHtml(scriptContent)}</code></pre>` : ''}
                     
-                    <div class="script-actions">
-                        <div class="script-link"><a href="${rawUrl}" target="_blank" rel="noopener noreferrer">🔗 Go to Script →</a></div>
+                    <div class="detail-actions">
+                        <button class="goto-script-btn" onclick="goToScript('${rawUrl}')">🔗 Go to Script</button>
                         ${script.rawScript ? `<button class="copy-script-btn" onclick="copyScriptCode()">📋 Copy Script</button>` : ''}
                     </div>
                 </div>
@@ -309,6 +431,7 @@
         document.getElementById('detailPage').classList.add('hidden');
         document.getElementById('homePage').classList.remove('hidden');
         window.history.pushState({}, '', '/');
+        document.title = "ScriptHub - Best Free Roblox Scripts | Keyless & Auto Farm Scripts";
         if (localStorage.getItem('instructionsCompleted') === 'true') { loadScripts(); loadTrending(); }
     }
 
