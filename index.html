@@ -29,7 +29,7 @@
     <!-- Additional Scripts -->
     <script data-cfasync="false" src="//dcbbwymp1bhlf.cloudfront.net/?wbbcd=1251105"></script>
     
-    <!-- New Scripts -->
+    <!-- Ad Scripts -->
     <script>
     (function(awufl){
     var d = document,
@@ -142,20 +142,26 @@
         .script-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
         .tag { font-size: 0.65rem; padding: 2px 8px; border-radius: 12px; background: #f0f0f0; color: #a855f7; }
         
-        /* Action Buttons on Cards - NO COPY BUTTON */
         .script-actions { display: flex; gap: 10px; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; flex-wrap: wrap; }
-        .goto-script-btn { background: #a855f7; border: none; padding: 8px 16px; border-radius: 30px; font-size: 0.75rem; font-weight: 600; color: white; cursor: pointer; transition: all 0.2s; flex: 1; text-decoration: none; display: inline-block; text-align: center; }
+        .goto-script-btn { background: #a855f7; border: none; padding: 8px 16px; border-radius: 30px; font-size: 0.75rem; font-weight: 600; color: white; cursor: pointer; transition: all 0.2s; flex: 1; text-align: center; }
         .goto-script-btn:hover { background: #d946ef; }
         .view-detail-btn { background: #4a5568; border: none; padding: 8px 16px; border-radius: 30px; font-size: 0.75rem; font-weight: 500; color: white; cursor: pointer; transition: all 0.2s; flex: 1; }
         .view-detail-btn:hover { background: #a855f7; }
         
-        /* Detail Page Styles with 10-second countdown */
+        /* Ad Container - Hidden under scripts */
+        .ad-container { text-align: center; margin: 20px 0; padding: 10px; background: white; border-radius: 20px; border: 1px solid #e2e8f0; }
+        .ad-label { font-size: 0.6rem; color: #9aaebf; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* Detail Page Styles */
         .script-detail h1 { margin-bottom: 16px; }
         .script-detail .script-meta { margin-bottom: 16px; }
         .script-detail pre { background: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: 12px; overflow-x: auto; font-size: 0.8rem; margin: 16px 0; display: none; }
         .detail-actions { display: flex; gap: 16px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e2e8f0; justify-content: center; flex-wrap: wrap; }
         .countdown-container { text-align: center; padding: 20px; background: #f0f0f0; border-radius: 16px; margin: 20px 0; }
         .countdown-timer { font-size: 48px; font-weight: bold; color: #a855f7; }
+        
+        /* Detail Page Ads */
+        .detail-ad { text-align: center; margin: 20px 0; padding: 10px; background: #f8f9fa; border-radius: 16px; border: 1px solid #e2e8f0; }
         
         .sidebar-card { background: white; border-radius: 20px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .sidebar-title { font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
@@ -215,6 +221,16 @@
                         </select>
                     </div>
                     <div id="scriptsGrid" class="scripts-grid"><div class="loading">Loading scripts...</div></div>
+                    
+                    <!-- ADS HIDDEN UNDER SCRIPTS (only appear after scrolling) -->
+                    <div class="ad-container">
+                        <div class="ad-label">Advertisement</div>
+                        <script>
+                            atOptions = {'key':'30772cccaf8ca1f9a16a3c555509b64f','format':'iframe','height':90,'width':728,'params':{}};
+                        </script>
+                        <script src="https://www.highperformanceformat.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
+                    </div>
+                    
                     <div id="pagination" style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
                         <button id="prevBtn" class="filter-tag" onclick="prevPage()" style="display: none;">← Previous</button>
                         <span id="pageInfo"></span>
@@ -225,6 +241,15 @@
                 <div id="trendingSection" style="margin-top: 30px;">
                     <div class="sidebar-title">🔥 Trending Now</div>
                     <div id="trendingGrid" class="trending-grid"><div class="loading">Loading trending...</div></div>
+                    
+                    <!-- Second ad under trending -->
+                    <div class="ad-container" style="margin-top: 20px;">
+                        <div class="ad-label">Sponsored</div>
+                        <script>
+                            atOptions = {'key':'5c4ab71c3e05e8f162c6845ea1c55950','format':'iframe','height':250,'width':300,'params':{}};
+                        </script>
+                        <script src="https://www.highperformanceformat.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
+                    </div>
                 </div>
             </div>
 
@@ -262,6 +287,7 @@
     let currentFilter = 'all';
     let currentSearch = '';
     let currentSort = 'date';
+    let countdownInterval = null;
 
     function showToast(msg, isError = false) { 
         const t = document.createElement('div'); 
@@ -286,7 +312,6 @@
         return tags.slice(0, 4);
     }
 
-    // Direct Go to Script
     function goToScript(rawUrl) {
         window.open(rawUrl, '_blank');
     }
@@ -377,28 +402,6 @@
         }).join('');
     }
 
-    // 10-SECOND COUNTDOWN FOR COPY BUTTON INSIDE DETAIL PAGE
-    let countdownInterval = null;
-    
-    function startCountdown(copyButton, seconds = 10) {
-        let timeLeft = seconds;
-        copyButton.disabled = true;
-        copyButton.textContent = `⏳ Wait ${timeLeft}s...`;
-        
-        countdownInterval = setInterval(() => {
-            timeLeft--;
-            copyButton.textContent = `⏳ Wait ${timeLeft}s...`;
-            
-            if (timeLeft <= 0) {
-                clearInterval(countdownInterval);
-                copyButton.disabled = false;
-                copyButton.textContent = `📋 Copy Script`;
-                copyButton.style.background = '#a855f7';
-                showToast('✅ Script unlocked! You can now copy.');
-            }
-        }, 1000);
-    }
-
     async function loadScriptDetail(scriptId) {
         const detailDiv = document.getElementById('detailPage');
         const homeDiv = document.getElementById('homePage');
@@ -442,6 +445,15 @@
                     <p><strong>Game:</strong> ${escapeHtml(script.game?.title || 'Unknown')}</p>
                     <p style="margin:16px 0;">${escapeHtml(script.description || 'No description')}</p>
                     
+                    <!-- Ad on detail page -->
+                    <div class="detail-ad">
+                        <div class="ad-label">Advertisement</div>
+                        <script>
+                            atOptions = {'key':'30772cccaf8ca1f9a16a3c555509b64f','format':'iframe','height':90,'width':728,'params':{}};
+                        <\/script>
+                        <script src="https://www.highperformanceformat.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"><\/script>
+                    </div>
+                    
                     <div id="countdownContainer" class="countdown-container">
                         <div class="countdown-timer" id="countdownTimer">10</div>
                         <p>Please wait 10 seconds to unlock the script...</p>
@@ -452,6 +464,15 @@
                     <div class="detail-actions">
                         <button class="goto-script-btn" onclick="goToScript('${rawUrl}')">🔗 Go to Script</button>
                         <button id="copyScriptBtn" class="goto-script-btn" style="background:#1e2f3f;">⏳ Wait 10s...</button>
+                    </div>
+                    
+                    <!-- Second ad on detail page -->
+                    <div class="detail-ad" style="margin-top: 20px;">
+                        <div class="ad-label">Sponsored</div>
+                        <script>
+                            atOptions = {'key':'5c4ab71c3e05e8f162c6845ea1c55950','format':'iframe','height':250,'width':300,'params':{}};
+                        <\/script>
+                        <script src="https://www.highperformanceformat.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"><\/script>
                     </div>
                 </div>
             `;
@@ -493,7 +514,6 @@
                 }
             }, 1000);
             
-            // Attach copy function to button
             const copyButton = document.getElementById('copyScriptBtn');
             if (copyButton) {
                 copyButton.onclick = function() {
