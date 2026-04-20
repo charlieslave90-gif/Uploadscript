@@ -27,471 +27,72 @@
     
     <!-- Linkvertise Monetization Script -->
     <script src="https://publisher.linkvertise.com/cdn/linkvertise.js"></script>
-    <script>linkvertise(4752730, {whitelist: ["https://rblxscripts2.vercel.app/"], blacklist: []});</script>
+    <script>linkvertise(4752730, {whitelist: ["https://keysystem-ruddy.vercel.app/","https://rblxscripts2.vercel.app/"], blacklist: []});</script>
     
     <!-- Other Ad Networks -->
     <script src="https://pl29027395.profitablecpmratenetwork.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
     <script src="https://pl29027397.profitablecpmratenetwork.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #0a0a0a;
-            color: #ededed;
-            line-height: 1.5;
-        }
-
-        .navbar {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(12px);
-            background: rgba(10, 10, 10, 0.85);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0.75rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #a855f7, #d946ef);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .logo i {
-            background: linear-gradient(135deg, #a855f7, #d946ef);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .nav-links button {
-            background: transparent;
-            border: none;
-            color: #a1a1aa;
-            font-size: 0.9rem;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .nav-links button:hover {
-            background: rgba(168, 85, 247, 0.1);
-            color: #a855f7;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .hero {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #ffffff, #a855f7);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 0.5rem;
-        }
-
-        .hero p {
-            color: #a1a1aa;
-        }
-
-        /* Verification Required Section */
-        .verify-required {
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(217, 70, 239, 0.05));
-            border: 1px solid rgba(168, 85, 247, 0.2);
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-            margin: 2rem 0;
-        }
-
-        .verify-required h2 {
-            margin-bottom: 1rem;
-        }
-
-        .verify-required p {
-            margin-bottom: 1rem;
-            color: #a1a1aa;
-        }
-
-        .verify-link {
-            display: inline-block;
-            color: #a855f7;
-            text-decoration: none;
-            font-weight: 600;
-            margin-top: 0.5rem;
-            transition: color 0.2s;
-        }
-
-        .verify-link:hover {
-            color: #d946ef;
-            text-decoration: underline;
-        }
-
-        .instructions-card {
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(217, 70, 239, 0.05));
-            border: 1px solid rgba(168, 85, 247, 0.2);
-            border-radius: 20px;
-            padding: 1.5rem;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .step-grid {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin: 1rem 0;
-            flex-wrap: wrap;
-        }
-
-        .step {
-            text-align: center;
-        }
-
-        .step-icon {
-            font-size: 1.5rem;
-            display: block;
-        }
-
-        .section-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .section-title i {
-            color: #a855f7;
-        }
-
-        .search-bar {
-            background: #141414;
-            border: 1px solid #252525;
-            border-radius: 50px;
-            padding: 0.5rem 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .search-bar i {
-            color: #a855f7;
-        }
-
-        .search-bar input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: #ededed;
-            font-size: 0.9rem;
-            outline: none;
-        }
-
-        .filters {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-bottom: 1.5rem;
-        }
-
-        .filter-btn {
-            background: #141414;
-            border: 1px solid #252525;
-            padding: 0.5rem 1rem;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            color: #a1a1aa;
-        }
-
-        .filter-btn.active, .filter-btn:hover {
-            background: linear-gradient(135deg, #a855f7, #d946ef);
-            border-color: transparent;
-            color: white;
-        }
-
-        .stats-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .stats {
-            display: flex;
-            gap: 1rem;
-            font-size: 0.8rem;
-            color: #a1a1aa;
-        }
-
-        .sort-select {
-            background: #141414;
-            border: 1px solid #252525;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            color: #ededed;
-            font-size: 0.8rem;
-        }
-
-        .scripts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .trending-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .script-card {
-            background: #141414;
-            border: 1px solid #252525;
-            border-radius: 16px;
-            overflow: hidden;
-            transition: all 0.3s;
-        }
-
-        .script-card:hover {
-            transform: translateY(-4px);
-            border-color: #a855f7;
-        }
-
-        .script-image {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-            background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .script-info {
-            padding: 1rem;
-        }
-
-        .script-title {
-            font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .script-badge {
-            font-size: 0.65rem;
-            padding: 2px 8px;
-            border-radius: 12px;
-            background: rgba(168, 85, 247, 0.2);
-            color: #a855f7;
-        }
-
-        .script-meta {
-            display: flex;
-            gap: 0.75rem;
-            font-size: 0.7rem;
-            color: #71717a;
-            margin-bottom: 0.5rem;
-        }
-
-        .script-meta i {
-            margin-right: 3px;
-        }
-
-        .script-description {
-            font-size: 0.8rem;
-            color: #a1a1aa;
-            margin-bottom: 0.75rem;
-            line-height: 1.4;
-        }
-
-        .script-tags {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .tag {
-            font-size: 0.65rem;
-            padding: 2px 8px;
-            border-radius: 12px;
-            background: #1a1a1a;
-            color: #a855f7;
-        }
-
-        /* Text Link Only - No Button */
-        .script-link {
-            margin-top: 0.75rem;
-            padding-top: 0.5rem;
-            border-top: 1px solid #252525;
-        }
-
-        .script-link a {
-            color: #a855f7;
-            text-decoration: none;
-            font-size: 0.8rem;
-            transition: color 0.2s;
-        }
-
-        .script-link a:hover {
-            color: #d946ef;
-            text-decoration: underline;
-        }
-
-        .two-columns {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .main-content {
-            flex: 3;
-        }
-
-        .right-sidebar {
-            flex: 1;
-            position: sticky;
-            top: 80px;
-            align-self: flex-start;
-        }
-
-        .sidebar-card {
-            background: #141414;
-            border: 1px solid #252525;
-            border-radius: 16px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .sidebar-title {
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .ad-box {
-            background: #141414;
-            border: 1px solid #252525;
-            border-radius: 12px;
-            padding: 0.75rem;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .ad-label {
-            font-size: 0.6rem;
-            color: #52525b;
-            margin-bottom: 0.25rem;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: #141414;
-            border: 1px solid #252525;
-            border-radius: 20px;
-            padding: 1.5rem;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #1a1a1a;
-            border: 1px solid #a855f7;
-            padding: 10px 20px;
-            border-radius: 40px;
-            z-index: 1000;
-            font-size: 0.85rem;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 2rem;
-            color: #a1a1aa;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: #ededed; line-height: 1.5; }
+        .navbar { position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); background: rgba(10, 10, 10, 0.85); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .nav-container { max-width: 1400px; margin: 0 auto; padding: 0.75rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #a855f7, #d946ef); -webkit-background-clip: text; background-clip: text; color: transparent; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .nav-links { display: flex; gap: 0.5rem; }
+        .nav-links button { background: transparent; border: none; color: #a1a1aa; font-size: 0.9rem; font-weight: 500; padding: 0.5rem 1rem; border-radius: 10px; cursor: pointer; transition: all 0.2s; }
+        .nav-links button:hover { background: rgba(168, 85, 247, 0.1); color: #a855f7; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        .hero { text-align: center; margin-bottom: 2rem; }
+        .hero h1 { font-size: 2.5rem; font-weight: 700; background: linear-gradient(135deg, #ffffff, #a855f7); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 0.5rem; }
+        .hero p { color: #a1a1aa; }
+        .instructions-card { background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(217, 70, 239, 0.05)); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 20px; padding: 1.5rem; text-align: center; margin-bottom: 2rem; }
+        .step-grid { display: flex; justify-content: center; gap: 2rem; margin: 1rem 0; flex-wrap: wrap; }
+        .step { text-align: center; }
+        .step-icon { font-size: 1.5rem; display: block; }
+        .section-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .section-title i { color: #a855f7; }
+        .search-bar { background: #141414; border: 1px solid #252525; border-radius: 50px; padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem; }
+        .search-bar i { color: #a855f7; }
+        .search-bar input { flex: 1; background: transparent; border: none; color: #ededed; font-size: 0.9rem; outline: none; }
+        .filters { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+        .filter-btn { background: #141414; border: 1px solid #252525; padding: 0.5rem 1rem; border-radius: 30px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; color: #a1a1aa; }
+        .filter-btn.active, .filter-btn:hover { background: linear-gradient(135deg, #a855f7, #d946ef); border-color: transparent; color: white; }
+        .stats-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .stats { display: flex; gap: 1rem; font-size: 0.8rem; color: #a1a1aa; }
+        .sort-select { background: #141414; border: 1px solid #252525; padding: 0.3rem 0.8rem; border-radius: 20px; color: #ededed; font-size: 0.8rem; }
+        .scripts-grid, .trending-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .script-card { background: #141414; border: 1px solid #252525; border-radius: 16px; overflow: hidden; transition: all 0.3s; }
+        .script-card:hover { transform: translateY(-4px); border-color: #a855f7; }
+        .script-image { width: 100%; height: 160px; object-fit: cover; background: linear-gradient(135deg, #1a1a1a, #0a0a0a); display: flex; align-items: center; justify-content: center; }
+        .script-info { padding: 1rem; }
+        .script-title { font-weight: 600; font-size: 1rem; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; }
+        .script-badge { font-size: 0.65rem; padding: 2px 8px; border-radius: 12px; background: rgba(168, 85, 247, 0.2); color: #a855f7; }
+        .script-meta { display: flex; gap: 0.75rem; font-size: 0.7rem; color: #71717a; margin-bottom: 0.5rem; }
+        .script-meta i { margin-right: 3px; }
+        .script-description { font-size: 0.8rem; color: #a1a1aa; margin-bottom: 0.75rem; line-height: 1.4; }
+        .script-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .tag { font-size: 0.65rem; padding: 2px 8px; border-radius: 12px; background: #1a1a1a; color: #a855f7; }
+        .script-link { margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px solid #252525; }
+        .script-link a { color: #a855f7; text-decoration: none; font-size: 0.8rem; transition: color 0.2s; }
+        .script-link a:hover { color: #d946ef; text-decoration: underline; }
+        .two-columns { display: flex; gap: 2rem; }
+        .main-content { flex: 3; }
+        .right-sidebar { flex: 1; position: sticky; top: 80px; align-self: flex-start; }
+        .sidebar-card { background: #141414; border: 1px solid #252525; border-radius: 16px; padding: 1rem; margin-bottom: 1rem; }
+        .ad-box { background: #141414; border: 1px solid #252525; border-radius: 12px; padding: 0.75rem; text-align: center; margin-bottom: 1rem; }
+        .ad-label { font-size: 0.6rem; color: #52525b; margin-bottom: 0.25rem; }
+        .toast { position: fixed; bottom: 20px; right: 20px; background: #1a1a1a; border: 1px solid #a855f7; padding: 10px 20px; border-radius: 40px; z-index: 1000; font-size: 0.85rem; }
+        .loading { text-align: center; padding: 2rem; color: #a1a1aa; }
         @media (max-width: 900px) {
-            .two-columns {
-                flex-direction: column;
-            }
-            .right-sidebar {
-                position: static;
-            }
-            .container {
-                padding: 1rem;
-            }
+            .two-columns { flex-direction: column; }
+            .right-sidebar { position: static; }
+            .container { padding: 1rem; }
         }
     </style>
 </head>
 <body>
+
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo" onclick="showHome()">
@@ -513,74 +114,63 @@
                         <p>Browse the largest collection of free and premium Roblox scripts</p>
                     </div>
 
-                    <!-- VERIFICATION REQUIRED SECTION (Anti-Bypass) -->
-                    <div id="verifySection" class="verify-required">
-                        <h2>🔐 Verification Required</h2>
-                        <p>To access scripts, you need to complete a quick verification through Linkvertise.</p>
-                        <p>This helps us keep the site free and maintain quality content.</p>
-                        <a href="#" id="verifyLink" class="verify-link" onclick="startVerification(event)">✅ Click here to verify</a>
-                        <div id="verifyStatus" style="margin-top: 1rem; font-size: 0.85rem;"></div>
+                    <div id="instructionsSection" class="instructions-card">
+                        <h3>📋 Welcome to ScriptHub!</h3>
+                        <p style="margin: 0.5rem 0;">Complete these steps to access scripts:</p>
+                        <div class="step-grid">
+                            <div class="step"><span class="step-icon">🛡️</span><p>Disable Ad Blocker</p></div>
+                            <div class="step"><span class="step-icon">⏳</span><p>Wait 10 seconds</p></div>
+                            <div class="step"><span class="step-icon">✅</span><p>Click "I Understand"</p></div>
+                        </div>
+                        <button id="completeInstructionsBtn" class="filter-btn" onclick="completeInstructions()" style="background: #a855f7; color: white;">✅ I Understand</button>
                     </div>
 
-                    <div id="mainContent" style="display: none;">
-                        <div id="instructionsSection" class="instructions-card">
-                            <h3>📋 Welcome to ScriptHub!</h3>
-                            <p style="margin: 0.5rem 0;">Complete these steps to access scripts:</p>
-                            <div class="step-grid">
-                                <div class="step"><span class="step-icon">🛡️</span><p>Disable Ad Blocker</p></div>
-                                <div class="step"><span class="step-icon">⏳</span><p>Wait 10 seconds</p></div>
-                                <div class="step"><span class="step-icon">✅</span><p>Click "I Understand"</p></div>
-                            </div>
-                            <button id="completeInstructionsBtn" class="filter-btn" onclick="completeInstructions()" style="background: #a855f7; color: white;">✅ I Understand</button>
+                    <div id="scriptsSection" style="display: none;">
+                        <div class="section-title">
+                            <i class="fas fa-code"></i> All Scripts
                         </div>
 
-                        <div id="scriptsSection" style="display: none;">
-                            <div class="section-title">
-                                <i class="fas fa-code"></i> All Scripts
-                            </div>
-
-                            <div class="search-bar">
-                                <i class="fas fa-search"></i>
-                                <input type="text" id="searchInput" placeholder="Search scripts...">
-                            </div>
-
-                            <div class="filters">
-                                <button class="filter-btn active" data-filter="all">All</button>
-                                <button class="filter-btn" data-filter="noKey">No Key System</button>
-                                <button class="filter-btn" data-filter="mobile">Mobile Ready</button>
-                                <button class="filter-btn" data-filter="free">Free Scripts</button>
-                                <button class="filter-btn" data-filter="verified">Verified Only</button>
-                            </div>
-
-                            <div class="stats-bar">
-                                <div class="stats">
-                                    <i class="fas fa-users"></i>
-                                    <span>5,572 users browsing</span>
-                                </div>
-                                <select id="sortSelect" class="sort-select">
-                                    <option value="date">Newest First</option>
-                                    <option value="views">Most Views</option>
-                                    <option value="likes">Most Liked</option>
-                                </select>
-                            </div>
-
-                            <div id="scriptsGrid" class="scripts-grid">
-                                <div class="loading">Loading scripts...</div>
-                            </div>
-                            <div id="pagination" style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
-                                <button id="prevBtn" class="filter-btn" onclick="prevPage()" style="display: none;">← Previous</button>
-                                <span id="pageInfo" style="color: #71717a;"></span>
-                                <button id="nextBtn" class="filter-btn" onclick="nextPage()" style="display: none;">Next →</button>
-                            </div>
+                        <div class="search-bar">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchInput" placeholder="Search scripts...">
                         </div>
 
-                        <div id="trendingSection" style="margin-top: 2rem;">
-                            <div class="section-title">
-                                <i class="fas fa-fire" style="color: #f59e0b;"></i> Trending Now
+                        <div class="filters">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="noKey">No Key System</button>
+                            <button class="filter-btn" data-filter="mobile">Mobile Ready</button>
+                            <button class="filter-btn" data-filter="free">Free Scripts</button>
+                            <button class="filter-btn" data-filter="verified">Verified Only</button>
+                        </div>
+
+                        <div class="stats-bar">
+                            <div class="stats">
+                                <i class="fas fa-users"></i>
+                                <span>5,572 users browsing</span>
                             </div>
-                            <div id="trendingGrid" class="trending-grid">
-                                <div class="loading">Loading trending scripts...</div>
-                            </div>
+                            <select id="sortSelect" class="sort-select">
+                                <option value="date">Newest First</option>
+                                <option value="views">Most Views</option>
+                                <option value="likes">Most Liked</option>
+                            </select>
+                        </div>
+
+                        <div id="scriptsGrid" class="scripts-grid">
+                            <div class="loading">Loading scripts...</div>
+                        </div>
+                        <div id="pagination" style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
+                            <button id="prevBtn" class="filter-btn" onclick="prevPage()" style="display: none;">← Previous</button>
+                            <span id="pageInfo" style="color: #71717a;"></span>
+                            <button id="nextBtn" class="filter-btn" onclick="nextPage()" style="display: none;">Next →</button>
+                        </div>
+                    </div>
+
+                    <div id="trendingSection" style="margin-top: 2rem;">
+                        <div class="section-title">
+                            <i class="fas fa-fire" style="color: #f59e0b;"></i> Trending Now
+                        </div>
+                        <div id="trendingGrid" class="trending-grid">
+                            <div class="loading">Loading trending scripts...</div>
                         </div>
                     </div>
                 </div>
@@ -595,60 +185,8 @@
 
                 <div class="ad-box">
                     <div class="ad-label">Sponsored</div>
-                    <script>
-                        atOptions = {'key':'30772cccaf8ca1f9a16a3c555509b64f','format':'iframe','height':90,'width':300,'params':{}};
-                    </script>
+                    <script>atOptions = {'key':'30772cccaf8ca1f9a16a3c555509b64f','format':'iframe','height':90,'width':300,'params':{}};</script>
                     <script src="https://www.highperformanceformat.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
-                </div>
-
-                <div class="ad-box">
-                    <div class="ad-label">Recommended</div>
-                    <script>
-                        atOptions = {'key':'5c4ab71c3e05e8f162c6845ea1c55950','format':'iframe','height':250,'width':300,'params':{}};
-                    </script>
-                    <script src="https://www.highperformanceformat.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
-                </div>
-
-                <div class="ad-box">
-                    <div class="ad-label">Network</div>
-                    <script>
-                        atOptions = {'key':'673fb53f64c762401413eb44406c1c80','format':'iframe','height':300,'width':160,'params':{}};
-                    </script>
-                    <script src="https://www.highperformanceformat.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
-                </div>
-
-                <div class="ad-box">
-                    <div class="ad-label">Large Ad</div>
-                    <script>
-                        atOptions = {'key':'9ad3c1db141549482622fa057c0a1495','format':'iframe','height':600,'width':160,'params':{}};
-                    </script>
-                    <script src="https://www.highperformanceformat.com/9ad3c1db141549482622fa057c0a1495/invoke.js"></script>
-                </div>
-
-                <div class="ad-box">
-                    <div class="ad-label">Banner</div>
-                    <script>
-                        atOptions = {'key':'7c7fd511e2480eb4fe47887cda152595','format':'iframe','height':60,'width':468,'params':{}};
-                    </script>
-                    <script src="https://www.highperformanceformat.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
-                </div>
-
-                <div class="ad-box">
-                    <div class="ad-label">Mobile Ad</div>
-                    <script>
-                        atOptions = {'key':'7e841472d1ac01ddccd7fa985576e83c','format':'iframe','height':50,'width':320,'params':{}};
-                    </script>
-                    <script src="https://www.highperformanceformat.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
-                </div>
-
-                <div class="ad-box">
-                    <div class="ad-label">Network Ad</div>
-                    <script src="https://pl29027395.profitablecpmratenetwork.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
-                </div>
-
-                <div class="ad-box">
-                    <div class="ad-label">Network</div>
-                    <script src="https://pl29027397.profitablecpmratenetwork.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
                 </div>
 
                 <div class="sidebar-card">
@@ -661,18 +199,6 @@
         </div>
     </div>
 
-    <div id="linkModal" class="modal">
-        <div class="modal-content">
-            <h3>⚠️ External Link</h3>
-            <p>You are about to leave ScriptHub.</p>
-            <p id="externalLinkUrl"></p>
-            <div style="display:flex; gap:1rem; margin-top:1rem;">
-                <button onclick="closeModal()" class="filter-btn">Cancel</button>
-                <button onclick="visitLink()" class="filter-btn" style="background: #a855f7; color: white;">Continue</button>
-            </div>
-        </div>
-    </div>
-
     <script>
         const API_URL = 'https://rscripts.net/api/v2';
         let currentScripts = [];
@@ -681,8 +207,7 @@
         let currentFilter = 'all';
         let currentSearch = '';
         let currentSort = 'date';
-        let isVerified = localStorage.getItem('linkvertise_verified') === 'true';
-        
+
         function showToast(message, isError = false) {
             const toast = document.createElement('div');
             toast.className = 'toast';
@@ -690,67 +215,19 @@
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
         }
-        
-        // Start Linkvertise verification
-        function startVerification(event) {
-            if (event) event.preventDefault();
-            
-            const verifyLink = document.getElementById('verifyLink');
-            const verifyStatus = document.getElementById('verifyStatus');
-            
-            verifyLink.style.opacity = '0.5';
-            verifyLink.style.pointerEvents = 'none';
-            verifyStatus.innerHTML = 'Redirecting to Linkvertise for verification...';
-            
-            // Generate unique hash for this session
-            const sessionHash = generateRandomHash();
-            sessionStorage.setItem('lv_hash', sessionHash);
-            
-            // Store that verification was started
-            localStorage.setItem('linkvertise_started', 'true');
-            
-            // Create a popup window for Linkvertise
-            const linkvertiseUrl = `https://linkvertise.com/verify?token=e64fbd91c17f0f9793fde57e63eaed765bff33fd541d0ddc5c96a399baeb1173&hash=${sessionHash}&redirect=${encodeURIComponent(window.location.href)}`;
-            
-            // Open in new tab
-            const newWindow = window.open(linkvertiseUrl, '_blank');
-            
-            // Check for verification completion (polling)
-            let checkInterval = setInterval(() => {
-                if (localStorage.getItem('linkvertise_verified') === 'true') {
-                    clearInterval(checkInterval);
-                    completeVerification();
-                }
-            }, 2000);
-            
-            // Set timeout to stop checking after 60 seconds
-            setTimeout(() => {
-                clearInterval(checkInterval);
-                if (localStorage.getItem('linkvertise_verified') !== 'true') {
-                    verifyStatus.innerHTML = 'Verification timeout. Please try again.';
-                    verifyLink.style.opacity = '1';
-                    verifyLink.style.pointerEvents = 'auto';
-                }
-            }, 60000);
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
-        
-        function completeVerification() {
-            localStorage.setItem('linkvertise_verified', 'true');
-            isVerified = true;
-            
-            document.getElementById('verifySection').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'block';
-            checkInstructionsCompleted();
-            
-            showToast('✅ Verification successful! You can now access scripts.');
+
+        // Direct open - NO WARNING MODAL
+        function openScriptLink(scriptUrl) {
+            window.open(scriptUrl, '_blank');
         }
-        
-        function generateRandomHash() {
-            const array = new Uint8Array(32);
-            crypto.getRandomValues(array);
-            return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
-        }
-        
+
         async function loadTrending() {
             const trendingGrid = document.getElementById('trendingGrid');
             trendingGrid.innerHTML = '<div class="loading">Loading trending scripts...</div>';
@@ -781,7 +258,7 @@
                                         ${script.mobileReady ? '<span class="tag">📱 Mobile</span>' : '<span class="tag">💻 PC</span>'}
                                     </div>
                                     <div class="script-link">
-                                        <a href="${scriptUrl}" target="_blank" rel="nofollow sponsored">🔗 Go to Script →</a>
+                                        <a href="#" onclick="event.preventDefault(); openScriptLink('${scriptUrl}'); return false;">🔗 Go to Script →</a>
                                     </div>
                                 </div>
                             </div>
@@ -794,10 +271,9 @@
                 trendingGrid.innerHTML = '<div class="loading">Failed to load trending</div>';
             }
         }
-        
+
         function checkInstructionsCompleted() {
-            const completed = localStorage.getItem('instructionsCompleted');
-            if (completed === 'true') {
+            if (localStorage.getItem('instructionsCompleted') === 'true') {
                 document.getElementById('instructionsSection').style.display = 'none';
                 document.getElementById('scriptsSection').style.display = 'block';
                 loadScripts();
@@ -807,7 +283,7 @@
                 document.getElementById('scriptsSection').style.display = 'none';
             }
         }
-        
+
         function completeInstructions() {
             localStorage.setItem('instructionsCompleted', 'true');
             document.getElementById('instructionsSection').style.display = 'none';
@@ -816,33 +292,23 @@
             loadTrending();
             showToast('✅ Scripts are now available!');
         }
-        
+
         function showHome() {
-            if (isVerified) {
-                document.getElementById('verifySection').style.display = 'none';
-                document.getElementById('mainContent').style.display = 'block';
-                checkInstructionsCompleted();
-            } else {
-                document.getElementById('verifySection').style.display = 'block';
-                document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('homePage').classList.remove('hidden');
+            if (localStorage.getItem('instructionsCompleted') === 'true') {
+                loadScripts();
+                loadTrending();
             }
-            window.history.pushState({}, '', '/');
         }
-        
+
         function prevPage() {
-            if (currentPage > 1) {
-                currentPage--;
-                loadScripts();
-            }
+            if (currentPage > 1) { currentPage--; loadScripts(); }
         }
-        
+
         function nextPage() {
-            if (currentPage < maxPages) {
-                currentPage++;
-                loadScripts();
-            }
+            if (currentPage < maxPages) { currentPage++; loadScripts(); }
         }
-        
+
         async function loadScripts() {
             const grid = document.getElementById('scriptsGrid');
             grid.innerHTML = '<div class="loading">Loading scripts...</div>';
@@ -877,10 +343,9 @@
                 grid.innerHTML = '<div class="loading">Error loading scripts</div>';
             }
         }
-        
+
         function displayScripts() {
             const grid = document.getElementById('scriptsGrid');
-            
             if (!currentScripts || currentScripts.length === 0) {
                 grid.innerHTML = '<div class="loading">No scripts found</div>';
                 return;
@@ -905,33 +370,27 @@
                                 ${script.paid ? '<span class="tag">💰 Paid</span>' : '<span class="tag">🆓 Free</span>'}
                             </div>
                             <div class="script-link">
-                                <a href="${scriptUrl}" target="_blank" rel="nofollow sponsored">🔗 Go to Script →</a>
+                                <a href="#" onclick="event.preventDefault(); openScriptLink('${scriptUrl}'); return false;">🔗 Go to Script →</a>
                             </div>
                         </div>
                     </div>
                 `;
             }).join('');
         }
-        
-        function escapeHtml(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
+
+        // Event listeners
         document.getElementById('sortSelect')?.addEventListener('change', (e) => {
             currentSort = e.target.value;
             currentPage = 1;
             loadScripts();
         });
-        
+
         document.getElementById('searchInput')?.addEventListener('input', (e) => {
             currentSearch = e.target.value;
             currentPage = 1;
             loadScripts();
         });
-        
+
         document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.filter-btn[data-filter]').forEach(b => b.classList.remove('active'));
@@ -941,16 +400,12 @@
                 loadScripts();
             });
         });
-        
-        let currentLink = '';
-        function openExternalLink(url) { currentLink = url; document.getElementById('externalLinkUrl').innerText = url; document.getElementById('linkModal').style.display = 'flex'; }
-        function closeModal() { document.getElementById('linkModal').style.display = 'none'; }
-        function visitLink() { window.open(currentLink, '_blank'); closeModal(); }
-        
+
         function handleRouting() {
-            showHome();
+            checkInstructionsCompleted();
         }
-        
+
+        // Initialize
         loadTrending();
         handleRouting();
         window.addEventListener('popstate', handleRouting);
