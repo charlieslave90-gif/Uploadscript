@@ -142,16 +142,13 @@
         .script-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
         .tag { font-size: 0.65rem; padding: 2px 8px; border-radius: 12px; background: #f0f0f0; color: #a855f7; }
         
-        /* Only ONE button - Detail */
         .script-actions { margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; }
         .view-detail-btn { background: #a855f7; border: none; padding: 8px 16px; border-radius: 30px; font-size: 0.75rem; font-weight: 600; color: white; cursor: pointer; transition: all 0.2s; width: 100%; }
         .view-detail-btn:hover { background: #d946ef; }
         
-        /* Ad Container */
         .ad-container { text-align: center; margin: 20px 0; padding: 10px; background: white; border-radius: 20px; border: 1px solid #e2e8f0; }
         .ad-label { font-size: 0.6rem; color: #9aaebf; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
         
-        /* Detail Page Styles - NO GO TO SCRIPT BUTTON */
         .script-detail h1 { margin-bottom: 16px; }
         .script-detail .script-meta { margin-bottom: 16px; }
         .script-detail pre { background: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: 12px; overflow-x: auto; font-size: 0.8rem; margin: 16px 0; display: none; }
@@ -219,7 +216,6 @@
                     </div>
                     <div id="scriptsGrid" class="scripts-grid"><div class="loading">Loading scripts...</div></div>
                     
-                    <!-- Ads under scripts -->
                     <div class="ad-container">
                         <div class="ad-label">Advertisement</div>
                         <script>
@@ -242,7 +238,7 @@
                     <div class="ad-container" style="margin-top: 20px;">
                         <div class="ad-label">Sponsored</div>
                         <script>
-                            atOptions = {'key':'5c4ab71c3e05e8f162c6845ea1c55950','format':'iframe','height':250,'width':300,'params':{}};
+                            atOptions = {'key':'5c4ab71c3e05e8f162c6845ea1c55950','format':'iframe','height':250,'width':300','params':{}};
                         </script>
                         <script src="https://www.highperformanceformat.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
                     </div>
@@ -545,4 +541,30 @@
     function nextPage() { if (currentPage < maxPages) { currentPage++; loadScripts(); } }
 
     document.getElementById('sortSelect')?.addEventListener('change', (e) => { currentSort = e.target.value; currentPage = 1; loadScripts(); });
-    document.getElementById('searchInput')?.addEventListener('input', (e) => { currentSearch = e.target.value; currentPage = 
+    document.getElementById('searchInput')?.addEventListener('input', (e) => { currentSearch = e.target.value; currentPage = 1; loadScripts(); });
+    document.querySelectorAll('.filter-tag[data-filter]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-tag[data-filter]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentFilter = btn.dataset.filter;
+            currentPage = 1;
+            loadScripts();
+        });
+    });
+
+    function handleRouting() {
+        const params = new URLSearchParams(window.location.search);
+        const scriptId = params.get('id');
+        if (scriptId) {
+            loadScriptDetail(scriptId);
+        } else {
+            checkInstructionsCompleted();
+        }
+    }
+
+    loadTrending();
+    handleRouting();
+    window.addEventListener('popstate', handleRouting);
+</script>
+</body>
+</html>
