@@ -8,15 +8,20 @@
     <title>ScriptHub | Roblox Scripts</title>
     
     <!-- Linkvertise Publisher Script ONLY -->
-    <script src="https://publisher.linkvertise.com/cdn/linkvertise.js"></script>
     <script>
-        // Linkvertise configuration with your ID
-        linkvertise(4752730, {
-            whitelist: ["https://keysystem-ruddy.vercel.app/", "https://rblxscripts2.vercel.app/", window.location.origin + "/"],
-            blacklist: []
-        });
-    </script>
-    
+(() => {
+  function loadScript(url, callback) {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = url;
+    script.onload = callback;
+    document.head.appendChild(script);
+  }
+  loadScript("https://cdn.work.ink/js/workink-sitescript.js", function() {
+    workink("https://work.ink/1Zzt/f0b13964-a9b0-4bf3-9779-697b3eb4ca5d", ["https://rblxscripts2.vercel.app/"], []);
+  });
+})();
+</script>
     <!-- Other Ad Networks -->
     <script src="https://pl29027395.profitablecpmratenetwork.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
     <script src="https://pl29027397.profitablecpmratenetwork.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
