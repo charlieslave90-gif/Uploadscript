@@ -34,7 +34,7 @@
         .main-content { flex: 3; }
         .right-sidebar { flex: 1; }
         
-        .hero, .instructions-card { background: white; border-radius: 28px; padding: 32px 28px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .hero, .instructions-card, .script-detail { background: white; border-radius: 28px; padding: 32px 28px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .hero h1 { font-size: 2rem; color: #1e2a3a; margin-bottom: 8px; }
         .hero p { color: #6c7a8a; }
         
@@ -55,7 +55,7 @@
         .sort-select { background: white; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 30px; font-size: 0.8rem; }
         
         .scripts-grid, .trending-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .script-card { background: white; border-radius: 20px; overflow: hidden; transition: all 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .script-card { background: white; border-radius: 20px; overflow: hidden; transition: all 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer; }
         .script-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.1); }
         .script-image { width: 100%; height: 160px; object-fit: cover; background: linear-gradient(135deg, #a855f7, #d946ef); display: flex; align-items: center; justify-content: center; }
         .script-info { padding: 16px; }
@@ -66,12 +66,15 @@
         .script-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
         .tag { font-size: 0.65rem; padding: 2px 8px; border-radius: 12px; background: #f0f0f0; color: #a855f7; }
         
-        /* Script links and copy button */
-        .script-actions { margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-        .script-link a { color: #a855f7; text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: color 0.2s; }
-        .script-link a:hover { color: #d946ef; text-decoration: underline; }
-        .copy-btn { background: #1e2f3f; border: none; padding: 6px 12px; border-radius: 30px; font-size: 0.75rem; font-weight: 500; color: white; cursor: pointer; transition: all 0.2s; }
-        .copy-btn:hover { background: #a855f7; }
+        /* Detail Page Styles */
+        .script-detail h1 { margin-bottom: 16px; }
+        .script-detail .script-meta { margin-bottom: 16px; }
+        .script-detail pre { background: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: 12px; overflow-x: auto; font-size: 0.8rem; margin: 16px 0; }
+        .script-actions { display: flex; gap: 16px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e2e8f0; justify-content: center; }
+        .script-link a { display: inline-block; background: #a855f7; color: white; padding: 10px 24px; border-radius: 50px; text-decoration: none; font-weight: 600; }
+        .script-link a:hover { background: #d946ef; }
+        .copy-script-btn { background: #1e2f3f; border: none; padding: 10px 24px; border-radius: 50px; font-size: 0.9rem; font-weight: 600; color: white; cursor: pointer; }
+        .copy-script-btn:hover { background: #a855f7; }
         
         .sidebar-card { background: white; border-radius: 20px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .sidebar-title { font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
@@ -171,32 +174,8 @@
     function showToast(msg) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000); }
     function escapeHtml(t) { if (!t) return ''; const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 
-    // Copy script to clipboard
-    async function copyScriptToClipboard(scriptId) {
-        try {
-            const res = await fetch(`${API_URL}/script?id=${scriptId}`);
-            const data = await res.json();
-            if (data.error || !data.script) {
-                showToast('❌ Failed to load script', true);
-                return;
-            }
-            const script = data.script;
-            if (script.rawScript) {
-                const rawRes = await fetch(script.rawScript);
-                const code = await rawRes.text();
-                await navigator.clipboard.writeText(code);
-                showToast('✅ Script copied to clipboard!');
-            } else {
-                showToast('❌ No script content available', true);
-            }
-        } catch(e) {
-            showToast('❌ Failed to copy script', true);
-        }
-    }
-
-    // Open script URL
-    function openScriptUrl(url) {
-        window.open(url, '_blank');
+    function openScriptById(scriptId) {
+        window.location.href = `/?id=${scriptId}`;
     }
 
     async function loadTrending() {
@@ -208,19 +187,14 @@
             if (data.success && data.success.length) {
                 grid.innerHTML = data.success.map(item => {
                     const s = item.script;
-                    const scriptUrl = s.rawScript || `https://rscripts.net/script/${item._id}`;
                     return `
-                        <div class="script-card">
+                        <div class="script-card" onclick="openScriptById('${item._id}')">
                             <div class="script-image"><i class="fas fa-fire" style="font-size: 2rem; color: white;"></i></div>
                             <div class="script-info">
                                 <div class="script-title">${escapeHtml(s.title || 'Untitled')}<span class="script-badge">🔥 Trending</span></div>
                                 <div class="script-meta"><span>👤 ${escapeHtml(item.user?.username || 'Unknown')}</span><span>👁️ ${item.views || 0} views</span></div>
                                 <div class="script-description">${escapeHtml((s.description || 'No description').substring(0, 100))}...</div>
                                 <div class="script-tags">${s.keySystem ? '<span class="tag">🔑 Key System</span>' : '<span class="tag">🔓 Keyless</span>'}${s.mobileReady ? '<span class="tag">📱 Mobile</span>' : '<span class="tag">💻 PC</span>'}</div>
-                                <div class="script-actions">
-                                    <div class="script-link"><a href="#" onclick="event.preventDefault(); openScriptUrl('${scriptUrl}'); return false;">🔗 Go to Script →</a></div>
-                                    <button class="copy-btn" onclick="event.preventDefault(); copyScriptToClipboard('${item._id}'); return false;">📋 Copy Script</button>
-                                </div>
                             </div>
                         </div>
                     `;
@@ -253,24 +227,89 @@
     function displayScripts() {
         const grid = document.getElementById('scriptsGrid');
         if (!currentScripts.length) { grid.innerHTML = '<div class="loading">No scripts found</div>'; return; }
-        grid.innerHTML = currentScripts.map(s => {
-            const scriptUrl = s.rawScript || `https://rscripts.net/script/${s._id}`;
-            return `
-                <div class="script-card">
-                    <div class="script-image"><i class="fas fa-code" style="font-size: 2rem; color: white;"></i></div>
-                    <div class="script-info">
-                        <div class="script-title">${escapeHtml(s.title)}</div>
-                        <div class="script-meta"><span>👤 ${escapeHtml(s.user?.username || 'Unknown')}</span><span>👁️ ${s.views || 0}</span><span>❤️ ${s.likes || 0}</span></div>
-                        <div class="script-description">${escapeHtml((s.description || 'No description').substring(0, 100))}...</div>
-                        <div class="script-tags">${s.keySystem ? '<span class="tag">🔑 Key System</span>' : '<span class="tag">🔓 Keyless</span>'}${s.mobileReady ? '<span class="tag">📱 Mobile</span>' : '<span class="tag">💻 PC</span>'}${s.paid ? '<span class="tag">💰 Paid</span>' : '<span class="tag">🆓 Free</span>'}</div>
-                        <div class="script-actions">
-                            <div class="script-link"><a href="#" onclick="event.preventDefault(); openScriptUrl('${scriptUrl}'); return false;">🔗 Go to Script →</a></div>
-                            <button class="copy-btn" onclick="event.preventDefault(); copyScriptToClipboard('${s._id}'); return false;">📋 Copy Script</button>
-                        </div>
+        grid.innerHTML = currentScripts.map(s => `
+            <div class="script-card" onclick="openScriptById('${s._id}')">
+                <div class="script-image"><i class="fas fa-code" style="font-size: 2rem; color: white;"></i></div>
+                <div class="script-info">
+                    <div class="script-title">${escapeHtml(s.title)}</div>
+                    <div class="script-meta"><span>👤 ${escapeHtml(s.user?.username || 'Unknown')}</span><span>👁️ ${s.views || 0}</span><span>❤️ ${s.likes || 0}</span></div>
+                    <div class="script-description">${escapeHtml((s.description || 'No description').substring(0, 100))}...</div>
+                    <div class="script-tags">${s.keySystem ? '<span class="tag">🔑 Key System</span>' : '<span class="tag">🔓 Keyless</span>'}${s.mobileReady ? '<span class="tag">📱 Mobile</span>' : '<span class="tag">💻 PC</span>'}${s.paid ? '<span class="tag">💰 Paid</span>' : '<span class="tag">🆓 Free</span>'}</div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // === DETAIL PAGE WITH COPY BUTTON ===
+    async function loadScriptDetail(scriptId) {
+        const detailDiv = document.getElementById('detailPage');
+        const homeDiv = document.getElementById('homePage');
+        detailDiv.innerHTML = '<div class="loading">Loading script...</div>';
+        detailDiv.classList.remove('hidden');
+        homeDiv.classList.add('hidden');
+        
+        try {
+            const res = await fetch(`${API_URL}/script?id=${scriptId}`);
+            const data = await res.json();
+            
+            if (data.error || !data.script) {
+                detailDiv.innerHTML = `<div class="hero"><h2>❌ Script not found</h2><p>${data.error || 'The script you\'re looking for doesn\'t exist.'}</p><button onclick="goBackHome()" class="filter-tag" style="margin-top:20px;">← Back to Home</button></div>`;
+                return;
+            }
+            
+            const script = data.script;
+            const rawUrl = script.rawScript || `https://rscripts.net/script/${script._id}`;
+            
+            // Fetch script content for copy button
+            let scriptContent = '';
+            if (script.rawScript) {
+                try {
+                    const rawRes = await fetch(script.rawScript);
+                    scriptContent = await rawRes.text();
+                } catch(e) { scriptContent = 'Unable to load script content'; }
+            }
+            
+            detailDiv.innerHTML = `
+                <div class="script-detail">
+                    <button onclick="goBackHome()" class="filter-tag" style="margin-bottom:20px;">← Back to Home</button>
+                    <h1>${escapeHtml(script.title)}</h1>
+                    <div class="script-meta">
+                        <span>👤 ${escapeHtml(script.user?.username || 'Unknown')}</span>
+                        <span>👁️ ${script.views || 0} views</span>
+                        <span>❤️ ${script.likes || 0} likes</span>
+                    </div>
+                    <p><strong>Game:</strong> ${escapeHtml(script.game?.title || 'Unknown')}</p>
+                    <p style="margin:16px 0;">${escapeHtml(script.description || 'No description')}</p>
+                    
+                    ${script.rawScript ? `<pre><code id="scriptCodeContent">${escapeHtml(scriptContent)}</code></pre>` : ''}
+                    
+                    <div class="script-actions">
+                        <div class="script-link"><a href="${rawUrl}" target="_blank" rel="noopener noreferrer">🔗 Go to Script →</a></div>
+                        ${script.rawScript ? `<button class="copy-script-btn" onclick="copyScriptCode()">📋 Copy Script</button>` : ''}
                     </div>
                 </div>
             `;
-        }).join('');
+        } catch(e) {
+            detailDiv.innerHTML = `<div class="hero"><h2>❌ Error</h2><p>Failed to load script</p><button onclick="goBackHome()" class="filter-tag">← Back</button></div>`;
+        }
+    }
+    
+    function copyScriptCode() {
+        const codeElement = document.getElementById('scriptCodeContent');
+        if (codeElement) {
+            const code = codeElement.innerText;
+            navigator.clipboard.writeText(code);
+            showToast('✅ Script copied to clipboard!');
+        } else {
+            showToast('❌ No script content to copy', true);
+        }
+    }
+
+    function goBackHome() {
+        document.getElementById('detailPage').classList.add('hidden');
+        document.getElementById('homePage').classList.remove('hidden');
+        window.history.pushState({}, '', '/');
+        if (localStorage.getItem('instructionsCompleted') === 'true') { loadScripts(); loadTrending(); }
     }
 
     function checkInstructionsCompleted() {
@@ -309,7 +348,13 @@
     });
 
     function handleRouting() {
-        checkInstructionsCompleted();
+        const params = new URLSearchParams(window.location.search);
+        const scriptId = params.get('id');
+        if (scriptId) {
+            loadScriptDetail(scriptId);
+        } else {
+            checkInstructionsCompleted();
+        }
     }
 
     loadTrending();
