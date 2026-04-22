@@ -1,4 +1,4 @@
-// api/verify-key.js - This endpoint allows Roblox executors to verify keys
+// api/verify-key.js - API endpoint for Roblox Lua script executors
 
 export default async function handler(req, res) {
     // Enable CORS for Roblox executors
@@ -10,8 +10,15 @@ export default async function handler(req, res) {
         return res.status(200).end();
     }
     
-    const SECRET_KEY = 'approve-carbon-manual-728$#9';
+    // In-memory key storage (in production, use Vercel Postgres or Blob)
+    // For now, using a simple array - you can add more keys here
+    const VALID_KEYS = [
+        "approve-carbon-manual-728$#9",
+        "premium-key-2024-roblox#7",
+        "ultra-script-unlock-99x"
+    ];
     
+    // ==================== GET VERIFICATION (Easiest for Lua) ====================
     if (req.method === 'GET') {
         const { key } = req.query;
         
@@ -19,17 +26,20 @@ export default async function handler(req, res) {
             return res.status(400).json({ 
                 success: false, 
                 error: 'Missing key parameter',
-                message: 'Please provide a key in the query string: ?key=YOUR_KEY'
+                message: 'Usage: ?key=YOUR_KEY'
             });
         }
         
-        if (key === SECRET_KEY) {
+        // Check if key is valid
+        const isValid = VALID_KEYS.includes(key);
+        
+        if (isValid) {
             return res.status(200).json({
                 success: true,
                 verified: true,
                 message: 'Key verified successfully!',
-                key: SECRET_KEY,
-                expires: Date.now() + 86400000 // 24 hours
+                key: key,
+                timestamp: Date.now()
             });
         } else {
             return res.status(401).json({
@@ -41,6 +51,7 @@ export default async function handler(req, res) {
         }
     }
     
+    // ==================== POST VERIFICATION ====================
     if (req.method === 'POST') {
         const { key } = req.body;
         
@@ -51,13 +62,14 @@ export default async function handler(req, res) {
             });
         }
         
-        if (key === SECRET_KEY) {
+        const isValid = VALID_KEYS.includes(key);
+        
+        if (isValid) {
             return res.status(200).json({
                 success: true,
                 verified: true,
                 message: 'Key verified successfully!',
-                key: SECRET_KEY,
-                expires: Date.now() + 86400000
+                key: key
             });
         } else {
             return res.status(401).json({
