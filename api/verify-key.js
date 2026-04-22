@@ -14,8 +14,8 @@ export default async function handler(req, res) {
         "approve-carbon-manual-728$#9",
         "premium-key-2024-roblox#7",
         "approve-carbon-manual-728$#9",
-        "vip-access-gold-tier$5",
-        "beta-tester-key-2025"
+        "approve-carbon-manual-728$#9",
+        "approve-carbon-manual-728$#9"
     ];
     
     if (req.method === 'GET') {
