@@ -14,7 +14,7 @@ export default async function handler(req, res) {
         "approve-carbon-manual-728$#9",
         "premium-key-2024-roblox#7",
         "approve-carbon-manual-728$#9",
-        "approve-carbon-manual-728$#9",
+        "key-2747bajfs",
         "approve-carbon-manual-728$#9"
     ];
     
