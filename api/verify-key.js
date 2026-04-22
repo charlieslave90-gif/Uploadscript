@@ -1,4 +1,4 @@
-// api/verify-key.js - API endpoint for Roblox Lua script executors
+// api/verify-key.js - Fixed with correct key
 
 export default async function handler(req, res) {
     // Enable CORS for Roblox executors
@@ -10,38 +10,40 @@ export default async function handler(req, res) {
         return res.status(200).end();
     }
     
-    // In-memory key storage (in production, use Vercel Postgres or Blob)
-    // For now, using a simple array - you can add more keys here
+    // ============ THE CORRECT KEY ============
     const VALID_KEYS = [
         "approve-carbon-manual-728$#9",
-        "premium-key-2024-roblox#7",
-        "ultra-script-unlock-99x"
+        "approve-carbon-manual-728$#9",  // Added twice just to be sure
+        "approve-carbon-manual-728$#9"   // Make sure it matches EXACTLY
     ];
     
-    // ==================== GET VERIFICATION (Easiest for Lua) ====================
+    // GET request (for Lua executors)
     if (req.method === 'GET') {
         const { key } = req.query;
+        
+        console.log(`[VERIFY] Checking key: "${key}"`);
+        console.log(`[VERIFY] Expected: "approve-carbon-manual-728$#9"`);
         
         if (!key) {
             return res.status(400).json({ 
                 success: false, 
-                error: 'Missing key parameter',
-                message: 'Usage: ?key=YOUR_KEY'
+                verified: false,
+                error: 'Missing key parameter'
             });
         }
         
-        // Check if key is valid
-        const isValid = VALID_KEYS.includes(key);
+        // Exact match check
+        const isValid = key === "approve-carbon-manual-728$#9";
         
         if (isValid) {
+            console.log(`[VERIFY] ✅ Key valid!`);
             return res.status(200).json({
                 success: true,
                 verified: true,
-                message: 'Key verified successfully!',
-                key: key,
-                timestamp: Date.now()
+                message: 'Key verified successfully!'
             });
         } else {
+            console.log(`[VERIFY] ❌ Key invalid!`);
             return res.status(401).json({
                 success: false,
                 verified: false,
@@ -51,32 +53,20 @@ export default async function handler(req, res) {
         }
     }
     
-    // ==================== POST VERIFICATION ====================
+    // POST request
     if (req.method === 'POST') {
         const { key } = req.body;
         
         if (!key) {
-            return res.status(400).json({ 
-                success: false, 
-                error: 'Missing key in request body'
-            });
+            return res.status(400).json({ success: false, error: 'Missing key' });
         }
         
-        const isValid = VALID_KEYS.includes(key);
+        const isValid = key === "approve-carbon-manual-728$#9";
         
         if (isValid) {
-            return res.status(200).json({
-                success: true,
-                verified: true,
-                message: 'Key verified successfully!',
-                key: key
-            });
+            return res.status(200).json({ success: true, verified: true });
         } else {
-            return res.status(401).json({
-                success: false,
-                verified: false,
-                error: 'Invalid key'
-            });
+            return res.status(401).json({ success: false, verified: false });
         }
     }
     
