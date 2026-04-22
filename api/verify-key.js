@@ -1,4 +1,4 @@
-// api/verify-key.js - Fixed with correct key
+// api/verify-key.js - Supports multiple keys
 
 export default async function handler(req, res) {
     // Enable CORS for Roblox executors
@@ -10,19 +10,21 @@ export default async function handler(req, res) {
         return res.status(200).end();
     }
     
-    // ============ THE CORRECT KEY ============
+    // ============ ADD YOUR KEYS HERE ============
     const VALID_KEYS = [
-        "approve-carbon-manual-728$#9",
-        "approve-carbon-manual-728$#9",  // Added twice just to be sure
-        "approve-carbon-manual-728$#9"   // Make sure it matches EXACTLY
+        "approve-carbon-manual-728$#9",     // Key 1
+        "premium-key-2024-roblox#7",        // Key 2
+        "ultra-script-unlock-99x",          // Key 3
+        "vip-access-gold-tier$5",           // Key 4
+        "beta-tester-key-2025",             // Key 5
+        // Add as many as you want below:
+        // "your-custom-key-here",
+        // "another-key-123",
     ];
     
     // GET request (for Lua executors)
     if (req.method === 'GET') {
         const { key } = req.query;
-        
-        console.log(`[VERIFY] Checking key: "${key}"`);
-        console.log(`[VERIFY] Expected: "approve-carbon-manual-728$#9"`);
         
         if (!key) {
             return res.status(400).json({ 
@@ -32,18 +34,16 @@ export default async function handler(req, res) {
             });
         }
         
-        // Exact match check
-        const isValid = key === "approve-carbon-manual-728$#9";
+        // Check if key exists in the list
+        const isValid = VALID_KEYS.includes(key);
         
         if (isValid) {
-            console.log(`[VERIFY] ✅ Key valid!`);
             return res.status(200).json({
                 success: true,
                 verified: true,
                 message: 'Key verified successfully!'
             });
         } else {
-            console.log(`[VERIFY] ❌ Key invalid!`);
             return res.status(401).json({
                 success: false,
                 verified: false,
@@ -61,7 +61,7 @@ export default async function handler(req, res) {
             return res.status(400).json({ success: false, error: 'Missing key' });
         }
         
-        const isValid = key === "approve-carbon-manual-728$#9";
+        const isValid = VALID_KEYS.includes(key);
         
         if (isValid) {
             return res.status(200).json({ success: true, verified: true });
