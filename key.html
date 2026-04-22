@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>KeySystem - ScriptHub Unlock</title>
     
-    <!-- All Scripts from index.html -->
+    <!-- All Scripts -->
     <script data-cfasync="false" src="//dcbbwymp1bhlf.cloudfront.net/?wbbcd=1251105"></script>
     
-    <!-- All Ad Scripts -->
+    <!-- Ad Scripts (No HighPerformanceFormat) -->
     <script>
     (function(awufl){
     var d = document,
@@ -98,108 +98,61 @@
         .ad-container { text-align: center; margin: 20px 0; padding: 10px; background: white; border-radius: 20px; border: 1px solid #e2e8f0; }
         .ad-label { font-size: 0.6rem; color: #9aaebf; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
         
+        .verify-section { margin-top: 20px; padding-top: 20px; border-top: 1px solid #e2e8f0; }
+        .verify-input { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 12px; font-family: monospace; margin-bottom: 10px; }
+        
         .footer { text-align: center; font-size: 0.7rem; color: #8a9bb0; margin-top: 20px; }
         .hidden { display: none; }
-        
-        .key-list { margin: 20px 0; }
-        .key-item { background: #f8f9fa; padding: 12px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .key-item-code { font-family: monospace; font-size: 0.85rem; word-break: break-all; color: #a855f7; }
-        .copy-key-btn { background: #a855f7; border: none; padding: 5px 12px; border-radius: 20px; color: white; cursor: pointer; font-size: 0.7rem; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- Ad 1: Top Banner -->
+    <!-- Ad 1: Native Banner -->
     <div class="ad-container">
         <div class="ad-label">Advertisement</div>
-        <script>
-            atOptions = {'key':'30772cccaf8ca1f9a16a3c555509b64f','format':'iframe','height':90,'width':728,'params':{}};
-        </script>
-        <script src="https://www.highperformanceformat.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
+        <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
     </div>
 
     <div class="card">
         <h1>🔑 Key Unlock System</h1>
-        <div class="subhead">Complete the 12-second wait to reveal your keys</div>
+        <div class="subhead">Complete the 12-second wait to reveal your key</div>
         
         <!-- Countdown Section -->
         <div id="countdownContainer" class="countdown-container">
             <div class="countdown-timer" id="countdownTimer">12</div>
-            <p>Please wait 12 seconds to unlock your keys...</p>
+            <p>Please wait 12 seconds to unlock your key...</p>
         </div>
         
         <!-- Key Display -->
         <div id="keyDisplay" style="display: none;">
             <div class="key-display">
-                <div style="font-size: 0.8rem; color: #6c7a8a; margin-bottom: 8px;">Your Unlock Keys (Click to copy):</div>
-                <div id="keysList" class="key-list"></div>
+                <div style="font-size: 0.8rem; color: #6c7a8a; margin-bottom: 8px;">Your Unlock Key:</div>
+                <div class="key-code" id="keyCode">approve-carbon-manual-728$#9</div>
             </div>
+            <button id="copyBtn" class="btn">📋 Copy Key</button>
             <div id="copySuccess" class="copy-success">✅ Key copied to clipboard!</div>
+        </div>
+        
+        <!-- Verify Key Section -->
+        <div class="verify-section">
+            <div class="ad-label" style="margin-bottom: 10px;">🔐 Verify Your Key</div>
+            <input type="text" id="verifyInput" class="verify-input" placeholder="Paste your key here to verify...">
+            <button id="verifyBtn" class="btn" style="background: #a855f7;">✓ Verify Key</button>
+            <div id="verifyResult" style="margin-top: 10px; font-size: 0.85rem;"></div>
         </div>
     </div>
 
-    <!-- Ad 2: Middle Banner -->
-    <div class="ad-container">
-        <div class="ad-label">Sponsored</div>
-        <script>
-            atOptions = {'key':'5c4ab71c3e05e8f162c6845ea1c55950','format':'iframe','height':250,'width':300,'params':{}};
-        </script>
-        <script src="https://www.highperformanceformat.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
-    </div>
-
-    <!-- Ad 3: 160x300 Banner -->
-    <div class="ad-container">
-        <div class="ad-label">Network</div>
-        <script>
-            atOptions = {'key':'673fb53f64c762401413eb44406c1c80','format':'iframe','height':300,'width':160,'params':{}};
-        </script>
-        <script src="https://www.highperformanceformat.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
-    </div>
-
-    <!-- Ad 4: 160x600 Banner -->
-    <div class="ad-container">
-        <div class="ad-label">Large Ad</div>
-        <script>
-            atOptions = {'key':'9ad3c1db141549482622fa057c0a1495','format':'iframe','height':600,'width':160,'params':{}};
-        </script>
-        <script src="https://www.highperformanceformat.com/9ad3c1db141549482622fa057c0a1495/invoke.js"></script>
-    </div>
-
-    <!-- Ad 5: 468x60 Banner -->
-    <div class="ad-container">
-        <div class="ad-label">Banner</div>
-        <script>
-            atOptions = {'key':'7c7fd511e2480eb4fe47887cda152595','format':'iframe','height':60,'width':468,'params':{}};
-        </script>
-        <script src="https://www.highperformanceformat.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
-    </div>
-
-    <!-- Ad 6: 320x50 Mobile Banner -->
-    <div class="ad-container">
-        <div class="ad-label">Mobile Ad</div>
-        <script>
-            atOptions = {'key':'7e841472d1ac01ddccd7fa985576e83c','format':'iframe','height':50,'width':320,'params':{}};
-        </script>
-        <script src="https://www.highperformanceformat.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
-    </div>
-
-    <!-- Ad 7: Profitable CPM Network -->
+    <!-- Ad 2: Profitable CPM Network -->
     <div class="ad-container">
         <div class="ad-label">Network Ad</div>
         <script src="https://pl29027395.profitablecpmratenetwork.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
     </div>
 
-    <!-- Ad 8: pl29027397 -->
+    <!-- Ad 3: pl29027397 -->
     <div class="ad-container">
         <div class="ad-label">Network</div>
         <script src="https://pl29027397.profitablecpmratenetwork.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
-    </div>
-
-    <!-- Ad 9: Native Banner -->
-    <div class="ad-container">
-        <div class="ad-label">Native Banner</div>
-        <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
     </div>
 
     <div class="footer">
@@ -208,18 +161,23 @@
 </div>
 
 <script>
-    // === MULTIPLE KEYS STORAGE ===
-    // You can add as many keys as you want here!
-    const AVAILABLE_KEYS = [
-        "approve-carbon-manual-728$#9",
-        "none",
-        "use the first key",
-        "none",
-        "keygay"
-    ];
-    
+    const API_URL = window.location.origin;
     let countdownInterval = null;
-    let unlockedKeys = [];
+    let currentKey = 'approve-carbon-manual-728$#9';
+    
+    // Load the current key from API
+    async function loadCurrentKey() {
+        try {
+            const response = await fetch(`${API_URL}/api/keys`);
+            const data = await response.json();
+            if (data.success && data.keys && data.keys.length > 0) {
+                currentKey = data.keys[0].key;
+                document.getElementById('keyCode').innerText = currentKey;
+            }
+        } catch (error) {
+            console.error('Error loading key:', error);
+        }
+    }
     
     function startCountdown(seconds = 12) {
         let timeLeft = seconds;
@@ -236,60 +194,13 @@
                 countdownContainer.style.display = 'none';
                 keyDisplay.style.display = 'block';
                 
-                // Load previously unlocked keys from localStorage
-                const savedKeys = localStorage.getItem('unlocked_keys');
-                if (savedKeys) {
-                    unlockedKeys = JSON.parse(savedKeys);
-                }
-                
-                // Add any new keys that aren't already unlocked
-                for (const key of AVAILABLE_KEYS) {
-                    if (!unlockedKeys.includes(key)) {
-                        unlockedKeys.push(key);
-                    }
-                }
-                
-                // Save to localStorage
-                localStorage.setItem('unlocked_keys', JSON.stringify(unlockedKeys));
+                // Store that key was unlocked
+                localStorage.setItem('key_unlocked', currentKey);
                 localStorage.setItem('key_unlocked_time', Date.now());
                 
-                displayKeys();
-                showToast('✅ Keys unlocked! Click any key to copy.');
+                showToast('✅ Key unlocked! You can now copy it.');
             }
         }, 1000);
-    }
-    
-    function displayKeys() {
-        const keysList = document.getElementById('keysList');
-        
-        if (!unlockedKeys.length) {
-            keysList.innerHTML = '<div style="color: #6c7a8a;">No keys available</div>';
-            return;
-        }
-        
-        keysList.innerHTML = unlockedKeys.map(key => `
-            <div class="key-item" onclick="copyKey('${escapeHtml(key)}')" style="cursor: pointer;">
-                <span class="key-item-code">🔑 ${escapeHtml(key)}</span>
-                <button class="copy-key-btn" onclick="event.stopPropagation(); copyKey('${escapeHtml(key)}')">📋 Copy</button>
-            </div>
-        `).join('');
-    }
-    
-    function copyKey(keyText) {
-        navigator.clipboard.writeText(keyText).then(() => {
-            const successDiv = document.getElementById('copySuccess');
-            successDiv.style.display = 'block';
-            successDiv.textContent = '✅ Key copied: ' + keyText.substring(0, 20) + (keyText.length > 20 ? '...' : '');
-            setTimeout(() => {
-                successDiv.style.display = 'none';
-            }, 2000);
-        });
-    }
-    
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
     }
     
     function showToast(message) {
@@ -308,19 +219,54 @@
         setTimeout(() => toast.remove(), 3000);
     }
     
-    // Check if keys were already unlocked before
+    // Copy button functionality
+    document.getElementById('copyBtn').addEventListener('click', function() {
+        const keyText = document.getElementById('keyCode').innerText;
+        navigator.clipboard.writeText(keyText).then(() => {
+            const successDiv = document.getElementById('copySuccess');
+            successDiv.style.display = 'block';
+            setTimeout(() => {
+                successDiv.style.display = 'none';
+            }, 2000);
+        });
+    });
+    
+    // Verify key functionality
+    document.getElementById('verifyBtn').addEventListener('click', async function() {
+        const inputKey = document.getElementById('verifyInput').value.trim();
+        const resultDiv = document.getElementById('verifyResult');
+        
+        if (!inputKey) {
+            resultDiv.innerHTML = '<span style="color: #dc2626;">❌ Please enter a key to verify</span>';
+            return;
+        }
+        
+        resultDiv.innerHTML = '<span style="color: #a855f7;">⏳ Verifying...</span>';
+        
+        try {
+            const response = await fetch(`${API_URL}/api/keys?action=verify&key=${encodeURIComponent(inputKey)}`);
+            const data = await response.json();
+            
+            if (data.verified) {
+                resultDiv.innerHTML = '<span style="color: #10b981;">✅ Key verified successfully!</span>';
+                showToast('✅ Key verified! Access granted.');
+                // Store verified key
+                localStorage.setItem('verified_key', inputKey);
+            } else {
+                resultDiv.innerHTML = '<span style="color: #dc2626;">❌ Invalid key! Please check and try again.</span>';
+            }
+        } catch (error) {
+            resultDiv.innerHTML = '<span style="color: #dc2626;">❌ Error verifying key. Please try again.</span>';
+        }
+    });
+    
+    // Check if key was already unlocked before
     const savedTime = localStorage.getItem('key_unlocked_time');
     if (savedTime && (Date.now() - savedTime) < 86400000) { // 24 hour validity
-        const savedKeys = localStorage.getItem('unlocked_keys');
-        if (savedKeys) {
-            unlockedKeys = JSON.parse(savedKeys);
-            document.getElementById('countdownContainer').style.display = 'none';
-            document.getElementById('keyDisplay').style.display = 'block';
-            displayKeys();
-        } else {
-            startCountdown(12);
-        }
+        document.getElementById('countdownContainer').style.display = 'none';
+        document.getElementById('keyDisplay').style.display = 'block';
     } else {
+        loadCurrentKey();
         startCountdown(12);
     }
 </script>
