@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>KeySystem - ScriptHub Unlock</title>
     
-    <!-- Additional Scripts -->
+    <!-- All Scripts from index.html -->
     <script data-cfasync="false" src="//dcbbwymp1bhlf.cloudfront.net/?wbbcd=1251105"></script>
     
-    <!-- Ad Scripts -->
+    <!-- All Ad Scripts -->
     <script>
     (function(awufl){
     var d = document,
@@ -77,7 +77,7 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #f5f7fb; padding: 20px; }
-        .container { max-width: 500px; margin: 0 auto; }
+        .container { max-width: 600px; margin: 0 auto; }
         
         .card { background: white; border-radius: 28px; padding: 32px 28px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center; }
         h1 { font-size: 1.8rem; margin-bottom: 8px; color: #1e2a3a; }
@@ -96,28 +96,30 @@
         .copy-success { background: #d4edda; color: #155724; padding: 10px; border-radius: 12px; margin-top: 15px; display: none; }
         
         .ad-container { text-align: center; margin: 20px 0; padding: 10px; background: white; border-radius: 20px; border: 1px solid #e2e8f0; }
-        .ad-label { font-size: 0.6rem; color: #9aaebf; margin-bottom: 5px; text-transform: uppercase; }
+        .ad-label { font-size: 0.6rem; color: #9aaebf; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .api-key-input { margin: 20px 0; }
+        .api-key-input input { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 12px; font-family: monospace; font-size: 0.9rem; }
         
         .footer { text-align: center; font-size: 0.7rem; color: #8a9bb0; margin-top: 20px; }
-        
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <!-- Ad 1: Top Banner -->
+    <div class="ad-container">
+        <div class="ad-label">Advertisement</div>
+        <script>
+            atOptions = {'key':'30772cccaf8ca1f9a16a3c555509b64f','format':'iframe','height':90,'width':728,'params':{}};
+        </script>
+        <script src="https://www.highperformanceformat.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
+    </div>
+
     <div class="card">
-        <h1>🔑 Key Unlock</h1>
+        <h1>🔑 Key Unlock System</h1>
         <div class="subhead">Complete the 12-second wait to reveal your key</div>
-        
-        <!-- Ads Top -->
-        <div class="ad-container">
-            <div class="ad-label">Advertisement</div>
-            <script>
-                atOptions = {'key':'30772cccaf8ca1f9a16a3c555509b64f','format':'iframe','height':90,'width':300,'params':{}};
-            </script>
-            <script src="https://www.highperformanceformat.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
-        </div>
         
         <!-- Countdown Section -->
         <div id="countdownContainer" class="countdown-container">
@@ -125,7 +127,7 @@
             <p>Please wait 12 seconds to unlock your key...</p>
         </div>
         
-        <!-- Key Display (Hidden until countdown finishes) -->
+        <!-- Key Display -->
         <div id="keyDisplay" style="display: none;">
             <div class="key-display">
                 <div style="font-size: 0.8rem; color: #6c7a8a; margin-bottom: 8px;">Your Unlock Key:</div>
@@ -135,18 +137,82 @@
             <div id="copySuccess" class="copy-success">✅ Key copied to clipboard!</div>
         </div>
         
-        <!-- Ads Bottom -->
-        <div class="ad-container" style="margin-top: 20px;">
-            <div class="ad-label">Sponsored</div>
-            <script>
-                atOptions = {'key':'5c4ab71c3e05e8f162c6845ea1c55950','format':'iframe','height':250,'width':300,'params':{}};
-            </script>
-            <script src="https://www.highperformanceformat.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
+        <!-- API Key Input for Roblox Executors -->
+        <div id="apiSection" style="display: none; margin-top: 20px;">
+            <div class="ad-label" style="margin-bottom: 10px;">🔧 API Key Verification (for Roblox Executors)</div>
+            <div class="api-key-input">
+                <input type="text" id="apiKeyInput" placeholder="Paste your key here to verify...">
+                <button id="verifyApiBtn" class="btn" style="margin-top: 10px; background: #a855f7;">✓ Verify Key</button>
+            </div>
+            <div id="apiResult" style="margin-top: 10px; font-size: 0.8rem;"></div>
         </div>
-        
-        <div class="footer">
-            🔐 Secure key system • Anti-bypass protected
-        </div>
+    </div>
+
+    <!-- Ad 2: Middle Banner -->
+    <div class="ad-container">
+        <div class="ad-label">Sponsored</div>
+        <script>
+            atOptions = {'key':'5c4ab71c3e05e8f162c6845ea1c55950','format':'iframe','height':250,'width':300,'params':{}};
+        </script>
+        <script src="https://www.highperformanceformat.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
+    </div>
+
+    <!-- Ad 3: 160x300 Banner -->
+    <div class="ad-container">
+        <div class="ad-label">Network</div>
+        <script>
+            atOptions = {'key':'673fb53f64c762401413eb44406c1c80','format':'iframe','height':300,'width':160,'params':{}};
+        </script>
+        <script src="https://www.highperformanceformat.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
+    </div>
+
+    <!-- Ad 4: 160x600 Banner -->
+    <div class="ad-container">
+        <div class="ad-label">Large Ad</div>
+        <script>
+            atOptions = {'key':'9ad3c1db141549482622fa057c0a1495','format':'iframe','height':600,'width':160,'params':{}};
+        </script>
+        <script src="https://www.highperformanceformat.com/9ad3c1db141549482622fa057c0a1495/invoke.js"></script>
+    </div>
+
+    <!-- Ad 5: 468x60 Banner -->
+    <div class="ad-container">
+        <div class="ad-label">Banner</div>
+        <script>
+            atOptions = {'key':'7c7fd511e2480eb4fe47887cda152595','format':'iframe','height':60,'width':468,'params':{}};
+        </script>
+        <script src="https://www.highperformanceformat.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
+    </div>
+
+    <!-- Ad 6: 320x50 Mobile Banner -->
+    <div class="ad-container">
+        <div class="ad-label">Mobile Ad</div>
+        <script>
+            atOptions = {'key':'7e841472d1ac01ddccd7fa985576e83c','format':'iframe','height':50,'width':320,'params':{}};
+        </script>
+        <script src="https://www.highperformanceformat.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
+    </div>
+
+    <!-- Ad 7: Profitable CPM Network -->
+    <div class="ad-container">
+        <div class="ad-label">Network Ad</div>
+        <script src="https://pl29027395.profitablecpmratenetwork.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
+    </div>
+
+    <!-- Ad 8: pl29027397 -->
+    <div class="ad-container">
+        <div class="ad-label">Network</div>
+        <script src="https://pl29027397.profitablecpmratenetwork.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
+    </div>
+
+    <!-- Ad 9: Native Banner -->
+    <div class="ad-container">
+        <div class="ad-label">Native Banner</div>
+        <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
+    </div>
+
+    <div class="footer">
+        🔐 Secure key system • Anti-bypass protected • Works with Roblox Executors
     </div>
 </div>
 
@@ -159,6 +225,7 @@
         const timerDiv = document.getElementById('countdownTimer');
         const countdownContainer = document.getElementById('countdownContainer');
         const keyDisplay = document.getElementById('keyDisplay');
+        const apiSection = document.getElementById('apiSection');
         
         countdownInterval = setInterval(() => {
             timeLeft--;
@@ -168,7 +235,13 @@
                 clearInterval(countdownInterval);
                 countdownContainer.style.display = 'none';
                 keyDisplay.style.display = 'block';
-                showToast('✅ Key unlocked! You can now copy it.');
+                apiSection.style.display = 'block';
+                
+                // Store key in localStorage for the site
+                localStorage.setItem('unlocked_key', SECRET_KEY);
+                localStorage.setItem('key_unlocked_time', Date.now());
+                
+                showToast('✅ Key unlocked! You can now copy it or use with Roblox executors.');
             }
         }, 1000);
     }
@@ -201,8 +274,37 @@
         });
     });
     
-    // Start the countdown when page loads
-    startCountdown(12);
+    // API Key Verification (for Roblox Executors)
+    document.getElementById('verifyApiBtn').addEventListener('click', function() {
+        const inputKey = document.getElementById('apiKeyInput').value.trim();
+        const resultDiv = document.getElementById('apiResult');
+        
+        if (inputKey === SECRET_KEY) {
+            resultDiv.innerHTML = '<span style="color: #10b981;">✅ Key verified! Access granted.</span>';
+            resultDiv.style.color = '#10b981';
+            // Generate a token for API access
+            const apiToken = btoa(SECRET_KEY + ':' + Date.now());
+            localStorage.setItem('api_token', apiToken);
+            showToast('✅ Key verified! You can now use the API.');
+        } else {
+            resultDiv.innerHTML = '<span style="color: #dc2626;">❌ Invalid key! Please check and try again.</span>';
+            resultDiv.style.color = '#dc2626';
+        }
+    });
+    
+    // Check if key was already unlocked before
+    if (localStorage.getItem('unlocked_key') === SECRET_KEY) {
+        const timeUnlocked = localStorage.getItem('key_unlocked_time');
+        if (timeUnlocked && (Date.now() - timeUnlocked) < 86400000) { // 24 hour validity
+            document.getElementById('countdownContainer').style.display = 'none';
+            document.getElementById('keyDisplay').style.display = 'block';
+            document.getElementById('apiSection').style.display = 'block';
+        } else {
+            startCountdown(12);
+        }
+    } else {
+        startCountdown(12);
+    }
 </script>
 </body>
 </html>
