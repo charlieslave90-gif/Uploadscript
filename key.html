@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="referrer" content="no-referrer-when-downgrade" />
     <title>KeySystem - ScriptHub Unlock</title>
     
     <!-- Existing scripts -->
     <script data-cfasync="false" src="//dcbbwymp1bhlf.cloudfront.net/?wbbcd=1251105"></script>
     
-    <!-- NEW AD SCRIPTS (placed in head, they will run) -->
+    <!-- NEW AD SCRIPTS -->
     <script>
     (function(gdlxl){
     var d = document,
@@ -68,7 +69,10 @@
         
         .copy-success { background: #d4edda; color: #155724; padding: 10px; border-radius: 12px; margin-top: 15px; display: none; }
         
-        /* Ad containers with different styles */
+        /* Fake reset warning */
+        .reset-warning { background: #fff3cd; color: #856404; padding: 10px; border-radius: 12px; margin: 15px 0; font-size: 0.75rem; border: 1px solid #ffeeba; }
+        
+        /* Ad containers */
         .ad-top { text-align: center; margin-bottom: 20px; padding: 10px; background: white; border-radius: 20px; border: 1px solid #e2e8f0; }
         .ad-mid { text-align: center; margin: 20px 0; padding: 10px; background: #f8f9fa; border-radius: 16px; border: 1px dashed #a855f7; }
         .ad-bottom { text-align: center; margin-top: 20px; padding: 10px; background: white; border-radius: 20px; border: 1px solid #e2e8f0; }
@@ -100,13 +104,18 @@
             <script src="https://pl29027395.profitablecpmratenetwork.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
         </div>
         
+        <!-- FAKE RESET WARNING -->
+        <div class="reset-warning">
+            ⏰ Your key will reset in 24 hours. Make sure to save it!
+        </div>
+        
         <!-- Countdown Section -->
         <div id="countdownContainer" class="countdown-container">
             <div class="countdown-timer" id="countdownTimer">12</div>
             <p>Please wait 12 seconds to unlock your key...</p>
         </div>
         
-        <!-- AD POSITION 3: BETWEEN COUNTDOWN AND KEY (only visible after countdown? but we'll keep static) -->
+        <!-- AD POSITION 3: BETWEEN COUNTDOWN AND KEY -->
         <div class="ad-side">
             <div class="ad-label">Network Ad</div>
             <script src="https://pl29027397.profitablecpmratenetwork.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
@@ -126,7 +135,6 @@
     <!-- AD POSITION 4: BOTTOM -->
     <div class="ad-bottom">
         <div class="ad-label">More Ads</div>
-        <!-- You can add another ad code here if needed, e.g., a banner -->
         <script>
             atOptions = {'key':'30772cccaf8ca1f9a16a3c555509b64f','format':'iframe','height':90,'width':728,'params':{}};
         </script>
