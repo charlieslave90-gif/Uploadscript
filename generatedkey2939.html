@@ -6,7 +6,7 @@
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <title>KeySystem - ScriptHub Unlock</title>
     
-    <!-- Existing scripts -->
+    <!-- Existing scripts (ads, etc.) -->
     <script data-cfasync="false" src="//dcbbwymp1bhlf.cloudfront.net/?wbbcd=1251105"></script>
     
     <!-- Short popunder script -->
@@ -23,7 +23,7 @@
     })({})
     </script>
     
-    <!-- Other ad scripts (kept minimal) -->
+    <!-- Other ad scripts -->
     <script>
     (function(bytj){
     var d = document,
@@ -126,31 +126,46 @@
     let countdownInterval = null;
     let currentKey = null;
     
-    // Fetch the key from your verify-key API (which returns the full list)
-    async function fetchKey() {
-    try {
-        // Try to fetch from /api/keys (returns the first key in the list)
-        const response = await fetch('/api/keys');
-        if (response.ok) {
-            const data = await response.json();
-            if (data.success && data.keys && data.keys.length > 0) {
-                // Return the first key from the list
-                return data.keys[0].key;
+    // Fetch the list of keys and return a random one
+    async function fetchRandomKey() {
+        try {
+            const response = await fetch('/api/keys');
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success && data.keys && data.keys.length > 0) {
+                    // Pick a random index
+                    const randomIndex = Math.floor(Math.random() * data.keys.length);
+                    return data.keys[randomIndex].key;
+                }
             }
+        } catch (error) {
+            console.warn('API fetch failed, using fallback list');
         }
-    } catch (error) {
-        console.warn('Failed to fetch from /api/keys:', error);
+        
+        // Fallback list (same as your API) – ensures randomness even if API fails
+        const fallbackKeys = [
+            "gaynigga",
+            "approve-carbon-manual-728$#9",
+            "key-2747bajfs",
+            "Free_3YKLALOJVQLTAIHNE",
+            "Free_3UGIXSZZTNNPPHZIB",
+            "Free_3YUEURTIPQRMODNZP",
+            "Free_3SAMMYHXXDZOIMONI",
+            "Free_3TABJXRRKDZRIWJCX",
+            "Free_3DROAVJVJFUKDEHSE",
+            "Free_3UYMHNIURNNHTOCEN",
+            "Free_3SQZYILHNSFBIRJGS",
+            "Free_3IXHLZOWGXBIUNBXP"
+        ];
+        const randomIndex = Math.floor(Math.random() * fallbackKeys.length);
+        return fallbackKeys[randomIndex];
     }
     
-    // Fallback hardcoded key (your main key)
-    return 'approve-carbon-manual-728$#9';
-}
-    
     async function startCountdown(seconds = 12) {
-        // Fetch the dynamic key
-        const key = await fetchKey();
-        currentKey = key;
+        // Get a random key (different each time the page loads)
+        currentKey = await fetchRandomKey();
         
+        // Update the display
         const keyCodeElem = document.getElementById('keyCode');
         if (keyCodeElem) keyCodeElem.innerText = currentKey;
         
