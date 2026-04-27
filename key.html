@@ -143,7 +143,7 @@
         <div id="keyDisplay" style="display: none;">
             <div class="key-display">
                 <div style="font-size: 0.8rem; color: #6c7a8a; margin-bottom: 8px;">Your Unlock Key:</div>
-                <div class="key-code" id="keyCode">approve-carbon-manual-728$#9</div>
+                <div class="key-code" id="keyCode">Loading...</div>
             </div>
             <button id="copyBtn" class="btn">📋 Copy Key</button>
             <div id="copySuccess" class="copy-success">✅ Key copied to clipboard!</div>
@@ -165,10 +165,38 @@
 </div>
 
 <script>
-    const SECRET_KEY = 'approve-carbon-manual-728$#9';
     let countdownInterval = null;
+    let currentKey = null;
     
-    function startCountdown(seconds = 12) {
+    // Fetch the key from the API
+    async function fetchKey() {
+        try {
+            const response = await fetch('/api/keys');
+            const data = await response.json();
+            if (data.success && data.keys && data.keys.length > 0) {
+                // Use the first key from the list
+                return data.keys[0].key;
+            } else {
+                // Fallback hardcoded key if API returns nothing
+                console.warn('No keys from API, using fallback');
+                return 'approve-carbon-manual-728$#9';
+            }
+        } catch (error) {
+            console.error('Failed to fetch key from API:', error);
+            // Fallback hardcoded key on error
+            return 'approve-carbon-manual-728$#9';
+        }
+    }
+    
+    async function startCountdown(seconds = 12) {
+        // First, fetch the key
+        const key = await fetchKey();
+        currentKey = key;
+        
+        // Update the key display element (still hidden until countdown finishes)
+        const keyCodeElem = document.getElementById('keyCode');
+        if (keyCodeElem) keyCodeElem.innerText = currentKey;
+        
         let timeLeft = seconds;
         const timerDiv = document.getElementById('countdownTimer');
         const countdownContainer = document.getElementById('countdownContainer');
@@ -204,16 +232,20 @@
     }
     
     document.getElementById('copyBtn').addEventListener('click', function() {
-        const keyText = document.getElementById('keyCode').innerText;
-        navigator.clipboard.writeText(keyText).then(() => {
-            const successDiv = document.getElementById('copySuccess');
-            successDiv.style.display = 'block';
-            setTimeout(() => {
-                successDiv.style.display = 'none';
-            }, 2000);
-        });
+        if (currentKey) {
+            navigator.clipboard.writeText(currentKey).then(() => {
+                const successDiv = document.getElementById('copySuccess');
+                successDiv.style.display = 'block';
+                setTimeout(() => {
+                    successDiv.style.display = 'none';
+                }, 2000);
+            });
+        } else {
+            showToast('❌ Key not loaded yet. Please wait.', true);
+        }
     });
     
+    // Start the countdown and key fetch
     startCountdown(12);
 </script>
 </body>
