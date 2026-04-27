@@ -128,34 +128,23 @@
     
     // Fetch the key from your verify-key API (which returns the full list)
     async function fetchKey() {
-        try {
-            // We'll use the verify-key endpoint but we need a valid key to test? No, we need to get a list.
-            // Since verify-key only verifies, we need a separate endpoint that returns the actual key.
-            // For simplicity, we'll use the same endpoint but with a generic query? Not ideal.
-            // Instead, create a simple endpoint like /api/get-key that returns the first key.
-            // But to keep it working immediately, we'll make a GET request to /api/verify-key with a dummy key? No.
-            // Let's use the /api/keys endpoint (you need to create it) or fallback to hardcoded.
-            
-            // Attempt to fetch from /api/keys (you should create this API endpoint)
-            const response = await fetch('/api/verify-key');
-            if (response.ok) {
-                const data = await response.json();
-                if (data.success && data.keys && data.keys.length > 0) {
-                    return data.keys[0].key;
-                }
+    try {
+        // Try to fetch from /api/keys (returns the first key in the list)
+        const response = await fetch('/api/keys');
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success && data.keys && data.keys.length > 0) {
+                // Return the first key from the list
+                return data.keys[0].key;
             }
-        } catch (e) {
-            console.warn('Could not fetch from /api/keys', e);
         }
-        
-        // Fallback: use a known valid key from your list (first non-empty one)
-        const fallbackKeys = [
-            "approve-carbon-manual-728$#9",
-            "Free_3YKLALOJVQLTAIHNE",
-            "Free_3UGIXSZZTNNPPHZIB"
-        ];
-        return fallbackKeys[0];
+    } catch (error) {
+        console.warn('Failed to fetch from /api/keys:', error);
     }
+    
+    // Fallback hardcoded key (your main key)
+    return 'approve-carbon-manual-728$#9';
+}
     
     async function startCountdown(seconds = 12) {
         // Fetch the dynamic key
