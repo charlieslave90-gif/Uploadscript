@@ -26,8 +26,7 @@ const VALID_KEYS = [
     "Free_3UYMHNIURNNHTOCEN",
     "Free_3SQZYILHNSFBIRJGS",
     "Free_3IXHLZOWGXBIUNBXP"
-];];
-    ];
+];
     
     if (req.method === 'GET') {
         const { key } = req.query;
