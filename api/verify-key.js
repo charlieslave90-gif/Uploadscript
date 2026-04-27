@@ -11,6 +11,12 @@ export default async function handler(req, res) {
     
     // ============ ALL 5 KEYS ============
 const VALID_KEYS = [
+    "",
+    "gaynigga",
+    "approve-carbon-manual-728$#9",
+    "key-2747bajfs",
+
+    // New keys
     "Free_3YKLALOJVQLTAIHNE",
     "Free_3UGIXSZZTNNPPHZIB",
     "Free_3YUEURTIPQRMODNZP",
@@ -20,7 +26,7 @@ const VALID_KEYS = [
     "Free_3UYMHNIURNNHTOCEN",
     "Free_3SQZYILHNSFBIRJGS",
     "Free_3IXHLZOWGXBIUNBXP"
-];
+];];
     ];
     
     if (req.method === 'GET') {
