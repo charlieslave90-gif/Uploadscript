@@ -10,12 +10,17 @@ export default async function handler(req, res) {
     }
     
     // ============ ALL 5 KEYS ============
-    const VALID_KEYS = [
-        "approve-carbon-manual-728$#9",
-        "gaynigga",
-        "approve-carbon-manual-728$#9",
-        "key-2747bajfs",
-        "approve-carbon-manual-728$#9"
+const VALID_KEYS = [
+    "Free_3YKLALOJVQLTAIHNE",
+    "Free_3UGIXSZZTNNPPHZIB",
+    "Free_3YUEURTIPQRMODNZP",
+    "Free_3SAMMYHXXDZOIMONI",
+    "Free_3TABJXRRKDZRIWJCX",
+    "Free_3DROAVJVJFUKDEHSE",
+    "Free_3UYMHNIURNNHTOCEN",
+    "Free_3SQZYILHNSFBIRJGS",
+    "Free_3IXHLZOWGXBIUNBXP"
+];
     ];
     
     if (req.method === 'GET') {
