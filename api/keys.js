@@ -12,9 +12,6 @@ export default async function handler(req, res) {
     
     // ============ ALL VALID KEYS (same as verify-key.js) ============
     const VALID_KEYS = [
-        "gaynigga",
-        "approve-carbon-manual-728$#9",
-        "key-2747bajfs",
         "Free_3YKLALOJVQLTAIHNE",
         "Free_3UGIXSZZTNNPPHZIB",
         "Free_3YUEURTIPQRMODNZP",
