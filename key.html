@@ -137,7 +137,7 @@
             // Let's use the /api/keys endpoint (you need to create it) or fallback to hardcoded.
             
             // Attempt to fetch from /api/keys (you should create this API endpoint)
-            const response = await fetch('/api/keys');
+            const response = await fetch('/api/verify-key');
             if (response.ok) {
                 const data = await response.json();
                 if (data.success && data.keys && data.keys.length > 0) {
