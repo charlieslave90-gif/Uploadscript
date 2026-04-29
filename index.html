@@ -29,9 +29,6 @@
     <!-- Additional Scripts (kept) -->
     <script data-cfasync="false" src="//dcbbwymp1bhlf.cloudfront.net/?wbbcd=1251105"></script>
     
-    <!-- New theoreticalassertshame.com ad scripts (all moved to top container later) -->
-    <!-- They will be placed inside <div class="ad-top"> and <div class="ad-bottom"> -->
-    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #f5f7fb; padding: 20px; }
@@ -83,7 +80,7 @@
         .view-detail-btn { background: #a855f7; border: none; padding: 8px 16px; border-radius: 30px; font-size: 0.75rem; font-weight: 600; color: white; cursor: pointer; transition: all 0.2s; width: 100%; }
         .view-detail-btn:hover { background: #d946ef; }
         
-        /* New ad containers – only top and bottom */
+        /* Ad containers – top and bottom only */
         .ad-top { text-align: center; margin-bottom: 24px; padding: 10px; background: white; border-radius: 20px; border: 1px solid #e2e8f0; }
         .ad-bottom { text-align: center; margin-top: 24px; padding: 10px; background: white; border-radius: 20px; border: 1px solid #e2e8f0; }
         .ad-label { font-size: 0.6rem; color: #9aaebf; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
@@ -102,25 +99,23 @@
         .loading { text-align: center; padding: 40px; color: #8a9bb0; }
         .hidden { display: none; }
         
+        .more-btn-container { text-align: center; margin-top: 20px; }
+        .more-btn { background: #a855f7; border: none; padding: 10px 24px; border-radius: 40px; color: white; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .more-btn:hover { background: #d946ef; transform: translateY(-2px); }
+        
         @media (max-width: 900px) { .two-columns { flex-direction: column; } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- ========== TOP ADS (3 ads, non‑intrusive) ========== -->
+    <!-- TOP ADS (3) -->
     <div class="ad-top">
         <div class="ad-label">Advertisement</div>
-        
-        <!-- Ad 1: 250x300 -->
         <script> atOptions = { 'key' : '5c4ab71c3e05e8f162c6845ea1c55950', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script>
         <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
-        
-        <!-- Ad 2: 728x90 -->
         <script> atOptions = { 'key' : '30772cccaf8ca1f9a16a3c555509b64f', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} }; </script>
         <script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
-        
-        <!-- Ad 3: 160x300 -->
         <script> atOptions = { 'key' : '673fb53f64c762401413eb44406c1c80', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} }; </script>
         <script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
     </div>
@@ -170,11 +165,13 @@
                         </select>
                     </div>
                     <div id="scriptsGrid" class="scripts-grid"><div class="loading">Loading scripts...</div></div>
-                    
-                    <div id="pagination" style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
+                    <div id="pagination" class="stats-bar" style="justify-content: center; gap: 12px; margin-top: 10px;">
                         <button id="prevBtn" class="filter-tag" onclick="prevPage()" style="display: none;">← Previous</button>
                         <span id="pageInfo"></span>
                         <button id="nextBtn" class="filter-tag" onclick="nextPage()" style="display: none;">Next →</button>
+                    </div>
+                    <div class="more-btn-container" id="moreBtnContainer">
+                        <button id="moreBtn" class="more-btn" onclick="loadMore()">More →</button>
                     </div>
                 </div>
 
@@ -208,37 +205,20 @@
         </div>
     </div>
 
-    <!-- ========== BOTTOM ADS (remaining ads) ========== -->
+    <!-- BOTTOM ADS (remaining) -->
     <div class="ad-bottom">
         <div class="ad-label">More Ads</div>
-        
-        <!-- Native banner -->
         <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
         <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
-        
-        <!-- 600x160 -->
         <script> atOptions = { 'key' : '9ad3c1db141549482622fa057c0a1495', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} }; </script>
         <script src="https://theoreticalassertshame.com/9ad3c1db141549482622fa057c0a1495/invoke.js"></script>
-        
-        <!-- 320x50 -->
         <script> atOptions = { 'key' : '7e841472d1ac01ddccd7fa985576e83c', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} }; </script>
         <script src="https://theoreticalassertshame.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
-        
-        <!-- 468x60 -->
         <script> atOptions = { 'key' : '7c7fd511e2480eb4fe47887cda152595', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} }; </script>
         <script src="https://theoreticalassertshame.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
-        
-        <!-- Network scripts -->
         <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
         <script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
-        
-        <!-- Popunder / CPM link -->
-        <script>
-            var popunder = document.createElement('script');
-            popunder.src = 'https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8';
-            popunder.async = true;
-            document.body.appendChild(popunder);
-        </script>
+        <script> var popunder = document.createElement('script'); popunder.src = 'https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8'; popunder.async = true; document.body.appendChild(popunder); </script>
     </div>
 </div>
 
@@ -328,7 +308,11 @@
             maxPages = data.info?.maxPages || 1;
             document.getElementById('prevBtn').style.display = currentPage > 1 ? 'inline-block' : 'none';
             document.getElementById('nextBtn').style.display = currentPage < maxPages ? 'inline-block' : 'none';
-            document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${maxPages}`;
+            const pageInfo = document.getElementById('pageInfo');
+            if (pageInfo) pageInfo.textContent = `Page ${currentPage} of ${maxPages}`;
+            // Show/hide more button based on whether there are more pages
+            const moreBtn = document.getElementById('moreBtn');
+            if (moreBtn) moreBtn.style.display = currentPage < maxPages ? 'inline-block' : 'none';
             displayScripts();
         } catch(e) { grid.innerHTML = '<div class="loading">Error loading scripts</div>'; }
     }
@@ -401,14 +385,14 @@
                     <p style="margin:16px 0;">${escapeHtml(script.description || 'No description')}</p>
                     
                     <div id="countdownContainer" class="countdown-container">
-                        <div class="countdown-timer" id="countdownTimer">10</div>
-                        <p>Please wait 10 seconds to unlock the script...</p>
+                        <div class="countdown-timer" id="countdownTimer">30</div>
+                        <p>Please wait 30 seconds to unlock the script...</p>
                     </div>
                     
                     <pre id="scriptCodeBlock"><code id="scriptCodeContent">${escapeHtml(scriptContent)}</code></pre>
                     
                     <div class="detail-actions">
-                        <button id="copyScriptBtn" class="view-detail-btn" style="background:#1e2f3f;">⏳ Wait 10s...</button>
+                        <button id="copyScriptBtn" class="view-detail-btn" style="background:#1e2f3f;">⏳ Wait 30s...</button>
                     </div>
                 </div>
             `;
@@ -416,14 +400,14 @@
             const codeBlock = document.getElementById('scriptCodeBlock');
             if (codeBlock) codeBlock.style.display = 'none';
             
-            let secondsLeft = 10;
+            let secondsLeft = 30;
             const timerDiv = document.getElementById('countdownTimer');
             const copyBtn = document.getElementById('copyScriptBtn');
             
             if (copyBtn) {
                 copyBtn.disabled = true;
                 copyBtn.style.background = '#1e2f3f';
-                copyBtn.textContent = `⏳ Wait 10s...`;
+                copyBtn.textContent = `⏳ Wait 30s...`;
             }
             
             countdownInterval = setInterval(() => {
@@ -495,6 +479,7 @@
 
     function prevPage() { if (currentPage > 1) { currentPage--; loadScripts(); } }
     function nextPage() { if (currentPage < maxPages) { currentPage++; loadScripts(); } }
+    function loadMore() { if (currentPage < maxPages) { currentPage++; loadScripts(); } }
 
     document.getElementById('sortSelect')?.addEventListener('change', (e) => { currentSort = e.target.value; currentPage = 1; loadScripts(); });
     document.getElementById('searchInput')?.addEventListener('input', (e) => { currentSearch = e.target.value; currentPage = 1; loadScripts(); });
