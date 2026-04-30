@@ -3,509 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <meta name="google-site-verification" content="aHm-u6Lw7BRLde6l91yNdtVltbZu8np4hRcmCrn4iYI">
-    <meta name="google-adsense-account" content="ca-pub-4130246379396222">
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <title>KeySystem - ScriptHub Unlock</title>
     
-    <!-- SEO Meta Tags -->
-    <title>ScriptHub - Best Free Roblox Scripts | Keyless & Auto Farm Scripts</title>
-    <meta name="description" content="Discover thousands of free Roblox scripts including auto farm, keyless scripts, ESP, aimbot, and more. Updated daily with working scripts for all popular Roblox games.">
-    <meta name="keywords" content="roblox script, free roblox scripts, roblox auto farm, roblox keyless script, roblox esp, roblox aimbot, roblox exploit, blox fruits script, pet simulator script">
-    <meta name="robots" content="index, follow">
-    
-    <!-- Hidden SEO Keywords -->
-    <div style="display: none; position: absolute; opacity: 0; height: 0; width: 0; overflow: hidden;">
-        roblox script, free roblox script, roblox auto farm, roblox keyless script, roblox esp script, roblox aimbot, blox fruits script, pet simulator script, anime adventures script, roblox exploit, roblox hack, roblox executor, roblox pastebin 2025, working roblox script, undetected roblox script, roblox mobile script, roblox pc script
-    </div>
-    
-    <!-- Linkvertise Publisher Script -->
-    <script src="https://publisher.linkvertise.com/cdn/linkvertise.js"></script>
-    <script>
-        linkvertise(4752730, {
-            whitelist: ["https://keysystem-ruddy.vercel.app/", "https://rblxscripts2.vercel.app/", window.location.origin + "/"],
-            blacklist: []
-        });
-    </script>
-    
-    <!-- Additional Scripts (kept) -->
+    <!-- Existing scripts (kept) -->
     <script data-cfasync="false" src="//dcbbwymp1bhlf.cloudfront.net/?wbbcd=1251105"></script>
     
+    <!-- Short popunder script -->
+    <script>
+    (function(viffde){
+    var d = document,
+        s = d.createElement('script'),
+        l = d.scripts[d.scripts.length - 1];
+    s.settings = viffde || {};
+    s.src = "\/\/bubbly-sound.com\/crDC9.6\/bG2j5zl_SNWqQ\/9XNwjVkD3xNTjAMm2\/MeSB0\/2ZOvTEcw2\/MjzIYh1m";
+    s.async = true;
+    s.referrerPolicy = 'no-referrer-when-downgrade';
+    l.parentNode.insertBefore(s, l);
+    })({})
+    </script>
+    
+    <!-- Other ad script (kept) -->
+    <script>
+    (function(bytj){
+    var d = document,
+        s = d.createElement('script'),
+        l = d.scripts[d.scripts.length - 1];
+    s.settings = bytj || {};
+    s.src = "\/\/untimely-hello.com\/b\/XVVKs.dZGDlH0iY\/WbcF\/hemmu9quKZIU\/lnk_PlTqYr5vNLzmcRwENKjikOtkN_jZkw3NNPz\/AV3-MEwt";
+    s.async = true;
+    s.referrerPolicy = 'no-referrer-when-downgrade';
+    l.parentNode.insertBefore(s, l);
+    })({})
+    </script>
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #f5f7fb; padding: 20px; }
-        .container { max-width: 1400px; margin: 0 auto; }
+        .container { max-width: 600px; margin: 0 auto; }
         
-        .navbar { background: white; border-radius: 28px; padding: 16px 28px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .logo { font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #a855f7, #d946ef); -webkit-background-clip: text; background-clip: text; color: transparent; cursor: pointer; }
-        .nav-links { display: flex; gap: 12px; }
-        .nav-links button { background: none; border: none; padding: 8px 16px; font-size: 0.9rem; font-weight: 500; cursor: pointer; border-radius: 30px; transition: all 0.2s; color: #4a5568; }
-        .nav-links button:hover { background: #f0f0f0; }
+        .card { background: white; border-radius: 28px; padding: 32px 28px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center; }
+        h1 { font-size: 1.8rem; margin-bottom: 8px; color: #1e2a3a; }
+        .subhead { color: #6c7a8a; font-size: 0.85rem; margin-bottom: 24px; }
         
-        .two-columns { display: flex; gap: 24px; }
-        .main-content { flex: 3; }
-        .right-sidebar { flex: 1; }
+        .key-display { background: #f0f0f0; padding: 20px; border-radius: 16px; margin: 20px 0; }
+        .key-code { font-family: monospace; font-size: 1.2rem; word-break: break-all; color: #a855f7; font-weight: bold; }
         
-        .hero, .instructions-card, .script-detail { background: white; border-radius: 28px; padding: 32px 28px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .hero h1 { font-size: 2rem; color: #1e2a3a; margin-bottom: 8px; }
-        .hero p { color: #6c7a8a; }
-        
-        .step-grid { display: flex; justify-content: center; gap: 24px; margin: 20px 0; flex-wrap: wrap; }
-        .step { text-align: center; }
-        .step-icon { font-size: 2rem; display: block; }
-        .filter-btn { background: #1e2f3f; border: none; padding: 10px 24px; font-size: 0.9rem; font-weight: 600; color: white; border-radius: 50px; cursor: pointer; }
-        
-        .search-bar { background: white; border-radius: 50px; padding: 12px 20px; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .search-bar input { flex: 1; border: none; outline: none; font-size: 0.9rem; background: transparent; }
-        
-        .filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
-        .filter-tag { background: white; border: 1px solid #e2e8f0; padding: 8px 18px; border-radius: 50px; font-size: 0.8rem; cursor: pointer; color: #4a5568; }
-        .filter-tag.active, .filter-tag:hover { background: #a855f7; color: white; border-color: #a855f7; }
-        
-        .stats-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .stats { display: flex; gap: 16px; font-size: 0.8rem; color: #6c7a8a; }
-        .sort-select { background: white; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 30px; font-size: 0.8rem; }
-        
-        .scripts-grid, .trending-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .script-card { background: white; border-radius: 20px; overflow: hidden; transition: all 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer; }
-        .script-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.1); }
-        .script-thumbnail { width: 100%; height: 160px; object-fit: cover; background: linear-gradient(135deg, #a855f7, #d946ef); display: flex; align-items: center; justify-content: center; font-size: 3rem; }
-        .script-info { padding: 16px; }
-        .script-title { font-weight: 700; font-size: 1rem; margin-bottom: 8px; display: flex; justify-content: space-between; }
-        .script-badge { font-size: 0.65rem; padding: 2px 8px; border-radius: 12px; background: #f0f0f0; color: #a855f7; }
-        .script-meta { display: flex; gap: 12px; font-size: 0.7rem; color: #8a9bb0; margin-bottom: 8px; flex-wrap: wrap; }
-        .script-description { font-size: 0.8rem; color: #4a5568; margin-bottom: 12px; line-height: 1.4; }
-        .script-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
-        .tag { font-size: 0.65rem; padding: 2px 8px; border-radius: 12px; background: #f0f0f0; color: #a855f7; }
-        
-        .script-actions { margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; }
-        .view-detail-btn { background: #a855f7; border: none; padding: 8px 16px; border-radius: 30px; font-size: 0.75rem; font-weight: 600; color: white; cursor: pointer; transition: all 0.2s; width: 100%; }
-        .view-detail-btn:hover { background: #d946ef; }
-        
-        /* Ad containers – top and bottom only */
-        .ad-top { text-align: center; margin-bottom: 24px; padding: 10px; background: white; border-radius: 20px; border: 1px solid #e2e8f0; }
-        .ad-bottom { text-align: center; margin-top: 24px; padding: 10px; background: white; border-radius: 20px; border: 1px solid #e2e8f0; }
-        .ad-label { font-size: 0.6rem; color: #9aaebf; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
-        
-        .script-detail h1 { margin-bottom: 16px; }
-        .script-detail .script-meta { margin-bottom: 16px; }
-        .script-detail pre { background: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: 12px; overflow-x: auto; font-size: 0.8rem; margin: 16px 0; display: none; }
-        .detail-actions { display: flex; gap: 16px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e2e8f0; justify-content: center; flex-wrap: wrap; }
         .countdown-container { text-align: center; padding: 20px; background: #f0f0f0; border-radius: 16px; margin: 20px 0; }
         .countdown-timer { font-size: 48px; font-weight: bold; color: #a855f7; }
         
-        .sidebar-card { background: white; border-radius: 20px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .sidebar-title { font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .btn { background: #1e2f3f; border: none; padding: 14px 24px; border-radius: 50px; font-size: 1rem; font-weight: 600; color: white; cursor: pointer; transition: all 0.2s; width: 100%; }
+        .btn:hover { background: #a855f7; transform: translateY(-2px); }
         
-        .toast { position: fixed; bottom: 20px; right: 20px; background: #1e2f3f; color: white; padding: 10px 20px; border-radius: 40px; z-index: 1000; }
-        .loading { text-align: center; padding: 40px; color: #8a9bb0; }
+        .copy-success { background: #d4edda; color: #155724; padding: 10px; border-radius: 12px; margin-top: 15px; display: none; }
+        .reset-warning { background: #fff3cd; color: #856404; padding: 10px; border-radius: 12px; margin: 15px 0; font-size: 0.75rem; border: 1px solid #ffeeba; }
+        
+        /* Ad containers – top (3 ads) and bottom (rest) */
+        .ad-top { text-align: center; margin-bottom: 20px; padding: 10px; background: white; border-radius: 20px; border: 1px solid #e2e8f0; }
+        .ad-bottom { text-align: center; margin-top: 20px; padding: 10px; background: white; border-radius: 20px; border: 1px solid #e2e8f0; }
+        
+        .ad-label { font-size: 0.6rem; color: #9aaebf; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .footer { text-align: center; font-size: 0.7rem; color: #8a9bb0; margin-top: 20px; }
         .hidden { display: none; }
-        
-        .more-btn-container { text-align: center; margin-top: 20px; }
-        .more-btn { background: #a855f7; border: none; padding: 10px 24px; border-radius: 40px; color: white; font-weight: 600; cursor: pointer; transition: 0.2s; }
-        .more-btn:hover { background: #d946ef; transform: translateY(-2px); }
-        
-        @media (max-width: 900px) { .two-columns { flex-direction: column; } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- TOP ADS (3) -->
+    <!-- ========== TOP ADS (3 ads, non‑intrusive) ========== -->
     <div class="ad-top">
         <div class="ad-label">Advertisement</div>
+        
+        <!-- Ad 1: 250x300 -->
         <script> atOptions = { 'key' : '5c4ab71c3e05e8f162c6845ea1c55950', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script>
         <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
+        
+        <!-- Ad 2: 728x90 -->
         <script> atOptions = { 'key' : '30772cccaf8ca1f9a16a3c555509b64f', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} }; </script>
         <script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
+        
+        <!-- Ad 3: 160x300 -->
         <script> atOptions = { 'key' : '673fb53f64c762401413eb44406c1c80', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} }; </script>
         <script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
     </div>
 
-    <nav class="navbar">
-        <div class="logo" onclick="location.href='/'">🎮 ScriptHub</div>
-        <div class="nav-links">
-            <button onclick="location.href='/'">Home</button>
+    <!-- Main Card -->
+    <div class="card">
+        <h1>🔑 Key Unlock System</h1>
+        <div class="subhead">Complete the 12-second wait to reveal your key</div>
+        
+        <div class="reset-warning">
+            ⏰ Your key will reset in 24 hours. Make sure to save it!
         </div>
-    </nav>
-
-    <div class="two-columns">
-        <div class="main-content">
-            <div id="homePage">
-                <div class="hero">
-                    <h1>Discover Roblox Scripts</h1>
-                    <p>Browse the largest collection of free and premium Roblox scripts</p>
-                </div>
-
-                <div id="instructionsSection" class="instructions-card">
-                    <h3>📋 Welcome to ScriptHub!</h3>
-                    <div class="step-grid">
-                        <div class="step"><span class="step-icon">🛡️</span><p>Disable Ad Blocker</p></div>
-                        <div class="step"><span class="step-icon">⏳</span><p>Wait 10 seconds</p></div>
-                        <div class="step"><span class="step-icon">✅</span><p>Click "I Understand"</p></div>
-                    </div>
-                    <button id="completeInstructionsBtn" class="filter-btn" onclick="completeInstructions()">✅ I Understand</button>
-                </div>
-
-                <div id="scriptsSection" style="display: none;">
-                    <div class="search-bar">
-                        <span>🔍</span>
-                        <input type="text" id="searchInput" placeholder="Search scripts...">
-                    </div>
-                    <div class="filters">
-                        <button class="filter-tag active" data-filter="all">All</button>
-                        <button class="filter-tag" data-filter="noKey">No Key System</button>
-                        <button class="filter-tag" data-filter="mobile">Mobile Ready</button>
-                        <button class="filter-tag" data-filter="free">Free Scripts</button>
-                    </div>
-                    <div class="stats-bar">
-                        <div class="stats"><span>📊 5,572 users browsing</span></div>
-                        <select id="sortSelect" class="sort-select">
-                            <option value="date">Newest First</option>
-                            <option value="views">Most Views</option>
-                            <option value="likes">Most Liked</option>
-                        </select>
-                    </div>
-                    <div id="scriptsGrid" class="scripts-grid"><div class="loading">Loading scripts...</div></div>
-                    <div id="pagination" class="stats-bar" style="justify-content: center; gap: 12px; margin-top: 10px;">
-                        <button id="prevBtn" class="filter-tag" onclick="prevPage()" style="display: none;">← Previous</button>
-                        <span id="pageInfo"></span>
-                        <button id="nextBtn" class="filter-tag" onclick="nextPage()" style="display: none;">Next →</button>
-                    </div>
-                    <div class="more-btn-container" id="moreBtnContainer">
-                        <button id="moreBtn" class="more-btn" onclick="loadMore()">More →</button>
-                    </div>
-                </div>
-
-                <div id="trendingSection" style="margin-top: 30px;">
-                    <div class="sidebar-title">🔥 Trending Now</div>
-                    <div id="trendingGrid" class="trending-grid"><div class="loading">Loading trending...</div></div>
-                </div>
-            </div>
-
-            <div id="detailPage" class="hidden"></div>
+        
+        <div id="countdownContainer" class="countdown-container">
+            <div class="countdown-timer" id="countdownTimer">12</div>
+            <p>Please wait 12 seconds to unlock your key...</p>
         </div>
-
-        <div class="right-sidebar">
-            <div class="sidebar-card">
-                <div class="sidebar-title">🏆 Top Creators</div>
-                <div style="padding: 8px 0; border-bottom: 1px solid #e2e8f0;">1. ScriptMaster</div>
-                <div style="padding: 8px 0; border-bottom: 1px solid #e2e8f0;">2. CodeWizard</div>
-                <div style="padding: 8px 0;">3. ExploitKing</div>
+        
+        <div id="keyDisplay" style="display: none;">
+            <div class="key-display">
+                <div style="font-size: 0.8rem; color: #6c7a8a; margin-bottom: 8px;">Your Unlock Key:</div>
+                <div class="key-code" id="keyCode">Loading...</div>
             </div>
-            <div class="sidebar-card">
-                <div class="sidebar-title">📌 Popular Tags</div>
-                <div class="script-tags">
-                    <span class="tag">Auto Farm</span>
-                    <span class="tag">Keyless</span>
-                    <span class="tag">ESP</span>
-                    <span class="tag">Aimbot</span>
-                    <span class="tag">Mobile</span>
-                    <span class="tag">Free</span>
-                </div>
-            </div>
+            <button id="copyBtn" class="btn">📋 Copy Key</button>
+            <div id="copySuccess" class="copy-success">✅ Key copied to clipboard!</div>
         </div>
     </div>
 
-    <!-- BOTTOM ADS (remaining) -->
+    <!-- ========== BOTTOM ADS (remaining ads) ========== -->
     <div class="ad-bottom">
         <div class="ad-label">More Ads</div>
+        
+        <!-- Native banner -->
         <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
         <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
+        
+        <!-- 600x160 -->
         <script> atOptions = { 'key' : '9ad3c1db141549482622fa057c0a1495', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} }; </script>
         <script src="https://theoreticalassertshame.com/9ad3c1db141549482622fa057c0a1495/invoke.js"></script>
+        
+        <!-- 320x50 -->
         <script> atOptions = { 'key' : '7e841472d1ac01ddccd7fa985576e83c', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} }; </script>
         <script src="https://theoreticalassertshame.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
+        
+        <!-- 468x60 -->
         <script> atOptions = { 'key' : '7c7fd511e2480eb4fe47887cda152595', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} }; </script>
         <script src="https://theoreticalassertshame.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
+        
+        <!-- Network scripts -->
         <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
         <script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
-        <script> var popunder = document.createElement('script'); popunder.src = 'https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8'; popunder.async = true; document.body.appendChild(popunder); </script>
+        
+        <!-- Popunder / CPM link -->
+        <script>
+            var popunder = document.createElement('script');
+            popunder.src = 'https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8';
+            popunder.async = true;
+            document.body.appendChild(popunder);
+        </script>
+    </div>
+
+    <div class="footer">
+        🔐 Secure key system • Anti-bypass protected
     </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
 <script>
-    const API_URL = 'https://rscripts.net/api/v2';
-    let currentScripts = [];
-    let currentPage = 1;
-    let maxPages = 1;
-    let currentFilter = 'all';
-    let currentSearch = '';
-    let currentSort = 'date';
     let countdownInterval = null;
-
-    function showToast(msg, isError = false) { 
-        const t = document.createElement('div'); 
-        t.className = 'toast'; 
-        t.textContent = msg; 
-        if (isError) t.style.background = '#dc2626';
-        document.body.appendChild(t); 
-        setTimeout(() => t.remove(), 3000); 
-    }
-    function escapeHtml(t) { if (!t) return ''; const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
-
-    function generateTags(script) {
-        let tags = [];
-        if (script.keySystem === false) tags.push('Keyless');
-        if (script.mobileReady) tags.push('Mobile');
-        if (!script.mobileReady) tags.push('PC');
-        if (script.paid === false) tags.push('Free');
-        if (script.title.toLowerCase().includes('farm')) tags.push('Auto Farm');
-        if (script.title.toLowerCase().includes('esp')) tags.push('ESP');
-        if (script.title.toLowerCase().includes('aim')) tags.push('Aimbot');
-        if (tags.length === 0) tags.push('Working Script');
-        return tags.slice(0, 4);
-    }
-
-    function viewDetail(scriptId) {
-        window.location.href = `/?id=${scriptId}`;
-    }
-
-    async function loadTrending() {
-        const grid = document.getElementById('trendingGrid');
-        grid.innerHTML = '<div class="loading">Loading trending...</div>';
+    let currentKey = null;
+    
+    async function fetchRandomKey() {
         try {
-            const res = await fetch(`${API_URL}/trending`);
-            const data = await res.json();
-            if (data.success && data.success.length) {
-                grid.innerHTML = data.success.map(item => {
-                    const s = item.script;
-                    const thumbnail = s.image || null;
-                    const tags = generateTags(s);
-                    return `
-                        <div class="script-card" onclick="viewDetail('${item._id}')">
-                            <div class="script-thumbnail">
-                                ${thumbnail ? `<img src="${thumbnail}" style="width:100%; height:100%; object-fit:cover;" onerror="this.parentElement.innerHTML='<i class=\'fas fa-fire\' style=\'font-size: 3rem; color: white;\'></i>'">` : '<i class="fas fa-fire" style="font-size: 3rem; color: white;"></i>'}
-                            </div>
-                            <div class="script-info">
-                                <div class="script-title">${escapeHtml(s.title || 'Untitled')}<span class="script-badge">🔥 Trending</span></div>
-                                <div class="script-meta"><span>👤 ${escapeHtml(item.user?.username || 'Unknown')}</span><span>👁️ ${item.views || 0} views</span></div>
-                                <div class="script-description">${escapeHtml((s.description || 'No description').substring(0, 100))}...</div>
-                                <div class="script-tags">${tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
-                                <div class="script-actions">
-                                    <button class="view-detail-btn" onclick="event.stopPropagation(); viewDetail('${item._id}'); return false;">📄 View Script</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-            } else { grid.innerHTML = '<div class="loading">No trending found</div>'; }
-        } catch(e) { grid.innerHTML = '<div class="loading">Failed to load trending</div>'; }
-    }
-
-    async function loadScripts() {
-        const grid = document.getElementById('scriptsGrid');
-        grid.innerHTML = '<div class="loading">Loading scripts...</div>';
-        try {
-            let url = `${API_URL}/scripts?page=${currentPage}&orderBy=${currentSort}&sort=desc`;
-            if (currentFilter === 'noKey') url += '&noKeySystem=true';
-            else if (currentFilter === 'mobile') url += '&mobileOnly=true';
-            else if (currentFilter === 'free') url += '&notPaid=true';
-            if (currentSearch) url += `&q=${encodeURIComponent(currentSearch)}`;
-            const res = await fetch(url);
-            const data = await res.json();
-            if (data.error) { grid.innerHTML = `<div class="loading">Error: ${data.error}</div>`; return; }
-            currentScripts = data.scripts || [];
-            maxPages = data.info?.maxPages || 1;
-            document.getElementById('prevBtn').style.display = currentPage > 1 ? 'inline-block' : 'none';
-            document.getElementById('nextBtn').style.display = currentPage < maxPages ? 'inline-block' : 'none';
-            const pageInfo = document.getElementById('pageInfo');
-            if (pageInfo) pageInfo.textContent = `Page ${currentPage} of ${maxPages}`;
-            // Show/hide more button based on whether there are more pages
-            const moreBtn = document.getElementById('moreBtn');
-            if (moreBtn) moreBtn.style.display = currentPage < maxPages ? 'inline-block' : 'none';
-            displayScripts();
-        } catch(e) { grid.innerHTML = '<div class="loading">Error loading scripts</div>'; }
-    }
-
-    function displayScripts() {
-        const grid = document.getElementById('scriptsGrid');
-        if (!currentScripts.length) { grid.innerHTML = '<div class="loading">No scripts found</div>'; return; }
-        grid.innerHTML = currentScripts.map(s => {
-            const thumbnail = s.image || null;
-            const tags = generateTags(s);
-            return `
-                <div class="script-card" onclick="viewDetail('${s._id}')">
-                    <div class="script-thumbnail">
-                        ${thumbnail ? `<img src="${thumbnail}" style="width:100%; height:100%; object-fit:cover;" onerror="this.parentElement.innerHTML='<i class=\'fas fa-code\' style=\'font-size: 3rem; color: white;\'></i>'">` : '<i class="fas fa-code" style="font-size: 3rem; color: white;"></i>'}
-                    </div>
-                    <div class="script-info">
-                        <div class="script-title">${escapeHtml(s.title)}</div>
-                        <div class="script-meta"><span>👤 ${escapeHtml(s.user?.username || 'Unknown')}</span><span>👁️ ${s.views || 0}</span><span>❤️ ${s.likes || 0}</span></div>
-                        <div class="script-description">${escapeHtml((s.description || 'No description').substring(0, 100))}...</div>
-                        <div class="script-tags">${tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
-                        <div class="script-actions">
-                            <button class="view-detail-btn" onclick="event.stopPropagation(); viewDetail('${s._id}'); return false;">📄 View Script</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }).join('');
-    }
-
-    async function loadScriptDetail(scriptId) {
-        const detailDiv = document.getElementById('detailPage');
-        const homeDiv = document.getElementById('homePage');
-        detailDiv.innerHTML = '<div class="loading">Loading script...</div>';
-        detailDiv.classList.remove('hidden');
-        homeDiv.classList.add('hidden');
-        
-        try {
-            const res = await fetch(`${API_URL}/script?id=${scriptId}`);
-            const data = await res.json();
-            
-            if (data.error || !data.script) {
-                detailDiv.innerHTML = `<div class="hero"><h2>❌ Script not found</h2><button onclick="goBackHome()" class="filter-tag" style="margin-top:20px;">← Back to Home</button></div>`;
-                return;
-            }
-            
-            const script = data.script;
-            const thumbnail = script.image || null;
-            const tags = generateTags(script);
-            
-            let scriptContent = '';
-            if (script.rawScript) {
-                try {
-                    const rawRes = await fetch(script.rawScript);
-                    scriptContent = await rawRes.text();
-                } catch(e) { scriptContent = 'Unable to load script content'; }
-            }
-            
-            detailDiv.innerHTML = `
-                <div class="script-detail">
-                    <button onclick="goBackHome()" class="filter-tag" style="margin-bottom:20px;">← Back to Home</button>
-                    ${thumbnail ? `<img src="${thumbnail}" style="width:100%; max-height:300px; object-fit:cover; border-radius:20px; margin-bottom:20px;" onerror="this.style.display='none'">` : ''}
-                    <h1>${escapeHtml(script.title)}</h1>
-                    <div class="script-meta">
-                        <span>👤 ${escapeHtml(script.user?.username || 'Unknown')}</span>
-                        <span>👁️ ${script.views || 0} views</span>
-                        <span>❤️ ${script.likes || 0} likes</span>
-                    </div>
-                    <div class="script-tags" style="margin-bottom:16px;">${tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
-                    <p><strong>Game:</strong> ${escapeHtml(script.game?.title || 'Unknown')}</p>
-                    <p style="margin:16px 0;">${escapeHtml(script.description || 'No description')}</p>
-                    
-                    <div id="countdownContainer" class="countdown-container">
-                        <div class="countdown-timer" id="countdownTimer">30</div>
-                        <p>Please wait 30 seconds to unlock the script...</p>
-                    </div>
-                    
-                    <pre id="scriptCodeBlock"><code id="scriptCodeContent">${escapeHtml(scriptContent)}</code></pre>
-                    
-                    <div class="detail-actions">
-                        <button id="copyScriptBtn" class="view-detail-btn" style="background:#1e2f3f;">⏳ Wait 30s...</button>
-                    </div>
-                </div>
-            `;
-            
-            const codeBlock = document.getElementById('scriptCodeBlock');
-            if (codeBlock) codeBlock.style.display = 'none';
-            
-            let secondsLeft = 30;
-            const timerDiv = document.getElementById('countdownTimer');
-            const copyBtn = document.getElementById('copyScriptBtn');
-            
-            if (copyBtn) {
-                copyBtn.disabled = true;
-                copyBtn.style.background = '#1e2f3f';
-                copyBtn.textContent = `⏳ Wait 30s...`;
-            }
-            
-            countdownInterval = setInterval(() => {
-                secondsLeft--;
-                if (timerDiv) timerDiv.textContent = secondsLeft;
-                if (copyBtn) copyBtn.textContent = `⏳ Wait ${secondsLeft}s...`;
-                
-                if (secondsLeft <= 0) {
-                    clearInterval(countdownInterval);
-                    if (timerDiv) timerDiv.textContent = '0';
-                    if (copyBtn) {
-                        copyBtn.disabled = false;
-                        copyBtn.style.background = '#a855f7';
-                        copyBtn.textContent = `📋 Copy Script`;
-                    }
-                    if (codeBlock) codeBlock.style.display = 'block';
-                    const countdownContainer = document.getElementById('countdownContainer');
-                    if (countdownContainer) countdownContainer.style.display = 'none';
-                    showToast('✅ Script unlocked! You can now copy the code.');
+            const response = await fetch('/api/keys');
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success && data.keys && data.keys.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * data.keys.length);
+                    return data.keys[randomIndex].key;
                 }
-            }, 1000);
-            
-            const copyButton = document.getElementById('copyScriptBtn');
-            if (copyButton) {
-                copyButton.onclick = function() {
-                    const codeElement = document.getElementById('scriptCodeContent');
-                    if (codeElement && !copyButton.disabled) {
-                        const code = codeElement.innerText;
-                        navigator.clipboard.writeText(code);
-                        showToast('✅ Script copied to clipboard!');
-                    } else if (copyButton.disabled) {
-                        showToast('⏳ Please wait for the countdown to finish!', true);
-                    }
-                };
             }
-            
-        } catch(e) {
-            detailDiv.innerHTML = `<div class="hero"><h2>❌ Error</h2><p>Failed to load script</p><button onclick="goBackHome()" class="filter-tag">← Back</button></div>`;
+        } catch (error) {
+            console.warn('API fetch failed, using fallback list');
         }
+        
+        const fallbackKeys = [
+            "Free_3YKLALOJVQLTAIHNE",
+            "Free_3UGIXSZZTNNPPHZIB",
+            "Free_3YUEURTIPQRMODNZP",
+            "Free_3SAMMYHXXDZOIMONI",
+            "Free_3TABJXRRKDZRIWJCX",
+            "Free_3DROAVJVJFUKDEHSE",
+            "Free_3UYMHNIURNNHTOCEN",
+            "Free_3SQZYILHNSFBIRJGS",
+            "free_findajobjobsahur"
+        ];
+        const randomIndex = Math.floor(Math.random() * fallbackKeys.length);
+        return fallbackKeys[randomIndex];
     }
-
-    function goBackHome() {
-        if (countdownInterval) clearInterval(countdownInterval);
-        document.getElementById('detailPage').classList.add('hidden');
-        document.getElementById('homePage').classList.remove('hidden');
-        window.history.pushState({}, '', '/');
-        if (localStorage.getItem('instructionsCompleted') === 'true') { loadScripts(); loadTrending(); }
+    
+    async function startCountdown(seconds = 12) {
+        currentKey = await fetchRandomKey();
+        const keyCodeElem = document.getElementById('keyCode');
+        if (keyCodeElem) keyCodeElem.innerText = currentKey;
+        
+        let timeLeft = seconds;
+        const timerDiv = document.getElementById('countdownTimer');
+        const countdownContainer = document.getElementById('countdownContainer');
+        const keyDisplay = document.getElementById('keyDisplay');
+        
+        countdownInterval = setInterval(() => {
+            timeLeft--;
+            if (timerDiv) timerDiv.textContent = timeLeft;
+            if (timeLeft <= 0) {
+                clearInterval(countdownInterval);
+                countdownContainer.style.display = 'none';
+                keyDisplay.style.display = 'block';
+                showToast('✅ Key unlocked! You can now copy it.');
+            }
+        }, 1000);
     }
-
-    function checkInstructionsCompleted() {
-        if (localStorage.getItem('instructionsCompleted') === 'true') {
-            document.getElementById('instructionsSection').style.display = 'none';
-            document.getElementById('scriptsSection').style.display = 'block';
-            loadScripts();
-            loadTrending();
+    
+    function showToast(message) {
+        const toast = document.createElement('div');
+        toast.style.position = 'fixed';
+        toast.style.bottom = '20px';
+        toast.style.right = '20px';
+        toast.style.background = '#1e2f3f';
+        toast.style.color = 'white';
+        toast.style.padding = '10px 20px';
+        toast.style.borderRadius = '40px';
+        toast.style.zIndex = '1000';
+        toast.style.fontSize = '0.85rem';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
+    
+    document.getElementById('copyBtn').addEventListener('click', function() {
+        if (currentKey) {
+            navigator.clipboard.writeText(currentKey).then(() => {
+                const successDiv = document.getElementById('copySuccess');
+                successDiv.style.display = 'block';
+                setTimeout(() => successDiv.style.display = 'none', 2000);
+            });
         } else {
-            document.getElementById('instructionsSection').style.display = 'block';
-            document.getElementById('scriptsSection').style.display = 'none';
+            showToast('❌ Key not loaded yet. Please wait.');
         }
-    }
-    function completeInstructions() {
-        localStorage.setItem('instructionsCompleted', 'true');
-        document.getElementById('instructionsSection').style.display = 'none';
-        document.getElementById('scriptsSection').style.display = 'block';
-        loadScripts();
-        loadTrending();
-        showToast('✅ Scripts are now available!');
-    }
-
-    function prevPage() { if (currentPage > 1) { currentPage--; loadScripts(); } }
-    function nextPage() { if (currentPage < maxPages) { currentPage++; loadScripts(); } }
-    function loadMore() { if (currentPage < maxPages) { currentPage++; loadScripts(); } }
-
-    document.getElementById('sortSelect')?.addEventListener('change', (e) => { currentSort = e.target.value; currentPage = 1; loadScripts(); });
-    document.getElementById('searchInput')?.addEventListener('input', (e) => { currentSearch = e.target.value; currentPage = 1; loadScripts(); });
-    document.querySelectorAll('.filter-tag[data-filter]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.filter-tag[data-filter]').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentFilter = btn.dataset.filter;
-            currentPage = 1;
-            loadScripts();
-        });
     });
-
-    function handleRouting() {
-        const params = new URLSearchParams(window.location.search);
-        const scriptId = params.get('id');
-        if (scriptId) {
-            loadScriptDetail(scriptId);
-        } else {
-            checkInstructionsCompleted();
-        }
-    }
-
-    loadTrending();
-    handleRouting();
-    window.addEventListener('popstate', handleRouting);
+    
+    startCountdown(12);
 </script>
 </body>
 </html>
