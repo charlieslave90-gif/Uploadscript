@@ -5,17 +5,14 @@ export default async function handler(req, res) {
     
     if (req.method === 'OPTIONS') return res.status(200).end();
     
+    // ========== NEW VALID KEYS (REPLACED) ==========
     const VALID_KEYS = [
-        "Free_3YKLALOJVQLTAIHNE",
-        "Free_3UGIXSZZTNNPPHZIB",
-        "Free_3YUEURTIPQRMODNZP",
-        "Free_3SAMMYHXXDZOIMONI",
-        "Free_3TABJXRRKDZRIWJCX",
-        "Free_3DROAVJVJFUKDEHSE",
-        "Free_3UYMHNIURNNHTOCEN",
-        "Free_ivnykbOflu4F2GKoAx",
-        "free_findajobjobsahur",
-        "testgaysystem"
+        "Free_XJQPWKDMVRTYNAZBLC",
+        "Free_MHATQZPLXCVBNERKJD",
+        "Free_UYTRQPLKJHGFDSAZXC",
+        "Free_NVBXQWERTYPLMKJHGF",
+        "Free_ZXCVBNMASDFGHJKLQP",
+        "Free_QWPLMNZXCVAKJHGFDT"
     ];
     
     if (req.method === 'GET') {
