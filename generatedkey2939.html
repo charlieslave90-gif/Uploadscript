@@ -154,6 +154,16 @@
     let countdownInterval = null;
     let currentKey = null;
     
+    // UPDATED VALID_KEYS (new list)
+    const VALID_KEYS = [
+        "Free_XJQPWKDMVRTYNAZBLC",
+        "Free_MHATQZPLXCVBNERKJD",
+        "Free_UYTRQPLKJHGFDSAZXC",
+        "Free_NVBXQWERTYPLMKJHGF",
+        "Free_ZXCVBNMASDFGHJKLQP",
+        "Free_QWPLMNZXCVAKJHGFDT"
+    ];
+    
     async function fetchRandomKey() {
         try {
             const response = await fetch('/api/keys');
@@ -168,19 +178,9 @@
             console.warn('API fetch failed, using fallback list');
         }
         
-        const fallbackKeys = [
-            "Free_3YKLALOJVQLTAIHNE",
-            "Free_3UGIXSZZTNNPPHZIB",
-            "Free_3YUEURTIPQRMODNZP",
-            "Free_3SAMMYHXXDZOIMONI",
-            "Free_3TABJXRRKDZRIWJCX",
-            "Free_3DROAVJVJFUKDEHSE",
-            "Free_3UYMHNIURNNHTOCEN",
-            "Free_ivnykbOflu4F2GKoAx",
-            "free_findajobjobsahur"
-        ];
-        const randomIndex = Math.floor(Math.random() * fallbackKeys.length);
-        return fallbackKeys[randomIndex];
+        // Use the updated VALID_KEYS as fallback
+        const randomIndex = Math.floor(Math.random() * VALID_KEYS.length);
+        return VALID_KEYS[randomIndex];
     }
     
     async function startCountdown(seconds = 12) {
