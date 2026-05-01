@@ -4,157 +4,296 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade" />
-    <title>KeySystem - ScriptHub Unlock</title>
+    <title>KeySystem - 5 Task Unlock</title>
     
     <!-- Existing scripts (kept) -->
     <script data-cfasync="false" src="//dcbbwymp1bhlf.cloudfront.net/?wbbcd=1251105"></script>
     
-    <!-- Short popunder script -->
-    <script>
-    (function(viffde){
-    var d = document,
-        s = d.createElement('script'),
-        l = d.scripts[d.scripts.length - 1];
-    s.settings = viffde || {};
-    s.src = "\/\/bubbly-sound.com\/crDC9.6\/bG2j5zl_SNWqQ\/9XNwjVkD3xNTjAMm2\/MeSB0\/2ZOvTEcw2\/MjzIYh1m";
-    s.async = true;
-    s.referrerPolicy = 'no-referrer-when-downgrade';
-    l.parentNode.insertBefore(s, l);
-    })({})
-    </script>
-    
-    <!-- Other ad script (kept) -->
-    <script>
-    (function(bytj){
-    var d = document,
-        s = d.createElement('script'),
-        l = d.scripts[d.scripts.length - 1];
-    s.settings = bytj || {};
-    s.src = "\/\/untimely-hello.com\/b\/XVVKs.dZGDlH0iY\/WbcF\/hemmu9quKZIU\/lnk_PlTqYr5vNLzmcRwENKjikOtkN_jZkw3NNPz\/AV3-MEwt";
-    s.async = true;
-    s.referrerPolicy = 'no-referrer-when-downgrade';
-    l.parentNode.insertBefore(s, l);
-    })({})
-    </script>
-
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #f5f7fb; padding: 20px; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; 
+            background: #f5f7fb; 
+            padding: 20px;
+            min-height: 100vh;
+        }
         .container { max-width: 600px; margin: 0 auto; }
         
-        .card { background: white; border-radius: 28px; padding: 32px 28px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center; }
+        .card { 
+            background: white; 
+            border-radius: 28px; 
+            padding: 32px 28px; 
+            margin-bottom: 24px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
+            text-align: center; 
+        }
+        
         h1 { font-size: 1.8rem; margin-bottom: 8px; color: #1e2a3a; }
         .subhead { color: #6c7a8a; font-size: 0.85rem; margin-bottom: 24px; }
         
-        .key-display { background: #f0f0f0; padding: 20px; border-radius: 16px; margin: 20px 0; }
-        .key-code { font-family: monospace; font-size: 1.2rem; word-break: break-all; color: #a855f7; font-weight: bold; }
+        /* Tasks */
+        .tasks-container {
+            margin: 24px 0;
+        }
         
-        .countdown-container { text-align: center; padding: 20px; background: #f0f0f0; border-radius: 16px; margin: 20px 0; }
-        .countdown-timer { font-size: 48px; font-weight: bold; color: #a855f7; }
+        .task-card {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
         
-        .btn { background: #1e2f3f; border: none; padding: 14px 24px; border-radius: 50px; font-size: 1rem; font-weight: 600; color: white; cursor: pointer; transition: all 0.2s; width: 100%; }
-        .btn:hover { background: #a855f7; transform: translateY(-2px); }
+        .task-card.completed {
+            background: #dcfce7;
+            border-color: #86efac;
+        }
         
-        .copy-success { background: #d4edda; color: #155724; padding: 10px; border-radius: 12px; margin-top: 15px; display: none; }
-        .reset-warning { background: #fff3cd; color: #856404; padding: 10px; border-radius: 12px; margin: 15px 0; font-size: 0.75rem; border: 1px solid #ffeeba; }
+        .task-card.locked {
+            opacity: 0.5;
+            background: #f1f5f9;
+        }
         
-        /* Ad containers – top (3 ads) and bottom (rest) */
-        .ad-top { text-align: center; margin-bottom: 20px; padding: 10px; background: white; border-radius: 20px; border: 1px solid #e2e8f0; }
-        .ad-bottom { text-align: center; margin-top: 20px; padding: 10px; background: white; border-radius: 20px; border: 1px solid #e2e8f0; }
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
         
-        .ad-label { font-size: 0.6rem; color: #9aaebf; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        .task-number {
+            font-weight: 700;
+            color: #a855f7;
+            font-size: 0.85rem;
+            background: #f3e8ff;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
         
-        .footer { text-align: center; font-size: 0.7rem; color: #8a9bb0; margin-top: 20px; }
-        .hidden { display: none; }
+        .task-card.completed .task-number {
+            background: #86efac;
+            color: #166534;
+        }
+        
+        .task-name {
+            font-weight: 600;
+            color: #1e2a3a;
+            font-size: 1rem;
+        }
+        
+        .task-status {
+            font-size: 0.7rem;
+            color: #64748b;
+            margin-bottom: 12px;
+        }
+        
+        .task-timer {
+            font-family: monospace;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #3b82f6;
+            text-align: center;
+            margin: 12px 0;
+        }
+        
+        .task-btn {
+            background: #1e2f3f;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+        
+        .task-btn:hover:not(:disabled) {
+            background: #a855f7;
+            transform: translateY(-2px);
+        }
+        
+        .task-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .task-btn.completed {
+            background: #22c55e;
+        }
+        
+        .progress-bar {
+            background: #e2e8f0;
+            border-radius: 20px;
+            height: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: #a855f7;
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 20px;
+        }
+        
+        .key-display {
+            background: #f0f0f0;
+            padding: 20px;
+            border-radius: 16px;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .key-code {
+            font-family: monospace;
+            font-size: 1.2rem;
+            word-break: break-all;
+            color: #a855f7;
+            font-weight: bold;
+        }
+        
+        .btn {
+            background: #1e2f3f;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background: #a855f7;
+            transform: translateY(-2px);
+        }
+        
+        .copy-success {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 12px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .reset-warning {
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 12px;
+            margin: 15px 0;
+            font-size: 0.75rem;
+            border: 1px solid #ffeeba;
+        }
+        
+        .ad-top, .ad-bottom {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: white;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .ad-label {
+            font-size: 0.6rem;
+            color: #9aaebf;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .footer {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #8a9bb0;
+            margin-top: 20px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .next-task-indicator {
+            background: #dbeafe;
+            padding: 12px;
+            border-radius: 16px;
+            margin-top: 16px;
+            color: #1e40af;
+            font-size: 0.8rem;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- ========== TOP ADS (3 ads, non‑intrusive) ========== -->
+    <!-- TOP ADS -->
     <div class="ad-top">
         <div class="ad-label">Advertisement</div>
-        
-        <!-- Ad 1: 250x300 -->
         <script> atOptions = { 'key' : '5c4ab71c3e05e8f162c6845ea1c55950', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script>
         <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
-        
-        <!-- Ad 2: 728x90 -->
-        <script> atOptions = { 'key' : '30772cccaf8ca1f9a16a3c555509b64f', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} }; </script>
-        <script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
-        
-        <!-- Ad 3: 160x300 -->
-        <script> atOptions = { 'key' : '673fb53f64c762401413eb44406c1c80', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} }; </script>
-        <script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
     </div>
 
     <!-- Main Card -->
     <div class="card">
         <h1>🔑 Key Unlock System</h1>
-        <div class="subhead">Complete the 12-second wait to reveal your key</div>
+        <div class="subhead">Complete 5 tasks in order (5 seconds each) to unlock your key</div>
         
         <div class="reset-warning">
-            ⏰ Your key will reset in 24 hours. Make sure to save it!
+            ⏰ Complete each task in order. Each task takes 5 seconds. Next task appears after completion.
         </div>
         
-        <div id="countdownContainer" class="countdown-container">
-            <div class="countdown-timer" id="countdownTimer">12</div>
-            <p>Please wait 12 seconds to unlock your key...</p>
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
         </div>
         
-        <div id="keyDisplay" style="display: none;">
-            <div class="key-display">
-                <div style="font-size: 0.8rem; color: #6c7a8a; margin-bottom: 8px;">Your Unlock Key:</div>
-                <div class="key-code" id="keyCode">Loading...</div>
-            </div>
-            <button id="copyBtn" class="btn">📋 Copy Key</button>
+        <!-- Tasks Container -->
+        <div class="tasks-container" id="tasksContainer"></div>
+        
+        <!-- Key Display -->
+        <div id="keyDisplay" class="key-display">
+            <div style="font-size: 0.8rem; color: #6c7a8a; margin-bottom: 8px;">Your Unlock Key:</div>
+            <div class="key-code" id="keyCode">Loading...</div>
+            <button id="copyBtn" class="btn" style="margin-top: 16px;">📋 Copy Key</button>
             <div id="copySuccess" class="copy-success">✅ Key copied to clipboard!</div>
         </div>
     </div>
 
-    <!-- ========== BOTTOM ADS (remaining ads) ========== -->
+    <!-- BOTTOM ADS -->
     <div class="ad-bottom">
-        <div class="ad-label">More Ads</div>
-        
-        <!-- Native banner -->
+        <div class="ad-label">Advertisement</div>
         <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
         <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
-        
-        <!-- 600x160 -->
-        <script> atOptions = { 'key' : '9ad3c1db141549482622fa057c0a1495', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} }; </script>
-        <script src="https://theoreticalassertshame.com/9ad3c1db141549482622fa057c0a1495/invoke.js"></script>
-        
-        <!-- 320x50 -->
-        <script> atOptions = { 'key' : '7e841472d1ac01ddccd7fa985576e83c', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} }; </script>
-        <script src="https://theoreticalassertshame.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
-        
-        <!-- 468x60 -->
-        <script> atOptions = { 'key' : '7c7fd511e2480eb4fe47887cda152595', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} }; </script>
-        <script src="https://theoreticalassertshame.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
-        
-        <!-- Network scripts -->
         <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
         <script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
-        
-        <!-- Popunder / CPM link -->
-        <script>
-            var popunder = document.createElement('script');
-            popunder.src = 'https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8';
-            popunder.async = true;
-            document.body.appendChild(popunder);
-        </script>
     </div>
 
     <div class="footer">
-        🔐 Secure key system • Anti-bypass protected
+        🔐 Complete 5 tasks in order • Each task takes 5 seconds • Anti-bypass protected
     </div>
 </div>
 
 <script>
-    let countdownInterval = null;
-    let currentKey = null;
+    // Task configuration (sequential)
+    const tasks = [
+        { id: 1, name: "Verify Human", url: "https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8", timer: 5, completed: false, timerActive: false, timeLeft: 5 },
+        { id: 2, name: "Security Check", url: "https://theoreticalassertshame.com/kdz7r4gu?key=ee90c6cb0a0dee1a173912f14fd0e861", timer: 5, completed: false, timerActive: false, timeLeft: 5 },
+        { id: 3, name: "Verify Device", url: "https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8", timer: 5, completed: false, timerActive: false, timeLeft: 5 },
+        { id: 4, name: "Captcha Check", url: "https://theoreticalassertshame.com/kdz7r4gu?key=ee90c6cb0a0dee1a173912f14fd0e861", timer: 5, completed: false, timerActive: false, timeLeft: 5 },
+        { id: 5, name: "Final Verification", url: "https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8", timer: 5, completed: false, timerActive: false, timeLeft: 5 }
+    ];
     
-    // UPDATED VALID_KEYS (new list)
+    // Valid keys
     const VALID_KEYS = [
         "Free_XJQPWKDMVRTYNAZBLC",
         "Free_MHATQZPLXCVBNERKJD",
@@ -164,6 +303,139 @@
         "Free_QWPLMNZXCVAKJHGFDT"
     ];
     
+    let currentKey = null;
+    let currentActiveTask = 1; // Only task 1 is active initially
+    let taskIntervals = {};
+    
+    // Update progress bar
+    function updateProgress() {
+        const completedCount = tasks.filter(t => t.completed).length;
+        const percentage = (completedCount / tasks.length) * 100;
+        document.getElementById('progressFill').style.width = percentage + '%';
+        
+        // Check if all tasks are complete
+        if (completedCount === tasks.length) {
+            revealKey();
+        } else {
+            // Unlock next task if current is completed
+            for (let i = 0; i < tasks.length; i++) {
+                if (tasks[i].completed && i + 1 < tasks.length && !tasks[i + 1].completed) {
+                    currentActiveTask = tasks[i + 1].id;
+                    renderTasks(); // Re-render to show next task as active
+                }
+            }
+        }
+    }
+    
+    // Open ad link in new tab
+    function openAdLink(url, taskId) {
+        window.open(url, '_blank');
+        startTaskTimer(taskId);
+    }
+    
+    // Start timer for a task
+    function startTaskTimer(taskId) {
+        const task = tasks.find(t => t.id === taskId);
+        if (!task || task.completed || task.timerActive) return;
+        
+        task.timerActive = true;
+        task.timeLeft = task.timer;
+        
+        const timerElement = document.getElementById(`timer-${taskId}`);
+        const buttonElement = document.getElementById(`btn-${taskId}`);
+        
+        // Disable button during timer
+        buttonElement.disabled = true;
+        buttonElement.textContent = `Wait ${task.timeLeft}s`;
+        
+        taskIntervals[taskId] = setInterval(() => {
+            task.timeLeft--;
+            if (timerElement) timerElement.textContent = `${task.timeLeft}s`;
+            if (buttonElement) buttonElement.textContent = `Wait ${task.timeLeft}s`;
+            
+            if (task.timeLeft <= 0) {
+                clearInterval(taskIntervals[taskId]);
+                task.completed = true;
+                task.timerActive = false;
+                
+                // Update UI
+                if (timerElement) timerElement.textContent = '✓ Done';
+                buttonElement.textContent = '✓ Completed';
+                buttonElement.classList.add('completed');
+                buttonElement.disabled = true;
+                
+                // Update task status
+                const statusElement = document.getElementById(`status-${taskId}`);
+                if (statusElement) statusElement.textContent = 'Completed!';
+                
+                updateProgress();
+                renderTasks(); // Re-render to update visibility of next task
+            }
+        }, 1000);
+    }
+    
+    // Render tasks (only shows up to current active task)
+    function renderTasks() {
+        const container = document.getElementById('tasksContainer');
+        container.innerHTML = '';
+        
+        // Find highest completed task
+        let highestCompleted = 0;
+        for (let i = 0; i < tasks.length; i++) {
+            if (tasks[i].completed) highestCompleted = i + 1;
+            else break;
+        }
+        
+        // Show only completed tasks + next active task (up to currentActiveTask)
+        const maxVisible = Math.max(highestCompleted + 1, 1);
+        
+        for (let i = 0; i < Math.min(maxVisible, tasks.length); i++) {
+            const task = tasks[i];
+            const isActive = !task.completed && (i === 0 || tasks[i-1].completed);
+            const isLocked = !isActive && !task.completed;
+            
+            const taskDiv = document.createElement('div');
+            taskDiv.className = `task-card ${task.completed ? 'completed' : ''} ${isLocked ? 'locked' : ''}`;
+            
+            taskDiv.innerHTML = `
+                <div class="task-header">
+                    <span class="task-number">Task ${task.id}/5</span>
+                    <span class="task-name">${task.name}</span>
+                </div>
+                <div class="task-status" id="status-${task.id}">
+                    ${task.completed ? '✓ Completed!' : (isActive ? 'Ready to start' : '🔒 Complete previous task first')}
+                </div>
+                ${!task.completed ? `<div class="task-timer" id="timer-${task.id}">${task.timerActive ? `${task.timeLeft}s` : '0s'}</div>` : ''}
+                <button class="task-btn" id="btn-${task.id}" ${task.completed || isLocked ? 'disabled' : ''}>
+                    ${task.completed ? '✓ Completed' : (isActive ? 'Start Task' : '🔒 Locked')}
+                </button>
+            `;
+            container.appendChild(taskDiv);
+            
+            // Add event listener if active and not completed
+            if (isActive && !task.completed) {
+                const btn = document.getElementById(`btn-${task.id}`);
+                if (btn) {
+                    btn.addEventListener('click', () => openAdLink(task.url, task.id));
+                }
+            }
+        }
+        
+        // Show next task indicator
+        if (highestCompleted < tasks.length && highestCompleted > 0) {
+            const indicator = document.createElement('div');
+            indicator.className = 'next-task-indicator';
+            indicator.innerHTML = `✨ Task ${highestCompleted + 1} is now available! Click "Start Task" to continue. ✨`;
+            container.appendChild(indicator);
+        } else if (highestCompleted === 0 && tasks[0] && !tasks[0].completed) {
+            const indicator = document.createElement('div');
+            indicator.className = 'next-task-indicator';
+            indicator.innerHTML = `👉 Click "Start Task" on Task 1 to begin unlocking your key 👈`;
+            container.appendChild(indicator);
+        }
+    }
+    
+    // Fetch random key from API or fallback
     async function fetchRandomKey() {
         try {
             const response = await fetch('/api/keys');
@@ -177,34 +449,25 @@
         } catch (error) {
             console.warn('API fetch failed, using fallback list');
         }
-        
-        // Use the updated VALID_KEYS as fallback
         const randomIndex = Math.floor(Math.random() * VALID_KEYS.length);
         return VALID_KEYS[randomIndex];
     }
     
-    async function startCountdown(seconds = 12) {
+    // Reveal the key after all tasks complete
+    async function revealKey() {
+        if (currentKey) return;
+        
         currentKey = await fetchRandomKey();
         const keyCodeElem = document.getElementById('keyCode');
-        if (keyCodeElem) keyCodeElem.innerText = currentKey;
-        
-        let timeLeft = seconds;
-        const timerDiv = document.getElementById('countdownTimer');
-        const countdownContainer = document.getElementById('countdownContainer');
         const keyDisplay = document.getElementById('keyDisplay');
         
-        countdownInterval = setInterval(() => {
-            timeLeft--;
-            if (timerDiv) timerDiv.textContent = timeLeft;
-            if (timeLeft <= 0) {
-                clearInterval(countdownInterval);
-                countdownContainer.style.display = 'none';
-                keyDisplay.style.display = 'block';
-                showToast('✅ Key unlocked! You can now copy it.');
-            }
-        }, 1000);
+        if (keyCodeElem) keyCodeElem.innerText = currentKey;
+        if (keyDisplay) keyDisplay.style.display = 'block';
+        
+        showToast('✅ All 5 tasks completed! Your key is ready.');
     }
     
+    // Show toast notification
     function showToast(message) {
         const toast = document.createElement('div');
         toast.style.position = 'fixed';
@@ -221,7 +484,8 @@
         setTimeout(() => toast.remove(), 3000);
     }
     
-    document.getElementById('copyBtn').addEventListener('click', function() {
+    // Copy button event
+    document.getElementById('copyBtn')?.addEventListener('click', function() {
         if (currentKey) {
             navigator.clipboard.writeText(currentKey).then(() => {
                 const successDiv = document.getElementById('copySuccess');
@@ -229,11 +493,13 @@
                 setTimeout(() => successDiv.style.display = 'none', 2000);
             });
         } else {
-            showToast('❌ Key not loaded yet. Please wait.');
+            showToast('❌ Key not ready yet. Complete all 5 tasks first.');
         }
     });
     
-    startCountdown(12);
+    // Initialize
+    renderTasks();
+    updateProgress();
 </script>
 </body>
 </html>
