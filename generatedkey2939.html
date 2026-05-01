@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade" />
-    <title>KeySystem - 5 Task Unlock</title>
+    <title>KeySystem - 5 Task Unlock (10s each)</title>
     
     <!-- Existing scripts (kept) -->
     <script data-cfasync="false" src="//dcbbwymp1bhlf.cloudfront.net/?wbbcd=1251105"></script>
@@ -91,7 +91,7 @@
         
         .task-timer {
             font-family: monospace;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: #3b82f6;
             text-align: center;
@@ -231,7 +231,7 @@
 <body>
 
 <div class="container">
-    <!-- ========== TOP ADS (ALL 3 ORIGINAL ADS) ========== -->
+    <!-- ========== TOP ADS (ALL ORIGINAL ADS) ========== -->
     <div class="ad-top">
         <div class="ad-label">Advertisement</div>
         
@@ -251,10 +251,10 @@
     <!-- Main Card -->
     <div class="card">
         <h1>🔑 Key Unlock System</h1>
-        <div class="subhead">Complete 5 tasks in order (5 seconds each) to unlock your key</div>
+        <div class="subhead">Complete 5 tasks in order (10 seconds each) to unlock your key</div>
         
         <div class="reset-warning">
-            ⏰ Complete each task in order. Each task takes 5 seconds. Next task appears after completion.
+            ⏰ Complete each task in order. Each task takes 10 seconds. Next task appears after completion.
         </div>
         
         <!-- Progress Bar -->
@@ -308,18 +308,18 @@
     </div>
 
     <div class="footer">
-        🔐 Complete 5 tasks in order • Each task takes 5 seconds • Anti-bypass protected
+        🔐 Complete 5 tasks in order • Each task takes 10 seconds • Anti-bypass protected
     </div>
 </div>
 
 <script>
-    // Task configuration (sequential)
+    // Task configuration (sequential) - 10 seconds each
     const tasks = [
-        { id: 1, name: "Verify Human", url: "https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8", timer: 5, completed: false, timerActive: false, timeLeft: 5 },
-        { id: 2, name: "Security Check", url: "https://theoreticalassertshame.com/kdz7r4gu?key=ee90c6cb0a0dee1a173912f14fd0e861", timer: 5, completed: false, timerActive: false, timeLeft: 5 },
-        { id: 3, name: "Verify Device", url: "https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8", timer: 5, completed: false, timerActive: false, timeLeft: 5 },
-        { id: 4, name: "Captcha Check", url: "https://theoreticalassertshame.com/kdz7r4gu?key=ee90c6cb0a0dee1a173912f14fd0e861", timer: 5, completed: false, timerActive: false, timeLeft: 5 },
-        { id: 5, name: "Final Verification", url: "https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8", timer: 5, completed: false, timerActive: false, timeLeft: 5 }
+        { id: 1, name: "Verify Human", url: "https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8", timer: 10, completed: false, timerActive: false, timeLeft: 10 },
+        { id: 2, name: "Security Check", url: "https://theoreticalassertshame.com/kdz7r4gu?key=ee90c6cb0a0dee1a173912f14fd0e861", timer: 10, completed: false, timerActive: false, timeLeft: 10 },
+        { id: 3, name: "Verify Device", url: "https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8", timer: 10, completed: false, timerActive: false, timeLeft: 10 },
+        { id: 4, name: "Captcha Check", url: "https://theoreticalassertshame.com/kdz7r4gu?key=ee90c6cb0a0dee1a173912f14fd0e861", timer: 10, completed: false, timerActive: false, timeLeft: 10 },
+        { id: 5, name: "Final Verification", url: "https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8", timer: 10, completed: false, timerActive: false, timeLeft: 10 }
     ];
     
     // Valid keys (same as backend)
