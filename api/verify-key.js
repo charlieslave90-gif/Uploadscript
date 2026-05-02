@@ -8,11 +8,11 @@ export default async function handler(req, res) {
     // ========== NEW VALID KEYS (REPLACED) ==========
     const VALID_KEYS = [
         "Free_XJQPWKDMVRTYNAZBLC",
+        "KEY_NORMALKEYPERM",
         "OMGTHISKEYISRARE23",
-        "Free_UYTRQPLKJHGFDSAZXC",
         "FREE_1829c98f814c4",
-        "Free_ZXCVBNMASDFGHJKLQP",
-        "Free_QWPLMNZXCVAKJHGFDT"
+        "jeilkarah673",
+        "KEY_NORMALKEYPERMV2"
     ];
     
     if (req.method === 'GET') {
