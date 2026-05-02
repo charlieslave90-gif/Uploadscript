@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     // ========== NEW VALID KEYS (REPLACED) ==========
     const VALID_KEYS = [
         "Free_XJQPWKDMVRTYNAZBLC",
-        "Free_MHATQZPLXCVBNERKJD",
+        "OMGTHISKEYISRARE23",
         "Free_UYTRQPLKJHGFDSAZXC",
         "FREE_1829c98f814c4",
         "Free_ZXCVBNMASDFGHJKLQP",
