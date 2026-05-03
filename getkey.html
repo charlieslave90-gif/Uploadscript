@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade" />
-    <title>KeySystem - 5 Task Unlock (10s each)</title>
+    <title>KeySystem - Single Task Unlock</title>
     
     <!-- Existing scripts (kept) -->
     <script data-cfasync="false" src="//dcbbwymp1bhlf.cloudfront.net/?wbbcd=1251105"></script>
@@ -31,17 +31,15 @@
         h1 { font-size: 1.8rem; margin-bottom: 8px; color: #1e2a3a; }
         .subhead { color: #6c7a8a; font-size: 0.85rem; margin-bottom: 24px; }
         
-        .tasks-container {
+        .task-container {
             margin: 24px 0;
         }
         
         .task-card {
             background: #f8fafc;
             border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 16px;
+            padding: 24px;
             border: 1px solid #e2e8f0;
-            transition: all 0.3s ease;
         }
         
         .task-card.completed {
@@ -49,61 +47,34 @@
             border-color: #86efac;
         }
         
-        .task-card.locked {
-            opacity: 0.5;
-            background: #f1f5f9;
-        }
-        
-        .task-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .task-number {
-            font-weight: 700;
-            color: #a855f7;
-            font-size: 0.85rem;
-            background: #f3e8ff;
-            padding: 4px 12px;
-            border-radius: 20px;
-        }
-        
-        .task-card.completed .task-number {
-            background: #86efac;
-            color: #166534;
-        }
-        
         .task-name {
-            font-weight: 600;
+            font-weight: 700;
             color: #1e2a3a;
-            font-size: 1rem;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
         }
         
         .task-status {
-            font-size: 0.7rem;
+            font-size: 0.8rem;
             color: #64748b;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
         
         .task-timer {
             font-family: monospace;
-            font-size: 1.5rem;
+            font-size: 2rem;
             font-weight: 700;
             color: #3b82f6;
             text-align: center;
-            margin: 12px 0;
+            margin: 16px 0;
         }
         
         .task-btn {
             background: #1e2f3f;
             border: none;
-            padding: 12px 24px;
+            padding: 14px 24px;
             border-radius: 40px;
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 600;
             color: white;
             cursor: pointer;
@@ -217,15 +188,6 @@
             color: #8a9bb0;
             margin-top: 20px;
         }
-        
-        .next-task-indicator {
-            background: #dbeafe;
-            padding: 12px;
-            border-radius: 16px;
-            margin-top: 16px;
-            color: #1e40af;
-            font-size: 0.8rem;
-        }
     </style>
 </head>
 <body>
@@ -251,10 +213,10 @@
     <!-- Main Card -->
     <div class="card">
         <h1>🔑 Key Unlock System</h1>
-        <div class="subhead">Complete 5 tasks in order (10 seconds each) to unlock your key</div>
+        <div class="subhead">Complete 1 task (20 seconds) to unlock your key</div>
         
         <div class="reset-warning">
-            ⏰ Complete each task in order. Each task takes 10 seconds. Next task appears after completion.
+            ⏰ Complete the task below. It takes 20 seconds. After completion, your key will appear.
         </div>
         
         <!-- Progress Bar -->
@@ -262,8 +224,8 @@
             <div class="progress-fill" id="progressFill"></div>
         </div>
         
-        <!-- Tasks Container -->
-        <div class="tasks-container" id="tasksContainer"></div>
+        <!-- Single Task Container -->
+        <div class="task-container" id="taskContainer"></div>
         
         <!-- Key Display -->
         <div id="keyDisplay" class="key-display">
@@ -308,70 +270,68 @@
     </div>
 
     <div class="footer">
-        🔐 Complete 5 tasks in order • Each task takes 10 seconds • Anti-bypass protected
+        🔐 Complete 1 task • Takes 20 seconds • Anti-bypass protected
     </div>
 </div>
 
 <script>
-    // Task configuration (sequential) - 10 seconds each
-    const tasks = [
-        { id: 1, name: "Verify Human", url: "https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8", timer: 10, completed: false, timerActive: false, timeLeft: 10 },
-        { id: 2, name: "Security Check", url: "https://theoreticalassertshame.com/kdz7r4gu?key=ee90c6cb0a0dee1a173912f14fd0e861", timer: 10, completed: false, timerActive: false, timeLeft: 10 },
-        { id: 3, name: "Verify Device", url: "https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8", timer: 10, completed: false, timerActive: false, timeLeft: 10 },
-        { id: 4, name: "Captcha Check", url: "https://theoreticalassertshame.com/kdz7r4gu?key=ee90c6cb0a0dee1a173912f14fd0e861", timer: 10, completed: false, timerActive: false, timeLeft: 10 },
-        { id: 5, name: "Final Verification", url: "https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8", timer: 10, completed: false, timerActive: false, timeLeft: 10 }
-    ];
+    // Single task configuration - 20 seconds
+    const task = {
+        id: 1,
+        name: "Verify Human",
+        url: "https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8",
+        timer: 20,
+        completed: false,
+        timerActive: false,
+        timeLeft: 20
+    };
     
     // Valid keys (same as backend)
     const VALID_KEYS = [
         "Free_XJQPWKDMVRTYNAZBLC",
-        "KEY_NORMALKEYPERM",
-        "OMGTHISKEYISRARE23",
-        "FREE_1829c98f814c4",
-        "jeilkarah673",
-        "KEY_NORMALKEYPERMV2"
+        "Free_MHATQZPLXCVBNERKJD",
+        "Free_UYTRQPLKJHGFDSAZXC",
+        "Free_NVBXQWERTYPLMKJHGF",
+        "Free_ZXCVBNMASDFGHJKLQP",
+        "Free_QWPLMNZXCVAKJHGFDT"
     ];
     
     let currentKey = null;
-    let taskIntervals = {};
+    let taskInterval = null;
     
     function updateProgress() {
-        const completedCount = tasks.filter(t => t.completed).length;
-        const percentage = (completedCount / tasks.length) * 100;
+        const percentage = task.completed ? 100 : 0;
         document.getElementById('progressFill').style.width = percentage + '%';
         
-        if (completedCount === tasks.length) {
+        if (task.completed) {
             revealKey();
-        } else {
-            renderTasks();
         }
     }
     
-    function openAdLink(url, taskId) {
-        window.open(url, '_blank');
-        startTaskTimer(taskId);
+    function openAdLink() {
+        window.open(task.url, '_blank');
+        startTaskTimer();
     }
     
-    function startTaskTimer(taskId) {
-        const task = tasks.find(t => t.id === taskId);
-        if (!task || task.completed || task.timerActive) return;
+    function startTaskTimer() {
+        if (task.completed || task.timerActive) return;
         
         task.timerActive = true;
         task.timeLeft = task.timer;
         
-        const timerElement = document.getElementById(`timer-${taskId}`);
-        const buttonElement = document.getElementById(`btn-${taskId}`);
+        const timerElement = document.getElementById('taskTimer');
+        const buttonElement = document.getElementById('taskBtn');
         
         buttonElement.disabled = true;
         buttonElement.textContent = `Wait ${task.timeLeft}s`;
         
-        taskIntervals[taskId] = setInterval(() => {
+        taskInterval = setInterval(() => {
             task.timeLeft--;
             if (timerElement) timerElement.textContent = `${task.timeLeft}s`;
             if (buttonElement) buttonElement.textContent = `Wait ${task.timeLeft}s`;
             
             if (task.timeLeft <= 0) {
-                clearInterval(taskIntervals[taskId]);
+                clearInterval(taskInterval);
                 task.completed = true;
                 task.timerActive = false;
                 
@@ -380,7 +340,7 @@
                 buttonElement.classList.add('completed');
                 buttonElement.disabled = true;
                 
-                const statusElement = document.getElementById(`status-${taskId}`);
+                const statusElement = document.getElementById('taskStatus');
                 if (statusElement) statusElement.textContent = 'Completed!';
                 
                 updateProgress();
@@ -388,59 +348,30 @@
         }, 1000);
     }
     
-    function renderTasks() {
-        const container = document.getElementById('tasksContainer');
+    function renderTask() {
+        const container = document.getElementById('taskContainer');
         container.innerHTML = '';
         
-        let highestCompleted = 0;
-        for (let i = 0; i < tasks.length; i++) {
-            if (tasks[i].completed) highestCompleted = i + 1;
-            else break;
-        }
+        const taskDiv = document.createElement('div');
+        taskDiv.className = `task-card ${task.completed ? 'completed' : ''}`;
         
-        const maxVisible = Math.min(highestCompleted + 1, tasks.length);
+        taskDiv.innerHTML = `
+            <div class="task-name">${task.name}</div>
+            <div class="task-status" id="taskStatus">
+                ${task.completed ? '✓ Completed!' : 'Click "Start Task" to begin'}
+            </div>
+            ${!task.completed ? `<div class="task-timer" id="taskTimer">${task.timerActive ? `${task.timeLeft}s` : '0s'}</div>` : ''}
+            <button class="task-btn" id="taskBtn" ${task.completed ? 'disabled' : ''}>
+                ${task.completed ? '✓ Completed' : 'Start Task'}
+            </button>
+        `;
+        container.appendChild(taskDiv);
         
-        for (let i = 0; i < maxVisible; i++) {
-            const task = tasks[i];
-            const isActive = !task.completed && (i === 0 || tasks[i-1].completed);
-            const isLocked = !isActive && !task.completed;
-            
-            const taskDiv = document.createElement('div');
-            taskDiv.className = `task-card ${task.completed ? 'completed' : ''} ${isLocked ? 'locked' : ''}`;
-            
-            taskDiv.innerHTML = `
-                <div class="task-header">
-                    <span class="task-number">Task ${task.id}/5</span>
-                    <span class="task-name">${task.name}</span>
-                </div>
-                <div class="task-status" id="status-${task.id}">
-                    ${task.completed ? '✓ Completed!' : (isActive ? 'Ready to start' : '🔒 Complete previous task first')}
-                </div>
-                ${!task.completed ? `<div class="task-timer" id="timer-${task.id}">${task.timerActive ? `${task.timeLeft}s` : '0s'}</div>` : ''}
-                <button class="task-btn" id="btn-${task.id}" ${task.completed || isLocked ? 'disabled' : ''}>
-                    ${task.completed ? '✓ Completed' : (isActive ? 'Start Task' : '🔒 Locked')}
-                </button>
-            `;
-            container.appendChild(taskDiv);
-            
-            if (isActive && !task.completed) {
-                const btn = document.getElementById(`btn-${task.id}`);
-                if (btn) {
-                    btn.addEventListener('click', () => openAdLink(task.url, task.id));
-                }
+        if (!task.completed) {
+            const btn = document.getElementById('taskBtn');
+            if (btn) {
+                btn.addEventListener('click', openAdLink);
             }
-        }
-        
-        if (highestCompleted < tasks.length && highestCompleted > 0) {
-            const indicator = document.createElement('div');
-            indicator.className = 'next-task-indicator';
-            indicator.innerHTML = `✨ Task ${highestCompleted + 1} is now available! Click "Start Task" to continue. ✨`;
-            container.appendChild(indicator);
-        } else if (highestCompleted === 0 && tasks[0] && !tasks[0].completed) {
-            const indicator = document.createElement('div');
-            indicator.className = 'next-task-indicator';
-            indicator.innerHTML = `👉 Click "Start Task" on Task 1 to begin unlocking your key 👈`;
-            container.appendChild(indicator);
         }
     }
     
@@ -466,7 +397,7 @@
         currentKey = await fetchRandomKey();
         document.getElementById('keyCode').innerText = currentKey;
         document.getElementById('keyDisplay').style.display = 'block';
-        showToast('✅ All 5 tasks completed! Your key is ready.');
+        showToast('✅ Task completed! Your key is ready.');
     }
     
     function showToast(message) {
@@ -492,11 +423,11 @@
                 setTimeout(() => document.getElementById('copySuccess').style.display = 'none', 2000);
             });
         } else {
-            showToast('❌ Key not ready yet. Complete all 5 tasks first.');
+            showToast('❌ Key not ready yet. Complete the task first.');
         }
     });
     
-    renderTasks();
+    renderTask();
     updateProgress();
 </script>
 </body>
