@@ -5,14 +5,14 @@ export default async function handler(req, res) {
     
     if (req.method === 'OPTIONS') return res.status(200).end();
     
-    // ========== NEW VALID KEYS (REPLACED) ==========
+    // ========== CURRENT VALID KEYS (MATCHES HTML) ==========
     const VALID_KEYS = [
         "Free_XJQPWKDMVRTYNAZBLC",
-        "KEY_NORMALKEYPERM",
-        "OMGTHISKEYISRARE23",
-        "FREE_1829c98f814c4",
-        "jeilkarah673",
-        "KEY_NORMALKEYPERMV2"
+        "Free_MHATQZPLXCVBNERKJD",
+        "Free_UYTRQPLKJHGFDSAZXC",
+        "Free_NVBXQWERTYPLMKJHGF",
+        "Free_ZXCVBNMASDFGHJKLQP",
+        "Free_QWPLMNZXCVAKJHGFDT"
     ];
     
     if (req.method === 'GET') {
