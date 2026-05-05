@@ -23,20 +23,29 @@
         .search-box input { width: 300px; padding: 12px 20px; border: none; border-radius: 25px; font-size: 1rem; }
         .search-box button { padding: 12px 25px; background: #ff6b6b; border: none; border-radius: 25px; color: white; cursor: pointer; margin-left: 10px; }
         .pastes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; margin: 20px 0; }
-        .paste-card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.2s; }
+        .paste-card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: transform 0.2s; position: relative; }
         .paste-card:hover { transform: translateY(-5px); box-shadow: 0 5px 20px rgba(0,0,0,0.15); }
-        .paste-title { font-size: 1.2rem; font-weight: bold; color: #333; margin-bottom: 10px; }
-        .paste-preview { color: #666; font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .paste-title { font-size: 1.2rem; font-weight: bold; color: #333; margin-bottom: 10px; cursor: pointer; }
+        .paste-preview { color: #666; font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 10px; cursor: pointer; }
         .paste-date { color: #999; font-size: 0.8rem; margin-top: 10px; }
+        .button-group { display: flex; gap: 10px; margin-top: 15px; }
+        .small-btn { background: #f0f0f0; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; transition: all 0.2s; flex: 1; }
+        .small-btn.copy-text { background: #667eea; color: white; }
+        .small-btn.copy-link { background: #48bb78; color: white; }
+        .small-btn.view-btn { background: #ed8936; color: white; }
+        .small-btn:hover { transform: translateY(-2px); opacity: 0.9; }
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
         .modal-content { background: white; margin: 5% auto; padding: 20px; width: 80%; max-width: 800px; border-radius: 10px; max-height: 80%; overflow-y: auto; }
         .close { float: right; font-size: 28px; font-weight: bold; cursor: pointer; color: #666; }
         .close:hover { color: #000; }
         pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word; }
         .loading { text-align: center; padding: 50px; color: white; }
-        .copy-btn { background: #667eea; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+        .modal-button-group { display: flex; gap: 10px; margin: 15px 0; }
+        .modal-btn { background: #667eea; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; flex: 1; }
+        .modal-btn.copy-link-modal { background: #48bb78; }
         .toast { position: fixed; bottom: 20px; right: 20px; background: #333; color: white; padding: 10px 20px; border-radius: 5px; display: none; z-index: 1001; }
         .footer { text-align: center; font-size: 0.7rem; color: #8a9bb0; margin-top: 20px; }
+        .paste-id { font-size: 0.7rem; color: #aaa; margin-top: 5px; }
     </style>
 </head>
 <body>
@@ -46,15 +55,12 @@
     <div class="ad-top">
         <div class="ad-label">Advertisement</div>
         
-        <!-- Ad 1: 300x250 -->
         <script> atOptions = { 'key' : '5c4ab71c3e05e8f162c6845ea1c55950', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script>
         <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
         
-        <!-- Ad 2: 728x90 -->
         <script> atOptions = { 'key' : '30772cccaf8ca1f9a16a3c555509b64f', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} }; </script>
         <script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
         
-        <!-- Ad 3: 160x300 -->
         <script> atOptions = { 'key' : '673fb53f64c762401413eb44406c1c80', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} }; </script>
         <script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
     </div>
@@ -76,27 +82,21 @@
     <div class="ad-bottom">
         <div class="ad-label">More Ads</div>
         
-        <!-- Native banner -->
         <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
         <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
         
-        <!-- 600x160 -->
         <script> atOptions = { 'key' : '9ad3c1db141549482622fa057c0a1495', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} }; </script>
         <script src="https://theoreticalassertshame.com/9ad3c1db141549482622fa057c0a1495/invoke.js"></script>
         
-        <!-- 320x50 -->
         <script> atOptions = { 'key' : '7e841472d1ac01ddccd7fa985576e83c', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} }; </script>
         <script src="https://theoreticalassertshame.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
         
-        <!-- 468x60 -->
         <script> atOptions = { 'key' : '7c7fd511e2480eb4fe47887cda152595', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} }; </script>
         <script src="https://theoreticalassertshame.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
         
-        <!-- Network scripts -->
         <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
         <script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
         
-        <!-- Popunder -->
         <script>
             var popunder = document.createElement('script');
             popunder.src = 'https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8';
@@ -114,7 +114,10 @@
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
         <h2 id="modalTitle"></h2>
-        <button class="copy-btn" onclick="copyPaste()">📋 Copy Content</button>
+        <div class="modal-button-group">
+            <button class="modal-btn" onclick="copyModalText()">📋 Copy Text</button>
+            <button class="modal-btn copy-link-modal" onclick="copyModalLink()">🔗 Copy Share Link</button>
+        </div>
         <pre id="modalContent"></pre>
     </div>
 </div>
@@ -123,6 +126,8 @@
 
 <script>
     const API_URL = window.location.origin + '/api.php';
+    let currentPasteId = null;
+    let currentPasteText = null;
     
     async function loadPastes() {
         try {
@@ -148,29 +153,83 @@
         }
         
         grid.innerHTML = pastes.map(paste => `
-            <div class="paste-card" onclick="viewPaste('${paste.paste_id}')">
-                <div class="paste-title">${escapeHtml(paste.title)}</div>
-                <div class="paste-preview">${escapeHtml(paste.content.substring(0, 100))}...</div>
+            <div class="paste-card">
+                <div class="paste-title" onclick="viewPaste('${paste.paste_id}')">${escapeHtml(paste.title)}</div>
+                <div class="paste-preview" onclick="viewPaste('${paste.paste_id}')">${escapeHtml(paste.content.substring(0, 100))}...</div>
                 <div class="paste-date">📅 ${new Date(paste.created_at).toLocaleDateString()} | 👁️ ${paste.views} views</div>
+                <div class="paste-id">🆔 ID: ${paste.paste_id}</div>
+                <div class="button-group">
+                    <button class="small-btn copy-text" onclick="copyPasteText('${paste.paste_id}')">📋 Copy Text</button>
+                    <button class="small-btn copy-link" onclick="copyPasteLink('${paste.paste_id}')">🔗 Copy Link</button>
+                    <button class="small-btn view-btn" onclick="viewPaste('${paste.paste_id}')">👁️ View</button>
+                </div>
             </div>
         `).join('');
     }
     
-    async function viewPaste(pasteId) {
+    async function copyPasteText(pasteId) {
         try {
             const response = await fetch(`${API_URL}?action=get&id=${pasteId}`);
             const data = await response.json();
             
             if (data.success) {
+                await navigator.clipboard.writeText(data.paste.content);
+                showToast('✅ Text copied to clipboard!');
+            } else {
+                showToast('❌ Failed to copy text');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showToast('❌ Error copying text');
+        }
+    }
+    
+    function copyPasteLink(pasteId) {
+        const shareUrl = `${window.location.origin}${window.location.pathname}?id=${pasteId}`;
+        navigator.clipboard.writeText(shareUrl).then(() => {
+            showToast('✅ Share link copied to clipboard!');
+        }).catch(() => {
+            showToast('❌ Failed to copy link');
+        });
+    }
+    
+    async function viewPaste(pasteId) {
+        currentPasteId = pasteId;
+        try {
+            const response = await fetch(`${API_URL}?action=get&id=${pasteId}`);
+            const data = await response.json();
+            
+            if (data.success) {
+                currentPasteText = data.paste.content;
                 document.getElementById('modalTitle').innerText = data.paste.title;
                 document.getElementById('modalContent').innerText = data.paste.content;
                 document.getElementById('modal').style.display = 'block';
                 
                 // Increment view count
                 fetch(`${API_URL}?action=view&id=${pasteId}`, { method: 'POST' });
+                
+                // Update view count in the card
+                loadPastes();
             }
         } catch (error) {
             console.error('Error:', error);
+        }
+    }
+    
+    function copyModalText() {
+        if (currentPasteText) {
+            navigator.clipboard.writeText(currentPasteText).then(() => {
+                showToast('✅ Text copied to clipboard!');
+            });
+        }
+    }
+    
+    function copyModalLink() {
+        if (currentPasteId) {
+            const shareUrl = `${window.location.origin}${window.location.pathname}?id=${currentPasteId}`;
+            navigator.clipboard.writeText(shareUrl).then(() => {
+                showToast('✅ Share link copied to clipboard!');
+            });
         }
     }
     
@@ -188,23 +247,34 @@
         });
     }
     
-    function copyPaste() {
-        const content = document.getElementById('modalContent').innerText;
-        navigator.clipboard.writeText(content).then(() => {
-            const toast = document.getElementById('toast');
-            toast.style.display = 'block';
-            setTimeout(() => toast.style.display = 'none', 2000);
-        });
-    }
-    
     function closeModal() {
         document.getElementById('modal').style.display = 'none';
+        currentPasteId = null;
+        currentPasteText = null;
+    }
+    
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.style.display = 'block';
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 2000);
     }
     
     function escapeHtml(text) {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
+    }
+    
+    // Check URL for direct paste ID
+    function checkUrlForPaste() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const pasteId = urlParams.get('id');
+        if (pasteId) {
+            setTimeout(() => viewPaste(pasteId), 500);
+        }
     }
     
     window.onclick = function(event) {
@@ -214,6 +284,7 @@
     }
     
     loadPastes();
+    checkUrlForPaste();
 </script>
 </body>
 </html>
