@@ -2,147 +2,244 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Admin Upload - Create New Paste</title>
+    
+    <script data-cfasync="false" src="//dcbbwymp1bhlf.cloudfront.net/?wbbcd=1251105"></script>
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
         .container { max-width: 1000px; margin: 0 auto; }
+        
+        .ad-top, .ad-bottom { text-align: center; margin-bottom: 20px; padding: 10px; background: white; border-radius: 20px; }
+        .ad-label { font-size: 0.6rem; color: #9aaebf; margin-bottom: 5px; text-transform: uppercase; }
+        
         .card { background: white; border-radius: 15px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         h1 { color: #333; margin-bottom: 10px; }
         .subtitle { color: #666; margin-bottom: 30px; }
         .form-group { margin-bottom: 20px; }
         label { display: block; margin-bottom: 8px; font-weight: bold; color: #555; }
-        input[type="text"], textarea { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; font-family: monospace; }
+        input[type="text"], input[type="password"], textarea { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; font-family: monospace; }
         textarea { min-height: 300px; resize: vertical; }
         input:focus, textarea:focus { outline: none; border-color: #667eea; }
         button { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 30px; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; width: 100%; }
         button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        button:disabled { opacity: 0.6; cursor: not-allowed; }
         .preview { margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; display: none; }
         .preview h3 { margin-bottom: 10px; color: #333; }
         .preview-content { background: white; padding: 15px; border-radius: 5px; max-height: 200px; overflow-y: auto; font-family: monospace; white-space: pre-wrap; }
         .success { background: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-top: 20px; display: none; }
         .error { background: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-top: 20px; display: none; }
+        .info { background: #d1ecf1; color: #0c5460; padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 0.9rem; }
         .nav-links { text-align: center; margin-top: 20px; }
-        .nav-links a { color: white; text-decoration: none; margin: 0 10px; }
-        .admin-key { background: #f0f0f0; padding: 10px; border-radius: 5px; margin-bottom: 20px; font-family: monospace; }
+        .nav-links a { color: white; text-decoration: none; margin: 0 10px; background: rgba(0,0,0,0.3); padding: 10px 20px; border-radius: 25px; display: inline-block; }
+        .footer { text-align: center; font-size: 0.7rem; color: rgba(255,255,255,0.7); margin-top: 20px; }
+        .share-box { background: #f0f0f0; padding: 10px; border-radius: 5px; margin-top: 10px; word-break: break-all; font-size: 0.8rem; display: flex; gap: 10px; align-items: center; }
+        .share-box input { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 5px; font-size: 0.8rem; }
+        .share-box button { width: auto; padding: 8px 15px; background: #48bb78; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="card">
-            <h1>🔐 Admin Paste Upload</h1>
-            <p class="subtitle">Create a new code snippet or text paste</p>
-            
-            <div class="admin-key">
-                🔑 Admin Access Only - Use your admin key
-            </div>
-            
-            <div class="form-group">
-                <label>Admin Key:</label>
-                <input type="password" id="adminKey" placeholder="Enter your admin key">
-            </div>
-            
-            <div class="form-group">
-                <label>Paste Title:</label>
-                <input type="text" id="title" placeholder="Enter title for your paste">
-            </div>
-            
-            <div class="form-group">
-                <label>Content:</label>
-                <textarea id="content" placeholder="Paste your code or text here..."></textarea>
-            </div>
-            
-            <button onclick="createPaste()">📤 Create Paste</button>
-            
-            <div class="preview" id="preview">
-                <h3>Preview:</h3>
-                <div class="preview-content" id="previewContent"></div>
-            </div>
-            
-            <div class="success" id="successMsg">
-                ✅ Paste created successfully! <span id="pasteLink"></span>
-            </div>
-            
-            <div class="error" id="errorMsg"></div>
+
+<div class="container">
+    <div class="ad-top">
+        <div class="ad-label">Advertisement</div>
+        <script> atOptions = { 'key' : '5c4ab71c3e05e8f162c6845ea1c55950', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script>
+        <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
+    </div>
+
+    <div class="card">
+        <h1>🔐 Admin Paste Upload</h1>
+        <p class="subtitle">Create a new code snippet or text paste</p>
+        
+        <div class="form-group">
+            <label>🔑 Admin Key:</label>
+            <input type="password" id="adminKey" placeholder="Enter your admin key">
+            <div class="info">💡 Default admin key: Admin123!@# (change this in the code!)</div>
         </div>
         
-        <div class="nav-links">
-            <a href="index.html">← View All Pastes</a>
+        <div class="form-group">
+            <label>📝 Paste Title:</label>
+            <input type="text" id="title" placeholder="Enter title for your paste">
         </div>
+        
+        <div class="form-group">
+            <label>📄 Content:</label>
+            <textarea id="content" placeholder="Paste your code or text here..."></textarea>
+        </div>
+        
+        <button id="submitBtn" onclick="createPaste()">📤 Create Paste</button>
+        
+        <div class="preview" id="preview">
+            <h3>Preview:</h3>
+            <div class="preview-content" id="previewContent"></div>
+        </div>
+        
+        <div class="success" id="successMsg">
+            ✅ Paste created successfully!
+            <div id="shareLinkBox" class="share-box" style="display: none;">
+                <input type="text" id="shareLink" readonly>
+                <button onclick="copyShareLink()">📋 Copy Link</button>
+            </div>
+        </div>
+        
+        <div class="error" id="errorMsg"></div>
     </div>
     
-    <script>
-        const API_URL = window.location.origin + '/api.php';
+    <div class="ad-bottom">
+        <div class="ad-label">More Ads</div>
+        <script> atOptions = { 'key' : '30772cccaf8ca1f9a16a3c555509b64f', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} }; </script>
+        <script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
+        <script>
+            var popunder = document.createElement('script');
+            popunder.src = 'https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8';
+            popunder.async = true;
+            document.body.appendChild(popunder);
+        </script>
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html">← View All Pastes</a>
+    </div>
+    
+    <div class="footer">
+        🔐 Secure Admin Upload • Only authorized access
+    </div>
+</div>
+
+<script>
+    const API_URL = window.location.origin + '/api.php';
+    let currentPasteId = null;
+    
+    document.getElementById('content').addEventListener('input', function() {
+        const preview = document.getElementById('preview');
+        const previewContent = document.getElementById('previewContent');
+        if (this.value) {
+            preview.style.display = 'block';
+            previewContent.textContent = this.value.substring(0, 500);
+            if (this.value.length > 500) previewContent.textContent += '...';
+        } else {
+            preview.style.display = 'none';
+        }
+    });
+    
+    async function createPaste() {
+        const adminKey = document.getElementById('adminKey').value;
+        const title = document.getElementById('title').value;
+        const content = document.getElementById('content').value;
+        const submitBtn = document.getElementById('submitBtn');
         
-        document.getElementById('content').addEventListener('input', function() {
-            const preview = document.getElementById('preview');
-            const previewContent = document.getElementById('previewContent');
-            if (this.value) {
-                preview.style.display = 'block';
-                previewContent.textContent = this.value.substring(0, 500);
-                if (this.value.length > 500) previewContent.textContent += '...';
-            } else {
-                preview.style.display = 'none';
-            }
-        });
+        // Clear previous messages
+        document.getElementById('successMsg').style.display = 'none';
+        document.getElementById('errorMsg').style.display = 'none';
         
-        async function createPaste() {
-            const adminKey = document.getElementById('adminKey').value;
-            const title = document.getElementById('title').value;
-            const content = document.getElementById('content').value;
+        if (!adminKey || !title || !content) {
+            showError('Please fill in all fields including admin key');
+            return;
+        }
+        
+        // CHANGE THIS TO YOUR SECURE ADMIN KEY
+        const VALID_ADMIN_KEY = 'Admin123!@#';
+        
+        if (adminKey !== VALID_ADMIN_KEY) {
+            showError('Invalid admin key! Access denied.');
+            return;
+        }
+        
+        // Disable button while processing
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Creating...';
+        
+        try {
+            const response = await fetch(`${API_URL}?action=create`, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ title, content })
+            });
             
-            if (!adminKey || !title || !content) {
-                showError('Please fill in all fields including admin key');
-                return;
+            // Check if response is ok
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
             
-            // Admin key validation (change this to your actual key)
-            const VALID_ADMIN_KEY = 'Admin123!@#'; // Change this!
+            // Get response text first
+            const responseText = await response.text();
+            console.log('Raw response:', responseText);
             
-            if (adminKey !== VALID_ADMIN_KEY) {
-                showError('Invalid admin key!');
-                return;
-            }
-            
+            // Try to parse JSON
+            let data;
             try {
-                const response = await fetch(`${API_URL}?action=create`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ title, content })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    document.getElementById('successMsg').style.display = 'block';
-                    document.getElementById('errorMsg').style.display = 'none';
-                    document.getElementById('pasteLink').innerHTML = `<br>Paste ID: ${data.paste_id}<br><a href="?id=${data.paste_id}" target="_blank">View Paste</a>`;
-                    document.getElementById('title').value = '';
-                    document.getElementById('content').value = '';
-                    document.getElementById('preview').style.display = 'none';
-                    
-                    setTimeout(() => {
-                        document.getElementById('successMsg').style.display = 'none';
-                    }, 5000);
-                } else {
-                    showError(data.error || 'Failed to create paste');
-                }
-            } catch (error) {
-                showError('Error creating paste: ' + error.message);
+                data = JSON.parse(responseText);
+            } catch (e) {
+                throw new Error('Server returned invalid JSON. Response: ' + responseText.substring(0, 200));
             }
-        }
-        
-        function showError(msg) {
-            const errorDiv = document.getElementById('errorMsg');
-            errorDiv.textContent = '❌ ' + msg;
-            errorDiv.style.display = 'block';
-            document.getElementById('successMsg').style.display = 'none';
             
-            setTimeout(() => {
-                errorDiv.style.display = 'none';
-            }, 3000);
+            if (data.success) {
+                currentPasteId = data.paste_id;
+                const shareUrl = `${window.location.origin}/index.html?id=${data.paste_id}`;
+                
+                document.getElementById('successMsg').style.display = 'block';
+                document.getElementById('shareLinkBox').style.display = 'flex';
+                document.getElementById('shareLink').value = shareUrl;
+                document.getElementById('errorMsg').style.display = 'none';
+                
+                // Clear form
+                document.getElementById('title').value = '';
+                document.getElementById('content').value = '';
+                document.getElementById('adminKey').value = '';
+                document.getElementById('preview').style.display = 'none';
+                
+                setTimeout(() => {
+                    document.getElementById('successMsg').style.display = 'none';
+                }, 8000);
+            } else {
+                showError(data.error || 'Failed to create paste');
+            }
+        } catch (error) {
+            console.error('Error details:', error);
+            showError('Error: ' + error.message);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = '📤 Create Paste';
         }
-    </script>
+    }
+    
+    function copyShareLink() {
+        const linkInput = document.getElementById('shareLink');
+        linkInput.select();
+        navigator.clipboard.writeText(linkInput.value).then(() => {
+            showToast('✅ Share link copied!');
+        });
+    }
+    
+    function showError(msg) {
+        const errorDiv = document.getElementById('errorMsg');
+        errorDiv.textContent = '❌ ' + msg;
+        errorDiv.style.display = 'block';
+        document.getElementById('successMsg').style.display = 'none';
+        
+        setTimeout(() => {
+            errorDiv.style.display = 'none';
+        }, 5000);
+    }
+    
+    function showToast(message) {
+        const toast = document.createElement('div');
+        toast.style.position = 'fixed';
+        toast.style.bottom = '20px';
+        toast.style.right = '20px';
+        toast.style.background = '#333';
+        toast.style.color = 'white';
+        toast.style.padding = '10px 20px';
+        toast.style.borderRadius = '5px';
+        toast.style.zIndex = '1000';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2000);
+    }
+</script>
 </body>
 </html>
