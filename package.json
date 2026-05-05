@@ -1,0 +1,22 @@
+{
+  "name": "script-hub",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "KeySystem - ScriptHub Unlock System",
+  "main": "index.js",
+  "scripts": {
+    "vercel-build": "echo Build completed",
+    "dev": "node server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@vercel/blob": "^0.23.0"
+  },
+  "keywords": [
+    "keysystem",
+    "vercel",
+    "api"
+  ],
+  "author": "ScriptHub",
+  "license": "MIT"
+}
