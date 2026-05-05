@@ -1,8 +1,14 @@
 {
-  "name": "script-hub",
-  "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "@vercel/blob": "^0.23.0"
-  }
+  "rewrites": [
+    {
+      "source": "/key",
+      "destination": "/key.html"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    }
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false
 }
