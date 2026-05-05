@@ -19,9 +19,9 @@
         
         .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 15px; text-align: center; color: white; margin-bottom: 30px; }
         h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .subhead { font-size: 0.9rem; opacity: 0.9; }
         .search-box { margin-top: 20px; }
         .search-box input { width: 300px; padding: 12px 20px; border: none; border-radius: 25px; font-size: 1rem; }
-        .search-box button { padding: 12px 25px; background: #ff6b6b; border: none; border-radius: 25px; color: white; cursor: pointer; margin-left: 10px; }
         .pastes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; margin: 20px 0; }
         .paste-card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: transform 0.2s; position: relative; }
         .paste-card:hover { transform: translateY(-5px); box-shadow: 0 5px 20px rgba(0,0,0,0.15); }
@@ -46,6 +46,7 @@
         .toast { position: fixed; bottom: 20px; right: 20px; background: #333; color: white; padding: 10px 20px; border-radius: 5px; display: none; z-index: 1001; }
         .footer { text-align: center; font-size: 0.7rem; color: #8a9bb0; margin-top: 20px; }
         .paste-id { font-size: 0.7rem; color: #aaa; margin-top: 5px; }
+        .stats { margin-top: 10px; font-size: 0.75rem; color: #888; }
     </style>
 </head>
 <body>
@@ -67,10 +68,9 @@
 
     <div class="header">
         <h1>📝 Public Pastebin</h1>
-        <p>View and share code snippets</p>
+        <div class="subhead">View and share code snippets</div>
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="Search pastes..." onkeyup="searchPastes()">
-            <button onclick="window.location.href='uploadadmin.html'">🔐 Admin Upload</button>
         </div>
     </div>
     
@@ -208,8 +208,8 @@
                 // Increment view count
                 fetch(`${API_URL}?action=view&id=${pasteId}`, { method: 'POST' });
                 
-                // Update view count in the card
-                loadPastes();
+                // Reload to update view counts
+                setTimeout(() => loadPastes(), 500);
             }
         } catch (error) {
             console.error('Error:', error);
