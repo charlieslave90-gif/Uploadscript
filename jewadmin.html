@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Upload - Create New Paste</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .card { background: white; border-radius: 15px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        h1 { color: #333; margin-bottom: 10px; }
+        .subtitle { color: #666; margin-bottom: 30px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #555; }
+        input[type="text"], textarea { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; font-family: monospace; }
+        textarea { min-height: 300px; resize: vertical; }
+        input:focus, textarea:focus { outline: none; border-color: #667eea; }
+        button { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 30px; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; width: 100%; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .preview { margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; display: none; }
+        .preview h3 { margin-bottom: 10px; color: #333; }
+        .preview-content { background: white; padding: 15px; border-radius: 5px; max-height: 200px; overflow-y: auto; font-family: monospace; white-space: pre-wrap; }
+        .success { background: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-top: 20px; display: none; }
+        .error { background: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-top: 20px; display: none; }
+        .nav-links { text-align: center; margin-top: 20px; }
+        .nav-links a { color: white; text-decoration: none; margin: 0 10px; }
+        .admin-key { background: #f0f0f0; padding: 10px; border-radius: 5px; margin-bottom: 20px; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>🔐 Admin Paste Upload</h1>
+            <p class="subtitle">Create a new code snippet or text paste</p>
+            
+            <div class="admin-key">
+                🔑 Admin Access Only - Use your admin key
+            </div>
+            
+            <div class="form-group">
+                <label>Admin Key:</label>
+                <input type="password" id="adminKey" placeholder="Enter your admin key">
+            </div>
+            
+            <div class="form-group">
+                <label>Paste Title:</label>
+                <input type="text" id="title" placeholder="Enter title for your paste">
+            </div>
+            
+            <div class="form-group">
+                <label>Content:</label>
+                <textarea id="content" placeholder="Paste your code or text here..."></textarea>
+            </div>
+            
+            <button onclick="createPaste()">📤 Create Paste</button>
+            
+            <div class="preview" id="preview">
+                <h3>Preview:</h3>
+                <div class="preview-content" id="previewContent"></div>
+            </div>
+            
+            <div class="success" id="successMsg">
+                ✅ Paste created successfully! <span id="pasteLink"></span>
+            </div>
+            
+            <div class="error" id="errorMsg"></div>
+        </div>
+        
+        <div class="nav-links">
+            <a href="index.html">← View All Pastes</a>
+        </div>
+    </div>
+    
+    <script>
+        const API_URL = window.location.origin + '/api.php';
+        
+        document.getElementById('content').addEventListener('input', function() {
+            const preview = document.getElementById('preview');
+            const previewContent = document.getElementById('previewContent');
+            if (this.value) {
+                preview.style.display = 'block';
+                previewContent.textContent = this.value.substring(0, 500);
+                if (this.value.length > 500) previewContent.textContent += '...';
+            } else {
+                preview.style.display = 'none';
+            }
+        });
+        
+        async function createPaste() {
+            const adminKey = document.getElementById('adminKey').value;
+            const title = document.getElementById('title').value;
+            const content = document.getElementById('content').value;
+            
+            if (!adminKey || !title || !content) {
+                showError('Please fill in all fields including admin key');
+                return;
+            }
+            
+            // Admin key validation (change this to your actual key)
+            const VALID_ADMIN_KEY = 'Admin123!@#'; // Change this!
+            
+            if (adminKey !== VALID_ADMIN_KEY) {
+                showError('Invalid admin key!');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}?action=create`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, content })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('successMsg').style.display = 'block';
+                    document.getElementById('errorMsg').style.display = 'none';
+                    document.getElementById('pasteLink').innerHTML = `<br>Paste ID: ${data.paste_id}<br><a href="?id=${data.paste_id}" target="_blank">View Paste</a>`;
+                    document.getElementById('title').value = '';
+                    document.getElementById('content').value = '';
+                    document.getElementById('preview').style.display = 'none';
+                    
+                    setTimeout(() => {
+                        document.getElementById('successMsg').style.display = 'none';
+                    }, 5000);
+                } else {
+                    showError(data.error || 'Failed to create paste');
+                }
+            } catch (error) {
+                showError('Error creating paste: ' + error.message);
+            }
+        }
+        
+        function showError(msg) {
+            const errorDiv = document.getElementById('errorMsg');
+            errorDiv.textContent = '❌ ' + msg;
+            errorDiv.style.display = 'block';
+            document.getElementById('successMsg').style.display = 'none';
+            
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
