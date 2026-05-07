@@ -4,87 +4,207 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade" />
-    <title>KeySystem - SmartLink Unlock</title>
+    <title>KeySystem - Lootlab Style Unlock</title>
+    
+    <!-- Popunder (loads immediately) -->
+    <script>
+        var popunder = document.createElement('script');
+        popunder.src = 'https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8';
+        popunder.async = true;
+        document.body.appendChild(popunder);
+    </script>
     
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; 
-            background: #f0f2f5; 
-            padding: 20px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
             min-height: 100vh;
-        }
-        .container { max-width: 550px; margin: 0 auto; }
-        
-        .card { 
-            background: white; 
-            border-radius: 28px; 
-            padding: 32px 28px; 
-            margin-bottom: 24px; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
-            text-align: center; 
+            padding: 20px;
         }
         
-        h1 { font-size: 1.8rem; margin-bottom: 8px; color: #1e2a3a; }
-        .subhead { color: #6c7a8a; font-size: 0.85rem; margin-bottom: 24px; }
+        /* Layout with side ads */
+        .main-layout {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
         
-        .smartlink-btn {
-            background: linear-gradient(135deg, #a855f7, #7c3aed);
-            border: none;
-            padding: 18px 24px;
-            border-radius: 60px;
+        .side-ad-left {
+            flex: 0 0 160px;
+            position: sticky;
+            top: 20px;
+            align-self: flex-start;
+        }
+        
+        .side-ad-right {
+            flex: 0 0 160px;
+            position: sticky;
+            top: 20px;
+            align-self: flex-start;
+        }
+        
+        .center-content {
+            flex: 1;
+            max-width: 500px;
+            min-width: 300px;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        /* Lootlab Style Card */
+        .card {
+            background: rgba(15, 25, 45, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            padding: 28px 24px;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #c084fc, #a855f7);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        
+        .subhead {
+            color: #94a3b8;
+            font-size: 0.75rem;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            margin: 20px 0;
+        }
+        
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .step {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            background: #1e293b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            font-weight: bold;
+            color: #64748b;
+            border: 2px solid #334155;
+            transition: all 0.3s;
+        }
+        
+        .step-circle.completed {
+            background: #22c55e;
+            border-color: #86efac;
+            color: white;
+        }
+        
+        .step-circle.active {
+            background: #a855f7;
+            border-color: #c084fc;
+            color: white;
+            box-shadow: 0 0 15px rgba(168,85,247,0.5);
+        }
+        
+        .step-label {
+            font-size: 0.7rem;
+            color: #94a3b8;
+        }
+        
+        .step-label.completed {
+            color: #22c55e;
+        }
+        
+        .step-label.active {
+            color: #a855f7;
+        }
+        
+        .progress-bar-bg {
+            background: #1e293b;
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #a855f7, #c084fc);
+            width: 0%;
+            height: 100%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+        
+        /* Task Card */
+        .task-card {
+            background: #1e293b;
+            border-radius: 20px;
+            padding: 24px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px solid #334155;
+        }
+        
+        .task-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+        
+        .task-title {
             font-size: 1.2rem;
             font-weight: 700;
             color: white;
-            cursor: pointer;
-            transition: all 0.2s;
-            width: 100%;
-            margin: 20px 0;
-            text-decoration: none;
-            display: inline-block;
+            margin-bottom: 8px;
         }
         
-        .smartlink-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(168,85,247,0.3);
+        .task-desc {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-bottom: 16px;
         }
         
-        .timer-container {
-            background: #f8fafc;
-            border-radius: 20px;
-            padding: 20px;
-            margin: 20px 0;
-            display: none;
-        }
-        
-        .timer-number {
-            font-size: 48px;
-            font-weight: 700;
-            color: #a855f7;
-        }
-        
-        .key-display {
-            background: #f0f0f0;
-            padding: 20px;
-            border-radius: 16px;
-            margin: 20px 0;
-            display: none;
-        }
-        
-        .key-code {
+        .task-timer {
             font-family: monospace;
-            font-size: 1.2rem;
-            word-break: break-all;
-            color: #a855f7;
-            font-weight: bold;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fbbf24;
+            margin: 16px 0;
         }
         
-        .btn {
-            background: #1e2f3f;
+        .task-btn {
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
             border: none;
             padding: 14px 24px;
             border-radius: 50px;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 600;
             color: white;
             cursor: pointer;
@@ -92,171 +212,267 @@
             width: 100%;
         }
         
-        .btn:hover {
-            background: #a855f7;
+        .task-btn:hover:not(:disabled) {
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(168,85,247,0.4);
+        }
+        
+        .task-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .task-btn.completed {
+            background: #22c55e;
+        }
+        
+        .key-display {
+            background: #0f172a;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+            border: 1px solid #22c55e;
+        }
+        
+        .key-label {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+        
+        .key-code {
+            font-family: monospace;
+            font-size: 1rem;
+            word-break: break-all;
+            color: #22c55e;
+            font-weight: bold;
+            background: #0a0f1a;
+            padding: 12px;
+            border-radius: 12px;
+        }
+        
+        .copy-btn {
+            background: #334155;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            margin-top: 12px;
+            width: 100%;
+        }
+        
+        .copy-btn:hover {
+            background: #22c55e;
         }
         
         .copy-success {
-            background: #d4edda;
-            color: #155724;
-            padding: 10px;
+            background: #22c55e;
+            color: white;
+            padding: 8px;
             border-radius: 12px;
-            margin-top: 15px;
+            margin-top: 10px;
+            font-size: 0.75rem;
             display: none;
         }
         
-        .info-text {
-            background: #e0e7ff;
-            padding: 12px;
+        .info-box {
+            background: rgba(168,85,247,0.1);
             border-radius: 12px;
-            font-size: 0.75rem;
-            color: #3730a3;
-            margin: 16px 0;
-        }
-        
-        .ad-container {
+            padding: 10px;
+            font-size: 0.7rem;
+            color: #c084fc;
             text-align: center;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: white;
-            border-radius: 20px;
-            border: 1px solid #e2e8f0;
-        }
-        
-        .ad-label {
-            font-size: 0.6rem;
-            color: #9aaebf;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .ad-divider {
-            margin: 15px 0;
-            border-top: 1px solid #e2e8f0;
+            margin-top: 16px;
         }
         
         .footer {
             text-align: center;
-            font-size: 0.7rem;
-            color: #8a9bb0;
+            font-size: 0.6rem;
+            color: #475569;
             margin-top: 20px;
+        }
+        
+        /* Ad containers */
+        .ad-container {
+            text-align: center;
+            margin: 16px 0;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .ad-label {
+            font-size: 0.55rem;
+            color: #475569;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .side-ad {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 12px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        @media (max-width: 900px) {
+            .side-ad-left, .side-ad-right {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- ========== THEORETICALASSERTSHAME ADS (10 total) ========== -->
-    
-    <!-- Ad 1: 300x250 -->
-    <div class="ad-container">
-        <div class="ad-label">Advertisement</div>
-        <script> atOptions = { 'key' : '5c4ab71c3e05e8f162c6845ea1c55950', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script>
-        <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
-    </div>
-    
-    <!-- Ad 2: 728x90 -->
-    <div class="ad-container">
-        <div class="ad-label">Advertisement</div>
-        <script> atOptions = { 'key' : '30772cccaf8ca1f9a16a3c555509b64f', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} }; </script>
-        <script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
-    </div>
-    
-    <!-- Ad 3: 160x300 -->
-    <div class="ad-container">
-        <div class="ad-label">Advertisement</div>
-        <script> atOptions = { 'key' : '673fb53f64c762401413eb44406c1c80', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} }; </script>
-        <script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
-    </div>
-
-    <!-- ========== MAIN CARD ========== -->
-    <div class="card">
-        <h1>🔑 Key Unlock System</h1>
-        <div class="subhead">Click the button below to get your key</div>
-        
-        <div class="info-text">
-            ⚡ Click the smartlink, complete the ad, then wait 5 seconds for your key.
+<div class="main-layout">
+    <!-- LEFT SIDE ADS (2 ads) -->
+    <div class="side-ad-left">
+        <!-- Left Ad 1: 160x300 -->
+        <div class="side-ad">
+            <div class="ad-label">Advertisement</div>
+            <script> atOptions = { 'key' : '673fb53f64c762401413eb44406c1c80', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} }; </script>
+            <script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
         </div>
         
-        <a href="https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8" 
-           target="_blank" 
-           id="smartlinkBtn" 
-           class="smartlink-btn">
-           📢 CLICK HERE TO UNLOCK
-        </a>
-        
-        <div id="timerContainer" class="timer-container">
-            <div class="timer-number" id="timerCount">5</div>
-            <p>Verifying... Please wait</p>
-        </div>
-        
-        <div id="keyDisplay" class="key-display">
-            <div style="font-size: 0.8rem; color: #6c7a8a; margin-bottom: 8px;">Your Unlock Key:</div>
-            <div class="key-code" id="keyCode">Loading...</div>
-            <button id="copyBtn" class="btn" style="margin-top: 16px;">📋 Copy Key</button>
-            <div id="copySuccess" class="copy-success">✅ Key copied to clipboard!</div>
+        <!-- Left Ad 2 160x300 -->
+        <div class="side-ad">
+            <div class="ad-label">Sponsored</div>
+            <script> atOptions = { 'key' : '673fb53f64c762401413eb44406c1c80', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} }; </script>
+            <script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
         </div>
     </div>
+    
+    <!-- CENTER CONTENT -->
+    <div class="center-content">
+        <!-- Top Ad 1: 728x90 -->
+        <div class="ad-container">
+            <div class="ad-label">Advertisement</div>
+            <script> atOptions = { 'key' : '30772cccaf8ca1f9a16a3c555509b64f', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} }; </script>
+            <script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
+        </div>
+        
+        <!-- Top Ad 2: 300x250 -->
+        <div class="ad-container">
+            <div class="ad-label">Advertisement</div>
+            <script> atOptions = { 'key' : '5c4ab71c3e05e8f162c6845ea1c55950', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script>
+            <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
+        </div>
 
-    <!-- Ad 4: Native Banner -->
-    <div class="ad-container">
-        <div class="ad-label">Native Ad</div>
-        <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
-        <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
+        <!-- Main Card -->
+        <div class="card">
+            <h1>🔑 KEY SYSTEM</h1>
+            <div class="subhead">Complete all tasks to unlock your key</div>
+            
+            <!-- Progress Steps -->
+            <div class="progress-container">
+                <div class="progress-steps">
+                    <div class="step" id="step1">
+                        <div class="step-circle" id="step1Circle">1</div>
+                        <div class="step-label" id="step1Label">Task 1</div>
+                    </div>
+                    <div class="step" id="step2">
+                        <div class="step-circle" id="step2Circle">2</div>
+                        <div class="step-label" id="step2Label">Task 2</div>
+                    </div>
+                    <div class="step" id="step3">
+                        <div class="step-circle" id="step3Circle">3</div>
+                        <div class="step-label" id="step3Label">Task 3</div>
+                    </div>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+            
+            <!-- Task Display Area -->
+            <div id="taskArea"></div>
+            
+            <!-- Key Display -->
+            <div id="keyDisplay" class="key-display">
+                <div class="key-label">🎉 YOUR UNLOCK KEY 🎉</div>
+                <div class="key-code" id="keyCode">Loading...</div>
+                <button class="copy-btn" id="copyBtn">📋 COPY KEY</button>
+                <div id="copySuccess" class="copy-success">✅ Copied to clipboard!</div>
+            </div>
+            
+            <div class="info-box">
+                ⚡ Complete all 3 tasks to get your unique key
+            </div>
+        </div>
+        
+        <!-- Middle Ad: 600x160 -->
+        <div class="ad-container">
+            <div class="ad-label">Advertisement</div>
+            <script> atOptions = { 'key' : '9ad3c1db141549482622fa057c0a1495', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} }; </script>
+            <script src="https://theoreticalassertshame.com/9ad3c1db141549482622fa057c0a1495/invoke.js"></script>
+        </div>
+        
+        <!-- Bottom Ad 1: 468x60 -->
+        <div class="ad-container">
+            <div class="ad-label">Advertisement</div>
+            <script> atOptions = { 'key' : '7c7fd511e2480eb4fe47887cda152595', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} }; </script>
+            <script src="https://theoreticalassertshame.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
+        </div>
+        
+        <!-- Bottom Ad 2: 320x50 (Mobile) -->
+        <div class="ad-container">
+            <div class="ad-label">Mobile Ad</div>
+            <script> atOptions = { 'key' : '7e841472d1ac01ddccd7fa985576e83c', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} }; </script>
+            <script src="https://theoreticalassertshame.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
+        </div>
+        
+        <!-- Native Banner -->
+        <div class="ad-container">
+            <div class="ad-label">Native Content</div>
+            <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
+            <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
+        </div>
+        
+        <!-- Network Scripts -->
+        <div class="ad-container">
+            <div class="ad-label">Network Ad</div>
+            <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
+        </div>
+        
+        <div class="ad-container">
+            <div class="ad-label">Network Ad</div>
+            <script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
+        </div>
+        
+        <div class="footer">
+            Complete all 3 tasks • Anti-bypass protected
+        </div>
     </div>
     
-    <!-- Ad 5: 600x160 -->
-    <div class="ad-container">
-        <div class="ad-label">Advertisement</div>
-        <script> atOptions = { 'key' : '9ad3c1db141549482622fa057c0a1495', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} }; </script>
-        <script src="https://theoreticalassertshame.com/9ad3c1db141549482622fa057c0a1495/invoke.js"></script>
-    </div>
-    
-    <!-- Ad 6: 320x50 -->
-    <div class="ad-container">
-        <div class="ad-label">Mobile Ad</div>
-        <script> atOptions = { 'key' : '7e841472d1ac01ddccd7fa985576e83c', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} }; </script>
-        <script src="https://theoreticalassertshame.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
-    </div>
-    
-    <!-- Ad 7: 468x60 -->
-    <div class="ad-container">
-        <div class="ad-label">Banner Ad</div>
-        <script> atOptions = { 'key' : '7c7fd511e2480eb4fe47887cda152595', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} }; </script>
-        <script src="https://theoreticalassertshame.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
-    </div>
-    
-    <!-- Ad 8: Network Script 1 -->
-    <div class="ad-container">
-        <div class="ad-label">Network Ad</div>
-        <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
-    </div>
-    
-    <!-- Ad 9: Network Script 2 -->
-    <div class="ad-container">
-        <div class="ad-label">Network Ad</div>
-        <script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
-    </div>
-    
-    <!-- Ad 10: Popunder -->
-    <div class="ad-container">
-        <div class="ad-label">Partner Offer</div>
-        <script>
-            var popunder = document.createElement('script');
-            popunder.src = 'https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8';
-            popunder.async = true;
-            document.body.appendChild(popunder);
-        </script>
-    </div>
-
-    <div class="footer">
-        🔐 SmartLink protected • Complete ad then wait 5 seconds
+    <!-- RIGHT SIDE ADS (2 ads) -->
+    <div class="side-ad-right">
+        <!-- Right Ad 1: 160x300 -->
+        <div class="side-ad">
+            <div class="ad-label">Advertisement</div>
+            <script> atOptions = { 'key' : '673fb53f64c762401413eb44406c1c80', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} }; </script>
+            <script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
+        </div>
+        
+        <!-- Right Ad 2: 160x300 -->
+        <div class="side-ad">
+            <div class="ad-label">Sponsored</div>
+            <script> atOptions = { 'key' : '673fb53f64c762401413eb44406c1c80', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} }; </script>
+            <script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
+        </div>
     </div>
 </div>
 
 <script>
+    // Valid keys
     const VALID_KEYS = [
         "rblx_7nKxP2vLmQ8aYtR",
         "rblx_mVzQ1xHaFoLpK9D",
@@ -265,55 +481,145 @@
         "rblx_Kq9VmXaP2tLnDsW"
     ];
     
-    let currentKey = null;
-    let keyRevealed = false;
-    let timerActive = false;
-    let timeLeft = 5;
-    let timerInterval = null;
-    let smartlinkClicked = false;
+    // Task configuration
+    const tasks = [
+        {
+            id: 1,
+            name: "Verify Access",
+            description: "Click the button below to verify",
+            url: "https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8",
+            waitTime: 10,
+            icon: "🔐",
+            completed: false,
+            timerActive: false
+        },
+        {
+            id: 2,
+            name: "Security Check",
+            description: "Complete verification",
+            url: "https://theoreticalassertshame.com/kdz7r4gu?key=ee90c6cb0a0dee1a173912f14fd0e861",
+            waitTime: 10,
+            icon: "🛡️",
+            completed: false,
+            timerActive: false
+        },
+        {
+            id: 3,
+            name: "Final Step",
+            description: "Wait 5 seconds to unlock your key",
+            url: null,
+            waitTime: 5,
+            icon: "🎁",
+            completed: false,
+            timerActive: false
+        }
+    ];
     
-    if (localStorage.getItem('keyUnlocked') === 'true') {
-        keyRevealed = true;
-        revealKey();
+    let currentTask = 1;
+    let currentKey = null;
+    let timerInterval = null;
+    
+    function updateProgress() {
+        const completedCount = tasks.filter(t => t.completed).length;
+        const percentage = (completedCount / tasks.length) * 100;
+        document.getElementById('progressFill').style.width = percentage + '%';
+        
+        for (let i = 1; i <= 3; i++) {
+            const circle = document.getElementById(`step${i}Circle`);
+            const label = document.getElementById(`step${i}Label`);
+            const task = tasks[i-1];
+            
+            if (task.completed) {
+                circle.classList.add('completed');
+                label.classList.add('completed');
+                circle.innerHTML = '✓';
+            } else if (i === currentTask) {
+                circle.classList.add('active');
+                label.classList.add('active');
+                circle.innerHTML = i;
+            } else {
+                circle.classList.remove('completed', 'active');
+                label.classList.remove('completed', 'active');
+                circle.innerHTML = i;
+            }
+        }
+        
+        if (completedCount === tasks.length) {
+            revealKey();
+        } else {
+            renderTask();
+        }
     }
     
-    function startTimer() {
-        if (timerActive || keyRevealed) return;
+    function startTaskTimer(taskId, waitTime) {
+        const task = tasks[taskId - 1];
+        if (task.completed || task.timerActive) return;
         
-        timerActive = true;
-        document.getElementById('timerContainer').style.display = 'block';
+        task.timerActive = true;
+        let timeLeft = waitTime;
+        
+        const timerElement = document.getElementById('taskTimer');
+        const btnElement = document.getElementById('taskBtn');
+        
+        if (timerElement) timerElement.innerText = `${timeLeft}s`;
+        if (btnElement) btnElement.disabled = true;
         
         timerInterval = setInterval(() => {
             timeLeft--;
-            document.getElementById('timerCount').innerText = timeLeft;
+            if (timerElement) timerElement.innerText = `${timeLeft}s`;
+            if (btnElement) btnElement.innerText = `Wait ${timeLeft}s...`;
             
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
-                timerActive = false;
-                keyRevealed = true;
-                localStorage.setItem('keyUnlocked', 'true');
-                revealKey();
+                task.completed = true;
+                task.timerActive = false;
+                currentTask++;
+                updateProgress();
             }
         }, 1000);
     }
     
-    function onSmartlinkClick() {
-        if (keyRevealed) {
-            showToast('✅ Key already unlocked!');
-            return;
+    function handleTaskClick(taskId) {
+        if (taskId !== currentTask) return;
+        
+        const task = tasks[taskId - 1];
+        if (task.completed) return;
+        
+        if (task.url) {
+            window.open(task.url, '_blank');
         }
         
-        if (!smartlinkClicked) {
-            smartlinkClicked = true;
-            showToast('📢 Ad opened! Come back and wait 5 seconds...');
-            sessionStorage.setItem('smartlinkClicked', 'true');
-            startTimer();
+        startTaskTimer(taskId, task.waitTime);
+        
+        const btnElement = document.getElementById('taskBtn');
+        if (btnElement) {
+            btnElement.innerText = `Wait ${task.waitTime}s...`;
         }
     }
     
-    function checkReturning() {
-        if (!keyRevealed && sessionStorage.getItem('smartlinkClicked') === 'true' && !timerActive) {
-            startTimer();
+    function renderTask() {
+        const taskArea = document.getElementById('taskArea');
+        const task = tasks[currentTask - 1];
+        
+        if (!task) return;
+        
+        const isWaiting = task.timerActive;
+        
+        taskArea.innerHTML = `
+            <div class="task-card">
+                <div class="task-icon">${task.icon}</div>
+                <div class="task-title">${task.name}</div>
+                <div class="task-desc">${task.description}</div>
+                ${isWaiting ? `<div class="task-timer" id="taskTimer">${task.waitTime}s</div>` : ''}
+                <button class="task-btn" id="taskBtn" ${task.completed ? 'disabled' : ''}>
+                    ${task.completed ? '✓ Completed' : (isWaiting ? 'Processing...' : 'Start Task')}
+                </button>
+            </div>
+        `;
+        
+        const btn = document.getElementById('taskBtn');
+        if (btn && !task.completed && !task.timerActive) {
+            btn.addEventListener('click', () => handleTaskClick(currentTask));
         }
     }
     
@@ -340,50 +646,20 @@
         currentKey = await fetchRandomKey();
         document.getElementById('keyCode').innerText = currentKey;
         document.getElementById('keyDisplay').style.display = 'block';
-        
-        document.getElementById('smartlinkBtn').style.opacity = '0.5';
-        document.getElementById('smartlinkBtn').style.pointerEvents = 'none';
-        
-        showToast('✅ Key unlocked! Copy it now.');
+        localStorage.setItem('keyUnlocked', 'true');
     }
-    
-    function showToast(message) {
-        const toast = document.createElement('div');
-        toast.style.position = 'fixed';
-        toast.style.bottom = '20px';
-        toast.style.left = '50%';
-        toast.style.transform = 'translateX(-50%)';
-        toast.style.background = '#1e2f3f';
-        toast.style.color = 'white';
-        toast.style.padding = '10px 20px';
-        toast.style.borderRadius = '40px';
-        toast.style.zIndex = '1000';
-        toast.style.fontSize = '0.85rem';
-        toast.style.whiteSpace = 'nowrap';
-        toast.textContent = message;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
-    }
-    
-    document.getElementById('smartlinkBtn').addEventListener('click', onSmartlinkClick);
     
     document.getElementById('copyBtn').addEventListener('click', function() {
         if (currentKey) {
             navigator.clipboard.writeText(currentKey).then(() => {
-                document.getElementById('copySuccess').style.display = 'block';
-                setTimeout(() => document.getElementById('copySuccess').style.display = 'none', 2000);
-                showToast('✅ Key copied!');
+                const successDiv = document.getElementById('copySuccess');
+                successDiv.style.display = 'block';
+                setTimeout(() => successDiv.style.display = 'none', 2000);
             });
-        } else {
-            showToast('❌ Key not ready yet. Click the smartlink first.');
         }
     });
     
-    checkReturning();
-    
-    if (localStorage.getItem('keyUnlocked') === 'true') {
-        revealKey();
-    }
+    updateProgress();
 </script>
 </body>
 </html>
