@@ -6,13 +6,11 @@
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <title>KeySystem - SmartLink Unlock</title>
     
-    <script data-cfasync="false" src="//dcbbwymp1bhlf.cloudfront.net/?wbbcd=1251105"></script>
-    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; 
-            background: #f5f7fb; 
+            background: #f0f2f5; 
             padding: 20px;
             min-height: 100vh;
         }
@@ -117,10 +115,10 @@
             margin: 16px 0;
         }
         
-        .ad-top, .ad-bottom {
+        .ad-container {
             text-align: center;
             margin-bottom: 20px;
-            padding: 10px;
+            padding: 15px;
             background: white;
             border-radius: 20px;
             border: 1px solid #e2e8f0;
@@ -129,8 +127,14 @@
         .ad-label {
             font-size: 0.6rem;
             color: #9aaebf;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
             text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .ad-divider {
+            margin: 15px 0;
+            border-top: 1px solid #e2e8f0;
         }
         
         .footer {
@@ -144,14 +148,30 @@
 <body>
 
 <div class="container">
-    <!-- TOP ADS -->
-    <div class="ad-top">
+    <!-- ========== THEORETICALASSERTSHAME ADS (10 total) ========== -->
+    
+    <!-- Ad 1: 300x250 -->
+    <div class="ad-container">
         <div class="ad-label">Advertisement</div>
         <script> atOptions = { 'key' : '5c4ab71c3e05e8f162c6845ea1c55950', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script>
         <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
     </div>
+    
+    <!-- Ad 2: 728x90 -->
+    <div class="ad-container">
+        <div class="ad-label">Advertisement</div>
+        <script> atOptions = { 'key' : '30772cccaf8ca1f9a16a3c555509b64f', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} }; </script>
+        <script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
+    </div>
+    
+    <!-- Ad 3: 160x300 -->
+    <div class="ad-container">
+        <div class="ad-label">Advertisement</div>
+        <script> atOptions = { 'key' : '673fb53f64c762401413eb44406c1c80', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} }; </script>
+        <script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
+    </div>
 
-    <!-- Main Card -->
+    <!-- ========== MAIN CARD ========== -->
     <div class="card">
         <h1>🔑 Key Unlock System</h1>
         <div class="subhead">Click the button below to get your key</div>
@@ -160,7 +180,6 @@
             ⚡ Click the smartlink, complete the ad, then wait 5 seconds for your key.
         </div>
         
-        <!-- SmartLink Button -->
         <a href="https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8" 
            target="_blank" 
            id="smartlinkBtn" 
@@ -168,13 +187,11 @@
            📢 CLICK HERE TO UNLOCK
         </a>
         
-        <!-- Timer (hidden until smartlink is clicked) -->
         <div id="timerContainer" class="timer-container">
             <div class="timer-number" id="timerCount">5</div>
-            <p>Verifying ad completion... Please wait</p>
+            <p>Verifying... Please wait</p>
         </div>
         
-        <!-- Key Display -->
         <div id="keyDisplay" class="key-display">
             <div style="font-size: 0.8rem; color: #6c7a8a; margin-bottom: 8px;">Your Unlock Key:</div>
             <div class="key-code" id="keyCode">Loading...</div>
@@ -183,12 +200,49 @@
         </div>
     </div>
 
-    <!-- BOTTOM ADS -->
-    <div class="ad-bottom">
-        <div class="ad-label">More Ads</div>
+    <!-- Ad 4: Native Banner -->
+    <div class="ad-container">
+        <div class="ad-label">Native Ad</div>
         <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
         <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
+    </div>
+    
+    <!-- Ad 5: 600x160 -->
+    <div class="ad-container">
+        <div class="ad-label">Advertisement</div>
+        <script> atOptions = { 'key' : '9ad3c1db141549482622fa057c0a1495', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} }; </script>
+        <script src="https://theoreticalassertshame.com/9ad3c1db141549482622fa057c0a1495/invoke.js"></script>
+    </div>
+    
+    <!-- Ad 6: 320x50 -->
+    <div class="ad-container">
+        <div class="ad-label">Mobile Ad</div>
+        <script> atOptions = { 'key' : '7e841472d1ac01ddccd7fa985576e83c', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} }; </script>
+        <script src="https://theoreticalassertshame.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
+    </div>
+    
+    <!-- Ad 7: 468x60 -->
+    <div class="ad-container">
+        <div class="ad-label">Banner Ad</div>
+        <script> atOptions = { 'key' : '7c7fd511e2480eb4fe47887cda152595', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} }; </script>
+        <script src="https://theoreticalassertshame.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
+    </div>
+    
+    <!-- Ad 8: Network Script 1 -->
+    <div class="ad-container">
+        <div class="ad-label">Network Ad</div>
+        <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
+    </div>
+    
+    <!-- Ad 9: Network Script 2 -->
+    <div class="ad-container">
+        <div class="ad-label">Network Ad</div>
         <script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
+    </div>
+    
+    <!-- Ad 10: Popunder -->
+    <div class="ad-container">
+        <div class="ad-label">Partner Offer</div>
         <script>
             var popunder = document.createElement('script');
             popunder.src = 'https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8';
@@ -203,7 +257,6 @@
 </div>
 
 <script>
-    // NEW VALID KEYS
     const VALID_KEYS = [
         "rblx_7nKxP2vLmQ8aYtR",
         "rblx_mVzQ1xHaFoLpK9D",
@@ -219,7 +272,6 @@
     let timerInterval = null;
     let smartlinkClicked = false;
     
-    // Check localStorage to see if user already completed
     if (localStorage.getItem('keyUnlocked') === 'true') {
         keyRevealed = true;
         revealKey();
@@ -254,17 +306,11 @@
         if (!smartlinkClicked) {
             smartlinkClicked = true;
             showToast('📢 Ad opened! Come back and wait 5 seconds...');
-            
-            // Store that they clicked in session
             sessionStorage.setItem('smartlinkClicked', 'true');
-            
-            // Start timer after they come back
-            // The timer will start when they return to the page
             startTimer();
         }
     }
     
-    // Check if user is returning after clicking ad
     function checkReturning() {
         if (!keyRevealed && sessionStorage.getItem('smartlinkClicked') === 'true' && !timerActive) {
             startTimer();
@@ -274,9 +320,9 @@
     async function fetchRandomKey() {
         try {
             const response = await fetch('/api/keys');
-            if (response.ok && data.success && data.keys) {
+            if (response.ok) {
                 const data = await response.json();
-                if (data.keys && data.keys.length > 0) {
+                if (data.success && data.keys && data.keys.length > 0) {
                     const randomIndex = Math.floor(Math.random() * data.keys.length);
                     return data.keys[randomIndex].key;
                 }
@@ -295,7 +341,6 @@
         document.getElementById('keyCode').innerText = currentKey;
         document.getElementById('keyDisplay').style.display = 'block';
         
-        // Hide smartlink button
         document.getElementById('smartlinkBtn').style.opacity = '0.5';
         document.getElementById('smartlinkBtn').style.pointerEvents = 'none';
         
@@ -334,10 +379,8 @@
         }
     });
     
-    // Check if returning from ad
     checkReturning();
     
-    // If localStorage shows unlocked, reveal key
     if (localStorage.getItem('keyUnlocked') === 'true') {
         revealKey();
     }
