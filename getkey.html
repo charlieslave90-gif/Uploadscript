@@ -14,7 +14,7 @@
         document.body.appendChild(popunder);
     </script>
 
-    <!-- Additional Required Script (as requested) -->
+    <!-- Additional Required Script -->
     <script>
         (function(cbhfl){
             var d = document,
@@ -350,6 +350,12 @@
             color: white;
             margin-top: 10px;
         }
+        
+        .warning-text {
+            color: #f87171;
+            font-size: 0.7rem;
+            margin-top: 8px;
+        }
     </style>
 </head>
 <body>
@@ -418,7 +424,7 @@
             </div>
             
             <div class="info-box">
-                ⚡ Complete all 3 tasks to generate your unique access key
+                ⚡ Complete all 3 tasks (25 seconds each) to generate your unique access key
             </div>
         </div>
         
@@ -457,7 +463,7 @@
         </div>
         
         <div class="footer">
-            Complete all 3 tasks • Anti-bypass protected • Interaction required
+            Complete all 3 tasks • Each task requires 25 seconds • Anti-bypass protected
         </div>
     </div>
     
@@ -477,57 +483,50 @@
 </div>
 
 <script>
-    // VALID KEYS pool (fallback & main)
+    // ===== EXACT KEYS PROVIDED BY USER =====
     const VALID_KEYS = [
         "rblx_7nKxP2vLmQ8aYtR",
         "rblx_mVzQ1xHaFoLpK9D",
         "key_XpL2mQaV8nTrY6Ks",
         "key_1mMvzHaQxFoLpRtje",
-        "rblx_Kq9VmXaP2tLnDsW",
-        "Loot_9xKdP3mVQzR8nYs",
-        "Ultra_Key_7fJdNpW2X9mK"
+        "rblx_Kq9VmXaP2tLnDsW"
     ];
     
-    // ========== UPDATED TASKS WITH EXACT PROVIDED LINKS ==========
-    // Each task now requires interacting with its specific URL.
-    // When user clicks "Start Task", the link opens in a new tab.
-    // A timer starts (8 seconds for realistic "interaction" feel) 
-    // After timer completes, task is marked as completed.
-    // This simulates the user spending time on the verification page.
-    
+    // ===== TASKS WITH 25 SECONDS EACH =====
+    // Using the exact links provided, all tasks now have 25 second wait time
     const tasks = [
         {
             id: 1,
             name: "Primary Verification",
             description: "Click below to verify your session. Complete the security check.",
             url: "https://theoreticalassertshame.com/xpf9t9480?key=15659e056cc07e488d32dbdc556cdb56",
-            waitTime: 8,
+            waitTime: 25,
             icon: "🔒",
             completed: false,
             timerActive: false,
-            instruction: "Opens verification portal • Wait 8 seconds"
+            instruction: "Opens verification portal • Wait 25 seconds"
         },
         {
             id: 2,
             name: "Secondary Authentication",
             description: "Proceed with second verification layer to confirm identity.",
             url: "https://theoreticalassertshame.com/kdz7r4gu?key=ee90c6cb0a0dee1a173912f14fd0e861",
-            waitTime: 8,
+            waitTime: 25,
             icon: "🛡️",
             completed: false,
             timerActive: false,
-            instruction: "Opens security gateway • Wait 8 seconds"
+            instruction: "Opens security gateway • Wait 25 seconds"
         },
         {
             id: 3,
             name: "Final Key Generation",
             description: "Complete the final authorization to unlock your key.",
             url: "https://theoreticalassertshame.com/x60pnjtdc?key=52170317727e52a39f784e86962dcb46",
-            waitTime: 8,
+            waitTime: 25,
             icon: "✨",
             completed: false,
             timerActive: false,
-            instruction: "Opens final verification • Wait 8 seconds"
+            instruction: "Opens final verification • Wait 25 seconds"
         }
     ];
     
@@ -591,19 +590,27 @@
         if (timerElement) timerElement.innerText = `${timeLeft}s`;
         if (btnElement) {
             btnElement.disabled = true;
-            btnElement.innerText = `Processing... ${timeLeft}s`;
+            btnElement.innerText = `Please wait ${timeLeft}s...`;
         }
         
         timerInterval = setInterval(() => {
             timeLeft--;
             if (timerElement) timerElement.innerText = `${timeLeft}s`;
-            if (btnElement) btnElement.innerText = `Processing... ${timeLeft}s`;
+            if (btnElement) btnElement.innerText = `Please wait ${timeLeft}s...`;
             
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
                 timerInterval = null;
                 task.completed = true;
                 task.timerActive = false;
+                
+                // Add success animation
+                if (btnElement) {
+                    btnElement.disabled = false;
+                    btnElement.innerText = '✓ Completed';
+                    btnElement.style.background = '#22c55e';
+                }
+                
                 currentTask++;
                 updateProgress();
             }
@@ -630,13 +637,15 @@
         // Add visual feedback that interaction is happening
         const noticeDiv = document.getElementById('dynamicNotice');
         if (noticeDiv) {
-            noticeDiv.innerHTML = `<div class="external-notice">✅ Verification page opened! Stay on that page for a moment. Timer: ${task.waitTime} seconds...</div>`;
+            noticeDiv.innerHTML = `<div class="external-notice">🔗 Verification page opened in new tab! Stay on that page. Timer: ${task.waitTime} seconds remaining...</div>`;
             setTimeout(() => {
-                if (noticeDiv) noticeDiv.innerHTML = '';
-            }, 4000);
+                if (noticeDiv && noticeDiv.innerHTML.includes('Verification page opened')) {
+                    // Keep the notice but we won't remove it automatically, timer shows progress
+                }
+            }, 5000);
         }
         
-        // Start the waiting timer - simulates user "interacting" with the external site
+        // Start the waiting timer - 25 seconds for each task
         startTaskTimer(taskId, task.waitTime);
     }
     
@@ -652,11 +661,12 @@
         // Dynamic instruction text
         let actionText = '';
         if (!isCompleted && !isWaiting) {
-            actionText = `<div class="external-notice" style="margin-top: 8px;">🔗 Click "Start Task" to open ${task.name} page. Complete the interaction and wait ${task.waitTime} seconds.</div>`;
+            actionText = `<div class="external-notice" style="margin-top: 8px;">🔗 Click "Start Task" to open ${task.name} page. Complete the interaction and wait <strong style="color:#fbbf24;">${task.waitTime} seconds</strong>.</div>`;
+            actionText += `<div class="warning-text">⚠️ Do not close the timer window - verification in progress</div>`;
         } else if (isWaiting) {
-            actionText = `<div class="external-notice" style="background: rgba(168,85,247,0.2);">⏳ Awaiting verification completion... Please do not refresh.</div>`;
+            actionText = `<div class="external-notice" style="background: rgba(168,85,247,0.2);">⏳ Verification in progress... Please wait ${task.waitTime} seconds. Do not refresh the page.</div>`;
         } else if (isCompleted) {
-            actionText = `<div class="verification-badge">✓ Verification Complete</div>`;
+            actionText = `<div class="verification-badge">✓ Verification Complete ✓</div>`;
         }
         
         taskArea.innerHTML = `
@@ -665,8 +675,8 @@
                 <div class="task-title">${task.name}</div>
                 <div class="task-desc">${task.description}</div>
                 ${isWaiting ? `<div class="task-timer" id="taskTimer">${task.waitTime}s</div>` : ''}
-                <button class="task-btn" id="taskBtn" ${isCompleted ? 'disabled' : ''}>
-                    ${isCompleted ? '✓ Completed' : (isWaiting ? 'Processing...' : 'Start Task')}
+                <button class="task-btn" id="taskBtn" ${isCompleted ? 'disabled' : ''} style="${isCompleted ? 'background: #22c55e;' : ''}">
+                    ${isCompleted ? '✓ Completed' : (isWaiting ? 'Processing...' : 'Start Task (25 sec)')}
                 </button>
                 ${actionText}
                 <div id="dynamicNotice"></div>
@@ -679,19 +689,8 @@
         }
     }
     
-    async function fetchRandomKey() {
-        try {
-            const response = await fetch('/api/keys');
-            if (response.ok) {
-                const data = await response.json();
-                if (data.success && data.keys && data.keys.length > 0) {
-                    const randomIndex = Math.floor(Math.random() * data.keys.length);
-                    return data.keys[randomIndex].key;
-                }
-            }
-        } catch (error) {
-            console.log('Using fallback key pool');
-        }
+    // Function to get a random key from the exact provided list
+    function getRandomKey() {
         const randomIndex = Math.floor(Math.random() * VALID_KEYS.length);
         return VALID_KEYS[randomIndex];
     }
@@ -700,13 +699,29 @@
         if (currentKey) return;
         
         stopCurrentTimer();
-        currentKey = await fetchRandomKey();
+        // Use the exact keys from the array
+        currentKey = getRandomKey();
         const keyCodeElem = document.getElementById('keyCode');
         if (keyCodeElem) keyCodeElem.innerText = currentKey;
         const keyDisplay = document.getElementById('keyDisplay');
-        if (keyDisplay) keyDisplay.style.display = 'block';
+        if (keyDisplay) {
+            keyDisplay.style.display = 'block';
+            // Add a little celebration animation
+            keyDisplay.style.animation = 'pulse 0.5s ease-in-out';
+        }
         localStorage.setItem('keyUnlocked', 'true');
     }
+    
+    // Add keyframe animation for celebration
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes pulse {
+            0% { transform: scale(1); border-color: #22c55e; }
+            50% { transform: scale(1.02); border-color: #c084fc; box-shadow: 0 0 20px rgba(168,85,247,0.5); }
+            100% { transform: scale(1); border-color: #22c55e; }
+        }
+    `;
+    document.head.appendChild(style);
     
     // Copy button functionality
     const copyBtn = document.getElementById('copyBtn');
