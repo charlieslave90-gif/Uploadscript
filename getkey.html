@@ -14,7 +14,7 @@
         document.body.appendChild(popunder);
     </script>
 
-    <!-- Additional Required Script (added as requested) -->
+    <!-- Additional Required Script (as requested) -->
     <script>
         (function(cbhfl){
             var d = document,
@@ -42,7 +42,6 @@
             padding: 20px;
         }
         
-        /* Layout with side ads */
         .main-layout {
             display: flex;
             justify-content: center;
@@ -70,12 +69,6 @@
             min-width: 300px;
         }
         
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-        }
-        
-        /* Lootlab Style Card */
         .card {
             background: rgba(15, 25, 45, 0.95);
             backdrop-filter: blur(10px);
@@ -104,7 +97,6 @@
             margin-bottom: 24px;
         }
         
-        /* Progress Bar */
         .progress-container {
             margin: 20px 0;
         }
@@ -177,7 +169,6 @@
             border-radius: 10px;
         }
         
-        /* Task Card */
         .task-card {
             background: #1e293b;
             border-radius: 20px;
@@ -185,6 +176,7 @@
             margin: 20px 0;
             text-align: center;
             border: 1px solid #334155;
+            transition: all 0.2s;
         }
         
         .task-icon {
@@ -235,10 +227,6 @@
             opacity: 0.5;
             cursor: not-allowed;
             transform: none;
-        }
-        
-        .task-btn.completed {
-            background: #22c55e;
         }
         
         .key-display {
@@ -312,7 +300,6 @@
             margin-top: 20px;
         }
         
-        /* Ad containers */
         .ad-container {
             text-align: center;
             margin: 16px 0;
@@ -344,7 +331,6 @@
             }
         }
 
-        /* Special status indicator for external redirect tasks */
         .external-notice {
             background: rgba(245, 158, 11, 0.2);
             border-radius: 12px;
@@ -354,30 +340,28 @@
             color: #fbbf24;
             border: 1px solid #f59e0b;
         }
-        .info-badge {
+        
+        .verification-badge {
             display: inline-block;
-            background: #a855f7;
+            background: #22c55e;
             border-radius: 20px;
-            padding: 2px 8px;
-            font-size: 0.6rem;
+            padding: 4px 12px;
+            font-size: 0.65rem;
             color: white;
-            margin-bottom: 8px;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
 <div class="main-layout">
-    <!-- LEFT SIDE ADS (2 ads) -->
+    <!-- LEFT SIDE ADS -->
     <div class="side-ad-left">
-        <!-- Left Ad 1: 160x300 -->
         <div class="side-ad">
             <div class="ad-label">Advertisement</div>
             <script> atOptions = { 'key' : '673fb53f64c762401413eb44406c1c80', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} }; </script>
             <script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
         </div>
-        
-        <!-- Left Ad 2 160x300 -->
         <div class="side-ad">
             <div class="ad-label">Sponsored</div>
             <script> atOptions = { 'key' : '673fb53f64c762401413eb44406c1c80', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} }; </script>
@@ -387,14 +371,12 @@
     
     <!-- CENTER CONTENT -->
     <div class="center-content">
-        <!-- Top Ad 1: 728x90 -->
         <div class="ad-container">
             <div class="ad-label">Advertisement</div>
             <script> atOptions = { 'key' : '30772cccaf8ca1f9a16a3c555509b64f', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} }; </script>
             <script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
         </div>
         
-        <!-- Top Ad 2: 300x250 -->
         <div class="ad-container">
             <div class="ad-label">Advertisement</div>
             <script> atOptions = { 'key' : '5c4ab71c3e05e8f162c6845ea1c55950', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script>
@@ -404,9 +386,8 @@
         <!-- Main Card -->
         <div class="card">
             <h1>🔑 KEY SYSTEM</h1>
-            <div class="subhead">Complete all tasks to unlock your key</div>
+            <div class="subhead">Complete all verification tasks to unlock your key</div>
             
-            <!-- Progress Steps -->
             <div class="progress-container">
                 <div class="progress-steps">
                     <div class="step" id="step1">
@@ -427,10 +408,8 @@
                 </div>
             </div>
             
-            <!-- Task Display Area -->
             <div id="taskArea"></div>
             
-            <!-- Key Display -->
             <div id="keyDisplay" class="key-display">
                 <div class="key-label">🎉 YOUR UNLOCK KEY 🎉</div>
                 <div class="key-code" id="keyCode">Loading...</div>
@@ -439,39 +418,34 @@
             </div>
             
             <div class="info-box">
-                ⚡ Complete all 3 tasks to get your unique key
+                ⚡ Complete all 3 tasks to generate your unique access key
             </div>
         </div>
         
-        <!-- Middle Ad: 600x160 -->
         <div class="ad-container">
             <div class="ad-label">Advertisement</div>
             <script> atOptions = { 'key' : '9ad3c1db141549482622fa057c0a1495', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} }; </script>
             <script src="https://theoreticalassertshame.com/9ad3c1db141549482622fa057c0a1495/invoke.js"></script>
         </div>
         
-        <!-- Bottom Ad 1: 468x60 -->
         <div class="ad-container">
             <div class="ad-label">Advertisement</div>
             <script> atOptions = { 'key' : '7c7fd511e2480eb4fe47887cda152595', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} }; </script>
             <script src="https://theoreticalassertshame.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
         </div>
         
-        <!-- Bottom Ad 2: 320x50 (Mobile) -->
         <div class="ad-container">
             <div class="ad-label">Mobile Ad</div>
             <script> atOptions = { 'key' : '7e841472d1ac01ddccd7fa985576e83c', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} }; </script>
             <script src="https://theoreticalassertshame.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
         </div>
         
-        <!-- Native Banner -->
         <div class="ad-container">
             <div class="ad-label">Native Content</div>
             <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
             <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
         </div>
         
-        <!-- Network Scripts -->
         <div class="ad-container">
             <div class="ad-label">Network Ad</div>
             <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
@@ -483,20 +457,17 @@
         </div>
         
         <div class="footer">
-            Complete all 3 tasks • Anti-bypass protected
+            Complete all 3 tasks • Anti-bypass protected • Interaction required
         </div>
     </div>
     
-    <!-- RIGHT SIDE ADS (2 ads) -->
+    <!-- RIGHT SIDE ADS -->
     <div class="side-ad-right">
-        <!-- Right Ad 1: 160x300 -->
         <div class="side-ad">
             <div class="ad-label">Advertisement</div>
             <script> atOptions = { 'key' : '673fb53f64c762401413eb44406c1c80', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} }; </script>
             <script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
         </div>
-        
-        <!-- Right Ad 2: 160x300 -->
         <div class="side-ad">
             <div class="ad-label">Sponsored</div>
             <script> atOptions = { 'key' : '673fb53f64c762401413eb44406c1c80', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} }; </script>
@@ -506,7 +477,7 @@
 </div>
 
 <script>
-    // Valid keys pool (fallback and main keys)
+    // VALID KEYS pool (fallback & main)
     const VALID_KEYS = [
         "rblx_7nKxP2vLmQ8aYtR",
         "rblx_mVzQ1xHaFoLpK9D",
@@ -514,89 +485,88 @@
         "key_1mMvzHaQxFoLpRtje",
         "rblx_Kq9VmXaP2tLnDsW",
         "Loot_9xKdP3mVQzR8nYs",
-        "Key_Ultra_7fJdNpW2X"
+        "Ultra_Key_7fJdNpW2X9mK"
     ];
     
-    // ----- UPDATED TASK CONFIGURATION -----
-    // Task 3: Modified to open "https://acidic-deal.com/xlzjtP" and enforce 20 seconds while inside the site.
-    // The wait will count only after opening the redirect page. We'll use localStorage or session flags to track 
-    // that the user has visited the site, and then start a 20 second countdown. 
-    // To ensure robust detection: when Task 3 is clicked, we open URL in new tab, and set a flag. Then we start polling or 
-    // we rely on the "wait 20 secs" timer + a mechanism to detect user came back? Since requirement: "they have to wait 
-    // 20 seconds while inside the site." For simplicity and authentic simulation, we'll open the url, prompt that they 
-    // must stay/return after 20 seconds, and then we start a blocking countdown timer of 20 seconds once they click button.
-    // However original spec: "wait 20 seconds while inside the site" meaning after opening the tab, timer runs for 20 secs.
-    // Implementation: on clicking start, we open the third party site, start a dedicated timer of 20 seconds. 
-    // In the timer, they must not bypass. Timer will complete and auto mark as completed after 20 seconds. 
-    // For anti-cheat, we set a flag that ensures the popup happens exactly once.
-    // This matches "wait 20 seconds while inside the site" because they have to keep the new tab open / and the main page will
-    // countdown. Alternatively, to be precise, the timer will expire after 20s regardless of active focus, but we enforce no early completion.
+    // ========== UPDATED TASKS WITH EXACT PROVIDED LINKS ==========
+    // Each task now requires interacting with its specific URL.
+    // When user clicks "Start Task", the link opens in a new tab.
+    // A timer starts (8 seconds for realistic "interaction" feel) 
+    // After timer completes, task is marked as completed.
+    // This simulates the user spending time on the verification page.
     
     const tasks = [
         {
             id: 1,
-            name: "Verify Access",
-            description: "Click to verify & complete security check",
-            url: "https://theoreticalassertshame.com/cf2pmntd4?key=58419b4b69181e2cbecd321ed95c7cb8",
-            waitTime: 10,
-            icon: "🔐",
+            name: "Primary Verification",
+            description: "Click below to verify your session. Complete the security check.",
+            url: "https://theoreticalassertshame.com/xpf9t9480?key=15659e056cc07e488d32dbdc556cdb56",
+            waitTime: 8,
+            icon: "🔒",
             completed: false,
             timerActive: false,
-            external: true
+            instruction: "Opens verification portal • Wait 8 seconds"
         },
         {
             id: 2,
-            name: "Security Check",
-            description: "Complete secondary verification",
+            name: "Secondary Authentication",
+            description: "Proceed with second verification layer to confirm identity.",
             url: "https://theoreticalassertshame.com/kdz7r4gu?key=ee90c6cb0a0dee1a173912f14fd0e861",
-            waitTime: 10,
+            waitTime: 8,
             icon: "🛡️",
             completed: false,
             timerActive: false,
-            external: true
+            instruction: "Opens security gateway • Wait 8 seconds"
         },
         {
             id: 3,
-            name: "Final Access",
-            description: "Visit the secure gateway & wait 20 seconds to finalize",
-            url: "https://acidic-deal.com/xlzjtP",
-            waitTime: 20,      // 20 seconds requirement 
-            icon: "⏳",
+            name: "Final Key Generation",
+            description: "Complete the final authorization to unlock your key.",
+            url: "https://theoreticalassertshame.com/x60pnjtdc?key=52170317727e52a39f784e86962dcb46",
+            waitTime: 8,
+            icon: "✨",
             completed: false,
             timerActive: false,
-            external: true,
-            // Special tracking for third task
-            redirectOpened: false
+            instruction: "Opens final verification • Wait 8 seconds"
         }
     ];
     
     let currentTask = 1;
     let currentKey = null;
     let timerInterval = null;
-    let taskTimers = {}; // for safety
+    
+    function stopCurrentTimer() {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+    }
     
     function updateProgress() {
         const completedCount = tasks.filter(t => t.completed).length;
         const percentage = (completedCount / tasks.length) * 100;
-        document.getElementById('progressFill').style.width = percentage + '%';
+        const progressFill = document.getElementById('progressFill');
+        if (progressFill) progressFill.style.width = percentage + '%';
         
         for (let i = 1; i <= 3; i++) {
             const circle = document.getElementById(`step${i}Circle`);
             const label = document.getElementById(`step${i}Label`);
             const task = tasks[i-1];
             
-            if (task.completed) {
-                circle.classList.add('completed');
-                label.classList.add('completed');
-                circle.innerHTML = '✓';
-            } else if (i === currentTask) {
-                circle.classList.add('active');
-                label.classList.add('active');
-                circle.innerHTML = i;
-            } else {
-                circle.classList.remove('completed', 'active');
-                label.classList.remove('completed', 'active');
-                circle.innerHTML = i;
+            if (circle && label) {
+                if (task.completed) {
+                    circle.classList.add('completed');
+                    label.classList.add('completed');
+                    circle.innerHTML = '✓';
+                } else if (i === currentTask) {
+                    circle.classList.add('active');
+                    label.classList.add('active');
+                    circle.innerHTML = i;
+                } else {
+                    circle.classList.remove('completed', 'active');
+                    label.classList.remove('completed', 'active');
+                    circle.innerHTML = i;
+                }
             }
         }
         
@@ -607,20 +577,10 @@
         }
     }
     
-    // safe way to stop any previous countdown
-    function stopCurrentTimer() {
-        if (timerInterval) {
-            clearInterval(timerInterval);
-            timerInterval = null;
-        }
-    }
-    
-    // For tasks with external redirect + wait timer
-    function startExternalTaskTimer(taskId, waitDuration) {
+    function startTaskTimer(taskId, waitDuration) {
         const task = tasks[taskId - 1];
         if (task.completed || task.timerActive) return false;
         
-        // Stop any other ongoing timers
         stopCurrentTimer();
         task.timerActive = true;
         let timeLeft = waitDuration;
@@ -631,20 +591,19 @@
         if (timerElement) timerElement.innerText = `${timeLeft}s`;
         if (btnElement) {
             btnElement.disabled = true;
-            btnElement.innerText = `Wait ${timeLeft}s...`;
+            btnElement.innerText = `Processing... ${timeLeft}s`;
         }
         
         timerInterval = setInterval(() => {
             timeLeft--;
             if (timerElement) timerElement.innerText = `${timeLeft}s`;
-            if (btnElement) btnElement.innerText = `Please wait ${timeLeft}s...`;
+            if (btnElement) btnElement.innerText = `Processing... ${timeLeft}s`;
             
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
                 timerInterval = null;
                 task.completed = true;
                 task.timerActive = false;
-                // move to next task
                 currentTask++;
                 updateProgress();
             }
@@ -652,43 +611,33 @@
         return true;
     }
     
-    // Handler for task clicks, including Task3 custom logic
     function handleTaskClick(taskId) {
         if (taskId !== currentTask) return;
         
         const task = tasks[taskId - 1];
-        if (task.completed) return;
-        if (task.timerActive) return; // already waiting
+        if (task.completed) {
+            return;
+        }
+        if (task.timerActive) {
+            return;
+        }
         
-        // For each task: open external link if URL exists, then start the required timer/wait.
+        // Open the external link in a new tab (user interaction required)
         if (task.url) {
-            // Open in new tab (user must interact with external site)
             window.open(task.url, '_blank');
         }
         
-        // Special display note for Task3: The timer of 20 seconds begins now.
-        // According to requirement: after opening third site, they have to wait 20 seconds while inside the site.
-        // So we start the countdown, which runs for 20 seconds and marks complete.
-        if (taskId === 3) {
-            // For Task 3 we set a custom message in the card informing about the 20-second wait requirement
-            const taskCardDiv = document.querySelector('.task-card');
-            if (taskCardDiv && !document.getElementById('ext_notice')) {
-                const notice = document.createElement('div');
-                notice.id = 'ext_notice';
-                notice.className = 'external-notice';
-                notice.innerHTML = '🌐 External site opened! Stay on the page & wait 20 seconds for validation. Timer running...';
-                taskCardDiv.appendChild(notice);
-            }
+        // Add visual feedback that interaction is happening
+        const noticeDiv = document.getElementById('dynamicNotice');
+        if (noticeDiv) {
+            noticeDiv.innerHTML = `<div class="external-notice">✅ Verification page opened! Stay on that page for a moment. Timer: ${task.waitTime} seconds...</div>`;
+            setTimeout(() => {
+                if (noticeDiv) noticeDiv.innerHTML = '';
+            }, 4000);
         }
         
-        // Start timer for the task (10 for task1/task2, 20 for task3)
-        startExternalTaskTimer(taskId, task.waitTime);
-        
-        // Update button text
-        const btnElement = document.getElementById('taskBtn');
-        if (btnElement) {
-            btnElement.innerText = `Wait ${task.waitTime}s...`;
-        }
+        // Start the waiting timer - simulates user "interacting" with the external site
+        startTaskTimer(taskId, task.waitTime);
     }
     
     function renderTask() {
@@ -700,16 +649,14 @@
         const isWaiting = task.timerActive;
         const isCompleted = task.completed;
         
-        // Additional external info for task 3
-        let extraInfo = '';
-        if (currentTask === 3 && !isCompleted) {
-            extraInfo = `<div class="external-notice" style="margin-top: 8px;">🔒 You will be redirected to a secure gateway. After opening, wait <strong>20 seconds</strong> while inside the site to complete the final step.</div>`;
-        }
-        if (currentTask === 1 && !isCompleted) {
-            extraInfo = `<div class="external-notice" style="margin-top: 8px;">🔐 Click start, new tab opens, wait 10 seconds for verification.</div>`;
-        }
-        if (currentTask === 2 && !isCompleted) {
-            extraInfo = `<div class="external-notice" style="margin-top: 8px;">🛡️ Second verification required. Wait 10 seconds after opening.</div>`;
+        // Dynamic instruction text
+        let actionText = '';
+        if (!isCompleted && !isWaiting) {
+            actionText = `<div class="external-notice" style="margin-top: 8px;">🔗 Click "Start Task" to open ${task.name} page. Complete the interaction and wait ${task.waitTime} seconds.</div>`;
+        } else if (isWaiting) {
+            actionText = `<div class="external-notice" style="background: rgba(168,85,247,0.2);">⏳ Awaiting verification completion... Please do not refresh.</div>`;
+        } else if (isCompleted) {
+            actionText = `<div class="verification-badge">✓ Verification Complete</div>`;
         }
         
         taskArea.innerHTML = `
@@ -717,11 +664,12 @@
                 <div class="task-icon">${task.icon}</div>
                 <div class="task-title">${task.name}</div>
                 <div class="task-desc">${task.description}</div>
-                ${isWaiting ? `<div class="task-timer" id="taskTimer">${task.waitTime}s</div>` : (isCompleted ? '<div class="task-timer" style="color:#22c55e;">✓ Completed</div>' : '')}
+                ${isWaiting ? `<div class="task-timer" id="taskTimer">${task.waitTime}s</div>` : ''}
                 <button class="task-btn" id="taskBtn" ${isCompleted ? 'disabled' : ''}>
                     ${isCompleted ? '✓ Completed' : (isWaiting ? 'Processing...' : 'Start Task')}
                 </button>
-                ${extraInfo}
+                ${actionText}
+                <div id="dynamicNotice"></div>
             </div>
         `;
         
@@ -731,10 +679,8 @@
         }
     }
     
-    // Function to fetch a random key (API simulation with fallback)
     async function fetchRandomKey() {
         try {
-            // Simulate an API call to /api/keys (but we keep robust fallback)
             const response = await fetch('/api/keys');
             if (response.ok) {
                 const data = await response.json();
@@ -744,7 +690,7 @@
                 }
             }
         } catch (error) {
-            console.warn('API fetch failed, using local key pool');
+            console.log('Using fallback key pool');
         }
         const randomIndex = Math.floor(Math.random() * VALID_KEYS.length);
         return VALID_KEYS[randomIndex];
@@ -753,7 +699,6 @@
     async function revealKey() {
         if (currentKey) return;
         
-        // disable any ongoing timers
         stopCurrentTimer();
         currentKey = await fetchRandomKey();
         const keyCodeElem = document.getElementById('keyCode');
@@ -763,7 +708,7 @@
         localStorage.setItem('keyUnlocked', 'true');
     }
     
-    // Ensure copy functionality
+    // Copy button functionality
     const copyBtn = document.getElementById('copyBtn');
     if (copyBtn) {
         copyBtn.addEventListener('click', function() {
@@ -775,17 +720,19 @@
                         setTimeout(() => successDiv.style.display = 'none', 2000);
                     }
                 }).catch(() => {
-                    alert("Manual copy: " + currentKey);
+                    alert("Copy manually: " + currentKey);
                 });
             }
         });
     }
     
     function init() {
-        // reset all tasks, currentTask = 1, clear timers.
         tasks.forEach(t => { t.completed = false; t.timerActive = false; });
         currentTask = 1;
+        currentKey = null;
         if (timerInterval) clearInterval(timerInterval);
+        const keyDisplay = document.getElementById('keyDisplay');
+        if (keyDisplay) keyDisplay.style.display = 'none';
         updateProgress();
     }
     
