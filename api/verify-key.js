@@ -7,11 +7,11 @@ export default async function handler(req, res) {
     
     // ========== NEW VALID KEYS (UPDATED) ==========
     const VALID_KEYS = [
-        "rblx_7nKxP2vLmQ8aYtR",
-        "rblx_mVzQ1xHaFoLpK9D",
-        "key_XpL2mQaV8nTrY6Ks",
-        "key_1mMvzHaQxFoLpRtje",
-        "rblx_Kq9VmXaP2tLnDsW"
+        "gay_XgVsJAD70297UNjn",
+        "Site_nPCkS6asaeU0Q5qG",
+        "Api_JENdv4Mincr2R6Co",
+        "Goldy_GgFDwIh27Rn1Z9zE",
+        "Roblox_4ncBt7JvMcn3Ttvc"
     ];
     
     if (req.method === 'GET') {
