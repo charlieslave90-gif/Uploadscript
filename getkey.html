@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade" />
-    <title>KeySystem - Lootlab Style Unlock</title>
+    <title>KeySystem - Unlock Your Rewards</title>
     
     <!-- Popunder (loads immediately) -->
     <script>
@@ -42,31 +42,10 @@
             padding: 20px;
         }
         
-        .main-layout {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .side-ad-left {
-            flex: 0 0 160px;
-            position: sticky;
-            top: 20px;
-            align-self: flex-start;
-        }
-        
-        .side-ad-right {
-            flex: 0 0 160px;
-            position: sticky;
-            top: 20px;
-            align-self: flex-start;
-        }
-        
-        .center-content {
-            flex: 1;
-            max-width: 500px;
-            min-width: 300px;
+        /* Centered layout - clean, no side ads */
+        .main-container {
+            max-width: 700px;
+            margin: 0 auto;
         }
         
         .card {
@@ -97,6 +76,7 @@
             margin-bottom: 24px;
         }
         
+        /* Progress Bar */
         .progress-container {
             margin: 20px 0;
         }
@@ -169,6 +149,7 @@
             border-radius: 10px;
         }
         
+        /* Task Card */
         .task-card {
             background: #1e293b;
             border-radius: 20px;
@@ -208,10 +189,10 @@
         .task-btn {
             background: linear-gradient(135deg, #a855f7, #7c3aed);
             border: none;
-            padding: 14px 24px;
+            padding: 16px 24px;
             border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 600;
+            font-size: 1rem;
+            font-weight: 700;
             color: white;
             cursor: pointer;
             transition: all 0.2s;
@@ -220,7 +201,7 @@
         
         .task-btn:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(168,85,247,0.4);
+            box-shadow: 0 5px 20px rgba(168,85,247,0.5);
         }
         
         .task-btn:disabled {
@@ -298,11 +279,13 @@
             font-size: 0.6rem;
             color: #475569;
             margin-top: 20px;
+            padding-bottom: 20px;
         }
         
+        /* Clean ad containers - visible to everyone */
         .ad-container {
             text-align: center;
-            margin: 16px 0;
+            margin: 20px 0;
             padding: 12px;
             background: rgba(255,255,255,0.05);
             border-radius: 16px;
@@ -311,26 +294,12 @@
         
         .ad-label {
             font-size: 0.55rem;
-            color: #475569;
+            color: #64748b;
             margin-bottom: 8px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
         
-        .side-ad {
-            background: rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 12px;
-            margin-bottom: 16px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        @media (max-width: 900px) {
-            .side-ad-left, .side-ad-right {
-                display: none;
-            }
-        }
-
         .external-notice {
             background: rgba(245, 158, 11, 0.2);
             border-radius: 12px;
@@ -356,144 +325,130 @@
             font-size: 0.7rem;
             margin-top: 8px;
         }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); border-color: #22c55e; }
+            50% { transform: scale(1.02); border-color: #c084fc; box-shadow: 0 0 20px rgba(168,85,247,0.5); }
+            100% { transform: scale(1); border-color: #22c55e; }
+        }
+        
+        hr {
+            border-color: rgba(168,85,247,0.2);
+            margin: 15px 0;
+        }
     </style>
 </head>
 <body>
 
-<div class="main-layout">
-    <!-- LEFT SIDE ADS -->
-    <div class="side-ad-left">
-        <div class="side-ad">
-            <div class="ad-label">Advertisement</div>
-            <script> atOptions = { 'key' : '673fb53f64c762401413eb44406c1c80', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} }; </script>
-            <script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
+<div class="main-container">
+    <!-- TOP BANNER AD - Highest visibility position -->
+    <div class="ad-container">
+        <div class="ad-label">Advertisement</div>
+        <script> atOptions = { 'key' : '30772cccaf8ca1f9a16a3c555509b64f', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} }; </script>
+        <script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
+    </div>
+    
+    <!-- Main Card -->
+    <div class="card">
+        <h1>🔑 KEY SYSTEM</h1>
+        <div class="subhead">Complete all tasks to unlock your exclusive key</div>
+        
+        <div class="progress-container">
+            <div class="progress-steps">
+                <div class="step" id="step1">
+                    <div class="step-circle" id="step1Circle">1</div>
+                    <div class="step-label" id="step1Label">Task 1</div>
+                </div>
+                <div class="step" id="step2">
+                    <div class="step-circle" id="step2Circle">2</div>
+                    <div class="step-label" id="step2Label">Task 2</div>
+                </div>
+                <div class="step" id="step3">
+                    <div class="step-circle" id="step3Circle">3</div>
+                    <div class="step-label" id="step3Label">Task 3</div>
+                </div>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
         </div>
-        <div class="side-ad">
-            <div class="ad-label">Sponsored</div>
-            <script> atOptions = { 'key' : '673fb53f64c762401413eb44406c1c80', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} }; </script>
-            <script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
+        
+        <div id="taskArea"></div>
+        
+        <div id="keyDisplay" class="key-display">
+            <div class="key-label">🎉 YOUR UNLOCK KEY 🎉</div>
+            <div class="key-code" id="keyCode">Loading...</div>
+            <button class="copy-btn" id="copyBtn">📋 COPY KEY</button>
+            <div id="copySuccess" class="copy-success">✅ Copied to clipboard!</div>
+        </div>
+        
+        <div class="info-box">
+            ⚡ Complete all 3 tasks (25 seconds each) to generate your unique access key
         </div>
     </div>
     
-    <!-- CENTER CONTENT -->
-    <div class="center-content">
-        <div class="ad-container">
-            <div class="ad-label">Advertisement</div>
-            <script> atOptions = { 'key' : '30772cccaf8ca1f9a16a3c555509b64f', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} }; </script>
-            <script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
-        </div>
-        
-        <div class="ad-container">
-            <div class="ad-label">Advertisement</div>
-            <script> atOptions = { 'key' : '5c4ab71c3e05e8f162c6845ea1c55950', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script>
-            <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
-        </div>
-
-        <!-- Main Card -->
-        <div class="card">
-            <h1>🔑 KEY SYSTEM</h1>
-            <div class="subhead">Complete all verification tasks to unlock your key</div>
-            
-            <div class="progress-container">
-                <div class="progress-steps">
-                    <div class="step" id="step1">
-                        <div class="step-circle" id="step1Circle">1</div>
-                        <div class="step-label" id="step1Label">Task 1</div>
-                    </div>
-                    <div class="step" id="step2">
-                        <div class="step-circle" id="step2Circle">2</div>
-                        <div class="step-label" id="step2Label">Task 2</div>
-                    </div>
-                    <div class="step" id="step3">
-                        <div class="step-circle" id="step3Circle">3</div>
-                        <div class="step-label" id="step3Label">Task 3</div>
-                    </div>
-                </div>
-                <div class="progress-bar-bg">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-            </div>
-            
-            <div id="taskArea"></div>
-            
-            <div id="keyDisplay" class="key-display">
-                <div class="key-label">🎉 YOUR UNLOCK KEY 🎉</div>
-                <div class="key-code" id="keyCode">Loading...</div>
-                <button class="copy-btn" id="copyBtn">📋 COPY KEY</button>
-                <div id="copySuccess" class="copy-success">✅ Copied to clipboard!</div>
-            </div>
-            
-            <div class="info-box">
-                ⚡ Complete all 3 tasks (25 seconds each) to generate your unique access key
-            </div>
-        </div>
-        
-        <div class="ad-container">
-            <div class="ad-label">Advertisement</div>
-            <script> atOptions = { 'key' : '9ad3c1db141549482622fa057c0a1495', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} }; </script>
-            <script src="https://theoreticalassertshame.com/9ad3c1db141549482622fa057c0a1495/invoke.js"></script>
-        </div>
-        
-        <div class="ad-container">
-            <div class="ad-label">Advertisement</div>
-            <script> atOptions = { 'key' : '7c7fd511e2480eb4fe47887cda152595', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} }; </script>
-            <script src="https://theoreticalassertshame.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
-        </div>
-        
-        <div class="ad-container">
-            <div class="ad-label">Mobile Ad</div>
-            <script> atOptions = { 'key' : '7e841472d1ac01ddccd7fa985576e83c', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} }; </script>
-            <script src="https://theoreticalassertshame.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
-        </div>
-        
-        <div class="ad-container">
-            <div class="ad-label">Native Content</div>
-            <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
-            <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
-        </div>
-        
-        <div class="ad-container">
-            <div class="ad-label">Network Ad</div>
-            <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
-        </div>
-        
-        <div class="ad-container">
-            <div class="ad-label">Network Ad</div>
-            <script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
-        </div>
-        
-        <div class="footer">
-            Complete all 3 tasks • Each task requires 25 seconds • Anti-bypass protected
-        </div>
+    <!-- MIDDLE BANNER AD - Visible during task completion -->
+    <div class="ad-container">
+        <div class="ad-label">Advertisement</div>
+        <script> atOptions = { 'key' : '5c4ab71c3e05e8f162c6845ea1c55950', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script>
+        <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
     </div>
     
-    <!-- RIGHT SIDE ADS -->
-    <div class="side-ad-right">
-        <div class="side-ad">
-            <div class="ad-label">Advertisement</div>
-            <script> atOptions = { 'key' : '673fb53f64c762401413eb44406c1c80', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} }; </script>
-            <script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
-        </div>
-        <div class="side-ad">
-            <div class="ad-label">Sponsored</div>
-            <script> atOptions = { 'key' : '673fb53f64c762401413eb44406c1c80', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} }; </script>
-            <script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
-        </div>
+    <!-- SECOND MIDDLE AD -->
+    <div class="ad-container">
+        <div class="ad-label">Sponsored</div>
+        <script> atOptions = { 'key' : '9ad3c1db141549482622fa057c0a1495', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script>
+        <script src="https://theoreticalassertshame.com/9ad3c1db141549482622fa057c0a1495/invoke.js"></script>
+    </div>
+    
+    <!-- BOTTOM BANNER AD -->
+    <div class="ad-container">
+        <div class="ad-label">Advertisement</div>
+        <script> atOptions = { 'key' : '7c7fd511e2480eb4fe47887cda152595', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} }; </script>
+        <script src="https://theoreticalassertshame.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
+    </div>
+    
+    <!-- MOBILE AD (visible on all devices) -->
+    <div class="ad-container">
+        <div class="ad-label">Mobile Ad</div>
+        <script> atOptions = { 'key' : '7e841472d1ac01ddccd7fa985576e83c', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} }; </script>
+        <script src="https://theoreticalassertshame.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
+    </div>
+    
+    <!-- NATIVE CONTENT AD -->
+    <div class="ad-container">
+        <div class="ad-label">Native Content</div>
+        <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
+        <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
+    </div>
+    
+    <!-- NETWORK ADS -->
+    <div class="ad-container">
+        <div class="ad-label">Network Ad</div>
+        <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
+    </div>
+    
+    <div class="ad-container">
+        <div class="ad-label">Network Ad</div>
+        <script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
+    </div>
+    
+    <div class="footer">
+        Complete all 3 tasks • Each task requires 25 seconds • Get your unique key
     </div>
 </div>
 
 <script>
-    // ===== EXACT KEYS PROVIDED BY USER =====
+    // ===== NEW KEYS PROVIDED BY USER =====
     const VALID_KEYS = [
-        "rblx_7nKxP2vLmQ8aYtR",
-        "rblx_mVzQ1xHaFoLpK9D",
-        "key_XpL2mQaV8nTrY6Ks",
-        "key_1mMvzHaQxFoLpRtje",
-        "rblx_Kq9VmXaP2tLnDsW"
+        "gay_XgVsJAD70297UNjn",
+        "Site_nPCkS6asaeU0Q5qG",
+        "Api_JENdv4Mincr2R6Co",
+        "Goldy_GgFDwIh27Rn1Z9zE",
+        "Roblox_4ncBt7JvMcn3Ttvc"
     ];
     
     // ===== TASKS WITH 25 SECONDS EACH =====
-    // Using the exact links provided, all tasks now have 25 second wait time
     const tasks = [
         {
             id: 1,
@@ -503,8 +458,7 @@
             waitTime: 25,
             icon: "🔒",
             completed: false,
-            timerActive: false,
-            instruction: "Opens verification portal • Wait 25 seconds"
+            timerActive: false
         },
         {
             id: 2,
@@ -514,8 +468,7 @@
             waitTime: 25,
             icon: "🛡️",
             completed: false,
-            timerActive: false,
-            instruction: "Opens security gateway • Wait 25 seconds"
+            timerActive: false
         },
         {
             id: 3,
@@ -525,8 +478,7 @@
             waitTime: 25,
             icon: "✨",
             completed: false,
-            timerActive: false,
-            instruction: "Opens final verification • Wait 25 seconds"
+            timerActive: false
         }
     ];
     
@@ -604,7 +556,6 @@
                 task.completed = true;
                 task.timerActive = false;
                 
-                // Add success animation
                 if (btnElement) {
                     btnElement.disabled = false;
                     btnElement.innerText = '✓ Completed';
@@ -622,30 +573,20 @@
         if (taskId !== currentTask) return;
         
         const task = tasks[taskId - 1];
-        if (task.completed) {
-            return;
-        }
-        if (task.timerActive) {
-            return;
-        }
+        if (task.completed) return;
+        if (task.timerActive) return;
         
-        // Open the external link in a new tab (user interaction required)
+        // Open external link in new tab for ad revenue
         if (task.url) {
             window.open(task.url, '_blank');
         }
         
-        // Add visual feedback that interaction is happening
+        // Show feedback
         const noticeDiv = document.getElementById('dynamicNotice');
         if (noticeDiv) {
-            noticeDiv.innerHTML = `<div class="external-notice">🔗 Verification page opened in new tab! Stay on that page. Timer: ${task.waitTime} seconds remaining...</div>`;
-            setTimeout(() => {
-                if (noticeDiv && noticeDiv.innerHTML.includes('Verification page opened')) {
-                    // Keep the notice but we won't remove it automatically, timer shows progress
-                }
-            }, 5000);
+            noticeDiv.innerHTML = `<div class="external-notice">🔗 Verification page opened! Please wait ${task.waitTime} seconds...</div>`;
         }
         
-        // Start the waiting timer - 25 seconds for each task
         startTaskTimer(taskId, task.waitTime);
     }
     
@@ -658,13 +599,12 @@
         const isWaiting = task.timerActive;
         const isCompleted = task.completed;
         
-        // Dynamic instruction text
         let actionText = '';
         if (!isCompleted && !isWaiting) {
-            actionText = `<div class="external-notice" style="margin-top: 8px;">🔗 Click "Start Task" to open ${task.name} page. Complete the interaction and wait <strong style="color:#fbbf24;">${task.waitTime} seconds</strong>.</div>`;
-            actionText += `<div class="warning-text">⚠️ Do not close the timer window - verification in progress</div>`;
+            actionText = `<div class="external-notice">🔗 Click "Start Task" to begin verification. Please wait <strong>${task.waitTime} seconds</strong> for completion.</div>`;
+            actionText += `<div class="warning-text">⚠️ Do not close this window during verification</div>`;
         } else if (isWaiting) {
-            actionText = `<div class="external-notice" style="background: rgba(168,85,247,0.2);">⏳ Verification in progress... Please wait ${task.waitTime} seconds. Do not refresh the page.</div>`;
+            actionText = `<div class="external-notice" style="background: rgba(168,85,247,0.2);">⏳ Verification in progress... Please wait ${task.waitTime} seconds.</div>`;
         } else if (isCompleted) {
             actionText = `<div class="verification-badge">✓ Verification Complete ✓</div>`;
         }
@@ -689,7 +629,6 @@
         }
     }
     
-    // Function to get a random key from the exact provided list
     function getRandomKey() {
         const randomIndex = Math.floor(Math.random() * VALID_KEYS.length);
         return VALID_KEYS[randomIndex];
@@ -699,29 +638,16 @@
         if (currentKey) return;
         
         stopCurrentTimer();
-        // Use the exact keys from the array
         currentKey = getRandomKey();
         const keyCodeElem = document.getElementById('keyCode');
         if (keyCodeElem) keyCodeElem.innerText = currentKey;
         const keyDisplay = document.getElementById('keyDisplay');
         if (keyDisplay) {
             keyDisplay.style.display = 'block';
-            // Add a little celebration animation
             keyDisplay.style.animation = 'pulse 0.5s ease-in-out';
         }
         localStorage.setItem('keyUnlocked', 'true');
     }
-    
-    // Add keyframe animation for celebration
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes pulse {
-            0% { transform: scale(1); border-color: #22c55e; }
-            50% { transform: scale(1.02); border-color: #c084fc; box-shadow: 0 0 20px rgba(168,85,247,0.5); }
-            100% { transform: scale(1); border-color: #22c55e; }
-        }
-    `;
-    document.head.appendChild(style);
     
     // Copy button functionality
     const copyBtn = document.getElementById('copyBtn');
