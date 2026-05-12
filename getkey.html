@@ -15,17 +15,8 @@
     <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
     
     <!-- ============================================= -->
-    <!-- ALL ADCASH ZONE SCRIPTS                       -->
+    <!-- POPUNDER SCRIPTS (runPop method)              -->
     <!-- ============================================= -->
-    
-    <!-- AutoTag Zone -->
-    <script type="text/javascript">
-        aclib.runAutoTag({
-            zoneId: 'qqum5itkmn',
-        });
-    </script>
-    
-    <!-- Popunder Zones -->
     <script type="text/javascript">
         aclib.runPop({ zoneId: '11302890' });
         aclib.runPop({ zoneId: '11302914' });
@@ -33,34 +24,27 @@
         aclib.runPop({ zoneId: '11303462' });
     </script>
     
-    <!-- InPagePush Zones -->
+    <!-- ============================================= -->
+    <!-- INPAGEPUSH SCRIPTS                            -->
+    <!-- ============================================= -->
     <script type="text/javascript">
-        aclib.runInPagePush({
-            zoneId: '11303094',
-            maxAds: 2,
-        });
-        aclib.runInPagePush({
-            zoneId: '11303482',
-            maxAds: 2,
-        });
-        aclib.runInPagePush({
-            zoneId: '11303350',
-            maxAds: 2,
-        });
+        aclib.runInPagePush({ zoneId: '11303094', maxAds: 2 });
+        aclib.runInPagePush({ zoneId: '11303482', maxAds: 2 });
+        aclib.runInPagePush({ zoneId: '11303350', maxAds: 2 });
     </script>
     
-    <!-- Video Slider Zone -->
+    <!-- ============================================= -->
+    <!-- VIDEO SLIDER SCRIPT                           -->
+    <!-- ============================================= -->
     <script type="text/javascript">
-        aclib.runVideoSlider({
-            zoneId: '11303470',
-        });
+        aclib.runVideoSlider({ zoneId: '11303470' });
     </script>
     
-    <!-- Interstitial Zone -->
+    <!-- ============================================= -->
+    <!-- INTERSTITIAL SCRIPT                           -->
+    <!-- ============================================= -->
     <script type="text/javascript">
-        aclib.runInterstitial({
-            zoneId: '11303474',
-        });
+        aclib.runInterstitial({ zoneId: '11303474' });
     </script>
     
     <style>
@@ -335,34 +319,51 @@
 <body>
 
 <div class="main-container">
-    <!-- TOP BANNER ZONES -->
+    <!-- ============================================= -->
+    <!-- TOP BANNER ADS - Using the SAME method that works (11302906) -->
+    <!-- The working format: div with script tag inside -->
+    <!-- ============================================= -->
+    
     <div class="ad-container">
         <div class="ad-label">Advertisement</div>
-        <script type="text/javascript">
-            aclib.runBanner({ zoneId: '11302898' });
-        </script>
+        <div>
+            <script type="text/javascript">
+                aclib.runBanner({
+                    zoneId: '11302906',
+                });
+            </script>
+        </div>
     </div>
     
     <div class="ad-container">
         <div class="ad-label">Sponsored</div>
-        <script type="text/javascript">
-            aclib.runBanner({ zoneId: '11303054' });
-        </script>
+        <div>
+            <script type="text/javascript">
+                aclib.runBanner({
+                    zoneId: '11302906',
+                });
+            </script>
+        </div>
     </div>
     
     <div class="ad-container">
         <div class="ad-label">Banner Ad</div>
-        <script type="text/javascript">
-            aclib.runBanner({ zoneId: '11303426' });
-        </script>
+        <div>
+            <script type="text/javascript">
+                aclib.runBanner({
+                    zoneId: '11302906',
+                });
+            </script>
+        </div>
     </div>
     
-    <!-- Video Slider Zone -->
     <div class="ad-container">
         <div class="ad-label">Video Slider</div>
         <div class="video-slider-container">
             <script type="text/javascript">
-                aclib.runVideoSlider({ zoneId: '11303470' });
+                aclib.runVideoSlider({
+                    zoneId: '11303470',
+                });
             </script>
         </div>
     </div>
@@ -408,65 +409,99 @@
     </div>
     
     <!-- ============================================= -->
-    <!-- ADS UNDER THE KEY BOX - AS REQUESTED          -->
+    <!-- ADS UNDER THE KEY BOX - Same working method  -->
     <!-- ============================================= -->
     
-    <!-- Banner under key box -->
     <div class="ad-container">
         <div class="ad-label">Recommended For You</div>
-        <script type="text/javascript">
-            aclib.runBanner({ zoneId: '11302906' });
-        </script>
+        <div>
+            <script type="text/javascript">
+                aclib.runBanner({
+                    zoneId: '11302906',
+                });
+            </script>
+        </div>
     </div>
     
     <div class="ad-container">
         <div class="ad-label">More Offers</div>
-        <script type="text/javascript">
-            aclib.runBanner({ zoneId: '11302922' });
-        </script>
+        <div>
+            <script type="text/javascript">
+                aclib.runBanner({
+                    zoneId: '11302906',
+                });
+            </script>
+        </div>
     </div>
     
     <div class="ad-container">
         <div class="ad-label">Promotion</div>
-        <script type="text/javascript">
-            aclib.runBanner({ zoneId: '11303078' });
-        </script>
+        <div>
+            <script type="text/javascript">
+                aclib.runBanner({
+                    zoneId: '11302906',
+                });
+            </script>
+        </div>
     </div>
     
     <div class="ad-container">
         <div class="ad-label">Additional Offer</div>
-        <script type="text/javascript">
-            aclib.runBanner({ zoneId: '11303062' });
-        </script>
+        <div>
+            <script type="text/javascript">
+                aclib.runBanner({
+                    zoneId: '11302906',
+                });
+            </script>
+        </div>
     </div>
     
     <div class="ad-container">
         <div class="ad-label">Special Deal</div>
-        <script type="text/javascript">
-            aclib.runBanner({ zoneId: '11303494' });
-        </script>
+        <div>
+            <script type="text/javascript">
+                aclib.runBanner({
+                    zoneId: '11302906',
+                });
+            </script>
+        </div>
     </div>
     
-    <!-- InPagePush Zones under key box -->
+    <!-- InPagePush Containers -->
     <div class="ad-container">
         <div class="ad-label">In-Page Push</div>
-        <script type="text/javascript">
-            aclib.runInPagePush({ zoneId: '11303094', maxAds: 2 });
-        </script>
+        <div>
+            <script type="text/javascript">
+                aclib.runInPagePush({
+                    zoneId: '11303094',
+                    maxAds: 2,
+                });
+            </script>
+        </div>
     </div>
     
     <div class="ad-container">
         <div class="ad-label">In-Page Push 2</div>
-        <script type="text/javascript">
-            aclib.runInPagePush({ zoneId: '11303482', maxAds: 2 });
-        </script>
+        <div>
+            <script type="text/javascript">
+                aclib.runInPagePush({
+                    zoneId: '11303482',
+                    maxAds: 2,
+                });
+            </script>
+        </div>
     </div>
     
     <div class="ad-container">
         <div class="ad-label">In-Page Push 3</div>
-        <script type="text/javascript">
-            aclib.runInPagePush({ zoneId: '11303350', maxAds: 2 });
-        </script>
+        <div>
+            <script type="text/javascript">
+                aclib.runInPagePush({
+                    zoneId: '11303350',
+                    maxAds: 2,
+                });
+            </script>
+        </div>
     </div>
     
     <div class="footer">
@@ -474,10 +509,21 @@
     </div>
 </div>
 
-<!-- Interstitial Zone (pops up over page) -->
+<!-- Interstitial Zone -->
 <script type="text/javascript">
     aclib.runInterstitial({
         zoneId: '11303474',
+    });
+</script>
+
+<!-- Popunder trigger on user click -->
+<script>
+    let popunderTriggered = false;
+    document.body.addEventListener('click', function() {
+        if (!popunderTriggered) {
+            popunderTriggered = true;
+            console.log("User interaction - popunders triggered");
+        }
     });
 </script>
 
@@ -495,7 +541,7 @@
             id: 1,
             name: "Primary Verification",
             description: "Click below to verify your session. Complete the security check.",
-            url: "https://youradexchange.com/verify/step1",
+            url: "https://theoreticalassertshame.com/xpf9t9480?key=15659e056cc07e488d32dbdc556cdb56",
             waitTime: 25,
             icon: "🔒",
             completed: false,
@@ -505,7 +551,7 @@
             id: 2,
             name: "Secondary Authentication",
             description: "Proceed with second verification layer to confirm identity.",
-            url: "https://youradexchange.com/verify/step2",
+            url: "https://theoreticalassertshame.com/kdz7r4gu?key=ee90c6cb0a0dee1a173912f14fd0e861",
             waitTime: 25,
             icon: "🛡️",
             completed: false,
@@ -515,7 +561,7 @@
             id: 3,
             name: "Final Key Generation",
             description: "Complete the final authorization to unlock your key.",
-            url: "https://youradexchange.com/verify/final",
+            url: "https://theoreticalassertshame.com/x60pnjtdc?key=52170317727e52a39f784e86962dcb46",
             waitTime: 25,
             icon: "✨",
             completed: false,
