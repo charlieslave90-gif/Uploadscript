@@ -6,8 +6,32 @@
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <title>KeySystem - Unlock Your Rewards</title>
     
-    <!-- Popunder (loads immediately) -->
-    <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
+    <!-- ============================================= -->
+    <!-- ADCASH INTEGRATION - PLACED HIGH IN HEAD      -->
+    <!-- Step 1: Adcash Library (only once)            -->
+    <!-- ============================================= -->
+    <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+    
+    <!-- Step 2: Additional Adcash Tags (AutoTag, Pop, Banner placements) -->
+    <script type="text/javascript">
+        aclib.runAutoTag({
+            zoneId: 'qqum5itkmn',
+        });
+    </script>
+    
+    <script type="text/javascript">
+        aclib.runPop({
+            zoneId: '11302890',
+        });
+    </script>
+    
+    <script type="text/javascript">
+        aclib.runPop({
+            zoneId: '11302914',
+        });
+    </script>
+    <!-- ============================================= -->
+    
     <style>
         * {
             margin: 0;
@@ -263,7 +287,7 @@
             padding-bottom: 20px;
         }
         
-        /* Clean ad containers - visible to everyone */
+        /* Clean ad containers */
         .ad-container {
             text-align: center;
             margin: 20px 0;
@@ -322,28 +346,29 @@
             min-height: 80px;
             margin-top: 8px;
         }
+        
+        .banner-wrapper {
+            margin: 15px 0;
+            display: flex;
+            justify-content: center;
+        }
     </style>
-    <script type="text/javascript">
-    aclib.runAutoTag({
-        zoneId: '8lthyop1ej',
-    });
-    </script>
-    <script type="text/javascript">
-    aclib.runAutoTag({
-        zoneId: '8lthyop1ej',
-    });
-</script>
-
-    
 </head>
 <body>
 
 <div class="main-container">
-    <!-- TOP BANNER AD - Highest visibility position -->
+    <!-- TOP BANNER AD - Highest visibility position with new zoneId 11302898 -->
     <div class="ad-container">
         <div class="ad-label">Advertisement</div>
-        <script> atOptions = { 'key' : '30772cccaf8ca1f9a16a3c555509b64f', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} }; </script>
-        <script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
+        <div class="banner-wrapper">
+            <div>
+                <script type="text/javascript">
+                    aclib.runBanner({
+                        zoneId: '11302898',
+                    });
+                </script>
+            </div>
+        </div>
     </div>
     
     <!-- Main Card -->
@@ -386,50 +411,46 @@
         </div>
     </div>
     
-    <!-- MIDDLE BANNER AD - Visible during task completion -->
-    <div class="ad-container">
-        <div class="ad-label">Advertisement</div>
-        <script> atOptions = { 'key' : '5c4ab71c3e05e8f162c6845ea1c55950', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script>
-        <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
-    </div>
-    
-    <!-- SECOND MIDDLE AD -->
+    <!-- MIDDLE BANNER AD - Zone 11302906 -->
     <div class="ad-container">
         <div class="ad-label">Sponsored</div>
-        <script> atOptions = { 'key' : '9ad3c1db141549482622fa057c0a1495', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script>
-        <script src="https://theoreticalassertshame.com/9ad3c1db141549482622fa057c0a1495/invoke.js"></script>
+        <div class="banner-wrapper">
+            <div>
+                <script type="text/javascript">
+                    aclib.runBanner({
+                        zoneId: '11302906',
+                    });
+                </script>
+            </div>
+        </div>
     </div>
     
-    <!-- BOTTOM BANNER AD -->
+    <!-- SECOND MIDDLE BANNER - Zone 11302922 -->
     <div class="ad-container">
-        <div class="ad-label">Advertisement</div>
-        <script> atOptions = { 'key' : '7c7fd511e2480eb4fe47887cda152595', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} }; </script>
-        <script src="https://theoreticalassertshame.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
+        <div class="ad-label">Recommended</div>
+        <div class="banner-wrapper">
+            <div>
+                <script type="text/javascript">
+                    aclib.runBanner({
+                        zoneId: '11302922',
+                    });
+                </script>
+            </div>
+        </div>
     </div>
     
-    <!-- MOBILE AD (visible on all devices) -->
+    <!-- Additional Ad Container (original placements replaced with new ones) -->
     <div class="ad-container">
-        <div class="ad-label">Mobile Ad</div>
-        <script> atOptions = { 'key' : '7e841472d1ac01ddccd7fa985576e83c', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} }; </script>
-        <script src="https://theoreticalassertshame.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
-    </div>
-    
-    <!-- NATIVE CONTENT AD -->
-    <div class="ad-container">
-        <div class="ad-label">Native Content</div>
-        <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
-        <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
-    </div>
-    
-    <!-- NETWORK ADS -->
-    <div class="ad-container">
-        <div class="ad-label">Network Ad</div>
-        <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
-    </div>
-    
-    <div class="ad-container">
-        <div class="ad-label">Network Ad</div>
-        <script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
+        <div class="ad-label">More Offers</div>
+        <div class="banner-wrapper">
+            <div>
+                <script type="text/javascript">
+                    aclib.runBanner({
+                        zoneId: '11302906',
+                    });
+                </script>
+            </div>
+        </div>
     </div>
     
     <div class="footer">
@@ -521,7 +542,6 @@
             }
         }
         
-        // if all completed, reveal key (will only happen once)
         if (completedCount === tasks.length && !keyRevealed) {
             revealKey();
         } else if (completedCount !== tasks.length) {
@@ -529,7 +549,6 @@
         }
     }
     
-    // function to pick random key from list
     function getRandomKey() {
         const randomIndex = Math.floor(Math.random() * VALID_KEYS.length);
         return VALID_KEYS[randomIndex];
@@ -540,7 +559,6 @@
         keyRevealed = true;
         stopCurrentTimer();
         
-        // Generate final key by selecting one of the provided keys
         const finalKey = getRandomKey();
         currentKey = finalKey;
         
@@ -551,7 +569,6 @@
             keyDisplay.style.display = 'block';
         }
         
-        // Clear task area to show completion state
         const taskArea = document.getElementById('taskArea');
         if (taskArea) {
             taskArea.innerHTML = `
@@ -573,20 +590,16 @@
     function startTaskTimer(taskId, waitDuration) {
         const task = tasks[taskId - 1];
         if (task.completed || task.timerActive) return false;
-        
-        // Ensure that timer only runs if it's the current task and not completed
         if (taskId !== currentTask) return false;
         
         stopCurrentTimer();
         task.timerActive = true;
         let timeLeft = waitDuration;
         
-        // re-render task area to show timer UI
         renderTaskWithTimer(task, timeLeft);
         
         timerInterval = setInterval(() => {
             timeLeft--;
-            // Update timer display if still on same task
             const timerElement = document.getElementById('taskTimer');
             const btnElement = document.getElementById('taskBtn');
             if (timerElement) timerElement.innerText = `${timeLeft}s`;
@@ -598,7 +611,6 @@
                 task.completed = true;
                 task.timerActive = false;
                 
-                // Update button if still exists to completed state
                 const finalBtn = document.getElementById('taskBtn');
                 if (finalBtn) {
                     finalBtn.disabled = true;
@@ -606,12 +618,10 @@
                     finalBtn.style.background = '#22c55e';
                 }
                 
-                // Move to next task if exists
                 if (currentTask < tasks.length) {
                     currentTask++;
                     updateProgress();
                 } else {
-                    // all tasks should be completed, trigger progress update to reveal key
                     updateProgress();
                 }
             }
@@ -623,7 +633,6 @@
         const taskArea = document.getElementById('taskArea');
         if (!taskArea) return;
         
-        const isWaiting = true;
         taskArea.innerHTML = `
             <div class="task-card">
                 <div class="task-icon">${task.icon}</div>
@@ -643,12 +652,10 @@
         if (task.completed) return;
         if (task.timerActive) return;
         
-        // Open external link in new tab for ad revenue
         if (task.url) {
             window.open(task.url, '_blank');
         }
         
-        // Show feedback
         const noticeDiv = document.getElementById('dynamicNotice');
         if (noticeDiv) {
             noticeDiv.innerHTML = `<div class="external-notice">🔗 Verification page opened! Please wait ${task.waitTime} seconds... Do not close this tab.</div>`;
@@ -661,7 +668,6 @@
         const taskArea = document.getElementById('taskArea');
         if (!taskArea) return;
         
-        // If currentTask > tasks length or all completed, do nothing (key already shown)
         if (currentTask > tasks.length) return;
         if (tasks.every(t => t.completed)) return;
         
@@ -671,23 +677,18 @@
         const isWaiting = task.timerActive;
         const isCompleted = task.completed;
         
-        // If waiting but timer not active? sync
         if (isWaiting && !timerInterval) {
-            // fallback: reset flag
             task.timerActive = false;
             renderTask();
             return;
         }
         
         if (isCompleted) {
-            // if completed but currentTask might point to it, but we should move automatically
-            // but just in case, show completed state and maybe next
             if (currentTask < tasks.length && tasks[currentTask] && !tasks[currentTask].completed) {
-                // move forward
                 currentTask++;
                 renderTask();
             } else if (currentTask === tasks.length && task.completed && tasks.every(t=>t.completed)) {
-                updateProgress(); // will reveal key
+                updateProgress();
             } else {
                 taskArea.innerHTML = `
                     <div class="task-card">
@@ -702,7 +703,6 @@
             return;
         }
         
-        // Default active but not started yet
         taskArea.innerHTML = `
             <div class="task-card">
                 <div class="task-icon">${task.icon}</div>
@@ -723,11 +723,8 @@
         }
     }
     
-    // initial setup
     function init() {
-        // reset any timers
         stopCurrentTimer();
-        // reset tasks
         tasks.forEach(t => {
             t.completed = false;
             t.timerActive = false;
@@ -740,7 +737,6 @@
         if (noticeDiv) noticeDiv.innerHTML = '';
         updateProgress();
         
-        // copy button handler
         const copyBtn = document.getElementById('copyBtn');
         if (copyBtn) {
             copyBtn.addEventListener('click', () => {
