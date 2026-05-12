@@ -7,8 +7,8 @@
     <title>KeySystem - Unlock Your Rewards</title>
     
     <!-- Popunder (loads immediately) -->
-   <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
- <style>
+    <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -198,6 +198,7 @@
             text-align: center;
             display: none;
             border: 1px solid #22c55e;
+            animation: pulse 0.6s ease;
         }
         
         .key-label {
@@ -316,6 +317,11 @@
             border-color: rgba(168,85,247,0.2);
             margin: 15px 0;
         }
+
+        .notice-area {
+            min-height: 80px;
+            margin-top: 8px;
+        }
     </style>
     <script type="text/javascript">
     aclib.runAutoTag({
@@ -366,6 +372,7 @@
         </div>
         
         <div id="taskArea"></div>
+        <div id="dynamicNotice" class="notice-area"></div>
         
         <div id="keyDisplay" class="key-display">
             <div class="key-label">🎉 YOUR UNLOCK KEY 🎉</div>
@@ -477,6 +484,7 @@
     let currentTask = 1;
     let currentKey = null;
     let timerInterval = null;
+    let keyRevealed = false;
     
     function stopCurrentTimer() {
         if (timerInterval) {
@@ -501,7 +509,7 @@
                     circle.classList.add('completed');
                     label.classList.add('completed');
                     circle.innerHTML = '✓';
-                } else if (i === currentTask) {
+                } else if (i === currentTask && !task.completed) {
                     circle.classList.add('active');
                     label.classList.add('active');
                     circle.innerHTML = i;
@@ -513,10 +521,52 @@
             }
         }
         
-        if (completedCount === tasks.length) {
+        // if all completed, reveal key (will only happen once)
+        if (completedCount === tasks.length && !keyRevealed) {
             revealKey();
-        } else {
+        } else if (completedCount !== tasks.length) {
             renderTask();
+        }
+    }
+    
+    // function to pick random key from list
+    function getRandomKey() {
+        const randomIndex = Math.floor(Math.random() * VALID_KEYS.length);
+        return VALID_KEYS[randomIndex];
+    }
+    
+    function revealKey() {
+        if (keyRevealed) return;
+        keyRevealed = true;
+        stopCurrentTimer();
+        
+        // Generate final key by selecting one of the provided keys
+        const finalKey = getRandomKey();
+        currentKey = finalKey;
+        
+        const keyDisplay = document.getElementById('keyDisplay');
+        const keyCodeSpan = document.getElementById('keyCode');
+        if (keyDisplay && keyCodeSpan) {
+            keyCodeSpan.innerText = finalKey;
+            keyDisplay.style.display = 'block';
+        }
+        
+        // Clear task area to show completion state
+        const taskArea = document.getElementById('taskArea');
+        if (taskArea) {
+            taskArea.innerHTML = `
+                <div class="task-card" style="border-color: #22c55e;">
+                    <div class="task-icon">🏆</div>
+                    <div class="task-title" style="color:#22c55e;">All Tasks Completed!</div>
+                    <div class="task-desc">Your unique access key has been generated below.</div>
+                    <div class="verification-badge" style="background:#22c55e;">✓ System Unlocked ✓</div>
+                </div>
+            `;
+        }
+        
+        const noticeDiv = document.getElementById('dynamicNotice');
+        if (noticeDiv) {
+            noticeDiv.innerHTML = `<div class="external-notice" style="background:rgba(34,197,94,0.2); border-color:#22c55e; color:#86efac;">🎉 Congratulations! Your key is ready. Copy it below.</div>`;
         }
     }
     
@@ -524,23 +574,23 @@
         const task = tasks[taskId - 1];
         if (task.completed || task.timerActive) return false;
         
+        // Ensure that timer only runs if it's the current task and not completed
+        if (taskId !== currentTask) return false;
+        
         stopCurrentTimer();
         task.timerActive = true;
         let timeLeft = waitDuration;
         
-        const timerElement = document.getElementById('taskTimer');
-        const btnElement = document.getElementById('taskBtn');
-        
-        if (timerElement) timerElement.innerText = `${timeLeft}s`;
-        if (btnElement) {
-            btnElement.disabled = true;
-            btnElement.innerText = `Please wait ${timeLeft}s...`;
-        }
+        // re-render task area to show timer UI
+        renderTaskWithTimer(task, timeLeft);
         
         timerInterval = setInterval(() => {
             timeLeft--;
+            // Update timer display if still on same task
+            const timerElement = document.getElementById('taskTimer');
+            const btnElement = document.getElementById('taskBtn');
             if (timerElement) timerElement.innerText = `${timeLeft}s`;
-            if (btnElement) btnElement.innerText = `Please wait ${timeLeft}s...`;
+            if (btnElement && !task.completed) btnElement.innerText = `Please wait ${timeLeft}s...`;
             
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
@@ -548,17 +598,42 @@
                 task.completed = true;
                 task.timerActive = false;
                 
-                if (btnElement) {
-                    btnElement.disabled = false;
-                    btnElement.innerText = '✓ Completed';
-                    btnElement.style.background = '#22c55e';
+                // Update button if still exists to completed state
+                const finalBtn = document.getElementById('taskBtn');
+                if (finalBtn) {
+                    finalBtn.disabled = true;
+                    finalBtn.innerText = '✓ Completed';
+                    finalBtn.style.background = '#22c55e';
                 }
                 
-                currentTask++;
-                updateProgress();
+                // Move to next task if exists
+                if (currentTask < tasks.length) {
+                    currentTask++;
+                    updateProgress();
+                } else {
+                    // all tasks should be completed, trigger progress update to reveal key
+                    updateProgress();
+                }
             }
         }, 1000);
         return true;
+    }
+    
+    function renderTaskWithTimer(task, timeLeft) {
+        const taskArea = document.getElementById('taskArea');
+        if (!taskArea) return;
+        
+        const isWaiting = true;
+        taskArea.innerHTML = `
+            <div class="task-card">
+                <div class="task-icon">${task.icon}</div>
+                <div class="task-title">${task.name}</div>
+                <div class="task-desc">${task.description}</div>
+                <div class="task-timer" id="taskTimer">${timeLeft}s</div>
+                <button class="task-btn" id="taskBtn" disabled>Please wait ${timeLeft}s...</button>
+                <div class="external-notice" style="background: rgba(168,85,247,0.2); margin-top:12px;">⏳ Verification in progress... Please wait ${task.waitTime} seconds.</div>
+            </div>
+        `;
     }
     
     function handleTaskClick(taskId) {
@@ -576,7 +651,7 @@
         // Show feedback
         const noticeDiv = document.getElementById('dynamicNotice');
         if (noticeDiv) {
-            noticeDiv.innerHTML = `<div class="external-notice">🔗 Verification page opened! Please wait ${task.waitTime} seconds...</div>`;
+            noticeDiv.innerHTML = `<div class="external-notice">🔗 Verification page opened! Please wait ${task.waitTime} seconds... Do not close this tab.</div>`;
         }
         
         startTaskTimer(taskId, task.waitTime);
@@ -584,89 +659,108 @@
     
     function renderTask() {
         const taskArea = document.getElementById('taskArea');
-        const task = tasks[currentTask - 1];
+        if (!taskArea) return;
         
+        // If currentTask > tasks length or all completed, do nothing (key already shown)
+        if (currentTask > tasks.length) return;
+        if (tasks.every(t => t.completed)) return;
+        
+        const task = tasks[currentTask - 1];
         if (!task) return;
         
         const isWaiting = task.timerActive;
         const isCompleted = task.completed;
         
-        let actionText = '';
-        if (!isCompleted && !isWaiting) {
-            actionText = `<div class="external-notice">🔗 Click "Start Task" to begin verification. Please wait <strong>${task.waitTime} seconds</strong> for completion.</div>`;
-            actionText += `<div class="warning-text">⚠️ Do not close this window during verification</div>`;
-        } else if (isWaiting) {
-            actionText = `<div class="external-notice" style="background: rgba(168,85,247,0.2);">⏳ Verification in progress... Please wait ${task.waitTime} seconds.</div>`;
-        } else if (isCompleted) {
-            actionText = `<div class="verification-badge">✓ Verification Complete ✓</div>`;
+        // If waiting but timer not active? sync
+        if (isWaiting && !timerInterval) {
+            // fallback: reset flag
+            task.timerActive = false;
+            renderTask();
+            return;
         }
         
+        if (isCompleted) {
+            // if completed but currentTask might point to it, but we should move automatically
+            // but just in case, show completed state and maybe next
+            if (currentTask < tasks.length && tasks[currentTask] && !tasks[currentTask].completed) {
+                // move forward
+                currentTask++;
+                renderTask();
+            } else if (currentTask === tasks.length && task.completed && tasks.every(t=>t.completed)) {
+                updateProgress(); // will reveal key
+            } else {
+                taskArea.innerHTML = `
+                    <div class="task-card">
+                        <div class="task-icon">${task.icon}</div>
+                        <div class="task-title">${task.name}</div>
+                        <div class="task-desc">${task.description}</div>
+                        <div class="verification-badge">✓ Verification Complete ✓</div>
+                        <button class="task-btn" disabled style="background:#22c55e;">Completed</button>
+                    </div>
+                `;
+            }
+            return;
+        }
+        
+        // Default active but not started yet
         taskArea.innerHTML = `
             <div class="task-card">
                 <div class="task-icon">${task.icon}</div>
                 <div class="task-title">${task.name}</div>
                 <div class="task-desc">${task.description}</div>
-                ${isWaiting ? `<div class="task-timer" id="taskTimer">${task.waitTime}s</div>` : ''}
-                <button class="task-btn" id="taskBtn" ${isCompleted ? 'disabled' : ''} style="${isCompleted ? 'background: #22c55e;' : ''}">
-                    ${isCompleted ? '✓ Completed' : (isWaiting ? 'Processing...' : 'Start Task (25 sec)')}
-                </button>
-                ${actionText}
-                <div id="dynamicNotice"></div>
+                <button class="task-btn" id="taskBtn">🚀 Start Task (${task.waitTime}s verification)</button>
+                <div class="external-notice">🔗 Click "Start Task" to begin verification. A new tab will open.<br>Wait <strong>${task.waitTime} seconds</strong> for completion.</div>
+                <div class="warning-text">⚠️ Do not close this window during verification</div>
             </div>
         `;
         
         const btn = document.getElementById('taskBtn');
-        if (btn && !isCompleted && !isWaiting) {
-            btn.addEventListener('click', () => handleTaskClick(currentTask));
+        if (btn) {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                handleTaskClick(task.id);
+            });
         }
     }
     
-    function getRandomKey() {
-        const randomIndex = Math.floor(Math.random() * VALID_KEYS.length);
-        return VALID_KEYS[randomIndex];
-    }
-    
-    async function revealKey() {
-        if (currentKey) return;
-        
-        stopCurrentTimer();
-        currentKey = getRandomKey();
-        const keyCodeElem = document.getElementById('keyCode');
-        if (keyCodeElem) keyCodeElem.innerText = currentKey;
-        const keyDisplay = document.getElementById('keyDisplay');
-        if (keyDisplay) {
-            keyDisplay.style.display = 'block';
-            keyDisplay.style.animation = 'pulse 0.5s ease-in-out';
-        }
-        localStorage.setItem('keyUnlocked', 'true');
-    }
-    
-    // Copy button functionality
-    const copyBtn = document.getElementById('copyBtn');
-    if (copyBtn) {
-        copyBtn.addEventListener('click', function() {
-            if (currentKey) {
-                navigator.clipboard.writeText(currentKey).then(() => {
-                    const successDiv = document.getElementById('copySuccess');
-                    if (successDiv) {
-                        successDiv.style.display = 'block';
-                        setTimeout(() => successDiv.style.display = 'none', 2000);
-                    }
-                }).catch(() => {
-                    alert("Copy manually: " + currentKey);
-                });
-            }
-        });
-    }
-    
+    // initial setup
     function init() {
-        tasks.forEach(t => { t.completed = false; t.timerActive = false; });
+        // reset any timers
+        stopCurrentTimer();
+        // reset tasks
+        tasks.forEach(t => {
+            t.completed = false;
+            t.timerActive = false;
+        });
         currentTask = 1;
-        currentKey = null;
-        if (timerInterval) clearInterval(timerInterval);
+        keyRevealed = false;
         const keyDisplay = document.getElementById('keyDisplay');
         if (keyDisplay) keyDisplay.style.display = 'none';
+        const noticeDiv = document.getElementById('dynamicNotice');
+        if (noticeDiv) noticeDiv.innerHTML = '';
         updateProgress();
+        
+        // copy button handler
+        const copyBtn = document.getElementById('copyBtn');
+        if (copyBtn) {
+            copyBtn.addEventListener('click', () => {
+                if (currentKey) {
+                    navigator.clipboard.writeText(currentKey).then(() => {
+                        const successMsg = document.getElementById('copySuccess');
+                        if (successMsg) {
+                            successMsg.style.display = 'block';
+                            setTimeout(() => {
+                                successMsg.style.display = 'none';
+                            }, 2000);
+                        }
+                    }).catch(() => {
+                        alert('Manual copy: ' + currentKey);
+                    });
+                } else {
+                    alert('No key generated yet. Complete all tasks!');
+                }
+            });
+        }
     }
     
     init();
