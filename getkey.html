@@ -5,33 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <title>KeySystem - Unlock Your Rewards</title>
-    
+    <link rel="stylesheet" href="styles.css">
     <!-- ============================================= -->
-    <!-- ADCASH LIBRARY - ONCE AND ONLY ONCE           -->
-    <!-- LOADED AS HIGH AS POSSIBLE IN HEAD           -->
+    <!-- ADCASH LIBRARY ONLY - NO THEORETICAL SCRIPTS  -->
     <!-- ============================================= -->
     <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
     
     <!-- ============================================= -->
-    <!-- ALL ZONE SCRIPTS - CLEAN IMPLEMENTATION      -->
-    <!-- Each banner is enclosed in a DIV as required  -->
+    <!-- ADCASH ZONE SCRIPTS                           -->
     <!-- ============================================= -->
-    
-    <!-- AutoTag Zone - scans page for ad placements -->
     <script type="text/javascript">
         aclib.runAutoTag({
             zoneId: 'qqum5itkmn',
         });
     </script>
     
-    <!-- Popunder Zones (open behind main window) -->
     <script type="text/javascript">
         aclib.runPop({ zoneId: '11302890' });
         aclib.runPop({ zoneId: '11302914' });
         aclib.runPop({ zoneId: '11303070' });
     </script>
     
-    <!-- InPagePush Zone (slides in from corner) -->
     <script type="text/javascript">
         aclib.runInPagePush({
             zoneId: '11303094',
@@ -39,29 +33,22 @@
         });
     </script>
     
-    <!-- VideoJS CSS + IMA Plugin for VAST Video Ads -->
-    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/videojs-ima@1.11.0/dist/videojs.ima.css" rel="stylesheet"/>
-    
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
         body {
             background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
             min-height: 100vh;
             padding: 20px;
         }
-        
         .main-container {
             max-width: 700px;
             margin: 0 auto;
         }
-        
         .card {
             background: rgba(15, 25, 45, 0.95);
             backdrop-filter: blur(10px);
@@ -71,7 +58,6 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             margin-bottom: 20px;
         }
-        
         h1 {
             font-size: 1.8rem;
             font-weight: 800;
@@ -82,29 +68,24 @@
             text-align: center;
             margin-bottom: 8px;
         }
-        
         .subhead {
             color: #94a3b8;
             font-size: 0.75rem;
             text-align: center;
             margin-bottom: 24px;
         }
-        
         .progress-container {
             margin: 20px 0;
         }
-        
         .progress-steps {
             display: flex;
             justify-content: space-between;
             margin-bottom: 10px;
         }
-        
         .step {
             text-align: center;
             flex: 1;
         }
-        
         .step-circle {
             width: 40px;
             height: 40px;
@@ -119,33 +100,27 @@
             border: 2px solid #334155;
             transition: all 0.3s;
         }
-        
         .step-circle.completed {
             background: #22c55e;
             border-color: #86efac;
             color: white;
         }
-        
         .step-circle.active {
             background: #a855f7;
             border-color: #c084fc;
             color: white;
             box-shadow: 0 0 15px rgba(168,85,247,0.5);
         }
-        
         .step-label {
             font-size: 0.7rem;
             color: #94a3b8;
         }
-        
         .step-label.completed {
             color: #22c55e;
         }
-        
         .step-label.active {
             color: #a855f7;
         }
-        
         .progress-bar-bg {
             background: #1e293b;
             border-radius: 10px;
@@ -153,7 +128,6 @@
             overflow: hidden;
             margin-top: 10px;
         }
-        
         .progress-fill {
             background: linear-gradient(90deg, #a855f7, #c084fc);
             width: 0%;
@@ -161,7 +135,6 @@
             transition: width 0.3s ease;
             border-radius: 10px;
         }
-        
         .task-card {
             background: #1e293b;
             border-radius: 20px;
@@ -169,27 +142,22 @@
             margin: 20px 0;
             text-align: center;
             border: 1px solid #334155;
-            transition: all 0.2s;
         }
-        
         .task-icon {
             font-size: 3rem;
             margin-bottom: 12px;
         }
-        
         .task-title {
             font-size: 1.2rem;
             font-weight: 700;
             color: white;
             margin-bottom: 8px;
         }
-        
         .task-desc {
             font-size: 0.75rem;
             color: #94a3b8;
             margin-bottom: 16px;
         }
-        
         .task-timer {
             font-family: monospace;
             font-size: 2rem;
@@ -197,7 +165,6 @@
             color: #fbbf24;
             margin: 16px 0;
         }
-        
         .task-btn {
             background: linear-gradient(135deg, #a855f7, #7c3aed);
             border: none;
@@ -207,21 +174,16 @@
             font-weight: 700;
             color: white;
             cursor: pointer;
-            transition: all 0.2s;
             width: 100%;
         }
-        
         .task-btn:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 5px 20px rgba(168,85,247,0.5);
         }
-        
         .task-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            transform: none;
         }
-        
         .key-display {
             background: #0f172a;
             border-radius: 16px;
@@ -230,15 +192,12 @@
             text-align: center;
             display: none;
             border: 1px solid #22c55e;
-            animation: pulse 0.6s ease;
         }
-        
         .key-label {
             font-size: 0.7rem;
             color: #94a3b8;
             margin-bottom: 8px;
         }
-        
         .key-code {
             font-family: monospace;
             font-size: 1rem;
@@ -249,7 +208,6 @@
             padding: 12px;
             border-radius: 12px;
         }
-        
         .copy-btn {
             background: #334155;
             border: none;
@@ -262,11 +220,9 @@
             margin-top: 12px;
             width: 100%;
         }
-        
         .copy-btn:hover {
             background: #22c55e;
         }
-        
         .copy-success {
             background: #22c55e;
             color: white;
@@ -276,7 +232,6 @@
             font-size: 0.75rem;
             display: none;
         }
-        
         .info-box {
             background: rgba(168,85,247,0.1);
             border-radius: 12px;
@@ -286,7 +241,6 @@
             text-align: center;
             margin-top: 16px;
         }
-        
         .footer {
             text-align: center;
             font-size: 0.6rem;
@@ -294,7 +248,6 @@
             margin-top: 20px;
             padding-bottom: 20px;
         }
-        
         .ad-container {
             text-align: center;
             margin: 20px 0;
@@ -304,7 +257,6 @@
             border: 1px solid rgba(255,255,255,0.1);
             min-height: 100px;
         }
-        
         .ad-label {
             font-size: 0.55rem;
             color: #64748b;
@@ -312,7 +264,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        
         .external-notice {
             background: rgba(245, 158, 11, 0.2);
             border-radius: 12px;
@@ -322,7 +273,6 @@
             color: #fbbf24;
             border: 1px solid #f59e0b;
         }
-        
         .verification-badge {
             display: inline-block;
             background: #22c55e;
@@ -332,38 +282,26 @@
             color: white;
             margin-top: 10px;
         }
-        
         .warning-text {
             color: #f87171;
             font-size: 0.7rem;
             margin-top: 8px;
         }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); border-color: #22c55e; }
-            50% { transform: scale(1.02); border-color: #c084fc; box-shadow: 0 0 20px rgba(168,85,247,0.5); }
-            100% { transform: scale(1); border-color: #22c55e; }
-        }
-        
         .notice-area {
             min-height: 80px;
             margin-top: 8px;
         }
-        
         .banner-wrapper {
             margin: 15px 0;
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
         }
-        
         .video-ad-container {
             margin: 20px 0;
             border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
         }
-        
         .video-js {
             width: 100%;
             height: auto;
@@ -371,110 +309,77 @@
             background-color: #000;
             border-radius: 12px;
         }
-        
-        /* Force ad containers to have dimensions */
-        .ad-container > div, .banner-wrapper > div {
-            min-height: 90px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        @keyframes pulse {
+            0% { transform: scale(1); border-color: #22c55e; }
+            50% { transform: scale(1.02); border-color: #c084fc; box-shadow: 0 0 20px rgba(168,85,247,0.5); }
+            100% { transform: scale(1); border-color: #22c55e; }
         }
     </style>
 </head>
 <body>
 
 <div class="main-container">
-    <!-- ============================================= -->
-    <!-- BANNER ZONE 11302898 (TOP POSITION)           -->
-    <!-- ============================================= -->
+    <!-- BANNER ZONE 11302898 -->
     <div class="ad-container">
         <div class="ad-label">Advertisement</div>
         <div>
             <script type="text/javascript">
-                aclib.runBanner({
-                    zoneId: '11302898',
-                });
+                aclib.runBanner({ zoneId: '11302898' });
             </script>
         </div>
     </div>
     
-    <!-- ============================================= -->
-    <!-- BANNER ZONE 11303054 (SECOND POSITION)        -->
-    <!-- ============================================= -->
+    <!-- BANNER ZONE 11303054 -->
     <div class="ad-container">
         <div class="ad-label">Sponsored</div>
         <div>
             <script type="text/javascript">
-                aclib.runBanner({
-                    zoneId: '11303054',
-                });
+                aclib.runBanner({ zoneId: '11303054' });
             </script>
         </div>
     </div>
     
-    <!-- ============================================= -->
-    <!-- NEW BANNER ZONE 11303062 (ADDED AS REQUESTED) -->
-    <!-- ============================================= -->
+    <!-- BANNER ZONE 11303062 -->
     <div class="ad-container">
         <div class="ad-label">Recommendation</div>
         <div>
             <script type="text/javascript">
-                aclib.runBanner({
-                    zoneId: '11303062',
-                });
+                aclib.runBanner({ zoneId: '11303062' });
             </script>
         </div>
     </div>
     
-    <!-- ============================================= -->
-    <!-- VIDEO AD CONTAINER WITH VAST ZONES            -->
-    <!-- 11303050 and 11303102                         -->
-    <!-- ============================================= -->
-    <div class="ad-container">
-        <div class="ad-label">Video Advertisement (VAST)</div>
-        <div class="video-ad-container">
-            <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto"
-                   poster="https://via.placeholder.com/640x360?text=Watch+Video+Ad+to+Support+Us"
-                   data-setup='{}'>
-                <p class="vjs-no-js">Please enable JavaScript to view video ad.</p>
-            </video>
-        </div>
-        <div class="info-box" style="margin-top: 8px;">
-            🎬 Video ad supports our free key system — please watch to continue
-        </div>
-    </div>
-    
-    <!-- ============================================= -->
-    <!-- BANNER ZONE 11302906 (MIDDLE POSITION)        -->
-    <!-- ============================================= -->
+    <!-- BANNER ZONE 11302906 -->
     <div class="ad-container">
         <div class="ad-label">Recommended For You</div>
         <div>
             <script type="text/javascript">
-                aclib.runBanner({
-                    zoneId: '11302906',
-                });
+                aclib.runBanner({ zoneId: '11302906' });
             </script>
         </div>
     </div>
     
-    <!-- ============================================= -->
-    <!-- BANNER ZONE 11303078                          -->
-    <!-- ============================================= -->
+    <!-- BANNER ZONE 11303078 -->
     <div class="ad-container">
         <div class="ad-label">Promotion</div>
         <div>
             <script type="text/javascript">
-                aclib.runBanner({
-                    zoneId: '11303078',
-                });
+                aclib.runBanner({ zoneId: '11303078' });
             </script>
         </div>
     </div>
     
-    <!-- ============================================= -->
-    <!-- MAIN CARD - KEY SYSTEM                        -->
-    <!-- ============================================= -->
+    <!-- BANNER ZONE 11302922 -->
+    <div class="ad-container">
+        <div class="ad-label">More Offers</div>
+        <div>
+            <script type="text/javascript">
+                aclib.runBanner({ zoneId: '11302922' });
+            </script>
+        </div>
+    </div>
+    
+    <!-- Main Card -->
     <div class="card">
         <h1>🔑 KEY SYSTEM</h1>
         <div class="subhead">Complete all tasks to unlock your exclusive key</div>
@@ -514,31 +419,12 @@
         </div>
     </div>
     
-    <!-- ============================================= -->
-    <!-- BANNER ZONE 11302922 (BOTTOM POSITION)        -->
-    <!-- ============================================= -->
-    <div class="ad-container">
-        <div class="ad-label">More Offers</div>
-        <div>
-            <script type="text/javascript">
-                aclib.runBanner({
-                    zoneId: '11302922',
-                });
-            </script>
-        </div>
-    </div>
-    
-    <!-- ============================================= -->
-    <!-- InPagePush Zone Display Container             -->
-    <!-- ============================================= -->
+    <!-- InPagePush Zone -->
     <div class="ad-container">
         <div class="ad-label">In-Page Push</div>
         <div>
             <script type="text/javascript">
-                aclib.runInPagePush({
-                    zoneId: '11303094',
-                    maxAds: 2,
-                });
+                aclib.runInPagePush({ zoneId: '11303094', maxAds: 2 });
             </script>
         </div>
     </div>
@@ -548,62 +434,6 @@
     </div>
 </div>
 
-<!-- VideoJS and IMA Plugin Scripts (VAST Support) -->
-<script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.11.0/dist/videojs.ima.js"></script>
-
-<!-- SPECIFIC VIDEO VAST SCRIPT FOR ZONE 11303050 AND 11303102 -->
-<script type="text/javascript">
-    (function() {
-        var initVideoPlayer = function() {
-            if (typeof videojs !== 'undefined') {
-                var player = videojs('my-video', {
-                    controls: true,
-                    autoplay: false,
-                    preload: 'auto',
-                    techOrder: ['html5'],
-                    responsive: true,
-                    fluid: true,
-                    plugins: {
-                        ima: {
-                            adTagUrl: 'https://youradexchange.com/video/select.php?r=11303050',
-                            debug: false,
-                            enablePrerollAd: true,
-                            requestMode: 'onLoad'
-                        }
-                    }
-                });
-                
-                player.ready(function() {
-                    console.log("VideoJS player ready with VAST tag 11303050");
-                });
-                
-                // Fallback to second VAST tag 11303102 if first fails
-                player.on('aderror', function() {
-                    console.log("Primary VAST ad error, loading secondary tag 11303102");
-                    if (player.ima) {
-                        player.ima.setAdTagUrl('https://youradexchange.com/video/select.php?r=11303102');
-                        player.ima.requestAds();
-                    }
-                });
-                
-                window.loadSecondaryVideoAd = function() {
-                    if (player && player.ima) {
-                        player.ima.setAdTagUrl('https://youradexchange.com/video/select.php?r=11303102');
-                        player.ima.requestAds();
-                    }
-                };
-            } else {
-                setTimeout(initVideoPlayer, 200);
-            }
-        };
-        initVideoPlayer();
-    })();
-</script>
-
-<!-- ============================================= -->
-<!-- TASK SYSTEM & KEY GENERATION                  -->
-<!-- ============================================= -->
 <script>
     const VALID_KEYS = [
         "gay_XgVsJAD70297UNjn",
