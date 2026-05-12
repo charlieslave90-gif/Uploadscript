@@ -12,39 +12,46 @@
     <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
     
     <!-- ============================================= -->
-    <!-- ADCASH ZONE TAGS (All new placements)         -->
+    <!-- ALL SPECIFIC ADCASH ZONE SCRIPTS              -->
     <!-- ============================================= -->
-    <!-- AutoTag Zone -->
+    
+    <!-- 1. AutoTag Zone: qqum5itkmn -->
     <script type="text/javascript">
         aclib.runAutoTag({
             zoneId: 'qqum5itkmn',
         });
     </script>
     
-    <!-- Popunder Zone 11302890 -->
+    <!-- 2. Popunder Zone: 11302890 -->
     <script type="text/javascript">
         aclib.runPop({
             zoneId: '11302890',
         });
     </script>
     
-    <!-- Popunder Zone 11302914 -->
+    <!-- 3. Popunder Zone: 11302914 -->
     <script type="text/javascript">
         aclib.runPop({
             zoneId: '11302914',
         });
     </script>
     
-    <!-- Banner Zone 11302898 (TOP) -->
-    <!-- Banner Zone 11302906 (MIDDLE) -->
-    <!-- Banner Zone 11302922 (BOTTOM) -->
-    <!-- New Banner Zone 11303054 -->
-    <!-- New Pop Zone 11303070 -->
-    <!-- New Banner Zone 11303078 -->
-    <!-- InPagePush Zone 11303094 -->
-    <!-- VAST Video Ad will be placed in body with VideoJS -->
+    <!-- 4. Popunder Zone: 11303070 -->
+    <script type="text/javascript">
+        aclib.runPop({
+            zoneId: '11303070',
+        });
+    </script>
     
-    <!-- VideoJS CSS + IMA Plugin Styles -->
+    <!-- 5. InPagePush Zone: 11303094 -->
+    <script type="text/javascript">
+        aclib.runInPagePush({
+            zoneId: '11303094',
+            maxAds: 2,
+        });
+    </script>
+    
+    <!-- VideoJS CSS + IMA Plugin Styles for VAST Video Ads -->
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/videojs-ima@1.11.0/dist/videojs.ima.css" rel="stylesheet"/>
     
@@ -62,7 +69,6 @@
             padding: 20px;
         }
         
-        /* Centered layout - clean, no side ads */
         .main-container {
             max-width: 700px;
             margin: 0 auto;
@@ -96,7 +102,6 @@
             margin-bottom: 24px;
         }
         
-        /* Progress Bar */
         .progress-container {
             margin: 20px 0;
         }
@@ -169,7 +174,6 @@
             border-radius: 10px;
         }
         
-        /* Task Card */
         .task-card {
             background: #1e293b;
             border-radius: 20px;
@@ -303,7 +307,6 @@
             padding-bottom: 20px;
         }
         
-        /* Clean ad containers */
         .ad-container {
             text-align: center;
             margin: 20px 0;
@@ -365,7 +368,6 @@
             flex-wrap: wrap;
         }
         
-        /* Video Player Container */
         .video-ad-container {
             margin: 20px 0;
             border-radius: 16px;
@@ -385,7 +387,7 @@
 <body>
 
 <div class="main-container">
-    <!-- TOP BANNER AD - Zone 11302898 -->
+    <!-- BANNER ZONE 11302898 -->
     <div class="ad-container">
         <div class="ad-label">Advertisement</div>
         <div class="banner-wrapper">
@@ -399,29 +401,71 @@
         </div>
     </div>
     
-    <!-- Video Ad Container with VAST (Zone 11303050 & 11303102) -->
+    <!-- BANNER ZONE 11303054 -->
     <div class="ad-container">
-        <div class="ad-label">Video Advertisement</div>
-        <div class="video-ad-container">
-            <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto"
-                   poster="https://via.placeholder.com/640x360?text=Video+Ad+Loading"
-                   data-setup='{}'>
-                <p class="vjs-no-js">Please enable JavaScript to view video ad.</p>
-            </video>
-        </div>
-        <div class="info-box" style="margin-top: 8px; font-size:0.65rem;">
-            🎬 Video ad supports our platform — thank you!
-        </div>
-    </div>
-    
-    <!-- Banner Zone 11303054 (New Placement) -->
-    <div class="ad-container">
-        <div class="ad-label">Sponsored Content</div>
+        <div class="ad-label">Sponsored</div>
         <div class="banner-wrapper">
             <div>
                 <script type="text/javascript">
                     aclib.runBanner({
                         zoneId: '11303054',
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+    
+    <!-- VIDEO AD CONTAINER WITH VAST ZONES 11303050 AND 11303102 -->
+    <div class="ad-container">
+        <div class="ad-label">Video Advertisement (VAST)</div>
+        <div class="video-ad-container">
+            <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto"
+                   poster="https://via.placeholder.com/640x360?text=Watch+Video+Ad+to+Support+Us"
+                   data-setup='{}'>
+                <p class="vjs-no-js">Please enable JavaScript to view video ad.</p>
+            </video>
+        </div>
+        <div class="info-box" style="margin-top: 8px;">
+            🎬 Video ad supports our free key system — please watch to continue
+        </div>
+    </div>
+    
+    <!-- BANNER ZONE 11302906 -->
+    <div class="ad-container">
+        <div class="ad-label">Recommended</div>
+        <div class="banner-wrapper">
+            <div>
+                <script type="text/javascript">
+                    aclib.runBanner({
+                        zoneId: '11302906',
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+    
+    <!-- BANNER ZONE 11303078 -->
+    <div class="ad-container">
+        <div class="ad-label">Promotion</div>
+        <div class="banner-wrapper">
+            <div>
+                <script type="text/javascript">
+                    aclib.runBanner({
+                        zoneId: '11303078',
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+    
+    <!-- BANNER ZONE 11302922 -->
+    <div class="ad-container">
+        <div class="ad-label">More Offers</div>
+        <div class="banner-wrapper">
+            <div>
+                <script type="text/javascript">
+                    aclib.runBanner({
+                        zoneId: '11302922',
                     });
                 </script>
             </div>
@@ -468,51 +512,9 @@
         </div>
     </div>
     
-    <!-- Banner Zone 11302906 (Middle) -->
+    <!-- InPagePush Zone appears here -->
     <div class="ad-container">
-        <div class="ad-label">Recommended</div>
-        <div class="banner-wrapper">
-            <div>
-                <script type="text/javascript">
-                    aclib.runBanner({
-                        zoneId: '11302906',
-                    });
-                </script>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Banner Zone 11303078 (New) -->
-    <div class="ad-container">
-        <div class="ad-label">Promotion</div>
-        <div class="banner-wrapper">
-            <div>
-                <script type="text/javascript">
-                    aclib.runBanner({
-                        zoneId: '11303078',
-                    });
-                </script>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Banner Zone 11302922 (Bottom) -->
-    <div class="ad-container">
-        <div class="ad-label">More Offers</div>
-        <div class="banner-wrapper">
-            <div>
-                <script type="text/javascript">
-                    aclib.runBanner({
-                        zoneId: '11302922',
-                    });
-                </script>
-            </div>
-        </div>
-    </div>
-    
-    <!-- InPagePush Zone 11303094 -->
-    <div class="ad-container">
-        <div class="ad-label">Updates</div>
+        <div class="ad-label">In-Page Push</div>
         <div>
             <script type="text/javascript">
                 aclib.runInPagePush({
@@ -521,16 +523,6 @@
                 });
             </script>
         </div>
-    </div>
-    
-    <!-- Popunder zones are already declared in head (11302890, 11302914, 11303070) -->
-    <!-- Additional Popunder explicit for zone 11303070 -->
-    <div style="display:none;">
-        <script type="text/javascript">
-            aclib.runPop({
-                zoneId: '11303070',
-            });
-        </script>
     </div>
     
     <div class="footer">
@@ -542,40 +534,59 @@
 <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/videojs-ima@1.11.0/dist/videojs.ima.js"></script>
 
-<script>
-    // ===== VIDEOJS VAST INTEGRATION (Two VAST Tags: 11303050 & 11303102) =====
-    // We'll initialize the video player with the first VAST tag, and also provide second as backup.
+<!-- SPECIFIC VIDEO VAST SCRIPT FOR ZONE 11303050 AND 11303102 -->
+<script type="text/javascript">
     (function() {
-        if (typeof videojs !== 'undefined') {
-            var player = videojs('my-video', {
-                controls: true,
-                autoplay: false,
-                preload: 'auto',
-                techOrder: ['html5'],
-                plugins: {
-                    ima: {
-                        adTagUrl: 'https://youradexchange.com/video/select.php?r=11303050',
-                        debug: false
+        var initVideoPlayer = function() {
+            if (typeof videojs !== 'undefined') {
+                var player = videojs('my-video', {
+                    controls: true,
+                    autoplay: false,
+                    preload: 'auto',
+                    techOrder: ['html5'],
+                    responsive: true,
+                    fluid: true,
+                    plugins: {
+                        ima: {
+                            adTagUrl: 'https://youradexchange.com/video/select.php?r=11303050',
+                            debug: false,
+                            enablePrerollAd: true,
+                            requestMode: 'onLoad'
+                        }
                     }
-                }
-            });
-            
-            // Initialize IMA
-            player.ready(function() {
-                // Optional: trigger ad load when ready
-                console.log("VideoJS player ready with VAST tag (r=11303050)");
-            });
-            
-            // For additional VAST tag (11303102) we could also preload a secondary ad but first one is primary.
-            // The requirement says "make sure not same position" - the video player occupies unique position.
-        } else {
-            console.warn("VideoJS not loaded");
-        }
+                });
+                
+                player.ready(function() {
+                    console.log("VideoJS player ready with VAST tag 11303050");
+                });
+                
+                // Fallback to second VAST tag 11303102 if first fails
+                player.on('aderror', function() {
+                    console.log("Primary VAST ad error, loading secondary tag 11303102");
+                    if (player.ima) {
+                        player.ima.setAdTagUrl('https://youradexchange.com/video/select.php?r=11303102');
+                        player.ima.requestAds();
+                    }
+                });
+                
+                window.loadSecondaryVideoAd = function() {
+                    if (player && player.ima) {
+                        player.ima.setAdTagUrl('https://youradexchange.com/video/select.php?r=11303102');
+                        player.ima.requestAds();
+                    }
+                };
+            } else {
+                setTimeout(initVideoPlayer, 200);
+            }
+        };
+        initVideoPlayer();
     })();
 </script>
 
+<!-- ============================================= -->
+<!-- TASK SYSTEM & KEY GENERATION                  -->
+<!-- ============================================= -->
 <script>
-    // ===== KEYS AND TASK SYSTEM (unchanged from original but with proper functionality) =====
     const VALID_KEYS = [
         "gay_XgVsJAD70297UNjn",
         "Site_nPCkS6asaeU0Q5qG",
@@ -589,7 +600,7 @@
             id: 1,
             name: "Primary Verification",
             description: "Click below to verify your session. Complete the security check.",
-            url: "https://youradexchange.com/verify/step1",
+            url: "https://theoreticalassertshame.com/x60pnjtdc?key=52170317727e52a39f784e86962dcb46",
             waitTime: 25,
             icon: "🔒",
             completed: false,
@@ -599,7 +610,7 @@
             id: 2,
             name: "Secondary Authentication",
             description: "Proceed with second verification layer to confirm identity.",
-            url: "https://youradexchange.com/verify/step2",
+            url: "https://theoreticalassertshame.com/kdz7r4gu?key=ee90c6cb0a0dee1a173912f14fd0e861",
             waitTime: 25,
             icon: "🛡️",
             completed: false,
@@ -609,7 +620,7 @@
             id: 3,
             name: "Final Key Generation",
             description: "Complete the final authorization to unlock your key.",
-            url: "https://youradexchange.com/verify/final",
+            url: "https://theoreticalassertshame.com/x60pnjtdc?key=52170317727e52a39f784e86962dcb46",
             waitTime: 25,
             icon: "✨",
             completed: false,
@@ -789,16 +800,13 @@
         const task = tasks[currentTask - 1];
         if (!task) return;
         
-        const isWaiting = task.timerActive;
-        const isCompleted = task.completed;
-        
-        if (isWaiting && !timerInterval) {
+        if (task.timerActive && !timerInterval) {
             task.timerActive = false;
             renderTask();
             return;
         }
         
-        if (isCompleted) {
+        if (task.completed) {
             if (currentTask < tasks.length && tasks[currentTask] && !tasks[currentTask].completed) {
                 currentTask++;
                 renderTask();
