@@ -5,31 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <title>KeySystem - Unlock Your Rewards</title>
+    
+    <!-- Link to your CSS file -->
     <link rel="stylesheet" href="styles.css">
+    
     <!-- ============================================= -->
-    <!-- ADCASH LIBRARY ONLY - NO THEORETICAL SCRIPTS  -->
+    <!-- ADCASH LIBRARY - ONCE ONLY                    -->
     <!-- ============================================= -->
     <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
     
     <!-- ============================================= -->
-    <!-- ADCASH ZONE SCRIPTS                           -->
+    <!-- ALL ADCASH ZONE SCRIPTS                       -->
     <!-- ============================================= -->
+    
+    <!-- AutoTag Zone -->
     <script type="text/javascript">
         aclib.runAutoTag({
             zoneId: 'qqum5itkmn',
         });
     </script>
     
+    <!-- Popunder Zones -->
     <script type="text/javascript">
         aclib.runPop({ zoneId: '11302890' });
         aclib.runPop({ zoneId: '11302914' });
         aclib.runPop({ zoneId: '11303070' });
+        aclib.runPop({ zoneId: '11303462' });
     </script>
     
+    <!-- InPagePush Zones -->
     <script type="text/javascript">
         aclib.runInPagePush({
             zoneId: '11303094',
             maxAds: 2,
+        });
+        aclib.runInPagePush({
+            zoneId: '11303482',
+            maxAds: 2,
+        });
+    </script>
+    
+    <!-- Video Slider Zone -->
+    <script type="text/javascript">
+        aclib.runVideoSlider({
+            zoneId: '11303470',
+        });
+    </script>
+    
+    <!-- Interstitial Zone -->
+    <script type="text/javascript">
+        aclib.runInterstitial({
+            zoneId: '11303474',
         });
     </script>
     
@@ -297,17 +323,9 @@
             justify-content: center;
             flex-wrap: wrap;
         }
-        .video-ad-container {
+        .video-slider-container {
             margin: 20px 0;
-            border-radius: 16px;
-            overflow: hidden;
-        }
-        .video-js {
-            width: 100%;
-            height: auto;
-            aspect-ratio: 16 / 9;
-            background-color: #000;
-            border-radius: 12px;
+            min-height: 250px;
         }
         @keyframes pulse {
             0% { transform: scale(1); border-color: #22c55e; }
@@ -349,6 +367,30 @@
         </div>
     </div>
     
+    <!-- NEW BANNER ZONE 11303426 (as requested) -->
+    <div class="ad-container">
+        <div class="ad-label">New Banner Ad</div>
+        <div>
+            <script type="text/javascript">
+                aclib.runBanner({
+                    zoneId: '11303426',
+                });
+            </script>
+        </div>
+    </div>
+    
+    <!-- VIDEO SLIDER ZONE 11303470 -->
+    <div class="ad-container">
+        <div class="ad-label">Video Slider</div>
+        <div class="video-slider-container">
+            <script type="text/javascript">
+                aclib.runVideoSlider({
+                    zoneId: '11303470',
+                });
+            </script>
+        </div>
+    </div>
+    
     <!-- BANNER ZONE 11302906 -->
     <div class="ad-container">
         <div class="ad-label">Recommended For You</div>
@@ -375,12 +417,6 @@
         <div>
             <script type="text/javascript">
                 aclib.runBanner({ zoneId: '11302922' });
-            </script>
-            <script>
-    const player = videojs("my-video");
-    player.ima({
-        adTagUrl: "https://youradexchange.com/video/select.php?r=11303314",
-    });
             </script>
         </div>
     </div>
@@ -425,7 +461,7 @@
         </div>
     </div>
     
-    <!-- InPagePush Zone -->
+    <!-- InPagePush Zones -->
     <div class="ad-container">
         <div class="ad-label">In-Page Push</div>
         <div>
@@ -435,10 +471,26 @@
         </div>
     </div>
     
+    <div class="ad-container">
+        <div class="ad-label">In-Page Push 2</div>
+        <div>
+            <script type="text/javascript">
+                aclib.runInPagePush({ zoneId: '11303482', maxAds: 2 });
+            </script>
+        </div>
+    </div>
+    
     <div class="footer">
         Complete all 3 tasks • Each task requires 25 seconds • Get your unique key
     </div>
 </div>
+
+<!-- Interstitial Zone (pops up over page) -->
+<script type="text/javascript">
+    aclib.runInterstitial({
+        zoneId: '11303474',
+    });
+</script>
 
 <script>
     const VALID_KEYS = [
