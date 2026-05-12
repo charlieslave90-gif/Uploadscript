@@ -7,43 +7,31 @@
     <title>KeySystem - Unlock Your Rewards</title>
     
     <!-- ============================================= -->
-    <!-- ADCASH LIBRARY - HIGH IN HEAD (ONLY ONCE)     -->
+    <!-- ADCASH LIBRARY - ONCE AND ONLY ONCE           -->
+    <!-- LOADED AS HIGH AS POSSIBLE IN HEAD           -->
     <!-- ============================================= -->
     <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
     
     <!-- ============================================= -->
-    <!-- ALL SPECIFIC ADCASH ZONE SCRIPTS              -->
+    <!-- ALL ZONE SCRIPTS - CLEAN IMPLEMENTATION      -->
+    <!-- Each banner is enclosed in a DIV as required  -->
     <!-- ============================================= -->
     
-    <!-- 1. AutoTag Zone: qqum5itkmn -->
+    <!-- AutoTag Zone - scans page for ad placements -->
     <script type="text/javascript">
         aclib.runAutoTag({
             zoneId: 'qqum5itkmn',
         });
     </script>
     
-    <!-- 2. Popunder Zone: 11302890 -->
+    <!-- Popunder Zones (open behind main window) -->
     <script type="text/javascript">
-        aclib.runPop({
-            zoneId: '11302890',
-        });
+        aclib.runPop({ zoneId: '11302890' });
+        aclib.runPop({ zoneId: '11302914' });
+        aclib.runPop({ zoneId: '11303070' });
     </script>
     
-    <!-- 3. Popunder Zone: 11302914 -->
-    <script type="text/javascript">
-        aclib.runPop({
-            zoneId: '11302914',
-        });
-    </script>
-    
-    <!-- 4. Popunder Zone: 11303070 -->
-    <script type="text/javascript">
-        aclib.runPop({
-            zoneId: '11303070',
-        });
-    </script>
-    
-    <!-- 5. InPagePush Zone: 11303094 -->
+    <!-- InPagePush Zone (slides in from corner) -->
     <script type="text/javascript">
         aclib.runInPagePush({
             zoneId: '11303094',
@@ -51,7 +39,7 @@
         });
     </script>
     
-    <!-- VideoJS CSS + IMA Plugin Styles for VAST Video Ads -->
+    <!-- VideoJS CSS + IMA Plugin for VAST Video Ads -->
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/videojs-ima@1.11.0/dist/videojs.ima.css" rel="stylesheet"/>
     
@@ -314,6 +302,7 @@
             background: rgba(255,255,255,0.05);
             border-radius: 16px;
             border: 1px solid rgba(255,255,255,0.1);
+            min-height: 100px;
         }
         
         .ad-label {
@@ -382,40 +371,65 @@
             background-color: #000;
             border-radius: 12px;
         }
+        
+        /* Force ad containers to have dimensions */
+        .ad-container > div, .banner-wrapper > div {
+            min-height: 90px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
 
 <div class="main-container">
-    <!-- BANNER ZONE 11302898 -->
+    <!-- ============================================= -->
+    <!-- BANNER ZONE 11302898 (TOP POSITION)           -->
+    <!-- ============================================= -->
     <div class="ad-container">
         <div class="ad-label">Advertisement</div>
-        <div class="banner-wrapper">
-            <div>
-                <script type="text/javascript">
-                    aclib.runBanner({
-                        zoneId: '11302898',
-                    });
-                </script>
-            </div>
+        <div>
+            <script type="text/javascript">
+                aclib.runBanner({
+                    zoneId: '11302898',
+                });
+            </script>
         </div>
     </div>
     
-    <!-- BANNER ZONE 11303054 -->
+    <!-- ============================================= -->
+    <!-- BANNER ZONE 11303054 (SECOND POSITION)        -->
+    <!-- ============================================= -->
     <div class="ad-container">
         <div class="ad-label">Sponsored</div>
-        <div class="banner-wrapper">
-            <div>
-                <script type="text/javascript">
-                    aclib.runBanner({
-                        zoneId: '11303054',
-                    });
-                </script>
-            </div>
+        <div>
+            <script type="text/javascript">
+                aclib.runBanner({
+                    zoneId: '11303054',
+                });
+            </script>
         </div>
     </div>
     
-    <!-- VIDEO AD CONTAINER WITH VAST ZONES 11303050 AND 11303102 -->
+    <!-- ============================================= -->
+    <!-- NEW BANNER ZONE 11303062 (ADDED AS REQUESTED) -->
+    <!-- ============================================= -->
+    <div class="ad-container">
+        <div class="ad-label">Recommendation</div>
+        <div>
+            <script type="text/javascript">
+                aclib.runBanner({
+                    zoneId: '11303062',
+                });
+            </script>
+        </div>
+    </div>
+    
+    <!-- ============================================= -->
+    <!-- VIDEO AD CONTAINER WITH VAST ZONES            -->
+    <!-- 11303050 and 11303102                         -->
+    <!-- ============================================= -->
     <div class="ad-container">
         <div class="ad-label">Video Advertisement (VAST)</div>
         <div class="video-ad-container">
@@ -430,49 +444,37 @@
         </div>
     </div>
     
-    <!-- BANNER ZONE 11302906 -->
+    <!-- ============================================= -->
+    <!-- BANNER ZONE 11302906 (MIDDLE POSITION)        -->
+    <!-- ============================================= -->
     <div class="ad-container">
-        <div class="ad-label">Recommended</div>
-        <div class="banner-wrapper">
-            <div>
-                <script type="text/javascript">
-                    aclib.runBanner({
-                        zoneId: '11302906',
-                    });
-                </script>
-            </div>
+        <div class="ad-label">Recommended For You</div>
+        <div>
+            <script type="text/javascript">
+                aclib.runBanner({
+                    zoneId: '11302906',
+                });
+            </script>
         </div>
     </div>
     
-    <!-- BANNER ZONE 11303078 -->
+    <!-- ============================================= -->
+    <!-- BANNER ZONE 11303078                          -->
+    <!-- ============================================= -->
     <div class="ad-container">
         <div class="ad-label">Promotion</div>
-        <div class="banner-wrapper">
-            <div>
-                <script type="text/javascript">
-                    aclib.runBanner({
-                        zoneId: '11303078',
-                    });
-                </script>
-            </div>
+        <div>
+            <script type="text/javascript">
+                aclib.runBanner({
+                    zoneId: '11303078',
+                });
+            </script>
         </div>
     </div>
     
-    <!-- BANNER ZONE 11302922 -->
-    <div class="ad-container">
-        <div class="ad-label">More Offers</div>
-        <div class="banner-wrapper">
-            <div>
-                <script type="text/javascript">
-                    aclib.runBanner({
-                        zoneId: '11302922',
-                    });
-                </script>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Main Card -->
+    <!-- ============================================= -->
+    <!-- MAIN CARD - KEY SYSTEM                        -->
+    <!-- ============================================= -->
     <div class="card">
         <h1>🔑 KEY SYSTEM</h1>
         <div class="subhead">Complete all tasks to unlock your exclusive key</div>
@@ -512,7 +514,23 @@
         </div>
     </div>
     
-    <!-- InPagePush Zone appears here -->
+    <!-- ============================================= -->
+    <!-- BANNER ZONE 11302922 (BOTTOM POSITION)        -->
+    <!-- ============================================= -->
+    <div class="ad-container">
+        <div class="ad-label">More Offers</div>
+        <div>
+            <script type="text/javascript">
+                aclib.runBanner({
+                    zoneId: '11302922',
+                });
+            </script>
+        </div>
+    </div>
+    
+    <!-- ============================================= -->
+    <!-- InPagePush Zone Display Container             -->
+    <!-- ============================================= -->
     <div class="ad-container">
         <div class="ad-label">In-Page Push</div>
         <div>
@@ -600,7 +618,7 @@
             id: 1,
             name: "Primary Verification",
             description: "Click below to verify your session. Complete the security check.",
-            url: "https://theoreticalassertshame.com/x60pnjtdc?key=52170317727e52a39f784e86962dcb46",
+            url: "https://youradexchange.com/verify/step1",
             waitTime: 25,
             icon: "🔒",
             completed: false,
@@ -610,7 +628,7 @@
             id: 2,
             name: "Secondary Authentication",
             description: "Proceed with second verification layer to confirm identity.",
-            url: "https://theoreticalassertshame.com/kdz7r4gu?key=ee90c6cb0a0dee1a173912f14fd0e861",
+            url: "https://youradexchange.com/verify/step2",
             waitTime: 25,
             icon: "🛡️",
             completed: false,
@@ -620,7 +638,7 @@
             id: 3,
             name: "Final Key Generation",
             description: "Complete the final authorization to unlock your key.",
-            url: "https://theoreticalassertshame.com/x60pnjtdc?key=52170317727e52a39f784e86962dcb46",
+            url: "https://youradexchange.com/verify/final",
             waitTime: 25,
             icon: "✨",
             completed: false,
