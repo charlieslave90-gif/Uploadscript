@@ -377,13 +377,13 @@
             const codeBlock = document.getElementById('scriptCodeBlock');
             if (codeBlock) codeBlock.style.display = 'none';
             
-            let secondsLeft = 30;
+            let secondsLeft = 15;
             const timerDiv = document.getElementById('countdownTimer');
             const copyBtn = document.getElementById('copyScriptBtn');
             
             if (copyBtn) {
                 copyBtn.disabled = true;
-                copyBtn.textContent = `⏳ Wait 30s...`;
+                copyBtn.textContent = `⏳ Wait 15s...`;
             }
             
             countdownInterval = setInterval(() => {
