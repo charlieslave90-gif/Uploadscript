@@ -3,27 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>KeySystem - Unlock Your Rewards</title>
+    <title>KeySystem - Unlock Rewards</title>
 
-    <!-- Adcash Library -->
-    <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
-    <script type="text/javascript">
-        aclib.runPop({ zoneId: '11302890' });
-        aclib.runPop({ zoneId: '11302914' });
-        aclib.runInPagePush({ zoneId: '11303094', maxAds: 2 });
-        aclib.runInPagePush({ zoneId: '11303482', maxAds: 2 });
-        aclib.runVideoSlider({ zoneId: '11303470' });
-        aclib.runInterstitial({ zoneId: '11303474' });
-    </script>
-    <script type="text/javascript">
-        aclib.runAutoTag({ zoneId: 'qqum5itkmn' });
-    </script>
-    <script type="text/javascript">
-        aclib.runInPagePush({ zoneId: '11303482', maxAds: 2 });
-    </script>
-    <script type="text/javascript">
-        aclib.runAutoTag({ zoneId: 'b1mmfiebpk' });
-    </script>
+    <!-- Ad Network: in-page container (must sit before </head>) -->
+    <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -56,7 +39,7 @@
             padding: 20px;
             min-height: 100vh;
         }
-        .container { max-width: 720px; margin: 0 auto; }
+        .container { max-width: 760px; margin: 0 auto; }
 
         /* Navbar */
         .navbar {
@@ -65,7 +48,7 @@
             -webkit-backdrop-filter: blur(14px);
             border: 1px solid var(--border);
             border-radius: 24px;
-            padding: 14px 22px;
+            padding: 12px 20px;
             margin-bottom: 22px;
             display: flex; justify-content: space-between; align-items: center;
             box-shadow: var(--shadow);
@@ -78,7 +61,7 @@
         .nav-links { display: flex; gap: 10px; align-items: center; }
         .home-btn {
             background: var(--grad); color: white; border: none;
-            padding: 10px 18px; border-radius: 999px; font-weight: 600; font-size: 0.85rem;
+            padding: 8px 18px; border-radius: 999px; font-weight: 600; font-size: 0.8rem;
             cursor: pointer; transition: transform .2s, box-shadow .2s;
         }
         .home-btn:hover { transform: translateY(-1px); box-shadow: var(--glow); }
@@ -90,16 +73,16 @@
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             border-radius: 28px;
-            padding: 30px 26px;
+            padding: 28px 24px;
             margin-bottom: 22px;
             box-shadow: var(--shadow);
         }
         h1 {
-            font-size: 1.9rem; font-weight: 800; letter-spacing: -0.5px;
+            font-size: 1.8rem; font-weight: 800; letter-spacing: -0.5px;
             background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
             text-align: center; margin-bottom: 6px;
         }
-        .subhead { color: var(--muted); font-size: 0.85rem; text-align: center; margin-bottom: 22px; }
+        .subhead { color: var(--muted); font-size: 0.85rem; text-align: center; margin-bottom: 24px; }
 
         /* Progress */
         .progress-container { margin: 18px 0 6px; }
@@ -114,7 +97,7 @@
         }
         .step-circle.completed { background: var(--success); border-color: var(--success); color: white; box-shadow: 0 0 18px rgba(34,197,94,0.45); }
         .step-circle.active { background: var(--grad); border-color: rgba(255,255,255,0.25); color: white; box-shadow: var(--glow); }
-        .step-label { font-size: 0.72rem; color: var(--muted); }
+        .step-label { font-size: 0.7rem; color: var(--muted); }
         .step-label.completed { color: var(--success); }
         .step-label.active { color: #e9b8ff; }
         .progress-bar-bg { background: rgba(255,255,255,0.06); border-radius: 10px; height: 8px; overflow: hidden; margin-top: 6px; }
@@ -124,116 +107,147 @@
         .task-card {
             background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
             border: 1px solid var(--border);
-            border-radius: 22px; padding: 26px 22px; margin: 20px 0; text-align: center;
+            border-radius: 22px; padding: 24px 20px; margin: 20px 0; text-align: center;
             transition: all 0.2s;
         }
-        .task-icon { font-size: 2.6rem; margin-bottom: 10px; filter: drop-shadow(0 4px 14px rgba(168,85,247,0.35)); }
-        .task-title { font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: 6px; }
-        .task-desc { font-size: 0.82rem; color: var(--muted); margin-bottom: 14px; }
+        .task-icon { font-size: 2.5rem; margin-bottom: 8px; filter: drop-shadow(0 4px 14px rgba(168,85,247,0.35)); }
+        .task-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+        .task-desc { font-size: 0.8rem; color: var(--muted); margin-bottom: 12px; }
         .task-timer {
             font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-            font-size: 2.2rem; font-weight: 800; margin: 14px 0;
+            font-size: 2rem; font-weight: 800; margin: 12px 0;
             background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
         }
         .task-btn {
-            background: var(--grad); border: none; padding: 14px 22px; border-radius: 999px;
-            font-size: 1rem; font-weight: 700; color: white; cursor: pointer; width: 100%;
+            background: var(--grad); border: none; padding: 12px 20px; border-radius: 999px;
+            font-size: 0.95rem; font-weight: 700; color: white; cursor: pointer; width: 100%;
             transition: transform .2s, box-shadow .2s, opacity .2s;
         }
         .task-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: var(--glow); }
-        .task-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+        .task-btn:disabled { opacity: 0.55; cursor: not-allowed; }
 
-        /* Continue button (sits inside ad box, under the ads) */
-        .continue-wrap {
-            margin-top: 14px; padding-top: 14px;
-            border-top: 1px dashed var(--border-2);
+        /* Compact Continue Button (only one, centered between ads) */
+        .compact-continue-section {
+            background: var(--surface);
+            border-radius: 28px;
+            border: 1px solid var(--border);
+            margin: 16px 0 18px 0;
+            padding: 16px 20px;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            box-shadow: var(--shadow);
         }
-        .continue-label {
-            font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1.2px;
-            margin-bottom: 8px; text-align: center;
+        .compact-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--muted);
+            margin-bottom: 10px;
         }
-        .continue-btn {
-            display: block; width: 100%;
-            background: var(--grad); color: white; border: none;
-            padding: 14px 22px; border-radius: 999px;
-            font-size: 1rem; font-weight: 700; cursor: pointer;
-            transition: transform .2s, box-shadow .2s, opacity .2s;
+        .single-continue-btn {
+            background: var(--grad);
+            border: none;
+            padding: 10px 24px;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 180px;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
-        .continue-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: var(--glow); }
-        .continue-btn:disabled {
-            background: rgba(255,255,255,0.06); color: var(--muted);
+        .single-continue-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: var(--glow);
+        }
+        .single-continue-btn:disabled {
+            opacity: 0.5;
             cursor: not-allowed;
+            transform: none;
         }
-        .continue-pulse { animation: pulseGlow 1.6s ease-in-out infinite; }
-        @keyframes pulseGlow {
-            0%,100% { box-shadow: 0 0 0 rgba(168,85,247,0); }
-            50% { box-shadow: 0 0 28px rgba(168,85,247,0.6); }
+        .continue-pulse {
+            animation: softPulse 1.5s ease-in-out infinite;
+        }
+        @keyframes softPulse {
+            0%,100% { box-shadow: 0 0 0 rgba(168,85,247,0.2); }
+            50% { box-shadow: 0 0 18px rgba(168,85,247,0.6); }
         }
 
         /* Key Display */
         .key-display {
             background: linear-gradient(180deg, rgba(34,197,94,0.10), rgba(34,197,94,0.04));
             border: 1px solid rgba(34,197,94,0.35);
-            border-radius: 20px; padding: 20px; margin-top: 20px; text-align: center; display: none;
+            border-radius: 20px; padding: 18px; margin-top: 20px; text-align: center; display: none;
         }
-        .key-label { font-size: 0.8rem; color: #86efac; margin-bottom: 8px; font-weight: 700; letter-spacing: 0.5px; }
+        .key-label { font-size: 0.8rem; color: #86efac; margin-bottom: 8px; font-weight: 700; }
         .key-code {
-            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-            font-size: 0.95rem; word-break: break-all; color: #bbf7d0; font-weight: 700;
-            background: rgba(0,0,0,0.35); padding: 14px; border-radius: 12px; border: 1px solid rgba(34,197,94,0.25);
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 0.9rem; word-break: break-all; color: #bbf7d0; font-weight: 700;
+            background: rgba(0,0,0,0.35); padding: 12px; border-radius: 12px;
         }
         .copy-btn {
-            background: var(--success); border: none; padding: 12px 20px; border-radius: 999px;
-            font-size: 0.9rem; font-weight: 700; color: white; cursor: pointer; margin-top: 12px; width: 100%;
-            transition: transform .2s, box-shadow .2s;
+            background: var(--success); border: none; padding: 10px 18px; border-radius: 999px;
+            font-size: 0.85rem; font-weight: 700; color: white; cursor: pointer; margin-top: 12px; width: 100%;
+            transition: transform .2s;
         }
         .copy-btn:hover { transform: translateY(-1px); box-shadow: 0 0 22px rgba(34,197,94,0.45); }
-        .copy-success { background: var(--success); color: white; padding: 8px; border-radius: 12px; margin-top: 10px; font-size: 0.78rem; display: none; }
+        .copy-success { background: var(--success); padding: 6px; border-radius: 12px; margin-top: 8px; font-size: 0.75rem; display: none; }
 
         .info-box {
             background: rgba(255,255,255,0.03); border: 1px solid var(--border);
-            border-radius: 14px; padding: 12px; font-size: 0.78rem; color: var(--muted);
+            border-radius: 14px; padding: 10px; font-size: 0.75rem; color: var(--muted);
             text-align: center; margin-top: 16px;
         }
-        .footer { text-align: center; font-size: 0.72rem; color: #6b7390; margin-top: 18px; padding-bottom: 20px; }
+        .footer { text-align: center; font-size: 0.7rem; color: #6b7390; margin-top: 20px; padding-bottom: 10px; }
 
-        /* Ad containers */
-        .ad-top, .ad-bottom {
-            text-align: center; margin-bottom: 22px; padding: 14px;
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 22px; box-shadow: var(--shadow);
+        /* Lighter Ad blocks - compact & visible */
+        .ad-strip {
+            margin: 12px 0;
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+            padding: 10px;
+            border: 1px solid var(--border);
         }
-        .ad-bottom { margin-top: 22px; margin-bottom: 0; }
-        .ad-label { font-size: 0.6rem; color: #7a8299; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1.4px; }
-        .ad-container { margin: 12px 0; padding: 8px; background: rgba(0,0,0,0.25); border-radius: 12px; border: 1px solid var(--border); }
-
+        .ad-label-small {
+            font-size: 0.55rem;
+            color: #7a8299;
+            text-align: center;
+            margin-bottom: 6px;
+            letter-spacing: 1px;
+        }
+        .ad-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            align-items: center;
+        }
+        iframe { max-width: 100%; border: 0; display: block; margin: 0 auto; }
+        .warning-text { color: #fca5a5; font-size: 0.7rem; margin-top: 6px; }
         .external-notice {
             background: rgba(251,191,36,0.10); border: 1px solid rgba(251,191,36,0.35);
-            border-radius: 12px; padding: 10px; margin-top: 12px; font-size: 0.78rem; color: #fde68a;
+            border-radius: 12px; padding: 8px; margin-top: 10px; font-size: 0.75rem;
         }
-        .verification-badge { display: inline-block; background: var(--success); border-radius: 999px; padding: 6px 14px; font-size: 0.72rem; color: white; margin-top: 10px; font-weight: 700; }
-        .warning-text { color: #fca5a5; font-size: 0.72rem; margin-top: 8px; }
-        .notice-area { min-height: 10px; margin-top: 8px; }
+        .verification-badge { display: inline-block; background: var(--success); border-radius: 999px; padding: 5px 12px; font-size: 0.7rem; color: white; margin-top: 8px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- TOP ADS -->
-    <div class="ad-top">
-        <div class="ad-label">Advertisement</div>
-        <div class="ad-container"><div><script type="text/javascript">aclib.runBanner({ zoneId: '11303494' });</script></div></div>
-        <div class="ad-container"><div><script type="text/javascript">aclib.runBanner({ zoneId: '11303530' });</script></div></div>
-        <div class="ad-container"><div><script type="text/javascript">aclib.runBanner({ zoneId: '11302906' });</script></div></div>
-
-        <!-- Continue button lives INSIDE the ad box, UNDER the ads -->
-        <div class="continue-wrap">
-            <div class="continue-label">Continue when ready</div>
-            <button class="continue-btn" id="topContinueBtn" disabled>⏳ Waiting...</button>
+    <!-- TOP ADS - multiple small units to ensure visibility -->
+    <div class="ad-strip">
+        <div class="ad-label-small">⚡ Sponsored Links</div>
+        <div class="ad-grid">
+            <iframe style="width:300px;height:250px;max-width:100%;" scrolling="no" srcdoc='&lt;script&gt;atOptions={"key":"5c4ab71c3e05e8f162c6845ea1c55950","format":"iframe","height":250,"width":300,"params":{}};&lt;/script&gt;&lt;script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"&gt;&lt;/script&gt;'></iframe>
+            <iframe style="width:320px;height:50px;max-width:100%;" scrolling="no" srcdoc='&lt;script&gt;atOptions={"key":"7e841472d1ac01ddccd7fa985576e83c","format":"iframe","height":50,"width":320,"params":{}};&lt;/script&gt;&lt;script src="https://theoreticalassertshame.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"&gt;&lt;/script&gt;'></iframe>
         </div>
+        <div style="margin-top:8px;"><iframe style="width:728px;height:90px;max-width:100%;" scrolling="no" srcdoc='&lt;script&gt;atOptions={"key":"30772cccaf8ca1f9a16a3c555509b64f","format":"iframe","height":90,"width":728,"params":{}};&lt;/script&gt;&lt;script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"&gt;&lt;/script&gt;'></iframe></div>
+        <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
     </div>
 
-    <!-- NAVBAR -->
+    <!-- NAVBAR (removed timer button) -->
     <nav class="navbar">
         <div class="logo" onclick="location.href='/'">🔑 KeySystem</div>
         <div class="nav-links">
@@ -243,27 +257,16 @@
 
     <!-- MAIN CARD -->
     <div class="card">
-        <h1>🔑 UNLOCK YOUR KEY</h1>
-        <div class="subhead">Complete all 3 tasks to generate your unique access key</div>
+        <h1>🔓 UNLOCK YOUR KEY</h1>
+        <div class="subhead">Complete all 3 tasks → Generate access key</div>
 
         <div class="progress-container">
             <div class="progress-steps">
-                <div class="step" id="step1">
-                    <div class="step-circle" id="step1Circle">1</div>
-                    <div class="step-label" id="step1Label">Task 1</div>
-                </div>
-                <div class="step" id="step2">
-                    <div class="step-circle" id="step2Circle">2</div>
-                    <div class="step-label" id="step2Label">Task 2</div>
-                </div>
-                <div class="step" id="step3">
-                    <div class="step-circle" id="step3Circle">3</div>
-                    <div class="step-label" id="step3Label">Task 3</div>
-                </div>
+                <div class="step" id="step1"><div class="step-circle" id="step1Circle">1</div><div class="step-label" id="step1Label">Task 1</div></div>
+                <div class="step" id="step2"><div class="step-circle" id="step2Circle">2</div><div class="step-label" id="step2Label">Task 2</div></div>
+                <div class="step" id="step3"><div class="step-circle" id="step3Circle">3</div><div class="step-label" id="step3Label">Task 3</div></div>
             </div>
-            <div class="progress-bar-bg">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
+            <div class="progress-bar-bg"><div class="progress-fill" id="progressFill"></div></div>
         </div>
 
         <div id="taskArea"></div>
@@ -273,76 +276,51 @@
             <div class="key-label">🎉 YOUR UNLOCK KEY 🎉</div>
             <div class="key-code" id="keyCode">Loading...</div>
             <button class="copy-btn" id="copyBtn">📋 COPY KEY</button>
-            <div id="copySuccess" class="copy-success">✅ Copied to clipboard!</div>
+            <div id="copySuccess" class="copy-success">✅ Copied!</div>
         </div>
 
-        <div class="info-box">
-            ⚡ Each task: 15s verification, then 10s wait, then press the Continue button inside the ads box.
+        <div class="info-box" id="infoBox">
+            ⏱️ Each task: 15s verification + 10s wait, then press <strong>Continue</strong> button (between ad sections).
         </div>
     </div>
 
-    <!-- BOTTOM ADS -->
-    <div class="ad-bottom">
-        <div class="ad-label">More Ads</div>
-        <div class="ad-container"><div><script type="text/javascript">aclib.runBanner({ zoneId: '11303494' });</script></div></div>
-        <div class="ad-container"><div><script type="text/javascript">aclib.runBanner({ zoneId: '11303062' });</script></div></div>
-        <div class="ad-container"><div><script type="text/javascript">aclib.runBanner({ zoneId: '11302922' });</script></div></div>
-        <div class="ad-container"><div><script type="text/javascript">aclib.runBanner({ zoneId: '11303078' });</script></div></div>
-
-        <!-- Continue button mirrored at the bottom ad box too -->
-        <div class="continue-wrap">
-            <div class="continue-label">Continue when ready</div>
-            <button class="continue-btn" id="bottomContinueBtn" disabled>⏳ Waiting...</button>
+    <!-- BOTTOM ADS - more units to increase visibility -->
+    <div class="ad-strip">
+        <div class="ad-label-small">🔹 More Offers 🔹</div>
+        <div class="ad-grid">
+            <iframe style="width:468px;height:60px;max-width:100%;" scrolling="no" srcdoc='&lt;script&gt;atOptions={"key":"7c7fd511e2480eb4fe47887cda152595","format":"iframe","height":60,"width":468,"params":{}};&lt;/script&gt;&lt;script src="https://theoreticalassertshame.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"&gt;&lt;/script&gt;'></iframe>
+            <iframe style="width:160px;height:300px;max-width:100%;" scrolling="no" srcdoc='&lt;script&gt;atOptions={"key":"673fb53f64c762401413eb44406c1c80","format":"iframe","height":300,"width":160,"params":{}};&lt;/script&gt;&lt;script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"&gt;&lt;/script&gt;'></iframe>
         </div>
+        <!-- ONLY ONE CONTINUE BUTTON: sandwiched between ads (compact) -->
+    <div class="compact-continue-section">
+        <div class="compact-label">▶️ READY TO ADVANCE ◀️</div>
+        <button class="single-continue-btn" id="globalContinueBtn" disabled>⏳ Waiting for task...</button>
+        <div class="warning-text" style="margin-top:8px;">Complete active task timer → button unlocks → press to continue</div>
+    </div>
+        <div style="margin-top:8px;"><iframe style="width:300px;height:250px;max-width:100%;" scrolling="no" srcdoc='&lt;script&gt;atOptions={"key":"5c4ab71c3e05e8f162c6845ea1c55950","format":"iframe","height":250,"width":300,"params":{}};&lt;/script&gt;&lt;script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"&gt;&lt;/script&gt;'></iframe></div>
+        <div><iframe style="width:728px;height:90px;max-width:100%;" scrolling="no" srcdoc='&lt;script&gt;atOptions={"key":"30772cccaf8ca1f9a16a3c555509b64f","format":"iframe","height":90,"width":728,"params":{}};&lt;/script&gt;&lt;script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"&gt;&lt;/script&gt;'></iframe></div>
     </div>
 
     <div class="footer">
-        Complete all 3 tasks • 15s verify + 10s wait • Press Continue inside the ads box
+        Complete steps → verification (15s) + wait (10s) → press "Continue" between ad blocks.
     </div>
 </div>
 
 <script>
     // ===== VALID KEYS =====
     const VALID_KEYS = [
-        "jay_XgVsJAD70297UNjn",
-        "Site_nPCkS6838337",
-        "Api_JEW3dv4incr2R6Co",
-        "key_Gghelloitmecrewmate2z",
-        "Generated_key329hj3ws"
+        "jay_XgVsJAD70297UNjn", "Site_nPCkS6838337", "Api_JEW3dv4incr2R6Co",
+        "key_Gghelloitmecrewmate2z", "Generated_key329hj3ws", "Ultra_Key_77X9K", "Reward_X2fhT9"
     ];
 
-    // ===== TASKS: 15s verify + 10s wait, then user presses Continue =====
+    // Fixed timers (no UI settings) - 15s verify, 10s wait
     const VERIFY_SECONDS = 15;
     const WAIT_SECONDS = 10;
 
     const tasks = [
-        {
-            id: 1,
-            name: "Primary Verification",
-            description: "Click Start to open verification, then come back and wait.",
-            url: "https://omg10.com/4/11001405",
-            icon: "🔒",
-            completed: false,
-            phase: "idle" // idle | verify | wait | ready
-        },
-        {
-            id: 2,
-            name: "Secondary Authentication",
-            description: "Open the second verification tab, then return and wait.",
-            url: "https://omg10.com/4/11001405",
-            icon: "🛡️",
-            completed: false,
-            phase: "idle"
-        },
-        {
-            id: 3,
-            name: "Final Key Generation",
-            description: "Open the final verification tab, then return and wait.",
-            url: "https://omg10.com/4/11001403",
-            icon: "✨",
-            completed: false,
-            phase: "idle"
-        }
+        { id: 1, name: "Primary Verification", description: "Click Start to open verification tab", url: "https://omg10.com/4/11001405", icon: "🔒", completed: false, phase: "idle" },
+        { id: 2, name: "Secondary Authentication", description: "Open second verification tab", url: "https://omg10.com/4/11001405", icon: "🛡️", completed: false, phase: "idle" },
+        { id: 3, name: "Final Key Generation", description: "Open final verification tab", url: "https://omg10.com/4/11001403", icon: "✨", completed: false, phase: "idle" }
     ];
 
     let currentTask = 1;
@@ -354,224 +332,141 @@
         if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
     }
 
-    function setContinueButtons({ enabled, label, pulse }) {
-        ['topContinueBtn', 'bottomContinueBtn'].forEach(id => {
-            const b = document.getElementById(id);
-            if (!b) return;
-            b.disabled = !enabled;
-            b.innerText = label;
-            b.classList.toggle('continue-pulse', !!pulse && enabled);
-        });
+    // Single Continue button control
+    const continueBtn = document.getElementById('globalContinueBtn');
+    function setContinueState(enabled, label, pulse = false) {
+        if (!continueBtn) return;
+        continueBtn.disabled = !enabled;
+        continueBtn.innerText = label;
+        if (pulse && enabled) continueBtn.classList.add('continue-pulse');
+        else continueBtn.classList.remove('continue-pulse');
     }
 
     function updateProgress() {
         const completedCount = tasks.filter(t => t.completed).length;
-        const percentage = (completedCount / tasks.length) * 100;
-        const progressFill = document.getElementById('progressFill');
-        if (progressFill) progressFill.style.width = percentage + '%';
-
+        const percent = (completedCount / tasks.length) * 100;
+        const fill = document.getElementById('progressFill');
+        if (fill) fill.style.width = percent + '%';
         for (let i = 1; i <= 3; i++) {
             const circle = document.getElementById(`step${i}Circle`);
             const label = document.getElementById(`step${i}Label`);
             const task = tasks[i-1];
-            if (!circle || !label) continue;
+            if (!circle) continue;
             circle.classList.remove('completed', 'active');
-            label.classList.remove('completed', 'active');
+            label?.classList.remove('completed', 'active');
             if (task.completed) {
-                circle.classList.add('completed'); label.classList.add('completed');
+                circle.classList.add('completed'); label?.classList.add('completed');
                 circle.innerHTML = '✓';
             } else if (i === currentTask) {
-                circle.classList.add('active'); label.classList.add('active');
+                circle.classList.add('active'); label?.classList.add('active');
                 circle.innerHTML = i;
-            } else {
-                circle.innerHTML = i;
-            }
+            } else { circle.innerHTML = i; }
         }
-
-        if (completedCount === tasks.length && !keyRevealed) {
-            revealKey();
-        } else if (completedCount !== tasks.length) {
-            renderTask();
-        }
+        if (completedCount === tasks.length && !keyRevealed) revealKey();
+        else if (completedCount !== tasks.length) renderTask();
     }
 
-    function getRandomKey() {
-        return VALID_KEYS[Math.floor(Math.random() * VALID_KEYS.length)];
-    }
+    function getRandomKey() { return VALID_KEYS[Math.floor(Math.random() * VALID_KEYS.length)]; }
 
     function revealKey() {
         if (keyRevealed) return;
         keyRevealed = true;
         stopCurrentTimer();
-        setContinueButtons({ enabled: false, label: '🎉 All tasks complete', pulse: false });
-
+        setContinueState(false, '🎉 Completed!', false);
         const finalKey = getRandomKey();
         currentKey = finalKey;
-
         const keyDisplay = document.getElementById('keyDisplay');
-        const keyCodeSpan = document.getElementById('keyCode');
-        if (keyDisplay && keyCodeSpan) {
-            keyCodeSpan.innerText = finalKey;
-            keyDisplay.style.display = 'block';
-        }
-
+        const keySpan = document.getElementById('keyCode');
+        if (keyDisplay && keySpan) { keySpan.innerText = finalKey; keyDisplay.style.display = 'block'; }
         const taskArea = document.getElementById('taskArea');
         if (taskArea) {
-            taskArea.innerHTML = `
-                <div class="task-card" style="border-color: rgba(34,197,94,0.45);">
-                    <div class="task-icon">🏆</div>
-                    <div class="task-title" style="color:#86efac;">All Tasks Completed!</div>
-                    <div class="task-desc">Your unique access key has been generated below.</div>
-                    <div class="verification-badge">✓ System Unlocked ✓</div>
-                </div>
-            `;
+            taskArea.innerHTML = `<div class="task-card" style="border-color:rgba(34,197,94,0.45);"><div class="task-icon">🏆</div><div class="task-title" style="color:#86efac;">All Tasks Completed!</div><div class="task-desc">Your unique key is below.</div><div class="verification-badge">✓ System Unlocked ✓</div></div>`;
         }
-
         const noticeDiv = document.getElementById('dynamicNotice');
-        if (noticeDiv) {
-            noticeDiv.innerHTML = `<div class="external-notice" style="background:rgba(34,197,94,0.10); border-color:rgba(34,197,94,0.35); color:#bbf7d0;">🎉 Congratulations! Your key is ready below.</div>`;
-        }
+        if (noticeDiv) noticeDiv.innerHTML = `<div class="external-notice" style="background:rgba(34,197,94,0.10);color:#bbf7d0;">🎉 Key generated! Copy it below.</div>`;
     }
 
-    // Phase machine: idle -> verify (15s) -> wait (10s) -> ready (user must press Continue)
     function startVerifyPhase(taskId) {
-        const task = tasks[taskId - 1];
-        if (!task || task.completed || taskId !== currentTask) return;
-        if (task.phase !== 'idle') return;
-
+        const task = tasks[taskId-1];
+        if (!task || task.completed || taskId !== currentTask || task.phase !== 'idle') return;
         task.phase = 'verify';
         if (task.url) window.open(task.url, '_blank');
-
-        const noticeDiv = document.getElementById('dynamicNotice');
-        if (noticeDiv) {
-            noticeDiv.innerHTML = `<div class="external-notice">🔗 Verification tab opened. Verifying for ${VERIFY_SECONDS}s — do not close this page.</div>`;
-        }
-
+        const notice = document.getElementById('dynamicNotice');
+        if (notice) notice.innerHTML = `<div class="external-notice">🔗 Verification tab opened. Verifying ${VERIFY_SECONDS}s — stay here.</div>`;
         runPhaseTimer(task, VERIFY_SECONDS, 'verify');
     }
 
     function runPhaseTimer(task, seconds, phase) {
         stopCurrentTimer();
         let timeLeft = seconds;
-        renderTaskTimer(task, timeLeft, phase);
-        setContinueButtons({
-            enabled: false,
-            label: phase === 'verify' ? `🔒 Verifying ${timeLeft}s...` : `⏳ Wait ${timeLeft}s...`,
-            pulse: false
-        });
-
+        renderTaskTimerUI(task, timeLeft, phase);
+        setContinueState(false, phase === 'verify' ? `🔒 Wait ${timeLeft}s` : `⏳ ${timeLeft}s`, false);
         timerInterval = setInterval(() => {
             timeLeft--;
-            const t = document.getElementById('taskTimer');
-            const b = document.getElementById('taskBtn');
-            if (t) t.innerText = `${timeLeft}s`;
-            if (b) b.innerText = phase === 'verify' ? `🔒 Verifying ${timeLeft}s...` : `⏳ Wait ${timeLeft}s...`;
-            setContinueButtons({
-                enabled: false,
-                label: phase === 'verify' ? `🔒 Verifying ${timeLeft}s...` : `⏳ Wait ${timeLeft}s...`,
-                pulse: false
-            });
-
+            const timerSpan = document.getElementById('taskTimerDisplay');
+            if (timerSpan) timerSpan.innerText = `${timeLeft}s`;
+            const btnLabel = document.getElementById('taskBtn');
+            if (btnLabel) btnLabel.innerText = phase === 'verify' ? `Verifying ${timeLeft}s...` : `Wait ${timeLeft}s...`;
+            setContinueState(false, phase === 'verify' ? `🔒 ${timeLeft}s` : `⏳ ${timeLeft}s`, false);
             if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                timerInterval = null;
+                clearInterval(timerInterval); timerInterval = null;
                 if (phase === 'verify') {
                     task.phase = 'wait';
                     const noticeDiv = document.getElementById('dynamicNotice');
-                    if (noticeDiv) {
-                        noticeDiv.innerHTML = `<div class="external-notice">⏳ Almost there — please wait ${WAIT_SECONDS}s, then press the Continue button inside the ads box.</div>`;
-                    }
+                    if (noticeDiv) noticeDiv.innerHTML = `<div class="external-notice">⏳ Please wait ${WAIT_SECONDS}s, then press <strong>Continue</strong> (button between ads).</div>`;
                     runPhaseTimer(task, WAIT_SECONDS, 'wait');
                 } else {
-                    // wait done -> ready: user must press Continue (in ad box)
                     task.phase = 'ready';
-                    renderTaskReady(task);
-                    setContinueButtons({ enabled: true, label: '✅ Continue to Next Task', pulse: true });
+                    renderTaskReadyUI(task);
+                    setContinueState(true, '✅ CONTINUE →', true);
                     const noticeDiv = document.getElementById('dynamicNotice');
-                    if (noticeDiv) {
-                        noticeDiv.innerHTML = `<div class="external-notice" style="background:rgba(34,197,94,0.10); border-color:rgba(34,197,94,0.35); color:#bbf7d0;">✅ Ready! Press the <strong>Continue</strong> button inside the ads box (top or bottom) to proceed.</div>`;
-                    }
+                    if (noticeDiv) noticeDiv.innerHTML = `<div class="external-notice" style="background:rgba(34,197,94,0.10);color:#bbf7d0;">✅ Ready! Press the <strong>Continue</strong> button (center between ads) to proceed.</div>`;
                 }
             }
         }, 1000);
     }
 
-    function handleContinuePressed() {
-        const task = tasks[currentTask - 1];
-        if (!task || task.phase !== 'ready' || task.completed) return;
+    function renderTaskTimerUI(task, timeLeft, phase) {
+        const area = document.getElementById('taskArea');
+        if (!area) return;
+        area.innerHTML = `<div class="task-card"><div class="task-icon">${task.icon}</div><div class="task-title">${task.name}</div><div class="task-desc">${phase === 'verify' ? `Verifying (${VERIFY_SECONDS}s)` : `Waiting (${WAIT_SECONDS}s)`} — stay on page.</div><div class="task-timer" id="taskTimerDisplay">${timeLeft}s</div><button class="task-btn" id="taskBtn" disabled>${phase === 'verify' ? `🔒 Verifying ${timeLeft}s...` : `⏳ Wait ${timeLeft}s...`}</button><div class="external-notice">⏳ Then press Continue button (middle of ads).</div></div>`;
+    }
 
+    function renderTaskReadyUI(task) {
+        const area = document.getElementById('taskArea');
+        if (!area) return;
+        area.innerHTML = `<div class="task-card" style="border-color:rgba(34,197,94,0.45);"><div class="task-icon">${task.icon}</div><div class="task-title">${task.name}</div><div class="task-desc">Verification complete. Press Continue to finish task.</div><div class="verification-badge">✓ Ready ✓</div></div>`;
+    }
+
+    function renderTask() {
+        const area = document.getElementById('taskArea');
+        if (!area) return;
+        if (tasks.every(t => t.completed)) return;
+        const task = tasks[currentTask-1];
+        if (!task) return;
+        if (task.phase === 'verify' || task.phase === 'wait') return;
+        if (task.phase === 'ready') { renderTaskReadyUI(task); return; }
+        setContinueState(false, '⏳ Waiting...', false);
+        area.innerHTML = `<div class="task-card"><div class="task-icon">${task.icon}</div><div class="task-title">${task.name}</div><div class="task-desc">${task.description}</div><button class="task-btn" id="taskBtn">🚀 Start Task (${VERIFY_SECONDS}s + ${WAIT_SECONDS}s)</button><div class="external-notice">🔗 Opens new tab. After timers, press <strong>Continue</strong> (center button).</div><div class="warning-text">⚠️ Keep this window open.</div></div>`;
+        const btn = document.getElementById('taskBtn');
+        if (btn) btn.addEventListener('click', (e) => { e.preventDefault(); startVerifyPhase(task.id); }, { once: true });
+    }
+
+    function handleContinueClick() {
+        const task = tasks[currentTask-1];
+        if (!task || task.phase !== 'ready' || task.completed) return;
         task.completed = true;
         task.phase = 'done';
-        setContinueButtons({ enabled: false, label: '⏳ Waiting...', pulse: false });
-
+        setContinueState(false, '✅ Done!', false);
         if (currentTask < tasks.length) {
             currentTask++;
             updateProgress();
         } else {
             updateProgress();
         }
-    }
-
-    function renderTaskTimer(task, timeLeft, phase) {
-        const taskArea = document.getElementById('taskArea');
-        if (!taskArea) return;
-        const phaseLabel = phase === 'verify' ? `Verifying (${VERIFY_SECONDS}s)` : `Waiting (${WAIT_SECONDS}s)`;
-        taskArea.innerHTML = `
-            <div class="task-card">
-                <div class="task-icon">${task.icon}</div>
-                <div class="task-title">${task.name}</div>
-                <div class="task-desc">${phaseLabel} — keep this page open.</div>
-                <div class="task-timer" id="taskTimer">${timeLeft}s</div>
-                <button class="task-btn" id="taskBtn" disabled>${phase === 'verify' ? `🔒 Verifying ${timeLeft}s...` : `⏳ Wait ${timeLeft}s...`}</button>
-                <div class="external-notice">⏳ Then press <strong>Continue</strong> inside the ads box above or below.</div>
-            </div>
-        `;
-    }
-
-    function renderTaskReady(task) {
-        const taskArea = document.getElementById('taskArea');
-        if (!taskArea) return;
-        taskArea.innerHTML = `
-            <div class="task-card" style="border-color: rgba(34,197,94,0.45);">
-                <div class="task-icon">${task.icon}</div>
-                <div class="task-title">${task.name}</div>
-                <div class="task-desc">Verification complete. Press <strong>Continue</strong> in the ads box to proceed.</div>
-                <div class="verification-badge">✓ Ready ✓</div>
-            </div>
-        `;
-    }
-
-    function renderTask() {
-        const taskArea = document.getElementById('taskArea');
-        if (!taskArea) return;
-        if (tasks.every(t => t.completed)) return;
-
-        const task = tasks[currentTask - 1];
-        if (!task) return;
-
-        if (task.phase === 'verify' || task.phase === 'wait') return; // timer is rendering
-        if (task.phase === 'ready') { renderTaskReady(task); return; }
-
-        // idle
-        setContinueButtons({ enabled: false, label: '⏳ Waiting...', pulse: false });
-        taskArea.innerHTML = `
-            <div class="task-card">
-                <div class="task-icon">${task.icon}</div>
-                <div class="task-title">${task.name}</div>
-                <div class="task-desc">${task.description}</div>
-                <button class="task-btn" id="taskBtn">🚀 Start Task (${VERIFY_SECONDS}s + ${WAIT_SECONDS}s)</button>
-                <div class="external-notice">🔗 A new tab will open. After ${VERIFY_SECONDS}s + ${WAIT_SECONDS}s, press <strong>Continue</strong> inside the ads box.</div>
-                <div class="warning-text">⚠️ Do not close this window during verification</div>
-            </div>
-        `;
-
-        const btn = document.getElementById('taskBtn');
-        if (btn) {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                startVerifyPhase(task.id);
-            });
-        }
+        const noticeDiv = document.getElementById('dynamicNotice');
+        if (noticeDiv && currentTask <= tasks.length) noticeDiv.innerHTML = `<div class="external-notice">🎉 Task completed! Moving to next step...</div>`;
+        if (currentTask <= tasks.length && tasks[currentTask-1] && tasks[currentTask-1].phase === 'idle') renderTask();
     }
 
     function init() {
@@ -580,38 +475,30 @@
         currentTask = 1;
         keyRevealed = false;
         currentKey = null;
-
         const keyDisplay = document.getElementById('keyDisplay');
         if (keyDisplay) keyDisplay.style.display = 'none';
         const noticeDiv = document.getElementById('dynamicNotice');
         if (noticeDiv) noticeDiv.innerHTML = '';
-
-        ['topContinueBtn', 'bottomContinueBtn'].forEach(id => {
-            const b = document.getElementById(id);
-            if (b) b.addEventListener('click', handleContinuePressed);
-        });
-
+        if (continueBtn) continueBtn.addEventListener('click', handleContinueClick);
         updateProgress();
-
         const copyBtn = document.getElementById('copyBtn');
         if (copyBtn) {
             copyBtn.addEventListener('click', () => {
                 if (currentKey) {
                     navigator.clipboard.writeText(currentKey).then(() => {
-                        const successMsg = document.getElementById('copySuccess');
-                        if (successMsg) {
-                            successMsg.style.display = 'block';
-                            setTimeout(() => { successMsg.style.display = 'none'; }, 2000);
-                        }
-                    }).catch(() => { alert('Manual copy: ' + currentKey); });
-                } else {
-                    alert('No key generated yet. Complete all tasks!');
-                }
+                        const msg = document.getElementById('copySuccess');
+                        if (msg) { msg.style.display = 'block'; setTimeout(() => msg.style.display = 'none', 1800); }
+                    }).catch(() => alert('Copy: ' + currentKey));
+                } else alert('Complete all tasks first.');
             });
         }
     }
 
     init();
 </script>
+
+<!-- Ad Network: popunders / social bar (just above </body>) -->
+<script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
+<script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
 </body>
 </html>
