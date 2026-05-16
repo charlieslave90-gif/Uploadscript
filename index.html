@@ -364,13 +364,13 @@
             const codeBlock = document.getElementById('scriptCodeBlock');
             if (codeBlock) codeBlock.style.display = 'none';
             
-            let secondsLeft = 30;
+            let secondsLeft = 1;
             const timerDiv = document.getElementById('countdownTimer');
             const copyBtn = document.getElementById('copyScriptBtn');
             
             if (copyBtn) {
                 copyBtn.disabled = true;
-                copyBtn.textContent = `⏳ Wait 30s...`;
+                copyBtn.textContent = `⏳ Wait 1...`;
             }
             
             countdownInterval = setInterval(() => {
