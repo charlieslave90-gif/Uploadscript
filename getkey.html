@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>KeySystem - Instant Key Generator</title>
+    <title>KeySystem - Key Generator</title>
 
-    <!-- Ad Network: in-page container (kept for verification but not incentivized) -->
+    <!-- Ad Network: in-page container -->
     <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
 
     <style>
@@ -84,10 +84,10 @@
         }
         .subhead { color: var(--muted); font-size: 0.85rem; text-align: center; margin-bottom: 24px; }
 
-        /* Simple Key Generator Area */
+        /* Generator Area */
         .generator-area {
             text-align: center;
-            margin: 24px 0;
+            margin: 16px 0 12px;
         }
         .generate-btn {
             background: var(--grad);
@@ -98,17 +98,27 @@
             font-weight: 700;
             color: white;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
             box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
         }
-        .generate-btn:hover {
+        .generate-btn:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: var(--glow);
         }
-        .generate-btn:active {
+        .generate-btn:active:not(:disabled) {
             transform: translateY(1px);
         }
-
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .generate-btn.generated {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+        }
+        
         /* Key Display */
         .key-display {
             background: linear-gradient(180deg, rgba(34,197,94,0.12), rgba(34,197,94,0.04));
@@ -117,7 +127,15 @@
             padding: 24px 20px;
             margin: 24px 0 16px;
             text-align: center;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+        }
+        .key-display.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
         }
         .key-label {
             font-size: 0.85rem;
@@ -125,7 +143,7 @@
             margin-bottom: 12px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
         }
         .key-code {
             font-family: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
@@ -149,13 +167,16 @@
             color: white;
             cursor: pointer;
             width: 100%;
-            transition: transform 0.2s, background 0.2s;
+            transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
         .copy-btn:hover {
             transform: translateY(-2px);
             background: #16a34a;
             box-shadow: 0 0 22px rgba(34,197,94,0.45);
+        }
+        .copy-btn:active {
+            transform: translateY(1px);
         }
         .copy-success {
             background: rgba(34,197,94,0.2);
@@ -185,8 +206,17 @@
             margin-top: 20px;
             padding-bottom: 10px;
         }
+        .badge {
+            display: inline-block;
+            background: rgba(34,197,94,0.15);
+            border-radius: 999px;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+            color: #86efac;
+            margin-top: 8px;
+        }
 
-        /* Ad blocks - kept for traffic verification but not incentivized */
+        /* Ad blocks */
         .ad-strip {
             margin: 12px 0;
             background: rgba(0,0,0,0.2);
@@ -209,7 +239,7 @@
             align-items: center;
         }
         iframe { max-width: 100%; border: 0; display: block; margin: 0 auto; }
-        .external-notice {
+        .notice {
             background: rgba(168,85,247,0.08);
             border: 1px solid rgba(168,85,247,0.3);
             border-radius: 16px;
@@ -219,25 +249,12 @@
             color: #c4b5fd;
             text-align: center;
         }
-        .badge {
-            display: inline-block;
-            background: rgba(34,197,94,0.15);
-            border-radius: 999px;
-            padding: 4px 12px;
-            font-size: 0.7rem;
-            color: #86efac;
-            margin-top: 6px;
-        }
-        hr {
-            border-color: var(--border);
-            margin: 12px 0;
-        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- TOP ADS - kept for verification, no incentives tied to key -->
+    <!-- TOP ADS -->
     <div class="ad-strip">
         <div class="ad-label-small">⚡ Sponsored Links</div>
         <div class="ad-grid">
@@ -248,7 +265,7 @@
         <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
     </div>
 
-    <!-- NAVBAR (home button intact) -->
+    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="logo" onclick="location.href='/'">🔑 KeySystem</div>
         <div class="nav-links">
@@ -256,34 +273,33 @@
         </div>
     </nav>
 
-    <!-- MAIN CARD - SIMPLE GENERATOR -->
+    <!-- MAIN CARD -->
     <div class="card">
-        <h1>✨ GENERATE UNLOCK KEY ✨</h1>
-        <div class="subhead">One click • One key • No waiting tasks</div>
+        <h1>✨ GENERATE YOUR KEY ✨</h1>
+        <div class="subhead">Click once — get your unique key</div>
 
         <div class="generator-area">
-            <button class="generate-btn" id="generateKeyBtn">🔑 Generate Random Key</button>
+            <button class="generate-btn" id="generateKeyBtn">🔑 Generate Key</button>
         </div>
 
-        <div id="keyDisplay" class="key-display" style="display: none;">
-            <div class="key-label">🎯 YOUR UNIQUE ACCESS KEY</div>
-            <div class="key-code" id="keyCode">------------</div>
-            <button class="copy-btn" id="copyBtn">📋 COPY TO CLIPBOARD</button>
-            <div id="copySuccess" class="copy-success">✅ Copied successfully!</div>
+        <div id="keyDisplay" class="key-display">
+            <div class="key-label">🎯 YOUR KEY</div>
+            <div class="key-code" id="keyCode">——————————</div>
+            <button class="copy-btn" id="copyBtn">📋 COPY</button>
+            <div id="copySuccess" class="copy-success">✅ Copied!</div>
         </div>
 
-        <div class="external-notice">
-            💡 Simple generator: click the button to receive a single random key. No tasks, no timers, no waiting.
-            <div class="badge">✓ One-time generation</div>
+        <div class="notice">
+            💡 One key per session. Generate once, copy it, and you're done.
+            <div class="badge">✓ Single use</div>
         </div>
 
         <div class="info-box">
-            🔐 This key is randomly selected from a secure set. Use it for verification purposes only.
-            <br>⚠️ Ad placements remain for traffic verification — no actions required.
+            🔐 Click the button above to generate a random key. The button will be disabled after generation.
         </div>
     </div>
 
-    <!-- BOTTOM ADS - kept but not incentivized -->
+    <!-- BOTTOM ADS -->
     <div class="ad-strip">
         <div class="ad-label-small">🔹 More Offers 🔹</div>
         <div class="ad-grid">
@@ -295,12 +311,12 @@
     </div>
 
     <div class="footer">
-        🔓 KeySystem • Instant key generator • No incentivized tasks • Just one click
+        KeySystem • Instant key generator
     </div>
 </div>
 
 <script>
-    // ===== VALID KEYS (same as original, but generation is random) =====
+    // Key pool
     const VALID_KEYS = [
         "jay_XgVsJAD70297UNjn", 
         "Site_nPCkS6838337", 
@@ -308,77 +324,75 @@
         "key_Gghelloitmecrewmate2z", 
         "Generated_key329hj3ws"
     ];
-
-    // Current generated key (only one, generated on button click)
+    
+    let keyGenerated = false;
     let currentKey = null;
-
-    // DOM elements
+    
     const generateBtn = document.getElementById('generateKeyBtn');
     const keyDisplayDiv = document.getElementById('keyDisplay');
     const keyCodeSpan = document.getElementById('keyCode');
     const copyBtn = document.getElementById('copyBtn');
     const copySuccessMsg = document.getElementById('copySuccess');
-
-    // Helper: get random key from pool
+    
     function getRandomKey() {
-        const randomIndex = Math.floor(Math.random() * VALID_KEYS.length);
-        return VALID_KEYS[randomIndex];
+        return VALID_KEYS[Math.floor(Math.random() * VALID_KEYS.length)];
     }
-
-    // Show the key display with the generated key
-    function displayGeneratedKey(key) {
+    
+    function revealKeyUI(key) {
         if (!keyDisplayDiv || !keyCodeSpan) return;
         keyCodeSpan.innerText = key;
-        keyDisplayDiv.style.display = 'block';
-        
-        // Add subtle animation
+        keyDisplayDiv.classList.add('visible');
         keyDisplayDiv.style.animation = 'none';
-        keyDisplayDiv.offsetHeight; // trigger reflow
-        keyDisplayDiv.style.animation = 'fadeSlideIn 0.4s ease';
-        
-        // Hide any previous copy success message
-        if (copySuccessMsg) copySuccessMsg.style.display = 'none';
+        keyDisplayDiv.offsetHeight;
+        keyDisplayDiv.style.animation = 'fadeSlide 0.4s ease';
     }
-
-    // Generate key handler: generates a single random key and reveals it
-    function handleGenerateKey() {
-        // Generate a fresh random key from the pool
-        const newKey = getRandomKey();
-        currentKey = newKey;
+    
+    function disableGenerateButton() {
+        if (!generateBtn) return;
+        generateBtn.disabled = true;
+        generateBtn.classList.add('generated');
+        generateBtn.innerHTML = '✓ Key Generated';
+    }
+    
+    function generateKeyOnce() {
+        if (keyGenerated) return;
         
-        // Display the key
-        displayGeneratedKey(currentKey);
+        keyGenerated = true;
+        currentKey = getRandomKey();
         
-        // Add optional flash effect on button to indicate success
+        revealKeyUI(currentKey);
+        disableGenerateButton();
+        
         if (generateBtn) {
-            generateBtn.style.transform = 'scale(0.98)';
+            generateBtn.style.transform = 'scale(0.97)';
             setTimeout(() => {
                 if (generateBtn) generateBtn.style.transform = '';
             }, 150);
         }
         
-        // Also scroll slightly to show key for better UX
-        if (keyDisplayDiv) {
-            keyDisplayDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
+        try {
+            sessionStorage.setItem('keyGen_done', 'true');
+            if (currentKey) sessionStorage.setItem('keyGen_stored', currentKey);
+        } catch(e) {}
         
-        // Console log for debugging but no extra logging needed
-        console.log('🔑 New key generated (single use)');
+        if (keyDisplayDiv) {
+            setTimeout(() => {
+                keyDisplayDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+        }
     }
-
-    // Copy key handler
+    
     function handleCopyKey() {
         if (!currentKey) {
-            // If no key exists yet, maybe show a little hint to generate first
             if (copySuccessMsg) {
-                copySuccessMsg.innerText = '⚠️ Generate a key first!';
+                copySuccessMsg.innerText = '⚠️ Generate a key first';
                 copySuccessMsg.style.display = 'block';
                 copySuccessMsg.style.background = 'rgba(239,68,68,0.2)';
                 copySuccessMsg.style.color = '#fca5a5';
                 setTimeout(() => {
                     if (copySuccessMsg) {
                         copySuccessMsg.style.display = 'none';
-                        copySuccessMsg.innerText = '✅ Copied successfully!';
+                        copySuccessMsg.innerText = '✅ Copied!';
                         copySuccessMsg.style.background = '';
                         copySuccessMsg.style.color = '';
                     }
@@ -387,12 +401,10 @@
             return;
         }
         
-        // Use modern clipboard API with fallback
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(currentKey).then(() => {
-                showCopySuccess();
-            }).catch(err => {
-                console.error('Clipboard error:', err);
+                showCopyFeedback();
+            }).catch(() => {
                 fallbackCopy(currentKey);
             });
         } else {
@@ -409,89 +421,79 @@
         textarea.select();
         try {
             document.execCommand('copy');
-            showCopySuccess();
+            showCopyFeedback();
         } catch (err) {
-            alert('Unable to copy automatically. Please manually copy: ' + text);
+            alert('Copy: ' + text);
         }
         document.body.removeChild(textarea);
     }
     
-    function showCopySuccess() {
+    function showCopyFeedback() {
         if (!copySuccessMsg) return;
-        copySuccessMsg.innerText = '✅ Copied to clipboard!';
+        copySuccessMsg.innerText = '✅ Copied!';
         copySuccessMsg.style.display = 'block';
         copySuccessMsg.style.background = 'rgba(34,197,94,0.2)';
         copySuccessMsg.style.color = '#86efac';
         setTimeout(() => {
             if (copySuccessMsg) {
                 copySuccessMsg.style.display = 'none';
-                copySuccessMsg.innerText = '✅ Copied successfully!';
+                copySuccessMsg.innerText = '✅ Copied!';
                 copySuccessMsg.style.background = '';
                 copySuccessMsg.style.color = '';
             }
         }, 2000);
     }
-
-    // Add any additional CSS animation for smooth reveal
-    const styleSheet = document.createElement("style");
-    styleSheet.textContent = `
-        @keyframes fadeSlideIn {
-            0% { opacity: 0; transform: translateY(12px); }
+    
+    function restoreFromSession() {
+        try {
+            const done = sessionStorage.getItem('keyGen_done');
+            const stored = sessionStorage.getItem('keyGen_stored');
+            if (done === 'true' && stored) {
+                keyGenerated = true;
+                currentKey = stored;
+                if (keyCodeSpan) keyCodeSpan.innerText = currentKey;
+                if (keyDisplayDiv) keyDisplayDiv.classList.add('visible');
+                disableGenerateButton();
+            }
+        } catch(e) {}
+    }
+    
+    // Add animation style
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes fadeSlide {
+            0% { opacity: 0; transform: translateY(10px); }
             100% { opacity: 1; transform: translateY(0); }
         }
         .key-display {
-            transition: box-shadow 0.2s, border-color 0.2s;
-        }
-        .key-display:hover {
-            border-color: rgba(34,197,94,0.7);
-            box-shadow: 0 8px 28px rgba(34,197,94,0.2);
-        }
-        .generate-btn {
-            position: relative;
-            overflow: hidden;
-        }
-        .generate-btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.4s, height 0.4s;
-        }
-        .generate-btn:active::after {
-            width: 200px;
-            height: 200px;
+            transition: opacity 0.35s ease, transform 0.35s ease;
             opacity: 0;
+            transform: translateY(12px);
+            pointer-events: none;
+        }
+        .key-display.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .generate-btn:disabled {
+            cursor: not-allowed;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            opacity: 0.85;
         }
     `;
-    document.head.appendChild(styleSheet);
-
-    // Event listeners
-    if (generateBtn) {
-        generateBtn.addEventListener('click', handleGenerateKey);
-    }
+    document.head.appendChild(style);
     
-    if (copyBtn) {
-        copyBtn.addEventListener('click', handleCopyKey);
-    }
+    generateBtn.addEventListener('click', generateKeyOnce);
+    copyBtn.addEventListener('click', handleCopyKey);
     
-    // Optional: If someone clicks on home button or anything, no interference
-    // Also ensure that no leftover tasks interfere — we've removed all task logic
-
-    // Initialize: ensure key display is hidden at start (no key generated yet)
-    if (keyDisplayDiv) {
-        keyDisplayDiv.style.display = 'none';
-    }
+    restoreFromSession();
     
-    // Simple message to console: no tasks, just generator.
-    console.log('KeySystem: Simplified mode active — single key generator, no incentivized tasks.');
+    if (!keyGenerated && keyDisplayDiv) {
+        keyDisplayDiv.classList.remove('visible');
+    }
 </script>
 
-<!-- Ad Network: popunders / social bar - kept for verification but no incentive traffic required -->
 <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
 <script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
 </body>
