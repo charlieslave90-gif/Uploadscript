@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>KeySystem - Unlock Rewards</title>
+    <title>KeySystem - Instant Key Generator</title>
 
-    <!-- Ad Network: in-page container (must sit before </head>) -->
+    <!-- Ad Network: in-page container (kept for verification but not incentivized) -->
     <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
 
     <style>
@@ -84,125 +84,109 @@
         }
         .subhead { color: var(--muted); font-size: 0.85rem; text-align: center; margin-bottom: 24px; }
 
-        /* Progress */
-        .progress-container { margin: 18px 0 6px; }
-        .progress-steps { display: flex; justify-content: space-between; margin-bottom: 12px; }
-        .step { text-align: center; flex: 1; }
-        .step-circle {
-            width: 42px; height: 42px; border-radius: 50%;
-            background: rgba(255,255,255,0.04); border: 1.5px solid var(--border-2);
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 8px; font-weight: 700; color: var(--muted);
-            transition: all 0.3s;
-        }
-        .step-circle.completed { background: var(--success); border-color: var(--success); color: white; box-shadow: 0 0 18px rgba(34,197,94,0.45); }
-        .step-circle.active { background: var(--grad); border-color: rgba(255,255,255,0.25); color: white; box-shadow: var(--glow); }
-        .step-label { font-size: 0.7rem; color: var(--muted); }
-        .step-label.completed { color: var(--success); }
-        .step-label.active { color: #e9b8ff; }
-        .progress-bar-bg { background: rgba(255,255,255,0.06); border-radius: 10px; height: 8px; overflow: hidden; margin-top: 6px; }
-        .progress-fill { background: var(--grad); width: 0%; height: 100%; transition: width 0.4s ease; border-radius: 10px; box-shadow: var(--glow); }
-
-        /* Task Card */
-        .task-card {
-            background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-            border: 1px solid var(--border);
-            border-radius: 22px; padding: 24px 20px; margin: 20px 0; text-align: center;
-            transition: all 0.2s;
-        }
-        .task-icon { font-size: 2.5rem; margin-bottom: 8px; filter: drop-shadow(0 4px 14px rgba(168,85,247,0.35)); }
-        .task-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
-        .task-desc { font-size: 0.8rem; color: var(--muted); margin-bottom: 12px; }
-        .task-timer {
-            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-            font-size: 2rem; font-weight: 800; margin: 12px 0;
-            background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
-        }
-        .task-btn {
-            background: var(--grad); border: none; padding: 12px 20px; border-radius: 999px;
-            font-size: 0.95rem; font-weight: 700; color: white; cursor: pointer; width: 100%;
-            transition: transform .2s, box-shadow .2s, opacity .2s;
-        }
-        .task-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: var(--glow); }
-        .task-btn:disabled { opacity: 0.55; cursor: not-allowed; }
-
-        /* Compact Continue Button (only one, centered between ads) */
-        .compact-continue-section {
-            background: var(--surface);
-            border-radius: 28px;
-            border: 1px solid var(--border);
-            margin: 16px 0 18px 0;
-            padding: 16px 20px;
+        /* Simple Key Generator Area */
+        .generator-area {
             text-align: center;
-            backdrop-filter: blur(12px);
-            box-shadow: var(--shadow);
+            margin: 24px 0;
         }
-        .compact-label {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--muted);
-            margin-bottom: 10px;
-        }
-        .single-continue-btn {
+        .generate-btn {
             background: var(--grad);
             border: none;
-            padding: 10px 24px;
-            border-radius: 60px;
-            font-size: 0.9rem;
+            padding: 14px 32px;
+            border-radius: 999px;
+            font-size: 1.1rem;
             font-weight: 700;
             color: white;
             cursor: pointer;
-            transition: all 0.2s ease;
-            min-width: 180px;
-            letter-spacing: 0.3px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.3);
         }
-        .single-continue-btn:hover:not(:disabled) {
+        .generate-btn:hover {
             transform: translateY(-2px);
             box-shadow: var(--glow);
         }
-        .single-continue-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-        .continue-pulse {
-            animation: softPulse 1.5s ease-in-out infinite;
-        }
-        @keyframes softPulse {
-            0%,100% { box-shadow: 0 0 0 rgba(168,85,247,0.2); }
-            50% { box-shadow: 0 0 18px rgba(168,85,247,0.6); }
+        .generate-btn:active {
+            transform: translateY(1px);
         }
 
         /* Key Display */
         .key-display {
-            background: linear-gradient(180deg, rgba(34,197,94,0.10), rgba(34,197,94,0.04));
-            border: 1px solid rgba(34,197,94,0.35);
-            border-radius: 20px; padding: 18px; margin-top: 20px; text-align: center; display: none;
+            background: linear-gradient(180deg, rgba(34,197,94,0.12), rgba(34,197,94,0.04));
+            border: 1px solid rgba(34,197,94,0.45);
+            border-radius: 24px;
+            padding: 24px 20px;
+            margin: 24px 0 16px;
+            text-align: center;
+            transition: all 0.2s;
         }
-        .key-label { font-size: 0.8rem; color: #86efac; margin-bottom: 8px; font-weight: 700; }
+        .key-label {
+            font-size: 0.85rem;
+            color: #86efac;
+            margin-bottom: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
         .key-code {
-            font-family: 'JetBrains Mono', ui-monospace, monospace;
-            font-size: 0.9rem; word-break: break-all; color: #bbf7d0; font-weight: 700;
-            background: rgba(0,0,0,0.35); padding: 12px; border-radius: 12px;
+            font-family: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+            font-size: 1rem;
+            word-break: break-all;
+            color: #bbf7d0;
+            font-weight: 700;
+            background: rgba(0,0,0,0.45);
+            padding: 14px 16px;
+            border-radius: 18px;
+            margin-bottom: 18px;
+            border: 1px solid rgba(34,197,94,0.3);
         }
         .copy-btn {
-            background: var(--success); border: none; padding: 10px 18px; border-radius: 999px;
-            font-size: 0.85rem; font-weight: 700; color: white; cursor: pointer; margin-top: 12px; width: 100%;
-            transition: transform .2s;
+            background: var(--success);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 999px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, background 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
-        .copy-btn:hover { transform: translateY(-1px); box-shadow: 0 0 22px rgba(34,197,94,0.45); }
-        .copy-success { background: var(--success); padding: 6px; border-radius: 12px; margin-top: 8px; font-size: 0.75rem; display: none; }
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            background: #16a34a;
+            box-shadow: 0 0 22px rgba(34,197,94,0.45);
+        }
+        .copy-success {
+            background: rgba(34,197,94,0.2);
+            padding: 8px;
+            border-radius: 14px;
+            margin-top: 12px;
+            font-size: 0.8rem;
+            color: #86efac;
+            display: none;
+            font-weight: 500;
+        }
 
         .info-box {
-            background: rgba(255,255,255,0.03); border: 1px solid var(--border);
-            border-radius: 14px; padding: 10px; font-size: 0.75rem; color: var(--muted);
-            text-align: center; margin-top: 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 14px;
+            font-size: 0.8rem;
+            color: var(--muted);
+            text-align: center;
+            margin-top: 20px;
         }
-        .footer { text-align: center; font-size: 0.7rem; color: #6b7390; margin-top: 20px; padding-bottom: 10px; }
+        .footer {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #6b7390;
+            margin-top: 20px;
+            padding-bottom: 10px;
+        }
 
-        /* Lighter Ad blocks - compact & visible */
+        /* Ad blocks - kept for traffic verification but not incentivized */
         .ad-strip {
             margin: 12px 0;
             background: rgba(0,0,0,0.2);
@@ -225,18 +209,35 @@
             align-items: center;
         }
         iframe { max-width: 100%; border: 0; display: block; margin: 0 auto; }
-        .warning-text { color: #fca5a5; font-size: 0.7rem; margin-top: 6px; }
         .external-notice {
-            background: rgba(251,191,36,0.10); border: 1px solid rgba(251,191,36,0.35);
-            border-radius: 12px; padding: 8px; margin-top: 10px; font-size: 0.75rem;
+            background: rgba(168,85,247,0.08);
+            border: 1px solid rgba(168,85,247,0.3);
+            border-radius: 16px;
+            padding: 12px;
+            margin-top: 12px;
+            font-size: 0.75rem;
+            color: #c4b5fd;
+            text-align: center;
         }
-        .verification-badge { display: inline-block; background: var(--success); border-radius: 999px; padding: 5px 12px; font-size: 0.7rem; color: white; margin-top: 8px; }
+        .badge {
+            display: inline-block;
+            background: rgba(34,197,94,0.15);
+            border-radius: 999px;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+            color: #86efac;
+            margin-top: 6px;
+        }
+        hr {
+            border-color: var(--border);
+            margin: 12px 0;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- TOP ADS - multiple small units to ensure visibility -->
+    <!-- TOP ADS - kept for verification, no incentives tied to key -->
     <div class="ad-strip">
         <div class="ad-label-small">⚡ Sponsored Links</div>
         <div class="ad-grid">
@@ -247,7 +248,7 @@
         <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
     </div>
 
-    <!-- NAVBAR (removed timer button) -->
+    <!-- NAVBAR (home button intact) -->
     <nav class="navbar">
         <div class="logo" onclick="location.href='/'">🔑 KeySystem</div>
         <div class="nav-links">
@@ -255,249 +256,242 @@
         </div>
     </nav>
 
-    <!-- MAIN CARD -->
+    <!-- MAIN CARD - SIMPLE GENERATOR -->
     <div class="card">
-        <h1>🔓 UNLOCK YOUR KEY</h1>
-        <div class="subhead">Complete all 3 tasks → Generate access key</div>
+        <h1>✨ GENERATE UNLOCK KEY ✨</h1>
+        <div class="subhead">One click • One key • No waiting tasks</div>
 
-        <div class="progress-container">
-            <div class="progress-steps">
-                <div class="step" id="step1"><div class="step-circle" id="step1Circle">1</div><div class="step-label" id="step1Label">Task 1</div></div>
-                <div class="step" id="step2"><div class="step-circle" id="step2Circle">2</div><div class="step-label" id="step2Label">Task 2</div></div>
-                <div class="step" id="step3"><div class="step-circle" id="step3Circle">3</div><div class="step-label" id="step3Label">Task 3</div></div>
-            </div>
-            <div class="progress-bar-bg"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="generator-area">
+            <button class="generate-btn" id="generateKeyBtn">🔑 Generate Random Key</button>
         </div>
 
-        <div id="taskArea"></div>
-        <div id="dynamicNotice" class="notice-area"></div>
-
-        <div id="keyDisplay" class="key-display">
-            <div class="key-label">🎉 YOUR UNLOCK KEY 🎉</div>
-            <div class="key-code" id="keyCode">Loading...</div>
-            <button class="copy-btn" id="copyBtn">📋 COPY KEY</button>
-            <div id="copySuccess" class="copy-success">✅ Copied!</div>
+        <div id="keyDisplay" class="key-display" style="display: none;">
+            <div class="key-label">🎯 YOUR UNIQUE ACCESS KEY</div>
+            <div class="key-code" id="keyCode">------------</div>
+            <button class="copy-btn" id="copyBtn">📋 COPY TO CLIPBOARD</button>
+            <div id="copySuccess" class="copy-success">✅ Copied successfully!</div>
         </div>
 
-        <div class="info-box" id="infoBox">
-            ⏱️ Each task: 15s verification + 10s wait, then press <strong>Continue</strong> button (between ad sections).
+        <div class="external-notice">
+            💡 Simple generator: click the button to receive a single random key. No tasks, no timers, no waiting.
+            <div class="badge">✓ One-time generation</div>
+        </div>
+
+        <div class="info-box">
+            🔐 This key is randomly selected from a secure set. Use it for verification purposes only.
+            <br>⚠️ Ad placements remain for traffic verification — no actions required.
         </div>
     </div>
 
-    <!-- BOTTOM ADS - more units to increase visibility -->
+    <!-- BOTTOM ADS - kept but not incentivized -->
     <div class="ad-strip">
         <div class="ad-label-small">🔹 More Offers 🔹</div>
         <div class="ad-grid">
             <iframe style="width:468px;height:60px;max-width:100%;" scrolling="no" srcdoc='&lt;script&gt;atOptions={"key":"7c7fd511e2480eb4fe47887cda152595","format":"iframe","height":60,"width":468,"params":{}};&lt;/script&gt;&lt;script src="https://theoreticalassertshame.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"&gt;&lt;/script&gt;'></iframe>
             <iframe style="width:160px;height:300px;max-width:100%;" scrolling="no" srcdoc='&lt;script&gt;atOptions={"key":"673fb53f64c762401413eb44406c1c80","format":"iframe","height":300,"width":160,"params":{}};&lt;/script&gt;&lt;script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"&gt;&lt;/script&gt;'></iframe>
         </div>
-        <!-- ONLY ONE CONTINUE BUTTON: sandwiched between ads (compact) -->
-    <div class="compact-continue-section">
-        <div class="compact-label">▶️ READY TO ADVANCE ◀️</div>
-        <button class="single-continue-btn" id="globalContinueBtn" disabled>⏳ Waiting for task...</button>
-        <div class="warning-text" style="margin-top:8px;">Complete active task timer → button unlocks → press to continue</div>
-    </div>
         <div style="margin-top:8px;"><iframe style="width:300px;height:250px;max-width:100%;" scrolling="no" srcdoc='&lt;script&gt;atOptions={"key":"5c4ab71c3e05e8f162c6845ea1c55950","format":"iframe","height":250,"width":300,"params":{}};&lt;/script&gt;&lt;script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"&gt;&lt;/script&gt;'></iframe></div>
         <div><iframe style="width:728px;height:90px;max-width:100%;" scrolling="no" srcdoc='&lt;script&gt;atOptions={"key":"30772cccaf8ca1f9a16a3c555509b64f","format":"iframe","height":90,"width":728,"params":{}};&lt;/script&gt;&lt;script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"&gt;&lt;/script&gt;'></iframe></div>
     </div>
 
     <div class="footer">
-        Complete steps → verification (15s) + wait (10s) → press "Continue" between ad blocks.
+        🔓 KeySystem • Instant key generator • No incentivized tasks • Just one click
     </div>
 </div>
 
 <script>
-    // ===== VALID KEYS =====
+    // ===== VALID KEYS (same as original, but generation is random) =====
     const VALID_KEYS = [
-        "jay_XgVsJAD70297UNjn", "Site_nPCkS6838337", "Api_JEW3dv4incr2R6Co",
-        "key_Gghelloitmecrewmate2z", "Generated_key329hj3ws"
+        "jay_XgVsJAD70297UNjn", 
+        "Site_nPCkS6838337", 
+        "Api_JEW3dv4incr2R6Co",
+        "key_Gghelloitmecrewmate2z", 
+        "Generated_key329hj3ws"
     ];
 
-    // Fixed timers (no UI settings) - 15s verify, 10s wait
-    const VERIFY_SECONDS = 15;
-    const WAIT_SECONDS = 10;
-
-    const tasks = [
-        { id: 1, name: "Primary Verification", description: "Click Start to open verification tab", url: "https://omg10.com/4/11001405", icon: "🔒", completed: false, phase: "idle" },
-        { id: 2, name: "Secondary Authentication", description: "Open second verification tab", url: "https://omg10.com/4/11001405", icon: "🛡️", completed: false, phase: "idle" },
-        { id: 3, name: "Final Key Generation", description: "Open final verification tab", url: "https://omg10.com/4/11001403", icon: "✨", completed: false, phase: "idle" }
-    ];
-
-    let currentTask = 1;
+    // Current generated key (only one, generated on button click)
     let currentKey = null;
-    let timerInterval = null;
-    let keyRevealed = false;
 
-    function stopCurrentTimer() {
-        if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+    // DOM elements
+    const generateBtn = document.getElementById('generateKeyBtn');
+    const keyDisplayDiv = document.getElementById('keyDisplay');
+    const keyCodeSpan = document.getElementById('keyCode');
+    const copyBtn = document.getElementById('copyBtn');
+    const copySuccessMsg = document.getElementById('copySuccess');
+
+    // Helper: get random key from pool
+    function getRandomKey() {
+        const randomIndex = Math.floor(Math.random() * VALID_KEYS.length);
+        return VALID_KEYS[randomIndex];
     }
 
-    // Single Continue button control
-    const continueBtn = document.getElementById('globalContinueBtn');
-    function setContinueState(enabled, label, pulse = false) {
-        if (!continueBtn) return;
-        continueBtn.disabled = !enabled;
-        continueBtn.innerText = label;
-        if (pulse && enabled) continueBtn.classList.add('continue-pulse');
-        else continueBtn.classList.remove('continue-pulse');
+    // Show the key display with the generated key
+    function displayGeneratedKey(key) {
+        if (!keyDisplayDiv || !keyCodeSpan) return;
+        keyCodeSpan.innerText = key;
+        keyDisplayDiv.style.display = 'block';
+        
+        // Add subtle animation
+        keyDisplayDiv.style.animation = 'none';
+        keyDisplayDiv.offsetHeight; // trigger reflow
+        keyDisplayDiv.style.animation = 'fadeSlideIn 0.4s ease';
+        
+        // Hide any previous copy success message
+        if (copySuccessMsg) copySuccessMsg.style.display = 'none';
     }
 
-    function updateProgress() {
-        const completedCount = tasks.filter(t => t.completed).length;
-        const percent = (completedCount / tasks.length) * 100;
-        const fill = document.getElementById('progressFill');
-        if (fill) fill.style.width = percent + '%';
-        for (let i = 1; i <= 3; i++) {
-            const circle = document.getElementById(`step${i}Circle`);
-            const label = document.getElementById(`step${i}Label`);
-            const task = tasks[i-1];
-            if (!circle) continue;
-            circle.classList.remove('completed', 'active');
-            label?.classList.remove('completed', 'active');
-            if (task.completed) {
-                circle.classList.add('completed'); label?.classList.add('completed');
-                circle.innerHTML = '✓';
-            } else if (i === currentTask) {
-                circle.classList.add('active'); label?.classList.add('active');
-                circle.innerHTML = i;
-            } else { circle.innerHTML = i; }
+    // Generate key handler: generates a single random key and reveals it
+    function handleGenerateKey() {
+        // Generate a fresh random key from the pool
+        const newKey = getRandomKey();
+        currentKey = newKey;
+        
+        // Display the key
+        displayGeneratedKey(currentKey);
+        
+        // Add optional flash effect on button to indicate success
+        if (generateBtn) {
+            generateBtn.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                if (generateBtn) generateBtn.style.transform = '';
+            }, 150);
         }
-        if (completedCount === tasks.length && !keyRevealed) revealKey();
-        else if (completedCount !== tasks.length) renderTask();
-    }
-
-    function getRandomKey() { return VALID_KEYS[Math.floor(Math.random() * VALID_KEYS.length)]; }
-
-    function revealKey() {
-        if (keyRevealed) return;
-        keyRevealed = true;
-        stopCurrentTimer();
-        setContinueState(false, '🎉 Completed!', false);
-        const finalKey = getRandomKey();
-        currentKey = finalKey;
-        const keyDisplay = document.getElementById('keyDisplay');
-        const keySpan = document.getElementById('keyCode');
-        if (keyDisplay && keySpan) { keySpan.innerText = finalKey; keyDisplay.style.display = 'block'; }
-        const taskArea = document.getElementById('taskArea');
-        if (taskArea) {
-            taskArea.innerHTML = `<div class="task-card" style="border-color:rgba(34,197,94,0.45);"><div class="task-icon">🏆</div><div class="task-title" style="color:#86efac;">All Tasks Completed!</div><div class="task-desc">Your unique key is below.</div><div class="verification-badge">✓ System Unlocked ✓</div></div>`;
+        
+        // Also scroll slightly to show key for better UX
+        if (keyDisplayDiv) {
+            keyDisplayDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
-        const noticeDiv = document.getElementById('dynamicNotice');
-        if (noticeDiv) noticeDiv.innerHTML = `<div class="external-notice" style="background:rgba(34,197,94,0.10);color:#bbf7d0;">🎉 Key generated! Copy it below.</div>`;
+        
+        // Console log for debugging but no extra logging needed
+        console.log('🔑 New key generated (single use)');
     }
 
-    function startVerifyPhase(taskId) {
-        const task = tasks[taskId-1];
-        if (!task || task.completed || taskId !== currentTask || task.phase !== 'idle') return;
-        task.phase = 'verify';
-        if (task.url) window.open(task.url, '_blank');
-        const notice = document.getElementById('dynamicNotice');
-        if (notice) notice.innerHTML = `<div class="external-notice">🔗 Verification tab opened. Verifying ${VERIFY_SECONDS}s — stay here.</div>`;
-        runPhaseTimer(task, VERIFY_SECONDS, 'verify');
-    }
-
-    function runPhaseTimer(task, seconds, phase) {
-        stopCurrentTimer();
-        let timeLeft = seconds;
-        renderTaskTimerUI(task, timeLeft, phase);
-        setContinueState(false, phase === 'verify' ? `🔒 Wait ${timeLeft}s` : `⏳ ${timeLeft}s`, false);
-        timerInterval = setInterval(() => {
-            timeLeft--;
-            const timerSpan = document.getElementById('taskTimerDisplay');
-            if (timerSpan) timerSpan.innerText = `${timeLeft}s`;
-            const btnLabel = document.getElementById('taskBtn');
-            if (btnLabel) btnLabel.innerText = phase === 'verify' ? `Verifying ${timeLeft}s...` : `Wait ${timeLeft}s...`;
-            setContinueState(false, phase === 'verify' ? `🔒 ${timeLeft}s` : `⏳ ${timeLeft}s`, false);
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval); timerInterval = null;
-                if (phase === 'verify') {
-                    task.phase = 'wait';
-                    const noticeDiv = document.getElementById('dynamicNotice');
-                    if (noticeDiv) noticeDiv.innerHTML = `<div class="external-notice">⏳ Please wait ${WAIT_SECONDS}s, then press <strong>Continue</strong> (button between ads).</div>`;
-                    runPhaseTimer(task, WAIT_SECONDS, 'wait');
-                } else {
-                    task.phase = 'ready';
-                    renderTaskReadyUI(task);
-                    setContinueState(true, '✅ CONTINUE →', true);
-                    const noticeDiv = document.getElementById('dynamicNotice');
-                    if (noticeDiv) noticeDiv.innerHTML = `<div class="external-notice" style="background:rgba(34,197,94,0.10);color:#bbf7d0;">✅ Ready! Press the <strong>Continue</strong> button (center between ads) to proceed.</div>`;
-                }
+    // Copy key handler
+    function handleCopyKey() {
+        if (!currentKey) {
+            // If no key exists yet, maybe show a little hint to generate first
+            if (copySuccessMsg) {
+                copySuccessMsg.innerText = '⚠️ Generate a key first!';
+                copySuccessMsg.style.display = 'block';
+                copySuccessMsg.style.background = 'rgba(239,68,68,0.2)';
+                copySuccessMsg.style.color = '#fca5a5';
+                setTimeout(() => {
+                    if (copySuccessMsg) {
+                        copySuccessMsg.style.display = 'none';
+                        copySuccessMsg.innerText = '✅ Copied successfully!';
+                        copySuccessMsg.style.background = '';
+                        copySuccessMsg.style.color = '';
+                    }
+                }, 1800);
             }
-        }, 1000);
-    }
-
-    function renderTaskTimerUI(task, timeLeft, phase) {
-        const area = document.getElementById('taskArea');
-        if (!area) return;
-        area.innerHTML = `<div class="task-card"><div class="task-icon">${task.icon}</div><div class="task-title">${task.name}</div><div class="task-desc">${phase === 'verify' ? `Verifying (${VERIFY_SECONDS}s)` : `Waiting (${WAIT_SECONDS}s)`} — stay on page.</div><div class="task-timer" id="taskTimerDisplay">${timeLeft}s</div><button class="task-btn" id="taskBtn" disabled>${phase === 'verify' ? `🔒 Verifying ${timeLeft}s...` : `⏳ Wait ${timeLeft}s...`}</button><div class="external-notice">⏳ Then press Continue button (middle of ads).</div></div>`;
-    }
-
-    function renderTaskReadyUI(task) {
-        const area = document.getElementById('taskArea');
-        if (!area) return;
-        area.innerHTML = `<div class="task-card" style="border-color:rgba(34,197,94,0.45);"><div class="task-icon">${task.icon}</div><div class="task-title">${task.name}</div><div class="task-desc">Verification complete. Press Continue to finish task.</div><div class="verification-badge">✓ Ready ✓</div></div>`;
-    }
-
-    function renderTask() {
-        const area = document.getElementById('taskArea');
-        if (!area) return;
-        if (tasks.every(t => t.completed)) return;
-        const task = tasks[currentTask-1];
-        if (!task) return;
-        if (task.phase === 'verify' || task.phase === 'wait') return;
-        if (task.phase === 'ready') { renderTaskReadyUI(task); return; }
-        setContinueState(false, '⏳ Waiting...', false);
-        area.innerHTML = `<div class="task-card"><div class="task-icon">${task.icon}</div><div class="task-title">${task.name}</div><div class="task-desc">${task.description}</div><button class="task-btn" id="taskBtn">🚀 Start Task (${VERIFY_SECONDS}s + ${WAIT_SECONDS}s)</button><div class="external-notice">🔗 Opens new tab. After timers, press <strong>Continue</strong> (center button).</div><div class="warning-text">⚠️ Keep this window open.</div></div>`;
-        const btn = document.getElementById('taskBtn');
-        if (btn) btn.addEventListener('click', (e) => { e.preventDefault(); startVerifyPhase(task.id); }, { once: true });
-    }
-
-    function handleContinueClick() {
-        const task = tasks[currentTask-1];
-        if (!task || task.phase !== 'ready' || task.completed) return;
-        task.completed = true;
-        task.phase = 'done';
-        setContinueState(false, '✅ Done!', false);
-        if (currentTask < tasks.length) {
-            currentTask++;
-            updateProgress();
-        } else {
-            updateProgress();
+            return;
         }
-        const noticeDiv = document.getElementById('dynamicNotice');
-        if (noticeDiv && currentTask <= tasks.length) noticeDiv.innerHTML = `<div class="external-notice">🎉 Task completed! Moving to next step...</div>`;
-        if (currentTask <= tasks.length && tasks[currentTask-1] && tasks[currentTask-1].phase === 'idle') renderTask();
-    }
-
-    function init() {
-        stopCurrentTimer();
-        tasks.forEach(t => { t.completed = false; t.phase = 'idle'; });
-        currentTask = 1;
-        keyRevealed = false;
-        currentKey = null;
-        const keyDisplay = document.getElementById('keyDisplay');
-        if (keyDisplay) keyDisplay.style.display = 'none';
-        const noticeDiv = document.getElementById('dynamicNotice');
-        if (noticeDiv) noticeDiv.innerHTML = '';
-        if (continueBtn) continueBtn.addEventListener('click', handleContinueClick);
-        updateProgress();
-        const copyBtn = document.getElementById('copyBtn');
-        if (copyBtn) {
-            copyBtn.addEventListener('click', () => {
-                if (currentKey) {
-                    navigator.clipboard.writeText(currentKey).then(() => {
-                        const msg = document.getElementById('copySuccess');
-                        if (msg) { msg.style.display = 'block'; setTimeout(() => msg.style.display = 'none', 1800); }
-                    }).catch(() => alert('Copy: ' + currentKey));
-                } else alert('Complete all tasks first.');
+        
+        // Use modern clipboard API with fallback
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(currentKey).then(() => {
+                showCopySuccess();
+            }).catch(err => {
+                console.error('Clipboard error:', err);
+                fallbackCopy(currentKey);
             });
+        } else {
+            fallbackCopy(currentKey);
         }
     }
+    
+    function fallbackCopy(text) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            document.execCommand('copy');
+            showCopySuccess();
+        } catch (err) {
+            alert('Unable to copy automatically. Please manually copy: ' + text);
+        }
+        document.body.removeChild(textarea);
+    }
+    
+    function showCopySuccess() {
+        if (!copySuccessMsg) return;
+        copySuccessMsg.innerText = '✅ Copied to clipboard!';
+        copySuccessMsg.style.display = 'block';
+        copySuccessMsg.style.background = 'rgba(34,197,94,0.2)';
+        copySuccessMsg.style.color = '#86efac';
+        setTimeout(() => {
+            if (copySuccessMsg) {
+                copySuccessMsg.style.display = 'none';
+                copySuccessMsg.innerText = '✅ Copied successfully!';
+                copySuccessMsg.style.background = '';
+                copySuccessMsg.style.color = '';
+            }
+        }, 2000);
+    }
 
-    init();
+    // Add any additional CSS animation for smooth reveal
+    const styleSheet = document.createElement("style");
+    styleSheet.textContent = `
+        @keyframes fadeSlideIn {
+            0% { opacity: 0; transform: translateY(12px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .key-display {
+            transition: box-shadow 0.2s, border-color 0.2s;
+        }
+        .key-display:hover {
+            border-color: rgba(34,197,94,0.7);
+            box-shadow: 0 8px 28px rgba(34,197,94,0.2);
+        }
+        .generate-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        .generate-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+        }
+        .generate-btn:active::after {
+            width: 200px;
+            height: 200px;
+            opacity: 0;
+        }
+    `;
+    document.head.appendChild(styleSheet);
+
+    // Event listeners
+    if (generateBtn) {
+        generateBtn.addEventListener('click', handleGenerateKey);
+    }
+    
+    if (copyBtn) {
+        copyBtn.addEventListener('click', handleCopyKey);
+    }
+    
+    // Optional: If someone clicks on home button or anything, no interference
+    // Also ensure that no leftover tasks interfere — we've removed all task logic
+
+    // Initialize: ensure key display is hidden at start (no key generated yet)
+    if (keyDisplayDiv) {
+        keyDisplayDiv.style.display = 'none';
+    }
+    
+    // Simple message to console: no tasks, just generator.
+    console.log('KeySystem: Simplified mode active — single key generator, no incentivized tasks.');
 </script>
 
-<!-- Ad Network: popunders / social bar (just above </body>) -->
+<!-- Ad Network: popunders / social bar - kept for verification but no incentive traffic required -->
 <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
 <script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
 </body>
