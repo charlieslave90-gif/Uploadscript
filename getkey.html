@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>KeySystem - Key Generator</title>
 
-    <!-- Ad Network: in-page container -->
-    <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
-
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
@@ -39,13 +36,12 @@
             padding: 20px;
             min-height: 100vh;
         }
-        .container { max-width: 760px; margin: 0 auto; }
+        .container { max-width: 900px; margin: 0 auto; }
 
         /* Navbar */
         .navbar {
             background: var(--surface);
             backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
             border: 1px solid var(--border);
             border-radius: 24px;
             padding: 12px 20px;
@@ -71,7 +67,6 @@
             background: var(--surface);
             border: 1px solid var(--border);
             backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
             border-radius: 28px;
             padding: 28px 24px;
             margin-bottom: 22px;
@@ -84,7 +79,31 @@
         }
         .subhead { color: var(--muted); font-size: 0.85rem; text-align: center; margin-bottom: 24px; }
 
-        /* Generator Area */
+        /* Ad containers */
+        .ad-container {
+            margin: 16px 0;
+            text-align: center;
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+            padding: 12px;
+            border: 1px solid var(--border);
+        }
+        .ad-label {
+            font-size: 0.55rem;
+            color: #7a8299;
+            text-align: center;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .ad-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            align-items: center;
+            margin: 10px 0;
+        }
         .generator-area {
             text-align: center;
             margin: 16px 0 12px;
@@ -98,10 +117,8 @@
             font-weight: 700;
             color: white;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
             box-shadow: 0 4px 14px rgba(0,0,0,0.3);
-            position: relative;
-            overflow: hidden;
         }
         .generate-btn:hover:not(:disabled) {
             transform: translateY(-2px);
@@ -113,13 +130,11 @@
         .generate-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
-            transform: none;
         }
         .generate-btn.generated {
             background: linear-gradient(135deg, #22c55e, #16a34a);
         }
         
-        /* Key Display */
         .key-display {
             background: linear-gradient(180deg, rgba(34,197,94,0.12), rgba(34,197,94,0.04));
             border: 1px solid rgba(34,197,94,0.45);
@@ -167,13 +182,11 @@
             color: white;
             cursor: pointer;
             width: 100%;
-            transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: transform 0.2s, background 0.2s;
         }
         .copy-btn:hover {
             transform: translateY(-2px);
             background: #16a34a;
-            box-shadow: 0 0 22px rgba(34,197,94,0.45);
         }
         .copy-btn:active {
             transform: translateY(1px);
@@ -188,7 +201,6 @@
             display: none;
             font-weight: 500;
         }
-
         .info-box {
             background: rgba(255,255,255,0.03);
             border: 1px solid var(--border);
@@ -215,53 +227,35 @@
             color: #86efac;
             margin-top: 8px;
         }
-
-        /* Ad blocks */
-        .ad-strip {
-            margin: 12px 0;
-            background: rgba(0,0,0,0.2);
-            border-radius: 20px;
-            padding: 10px;
-            border: 1px solid var(--border);
-        }
-        .ad-label-small {
-            font-size: 0.55rem;
-            color: #7a8299;
-            text-align: center;
-            margin-bottom: 6px;
-            letter-spacing: 1px;
-        }
-        .ad-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 12px;
-            align-items: center;
-        }
-        iframe { max-width: 100%; border: 0; display: block; margin: 0 auto; }
-        .notice {
-            background: rgba(168,85,247,0.08);
-            border: 1px solid rgba(168,85,247,0.3);
-            border-radius: 16px;
-            padding: 12px;
-            margin-top: 12px;
-            font-size: 0.75rem;
-            color: #c4b5fd;
-            text-align: center;
+        hr {
+            border-color: var(--border);
+            margin: 15px 0;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- TOP ADS -->
-    <div class="ad-strip">
-        <div class="ad-label-small">⚡ Sponsored Links</div>
-        <div class="ad-grid">
-            <iframe style="width:300px;height:250px;max-width:100%;" scrolling="no" srcdoc='&lt;script&gt;atOptions={"key":"5c4ab71c3e05e8f162c6845ea1c55950","format":"iframe","height":250,"width":300,"params":{}};&lt;/script&gt;&lt;script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"&gt;&lt;/script&gt;'></iframe>
-            <iframe style="width:320px;height:50px;max-width:100%;" scrolling="no" srcdoc='&lt;script&gt;atOptions={"key":"7e841472d1ac01ddccd7fa985576e83c","format":"iframe","height":50,"width":320,"params":{}};&lt;/script&gt;&lt;script src="https://theoreticalassertshame.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"&gt;&lt;/script&gt;'></iframe>
-        </div>
-        <div style="margin-top:8px;"><iframe style="width:728px;height:90px;max-width:100%;" scrolling="no" srcdoc='&lt;script&gt;atOptions={"key":"30772cccaf8ca1f9a16a3c555509b64f","format":"iframe","height":90,"width":728,"params":{}};&lt;/script&gt;&lt;script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"&gt;&lt;/script&gt;'></iframe></div>
+    
+    <!-- ========== AD 1: 728x90 (Top) ========== -->
+    <div class="ad-container">
+        <div class="ad-label">📢 Advertisement</div>
+        <script>
+            atOptions = {
+                'key' : '30772cccaf8ca1f9a16a3c555509b64f',
+                'format' : 'iframe',
+                'height' : 90,
+                'width' : 728,
+                'params' : {}
+            };
+        </script>
+        <script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
+    </div>
+
+    <!-- ========== AD 2: in-page container push ========== -->
+    <div class="ad-container">
+        <div class="ad-label">🔗 Sponsored Content</div>
+        <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
         <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
     </div>
 
@@ -272,6 +266,35 @@
             <button class="home-btn" onclick="window.location.href='https://rblxscripts2.vercel.app/'">🏠 Back to ScriptHub</button>
         </div>
     </nav>
+
+    <!-- ========== AD 3: 300x250 (Above card) ========== -->
+    <div class="ad-container">
+        <div class="ad-label">⭐ Sponsored Links</div>
+        <script>
+            atOptions = {
+                'key' : '5c4ab71c3e05e8f162c6845ea1c55950',
+                'format' : 'iframe',
+                'height' : 250,
+                'width' : 300,
+                'params' : {}
+            };
+        </script>
+        <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
+    </div>
+
+    <!-- ========== AD 4: 320x50 ========== -->
+    <div class="ad-container">
+        <script>
+            atOptions = {
+                'key' : '7e841472d1ac01ddccd7fa985576e83c',
+                'format' : 'iframe',
+                'height' : 50,
+                'width' : 320,
+                'params' : {}
+            };
+        </script>
+        <script src="https://theoreticalassertshame.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
+    </div>
 
     <!-- MAIN CARD -->
     <div class="card">
@@ -299,21 +322,87 @@
         </div>
     </div>
 
-    <!-- BOTTOM ADS -->
-    <div class="ad-strip">
-        <div class="ad-label-small">🔹 More Offers 🔹</div>
-        <div class="ad-grid">
-            <iframe style="width:468px;height:60px;max-width:100%;" scrolling="no" srcdoc='&lt;script&gt;atOptions={"key":"7c7fd511e2480eb4fe47887cda152595","format":"iframe","height":60,"width":468,"params":{}};&lt;/script&gt;&lt;script src="https://theoreticalassertshame.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"&gt;&lt;/script&gt;'></iframe>
-            <iframe style="width:160px;height:300px;max-width:100%;" scrolling="no" srcdoc='&lt;script&gt;atOptions={"key":"673fb53f64c762401413eb44406c1c80","format":"iframe","height":300,"width":160,"params":{}};&lt;/script&gt;&lt;script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"&gt;&lt;/script&gt;'></iframe>
-        </div>
-        <div style="margin-top:8px;"><iframe style="width:300px;height:250px;max-width:100%;" scrolling="no" srcdoc='&lt;script&gt;atOptions={"key":"5c4ab71c3e05e8f162c6845ea1c55950","format":"iframe","height":250,"width":300,"params":{}};&lt;/script&gt;&lt;script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"&gt;&lt;/script&gt;'></iframe></div>
-        <div><iframe style="width:728px;height:90px;max-width:100%;" scrolling="no" srcdoc='&lt;script&gt;atOptions={"key":"30772cccaf8ca1f9a16a3c555509b64f","format":"iframe","height":90,"width":728,"params":{}};&lt;/script&gt;&lt;script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"&gt;&lt;/script&gt;'></iframe></div>
+    <!-- ========== AD 5: 468x60 ========== -->
+    <div class="ad-container">
+        <div class="ad-label">🎯 More Offers</div>
+        <script>
+            atOptions = {
+                'key' : '7c7fd511e2480eb4fe47887cda152595',
+                'format' : 'iframe',
+                'height' : 60,
+                'width' : 468,
+                'params' : {}
+            };
+        </script>
+        <script src="https://theoreticalassertshame.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
+    </div>
+
+    <!-- ========== AD 6: 160x600 (Skyscraper) ========== -->
+    <div class="ad-container">
+        <div class="ad-label">📰 Recommended</div>
+        <script>
+            atOptions = {
+                'key' : '9ad3c1db141549482622fa057c0a1495',
+                'format' : 'iframe',
+                'height' : 600,
+                'width' : 160,
+                'params' : {}
+            };
+        </script>
+        <script src="https://theoreticalassertshame.com/9ad3c1db141549482622fa057c0a1495/invoke.js"></script>
+    </div>
+
+    <!-- ========== AD 7: 160x300 ========== -->
+    <div class="ad-container">
+        <script>
+            atOptions = {
+                'key' : '673fb53f64c762401413eb44406c1c80',
+                'format' : 'iframe',
+                'height' : 300,
+                'width' : 160,
+                'params' : {}
+            };
+        </script>
+        <script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
+    </div>
+
+    <!-- ========== AD 8: Another 300x250 ========== -->
+    <div class="ad-container">
+        <div class="ad-label">🔥 Trending</div>
+        <script>
+            atOptions = {
+                'key' : '5c4ab71c3e05e8f162c6845ea1c55950',
+                'format' : 'iframe',
+                'height' : 250,
+                'width' : 300,
+                'params' : {}
+            };
+        </script>
+        <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
+    </div>
+
+    <!-- ========== AD 9: Another 728x90 (Bottom) ========== -->
+    <div class="ad-container">
+        <div class="ad-label">💎 Sponsored</div>
+        <script>
+            atOptions = {
+                'key' : '30772cccaf8ca1f9a16a3c555509b64f',
+                'format' : 'iframe',
+                'height' : 90,
+                'width' : 728,
+                'params' : {}
+            };
+        </script>
+        <script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
     </div>
 
     <div class="footer">
         KeySystem • Instant key generator
     </div>
 </div>
+
+<!-- ========== AD 10: Script before closing body ========== -->
+<script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
 
 <script>
     // Key pool
@@ -342,9 +431,6 @@
         if (!keyDisplayDiv || !keyCodeSpan) return;
         keyCodeSpan.innerText = key;
         keyDisplayDiv.classList.add('visible');
-        keyDisplayDiv.style.animation = 'none';
-        keyDisplayDiv.offsetHeight;
-        keyDisplayDiv.style.animation = 'fadeSlide 0.4s ease';
     }
     
     function disableGenerateButton() {
@@ -362,13 +448,6 @@
         
         revealKeyUI(currentKey);
         disableGenerateButton();
-        
-        if (generateBtn) {
-            generateBtn.style.transform = 'scale(0.97)';
-            setTimeout(() => {
-                if (generateBtn) generateBtn.style.transform = '';
-            }, 150);
-        }
         
         try {
             sessionStorage.setItem('keyGen_done', 'true');
@@ -476,10 +555,15 @@
             transform: translateY(0);
             pointer-events: auto;
         }
-        .generate-btn:disabled {
-            cursor: not-allowed;
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            opacity: 0.85;
+        .notice {
+            background: rgba(168,85,247,0.08);
+            border: 1px solid rgba(168,85,247,0.3);
+            border-radius: 16px;
+            padding: 12px;
+            margin-top: 12px;
+            font-size: 0.75rem;
+            color: #c4b5fd;
+            text-align: center;
         }
     `;
     document.head.appendChild(style);
@@ -494,7 +578,5 @@
     }
 </script>
 
-<script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
-<script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
 </body>
 </html>
