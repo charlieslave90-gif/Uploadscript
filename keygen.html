@@ -5,17 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verification System</title>
     
-    <!-- Linkvertise Full Page Script (Optional: removed or whitelisted properly) -->
-    <script src="https://publisher.linkvertise.com/cdn/linkvertise.js"></script>
-    <script>
-        linkvertise(4752730, {
-            whitelist: [
-                "https://rblxscripts2.vercel.app/"
-            ], 
-            blacklist: []
-        });
-    </script>
-
     <style>
         body {
             background-color: #0f0f12;
@@ -61,26 +50,36 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
+        .id-box {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #ef5350;
+            background: #231919;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px dashed #ef5350;
+            font-family: monospace;
+        }
     </style>
 </head>
 <body>
 
 <div class="card">
     <h1 id="title-text">Checkpoint 1</h1>
-    <p id="status-text">Complete the short advertising steps on Linkvertise to unlock your execution key.</p>
+    <p id="status-text">Complete the advertising steps on Linkvertise to unlock your final execution key.</p>
     
-    <a href="#" id="primary-link" data-lv-skip="true" class="btn" onclick="handleNavigation(event)">
+    <a href="#" id="primary-link" class="btn" onclick="handleNavigation(event)">
         Go to Checkpoint 1
     </a>
 
     <div class="step-indicator" id="step-badge">Step 1 of 3</div>
+    <div class="id-box" id="session-id-display">Session: Initializing...</div>
 </div>
 
 <script>
-    const BASE_SITE = "https://rblxscripts2.vercel.app/";
     const TARGET_FINAL_URL = "https://rblxscripts2.vercel.app/getkey";
 
-    // 1. Function to generate a random alpha-numeric ID (e.g., g2828)
+    // Generates a random format like "id=x4829"
     function generateRandomId() {
         const letters = "abcdefghijklmnopqrstuvwxyz";
         const numbers = "0123456789";
@@ -88,58 +87,58 @@
         for (let i = 0; i < 4; i++) {
             randomString += numbers.charAt(Math.floor(Math.random() * numbers.length));
         }
-        return randomString;
+        return `id=${randomString}`;
     }
 
-    // Track user checkpoint using localStorage
+    // Persist current milestone step in browser storage
     let currentStep = parseInt(localStorage.getItem('user_checkpoint')) || 1;
 
-    // 2. REPLACEMENTS REQUIRED HERE:
-    // Create these links inside your Linkvertise dashboard. 
-    // Set the "Target URL" inside Linkvertise to point back to your site with a verification flag.
-    // Example Target URL for Link 1: https://rblxscripts2.vercel.app/?status=pass
+    // YOUR ACTUAL LIVE LINKVERTISE LINKS
     const stepLinks = {
-        1: "https://linkvertise.com/4752730/checkpoint1-alias", // Replace with your actual Linkvertise full link 1
-        2: "https://linkvertise.com/4752730/checkpoint2-alias"  // Replace with your actual Linkvertise full link 2
+        1: "https://linkvertise.com/4752730/checkpoint1-alias", // Replace with your live Linkvertise link 1
+        2: "https://linkvertise.com/4752730/checkpoint2-alias"  // Replace with your live Linkvertise link 2
     };
 
     function checkSystemState() {
         const urlParams = new URLSearchParams(window.location.search);
-        // Checking for a return status parameter from Linkvertise
-        const stepCleared = urlParams.has('status') || urlParams.has('hash');
+        const incomingStatus = urlParams.get('status');
         
         const titleText = document.getElementById('title-text');
         const statusText = document.getElementById('status-text');
         const actionBtn = document.getElementById('primary-link');
         const stepBadge = document.getElementById('step-badge');
+        const idDisplay = document.getElementById('session-id-display');
 
-        // Progress the user if they successfully returned from a linkvertise wall
-        if (stepCleared) {
-            if (currentStep === 1) {
-                currentStep = 2;
-                localStorage.setItem('user_checkpoint', 2);
-            } else if (currentStep === 2) {
-                currentStep = 3;
-                localStorage.setItem('user_checkpoint', 3);
-            }
-            // Clean the URL parameters so refreshing doesn't skip steps artificially
+        // Evaluate incoming /keygen?status= parameters
+        if (incomingStatus === 'checkpoint1' && currentStep === 1) {
+            currentStep = 2;
+            localStorage.setItem('user_checkpoint', 2);
+            // Clean up browser URL bar back to just /keygen
+            window.history.replaceState({}, document.title, window.location.pathname);
+        } else if (incomingStatus === 'checkpoint2' && currentStep === 2) {
+            currentStep = 3;
+            localStorage.setItem('user_checkpoint', 3);
             window.history.replaceState({}, document.title, window.location.pathname);
         }
 
-        // Update UI dynamically
+        // Generate and display the randomized tracking string on-screen
+        const uniqueSession = generateRandomId();
+        idDisplay.innerText = `Trace: keygen?${uniqueSession}`;
+
+        // Render UI panels dynamically
         if (currentStep === 1) {
             titleText.innerText = "Checkpoint 1";
-            statusText.innerText = "Click below to complete the first checkpoint via Linkvertise.";
+            statusText.innerText = "Click below to complete the first verification checkpoint.";
             actionBtn.innerText = "Go to Checkpoint 1";
             stepBadge.innerText = "Step 1 of 3";
         } else if (currentStep === 2) {
             titleText.innerText = "Checkpoint 2";
-            statusText.innerText = "Checkpoint 1 cleared! Complete the final advertising step.";
+            statusText.innerText = "Checkpoint 1 cleared! Complete the final step to unlock your key.";
             actionBtn.innerText = "Go to Checkpoint 2";
             stepBadge.innerText = "Step 2 of 3";
         } else {
             titleText.innerText = "Access Granted";
-            statusText.innerText = "Verification successful! You can now claim your script key.";
+            statusText.innerText = "Verification complete! You can now generate your script key.";
             actionBtn.innerText = "Get Final Key";
             stepBadge.innerText = "Step 3 of 3";
             actionBtn.style.backgroundColor = "#ffeb3b";
@@ -150,19 +149,16 @@
         event.preventDefault();
 
         if (currentStep === 1) {
-            // Generates string like "id=g2828" and redirects to Linkvertise
-            const randomId = generateRandomId();
-            window.location.href = `${stepLinks[1]}?id=${randomId}`;
+            window.location.href = stepLinks[1];
         } else if (currentStep === 2) {
-            const randomId = generateRandomId();
-            window.location.href = `${stepLinks[2]}?id=${randomId}`;
+            window.location.href = stepLinks[2];
         } else {
+            // Wipe state clean on successful redemption path
             localStorage.removeItem('user_checkpoint');
             window.location.href = TARGET_FINAL_URL;
         }
     }
 
-    // Run layout validation immediately
     window.onload = checkSystemState;
 </script>
 
