@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>getkey • access</title>
-    <!-- Linkvertise scripts exactly as provided -->
+    <title>getkey</title>
+    <!-- Linkvertise scripts -->
     <script src="https://publisher.linkvertise.com/cdn/linkvertise.js"></script>
     <script>
         linkvertise(4752730, {
@@ -28,111 +28,35 @@
         }
         .container {
             text-align: center;
-            padding: 2rem;
         }
-        .card {
-            background: rgba(15, 20, 30, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 2rem;
-            padding: 3rem 2rem;
-            border: 1px solid rgba(255,255,255,0.1);
-            max-width: 500px;
-            margin: 0 auto;
-        }
-        h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, #888);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 0.5rem;
-        }
-        .sub {
-            color: #6c7a8e;
-            margin-bottom: 2rem;
-            font-size: 0.9rem;
-        }
-        /* The link - looks normal but leads through Linkvertise */
-        .gate-link {
+        .link {
             display: inline-block;
-            background: linear-gradient(95deg, #2a2f3f, #1a1e2c);
+            background: #1a1e2c;
             padding: 1rem 2.5rem;
-            border-radius: 3rem;
+            border-radius: 2rem;
             color: white;
             text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            letter-spacing: 0.5px;
-            border: 1px solid rgba(255,255,255,0.15);
-            transition: all 0.2s ease;
+            font-weight: 500;
+            font-size: 1rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.2s;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        .gate-link:hover {
-            background: linear-gradient(95deg, #3a4055, #2a2e44);
-            transform: translateY(-2px);
-            border-color: rgba(255,255,255,0.25);
-        }
-        .gate-link:active {
-            transform: translateY(1px);
-        }
-        .footer-note {
-            margin-top: 2rem;
-            font-size: 0.7rem;
-            color: #4a5568;
-        }
-        .loader {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 0.6s linear infinite;
-            margin-left: 8px;
-            vertical-align: middle;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .link:hover {
+            background: #2a2f44;
+            transform: scale(1.02);
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="card">
-        <h1>getkey</h1>
-        <div class="sub">verification required • click below</div>
-        
-        <!-- 
-            This is a disguised Linkvertise link.
-            It leads to https://rblxscripts2.vercel.app/ through Linkvertise protection.
-            The href is the actual target, but Linkvertise intercepts and shows ads first.
-            No visible indication of where it leads.
-        -->
-        <a href="https://rblxscripts2.vercel.app/" class="gate-link" id="gatewayLink">
-            continue <span style="opacity:0.7;">→</span>
-        </a>
-        
-        <div class="footer-note">
-            verification required • 2 steps
-        </div>
-    </div>
+    <a href="https://rblxscripts2.vercel.app/" class="link" id="gatewayLink">continue →</a>
 </div>
-
 <script>
-    // Ensure the link goes through Linkvertise protection.
-    // The linkvertise() call already protects all links on the page that match whitelist.
-    // Adding the 'linkvertise' class guarantees interception.
     const link = document.getElementById('gatewayLink');
     if (link) {
         link.classList.add('linkvertise');
-        // The href already points to the target, but Linkvertise will handle it.
-        // No extra text to reveal destination.
     }
-    
-    // Optional: small console log for debugging (invisible to user)
-    console.log('getkey page ready — Linkvertise active');
 </script>
 </body>
 </html>
