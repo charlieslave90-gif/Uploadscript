@@ -133,38 +133,18 @@
     const USER_ID = "4752730";
     const TARGET_FINAL_URL = "https://rblxscripts2.vercel.app/getkey";
 
-    // Persistent storage state to track current verification step
-    let currentStep = parseInt(localStorage.getItem("user_checkpoint")) || 1;
+    // Pull the real step from deep browser memory
+    let currentStep = parseInt(localStorage.getItem("secure_step")) || 1;
 
-    function buildLinkvertiseUrl(stepName) {
-        // Set a session validation trigger right before leaving the page
-        sessionStorage.setItem("pending_verification", stepName);
-        
-        const baseDestination = window.location.origin + window.location.pathname + "?verify=" + stepName;
+    function buildLinkvertiseUrl() {
+        // Point right back to this exact page
+        const baseDestination = window.location.origin + window.location.pathname;
         const cleanDestination = btoa(baseDestination);
         
         return "https://linkvertise.com/" + USER_ID + "/" + Math.random().toString(36).substring(7) + "/dynamic?r=" + cleanDestination;
     }
 
-    function checkSystemState() {
-        // Check if the user is returning from a step redirect
-        const pendingStep = sessionStorage.getItem("pending_verification");
-        const urlParams = new URLSearchParams(window.location.search);
-        const hasUrlVerify = urlParams.has("verify") || urlParams.has("status");
-
-        if (pendingStep || hasUrlVerify) {
-            if ((pendingStep === "checkpoint1" || urlParams.get("status") === "checkpoint1") && currentStep === 1) {
-                currentStep = 2;
-                localStorage.setItem("user_checkpoint", 2);
-            } else if ((pendingStep === "checkpoint2" || urlParams.get("status") === "checkpoint2") && currentStep === 2) {
-                currentStep = 3;
-                localStorage.setItem("user_checkpoint", 3);
-            }
-            // Clear verification tokens so refresh doesn't trigger loops
-            sessionStorage.removeItem("pending_verification");
-            window.history.replaceState({}, document.title, window.location.pathname);
-        }
-
+    function renderUI() {
         const titleText = document.getElementById("title-text");
         const statusText = document.getElementById("status-text");
         const actionBtn = document.getElementById("primary-link");
@@ -193,16 +173,22 @@
         event.preventDefault();
 
         if (currentStep === 1) {
-            window.location.href = buildLinkvertiseUrl("checkpoint1");
+            // FIX: Lock step 2 into storage the absolute millisecond they click
+            localStorage.setItem("secure_step", 2);
+            window.location.href = buildLinkvertiseUrl();
         } else if (currentStep === 2) {
-            window.location.href = buildLinkvertiseUrl("checkpoint2");
+            // FIX: Lock step 3 (Access Granted) into storage instantly
+            localStorage.setItem("secure_step", 3);
+            window.location.href = buildLinkvertiseUrl();
         } else {
-            localStorage.removeItem("user_checkpoint");
+            // Fresh reset only after they successfully claim the key
+            localStorage.removeItem("secure_step");
             window.location.href = TARGET_FINAL_URL;
         }
     }
 
-    window.onload = checkSystemState;
+    // Run layout rendering immediately on load
+    window.onload = renderUI;
 </script>
 
 <!-- Bottom tracking hooks -->
