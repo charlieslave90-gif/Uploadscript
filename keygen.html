@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lifetime Key Verification</title>
     
-    <!-- Code snippet placed right before the closing </head> tag -->
+    <!-- Third-party network scripts -->
     <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
 
     <style>
@@ -32,6 +32,8 @@
             width: 100%;
             border: 1px solid #232329;
             margin-bottom: 20px;
+            position: relative;
+            z-index: 10;
         }
         h1 { font-size: 26px; margin-bottom: 8px; color: #39da8a; font-weight: 700; }
         p { color: #a3a3a3; font-size: 14px; line-height: 1.6; margin-bottom: 24px; }
@@ -57,7 +59,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        /* Layout container for ads to prevent alignment issues */
         .ad-container {
             margin: 15px 0;
             display: flex;
@@ -72,7 +73,7 @@
 </head>
 <body>
 
-<!-- Top Ad Banner Placement -->
+<!-- Top Banner Placement -->
 <div class="ad-container">
     <script>
       atOptions = {
@@ -86,7 +87,7 @@
     <script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
 </div>
 
-<!-- Main Verification Card -->
+<!-- Main UI -->
 <div class="card">
     <h1 id="title-text">Checkpoint 1</h1>
     <p id="status-text">Complete the verification process to claim your permanent Lifetime Key access.</p>
@@ -98,68 +99,32 @@
     <div class="step-indicator" id="step-badge">Step 1 of 2</div>
 </div>
 
-<!-- Bottom Ad Layout Placements -->
+<!-- Extra Display Elements -->
 <div class="ad-container">
-    <!-- Ad container from head script context -->
     <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
 
-    <!-- 300x250 Ad -->
     <script>
-      atOptions = {
-        'key' : '5c4ab71c3e05e8f162c6845ea1c55950',
-        'format' : 'iframe',
-        'height' : 250,
-        'width' : 300,
-        'params' : {}
-      };
+      atOptions = { 'key' : '5c4ab71c3e05e8f162c6845ea1c55950', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
     </script>
     <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
 
-    <!-- 160x600 Ad -->
     <script>
-      atOptions = {
-        'key' : '9ad3c1db141549482622fa057c0a1495',
-        'format' : 'iframe',
-        'height' : 600,
-        'width' : 160,
-        'params' : {}
-      };
+      atOptions = { 'key' : '9ad3c1db141549482622fa057c0a1495', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} };
     </script>
     <script src="https://theoreticalassertshame.com/9ad3c1db141549482622fa057c0a1495/invoke.js"></script>
 
-    <!-- 320x50 Ad -->
     <script>
-      atOptions = {
-        'key' : '7e841472d1ac01ddccd7fa985576e83c',
-        'format' : 'iframe',
-        'height' : 50,
-        'width' : 320,
-        'params' : {}
-      };
+      atOptions = { 'key' : '7e841472d1ac01ddccd7fa985576e83c', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
     </script>
     <script src="https://theoreticalassertshame.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
 
-    <!-- 468x60 Ad -->
     <script>
-      atOptions = {
-        'key' : '7c7fd511e2480eb4fe47887cda152595',
-        'format' : 'iframe',
-        'height' : 60,
-        'width' : 468,
-        'params' : {}
-      };
+      atOptions = { 'key' : '7c7fd511e2480eb4fe47887cda152595', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} };
     </script>
     <script src="https://theoreticalassertshame.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
 
-    <!-- 160x300 Ad -->
     <script>
-      atOptions = {
-        'key' : '673fb53f64c762401413eb44406c1c80',
-        'format' : 'iframe',
-        'height' : 300,
-        'width' : 160,
-        'params' : {}
-      };
+      atOptions = { 'key' : '673fb53f64c762401413eb44406c1c80', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} };
     </script>
     <script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
 </div>
@@ -168,44 +133,42 @@
     const USER_ID = "4752730";
     const TARGET_FINAL_URL = "https://rblxscripts2.vercel.app/getkey";
 
+    // Persistent storage state to track current verification step
     let currentStep = parseInt(localStorage.getItem("user_checkpoint")) || 1;
 
-    function generateRandomId() {
-        const letters = "abcdefghijklmnopqrstuvwxyz";
-        const numbers = "0123456789";
-        let text = letters.charAt(Math.floor(Math.random() * letters.length));
-        for (let i = 0; i < 4; i++) {
-            text += numbers.charAt(Math.floor(Math.random() * numbers.length));
-        }
-        return "id=" + text;
-    }
-
     function buildLinkvertiseUrl(stepName) {
-        const generatedId = generateRandomId();
-        const baseDestination = window.location.origin + window.location.pathname + "?status=" + stepName + "&" + generatedId;
+        // Set a session validation trigger right before leaving the page
+        sessionStorage.setItem("pending_verification", stepName);
+        
+        const baseDestination = window.location.origin + window.location.pathname + "?verify=" + stepName;
         const cleanDestination = btoa(baseDestination);
         
         return "https://linkvertise.com/" + USER_ID + "/" + Math.random().toString(36).substring(7) + "/dynamic?r=" + cleanDestination;
     }
 
     function checkSystemState() {
+        // Check if the user is returning from a step redirect
+        const pendingStep = sessionStorage.getItem("pending_verification");
         const urlParams = new URLSearchParams(window.location.search);
-        const incomingStatus = urlParams.get("status");
-        
+        const hasUrlVerify = urlParams.has("verify") || urlParams.has("status");
+
+        if (pendingStep || hasUrlVerify) {
+            if ((pendingStep === "checkpoint1" || urlParams.get("status") === "checkpoint1") && currentStep === 1) {
+                currentStep = 2;
+                localStorage.setItem("user_checkpoint", 2);
+            } else if ((pendingStep === "checkpoint2" || urlParams.get("status") === "checkpoint2") && currentStep === 2) {
+                currentStep = 3;
+                localStorage.setItem("user_checkpoint", 3);
+            }
+            // Clear verification tokens so refresh doesn't trigger loops
+            sessionStorage.removeItem("pending_verification");
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
         const titleText = document.getElementById("title-text");
         const statusText = document.getElementById("status-text");
         const actionBtn = document.getElementById("primary-link");
         const stepBadge = document.getElementById("step-badge");
-
-        if (incomingStatus === "checkpoint1" && currentStep === 1) {
-            currentStep = 2;
-            localStorage.setItem("user_checkpoint", 2);
-            window.history.replaceState({}, document.title, window.location.pathname);
-        } else if (incomingStatus === "checkpoint2" && currentStep === 2) {
-            currentStep = 3;
-            localStorage.setItem("user_checkpoint", 3);
-            window.history.replaceState({}, document.title, window.location.pathname);
-        }
 
         if (currentStep === 1) {
             titleText.innerText = "Checkpoint 1";
@@ -242,7 +205,7 @@
     window.onload = checkSystemState;
 </script>
 
-<!-- Scripts inserted right above the closing </body> tag -->
+<!-- Bottom tracking hooks -->
 <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
 <script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
 </body>
