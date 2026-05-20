@@ -77,68 +77,72 @@
 </div>
 
 <script>
+    // Constants for routing
+    const USER_ID = "4752730";
     const TARGET_FINAL_URL = "https://rblxscripts2.vercel.app/getkey";
 
-    // Generates a random format like "id=x4829"
+    // Track state locally
+    let currentStep = parseInt(localStorage.getItem("user_checkpoint")) || 1;
+
+    // Generates a random alphanumeric id string (e.g., g2828)
     function generateRandomId() {
         const letters = "abcdefghijklmnopqrstuvwxyz";
         const numbers = "0123456789";
-        let randomString = letters.charAt(Math.floor(Math.random() * letters.length));
+        let text = letters.charAt(Math.floor(Math.random() * letters.length));
         for (let i = 0; i < 4; i++) {
-            randomString += numbers.charAt(Math.floor(Math.random() * numbers.length));
+            text += numbers.charAt(Math.floor(Math.random() * numbers.length));
         }
-        return `id=${randomString}`;
+        return "id=" + text;
     }
 
-    // Persist current milestone step in browser storage
-    let currentStep = parseInt(localStorage.getItem('user_checkpoint')) || 1;
-
-    // YOUR ACTUAL LIVE LINKVERTISE LINKS
-    const stepLinks = {
-        1: "https://linkvertise.com/4752730/checkpoint1-alias", // Replace with your live Linkvertise link 1
-        2: "https://linkvertise.com/4752730/checkpoint2-alias"  // Replace with your live Linkvertise link 2
-    };
+    // Automatically structures the clean Linkvertise dynamic wrapper URL
+    function buildLinkvertiseUrl(stepName) {
+        const generatedId = generateRandomId();
+        const baseDestination = "https://rblxscripts2.vercel.app/keygen?status=" + stepName + "&" + generatedId;
+        
+        // Encodes your Vercel URL cleanly to prevent browser breaking or invalid characters
+        const cleanDestination = btoa(baseDestination);
+        
+        return "https://linkvertise.com/" + USER_ID + "/" + Math.random().toString(36).substring(7) + "/dynamic?r=" + cleanDestination;
+    }
 
     function checkSystemState() {
         const urlParams = new URLSearchParams(window.location.search);
-        const incomingStatus = urlParams.get('status');
+        const incomingStatus = urlParams.get("status");
         
-        const titleText = document.getElementById('title-text');
-        const statusText = document.getElementById('status-text');
-        const actionBtn = document.getElementById('primary-link');
-        const stepBadge = document.getElementById('step-badge');
-        const idDisplay = document.getElementById('session-id-display');
+        const titleText = document.getElementById("title-text");
+        const statusText = document.getElementById("status-text");
+        const actionBtn = document.getElementById("primary-link");
+        const stepBadge = document.getElementById("step-badge");
+        const idDisplay = document.getElementById("session-id-display");
 
-        // Evaluate incoming /keygen?status= parameters
-        if (incomingStatus === 'checkpoint1' && currentStep === 1) {
+        // Step progression validation logic
+        if (incomingStatus === "checkpoint1" && currentStep === 1) {
             currentStep = 2;
-            localStorage.setItem('user_checkpoint', 2);
-            // Clean up browser URL bar back to just /keygen
+            localStorage.setItem("user_checkpoint", 2);
             window.history.replaceState({}, document.title, window.location.pathname);
-        } else if (incomingStatus === 'checkpoint2' && currentStep === 2) {
+        } else if (incomingStatus === "checkpoint2" && currentStep === 2) {
             currentStep = 3;
-            localStorage.setItem('user_checkpoint', 3);
+            localStorage.setItem("user_checkpoint", 3);
             window.history.replaceState({}, document.title, window.location.pathname);
         }
 
-        // Generate and display the randomized tracking string on-screen
-        const uniqueSession = generateRandomId();
-        idDisplay.innerText = `Trace: keygen?${uniqueSession}`;
+        // Show UI current path
+        idDisplay.innerText = "Target Action: /keygen?" + generateRandomId();
 
-        // Render UI panels dynamically
         if (currentStep === 1) {
             titleText.innerText = "Checkpoint 1";
-            statusText.innerText = "Click below to complete the first verification checkpoint.";
+            statusText.innerText = "Click below to auto-generate and complete your first checkpoint.";
             actionBtn.innerText = "Go to Checkpoint 1";
             stepBadge.innerText = "Step 1 of 3";
         } else if (currentStep === 2) {
             titleText.innerText = "Checkpoint 2";
-            statusText.innerText = "Checkpoint 1 cleared! Complete the final step to unlock your key.";
+            statusText.innerText = "First stage cleared! Proceed through the next automated step.";
             actionBtn.innerText = "Go to Checkpoint 2";
             stepBadge.innerText = "Step 2 of 3";
         } else {
             titleText.innerText = "Access Granted";
-            statusText.innerText = "Verification complete! You can now generate your script key.";
+            statusText.innerText = "Verification complete! Click below to open your key file.";
             actionBtn.innerText = "Get Final Key";
             stepBadge.innerText = "Step 3 of 3";
             actionBtn.style.backgroundColor = "#ffeb3b";
@@ -149,12 +153,11 @@
         event.preventDefault();
 
         if (currentStep === 1) {
-            window.location.href = stepLinks[1];
+            window.location.href = buildLinkvertiseUrl("checkpoint1");
         } else if (currentStep === 2) {
-            window.location.href = stepLinks[2];
+            window.location.href = buildLinkvertiseUrl("checkpoint2");
         } else {
-            // Wipe state clean on successful redemption path
-            localStorage.removeItem('user_checkpoint');
+            localStorage.removeItem("user_checkpoint");
             window.location.href = TARGET_FINAL_URL;
         }
     }
