@@ -7,11 +7,11 @@ export default async function handler(req, res) {
     
     // ========== NEW VALID KEYS (UPDATED) ==========
     const VALID_KEYS = [
-        "jay_XgVsJAD70297UNjn",
-        "Site_nPCkS6838337",
+        "Key_hello101p9",
+        "Api_ihqtejewing",
         "Api_JEW3dv4incr2R6Co",
-        "key_Gghelloitmecrewmate2z",
-        "Generated_key329hj3ws"
+        "crewmatefromamongus992",
+        "Generated_key329hj3whs"
     ];
     
     if (req.method === 'GET') {
