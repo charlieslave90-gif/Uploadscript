@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verification System</title>
+    <title>Lifetime Key Verification</title>
     
     <style>
         body {
@@ -43,7 +43,6 @@
             width: 80%;
         }
         .btn:hover { background-color: #2bbd73; transform: translateY(-2px); }
-        .btn:disabled { background-color: #2c3e50; color: #7f8c8d; cursor: not-allowed; }
         .step-indicator {
             margin-top: 20px;
             font-size: 12px;
@@ -57,23 +56,22 @@
 
 <div class="card">
     <h1 id="title-text">Checkpoint 1</h1>
-    <p id="status-text">Complete the advertising steps on Linkvertise to unlock your Lifetime Key.</p>
+    <p id="status-text">Complete the verification process to claim your permanent Lifetime Key access.</p>
     
     <a href="#" id="primary-link" class="btn" onclick="handleNavigation(event)">
         Go to Checkpoint 1
     </a>
 
-    <div class="step-indicator" id="step-badge">Step 1 of 3</div>
+    <div class="step-indicator" id="step-badge">Step 1 of 2</div>
 </div>
 
 <script>
     const USER_ID = "4752730";
-    const AUTH_TOKEN = "e64fbd91c17f0f9793fde57e63eaed765bff33fd541d0ddc5c96a399baeb1173";
     const TARGET_FINAL_URL = "https://rblxscripts2.vercel.app/getkey";
 
+    // Tracks checkpoint state locally (Max 2 steps now)
     let currentStep = parseInt(localStorage.getItem("user_checkpoint")) || 1;
 
-    // Generates hidden verification values
     function generateRandomId() {
         const letters = "abcdefghijklmnopqrstuvwxyz";
         const numbers = "0123456789";
@@ -84,110 +82,64 @@
         return "id=" + text;
     }
 
-    // Constructs the automated API target link
     function buildLinkvertiseUrl(stepName) {
         const generatedId = generateRandomId();
-        const baseDestination = "https://rblxscripts2.vercel.app/keygen?status=" + stepName + "&" + generatedId;
+        // Fallback target query variables returned upon completing advertising tasks
+        const baseDestination = window.location.origin + window.location.pathname + "?status=" + stepName + "&" + generatedId;
         const cleanDestination = btoa(baseDestination);
         
         return "https://linkvertise.com/" + USER_ID + "/" + Math.random().toString(36).substring(7) + "/dynamic?r=" + cleanDestination;
     }
 
-    // FIX: Using a public CORS proxy server to route past browser blockers
-    async function verifyLinkvertiseHash(hashValue) {
-        const statusText = document.getElementById("status-text");
-        const actionBtn = document.getElementById("primary-link");
-        
-        statusText.innerText = "Validating session token... Please wait.";
-        actionBtn.disabled = true;
-
-        const proxyUrl = "https://corsproxy.io/?";
-        const apiUrl = "https://publisher.linkvertise.com/api/v1/redirect/link/validation";
-
-        try {
-            const response = await fetch(proxyUrl + encodeURIComponent(apiUrl), {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    token: AUTH_TOKEN,
-                    hash: hashValue
-                })
-            });
-
-            const data = await response.json();
-
-            if (data && data.scenarios === "TRUE") {
-                return true;
-            } else {
-                alert("Verification failed. Please do not use bypass extensions.");
-                return false;
-            }
-        } catch (error) {
-            console.error("Verification error:", error);
-            // Fallback safety to prevent permanent lock if proxy goes down
-            return true;
-        } finally {
-            actionBtn.disabled = false;
-        }
-    }
-
-    async function checkSystemState() {
+    function checkSystemState() {
         const urlParams = new URLSearchParams(window.location.search);
         const incomingStatus = urlParams.get("status");
-        const incomingHash = urlParams.get("hash");
         
         const titleText = document.getElementById("title-text");
         const statusText = document.getElementById("status-text");
         const actionBtn = document.getElementById("primary-link");
         const stepBadge = document.getElementById("step-badge");
 
-        if (incomingHash) {
-            const isValid = await verifyLinkvertiseHash(incomingHash);
-            
-            if (isValid) {
-                if (incomingStatus === "checkpoint1" && currentStep === 1) {
-                    currentStep = 2;
-                    localStorage.setItem("user_checkpoint", 2);
-                } else if (incomingStatus === "checkpoint2" && currentStep === 2) {
-                    currentStep = 3;
-                    localStorage.setItem("user_checkpoint", 3);
-                }
-            }
+        // Advanced internal state logic handling instant routing
+        if (incomingStatus === "checkpoint1" && currentStep === 1) {
+            currentStep = 2;
+            localStorage.setItem("user_checkpoint", 2);
+            window.history.replaceState({}, document.title, window.location.pathname);
+        } else if (incomingStatus === "checkpoint2" && currentStep === 2) {
+            currentStep = 3;
+            localStorage.setItem("user_checkpoint", 3);
             window.history.replaceState({}, document.title, window.location.pathname);
         }
 
-        // Updated 3-Step UI text loops targeting lifetime key delivery
+        // Structural UI rendering customized strictly for a 2-Step system
         if (currentStep === 1) {
-            titleText.innerText = "Checkpoint 2";
-            statusText.innerText = "Complete this step to start generating your Lifetime Key.";
+            titleText.innerText = "Checkpoint 1";
+            statusText.innerText = "Complete Step 1 to begin initializing your Lifetime Key configuration.";
             actionBtn.innerText = "Go to Checkpoint 1";
-            stepBadge.innerText = "Step 2 of 3";
+            stepBadge.innerText = "Step 1 of 2";
         } else if (currentStep === 2) {
-            titleText.innerText = "Checkpoint 3";
-            statusText.innerText = "Almost there! Clear the final checkpoint to receive full Lifetime access.";
+            titleText.innerText = "Checkpoint 2";
+            statusText.innerText = "Final Step! Complete this link to instantly claim your Lifetime Key.";
             actionBtn.innerText = "Go to Checkpoint 2";
-            stepBadge.innerText = "Step 3 of 3";
+            stepBadge.innerText = "Step 2 of 2";
         } else {
             titleText.innerText = "Access Granted";
-            statusText.innerText = "Verification successful! Your Lifetime Key is ready to claim.";
+            statusText.innerText = "Success! Click below to claim your permanent Lifetime Key.";
             actionBtn.innerText = "Claim Lifetime Key";
-            stepBadge.innerText = "Step 3 of 3";
+            stepBadge.innerText = "Verification Complete";
             actionBtn.style.backgroundColor = "#ffeb3b";
         }
     }
 
     function handleNavigation(event) {
         event.preventDefault();
-        const actionBtn = document.getElementById("primary-link");
-        if (actionBtn.disabled) return;
 
         if (currentStep === 1) {
             window.location.href = buildLinkvertiseUrl("checkpoint1");
         } else if (currentStep === 2) {
             window.location.href = buildLinkvertiseUrl("checkpoint2");
         } else {
+            // Clears persistence cache and routes out to target download site
             localStorage.removeItem("user_checkpoint");
             window.location.href = TARGET_FINAL_URL;
         }
