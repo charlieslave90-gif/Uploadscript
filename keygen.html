@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verification System</title>
     
-    <!-- Linkvertise Full Page Script -->
+    <!-- Linkvertise Full Page Script (Optional: removed or whitelisted properly) -->
     <script src="https://publisher.linkvertise.com/cdn/linkvertise.js"></script>
     <script>
         linkvertise(4752730, {
             whitelist: [
-                "https://rblxscripts2.vercel.app/",
-                "https://rblxscripts2.vercel.app/getkey",
-                "https://rblxscripts2.vercel.app/keygen"
+                "https://rblxscripts2.vercel.app/"
             ], 
             blacklist: []
         });
@@ -71,65 +69,77 @@
     <h1 id="title-text">Checkpoint 1</h1>
     <p id="status-text">Complete the short advertising steps on Linkvertise to unlock your execution key.</p>
     
-    <!-- data-lv-skip prevents the Linkvertise Full Script from breaking or re-routing this anchor -->
     <a href="#" id="primary-link" data-lv-skip="true" class="btn" onclick="handleNavigation(event)">
-        Proceed to Linkvertise
+        Go to Checkpoint 1
     </a>
 
     <div class="step-indicator" id="step-badge">Step 1 of 3</div>
 </div>
 
 <script>
-    // System Routes
     const BASE_SITE = "https://rblxscripts2.vercel.app/";
     const TARGET_FINAL_URL = "https://rblxscripts2.vercel.app/getkey";
+
+    // 1. Function to generate a random alpha-numeric ID (e.g., g2828)
+    function generateRandomId() {
+        const letters = "abcdefghijklmnopqrstuvwxyz";
+        const numbers = "0123456789";
+        let randomString = letters.charAt(Math.floor(Math.random() * letters.length));
+        for (let i = 0; i < 4; i++) {
+            randomString += numbers.charAt(Math.floor(Math.random() * numbers.length));
+        }
+        return randomString;
+    }
 
     // Track user checkpoint using localStorage
     let currentStep = parseInt(localStorage.getItem('user_checkpoint')) || 1;
 
-    // Define the distinct Linkvertise links generated from your Linkvertise panel
-    // Note: Make sure the target url inside Linkvertise panel points back to your Vercel URL
+    // 2. REPLACEMENTS REQUIRED HERE:
+    // Create these links inside your Linkvertise dashboard. 
+    // Set the "Target URL" inside Linkvertise to point back to your site with a verification flag.
+    // Example Target URL for Link 1: https://rblxscripts2.vercel.app/?status=pass
     const stepLinks = {
-        1: "https://link-target.net", 
-        2: "https://link-target.net"
+        1: "https://linkvertise.com/4752730/checkpoint1-alias", // Replace with your actual Linkvertise full link 1
+        2: "https://linkvertise.com/4752730/checkpoint2-alias"  // Replace with your actual Linkvertise full link 2
     };
 
     function checkSystemState() {
         const urlParams = new URLSearchParams(window.location.search);
-        const hasHash = urlParams.has('hash');
+        // Checking for a return status parameter from Linkvertise
+        const stepCleared = urlParams.has('status') || urlParams.has('hash');
         
         const titleText = document.getElementById('title-text');
         const statusText = document.getElementById('status-text');
         const actionBtn = document.getElementById('primary-link');
         const stepBadge = document.getElementById('step-badge');
 
-        // If user returns with a valid Linkvertise token hash
-        if (hasHash) {
+        // Progress the user if they successfully returned from a linkvertise wall
+        if (stepCleared) {
             if (currentStep === 1) {
                 currentStep = 2;
                 localStorage.setItem('user_checkpoint', 2);
-                window.history.replaceState({}, document.title, window.location.pathname);
             } else if (currentStep === 2) {
                 currentStep = 3;
                 localStorage.setItem('user_checkpoint', 3);
-                window.history.replaceState({}, document.title, window.location.pathname);
             }
+            // Clean the URL parameters so refreshing doesn't skip steps artificially
+            window.history.replaceState({}, document.title, window.location.pathname);
         }
 
-        // Update UI dynamically depending on the current user checkpoint
+        // Update UI dynamically
         if (currentStep === 1) {
             titleText.innerText = "Checkpoint 1";
-            statusText.innerText = "Click the button below to start the verification process.";
+            statusText.innerText = "Click below to complete the first checkpoint via Linkvertise.";
             actionBtn.innerText = "Go to Checkpoint 1";
             stepBadge.innerText = "Step 1 of 3";
         } else if (currentStep === 2) {
             titleText.innerText = "Checkpoint 2";
-            statusText.innerText = "Checkpoint 1 cleared! Complete the next step to finish.";
+            statusText.innerText = "Checkpoint 1 cleared! Complete the final advertising step.";
             actionBtn.innerText = "Go to Checkpoint 2";
             stepBadge.innerText = "Step 2 of 3";
         } else {
             titleText.innerText = "Access Granted";
-            statusText.innerText = "Verification successful! You can now access your key.";
+            statusText.innerText = "Verification successful! You can now claim your script key.";
             actionBtn.innerText = "Get Final Key";
             stepBadge.innerText = "Step 3 of 3";
             actionBtn.style.backgroundColor = "#ffeb3b";
@@ -137,20 +147,22 @@
     }
 
     function handleNavigation(event) {
-        event.preventDefault(); // Break script hijacking 
+        event.preventDefault();
 
         if (currentStep === 1) {
-            window.location.replace(stepLinks[1]);
+            // Generates string like "id=g2828" and redirects to Linkvertise
+            const randomId = generateRandomId();
+            window.location.href = `${stepLinks[1]}?id=${randomId}`;
         } else if (currentStep === 2) {
-            window.location.replace(stepLinks[2]);
+            const randomId = generateRandomId();
+            window.location.href = `${stepLinks[2]}?id=${randomId}`;
         } else {
-            // Clean out local session memory on success payout
             localStorage.removeItem('user_checkpoint');
-            window.location.replace(TARGET_FINAL_URL);
+            window.location.href = TARGET_FINAL_URL;
         }
     }
 
-    // Execute state evaluation on page load
+    // Run layout validation immediately
     window.onload = checkSystemState;
 </script>
 
