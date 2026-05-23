@@ -38,7 +38,6 @@
         h1 { font-size: 26px; margin-bottom: 8px; color: #39da8a; font-weight: 700; }
         p { color: #a3a3a3; font-size: 14px; line-height: 1.6; margin-bottom: 24px; }
         
-        /* Captcha Layout Alignment */
         .captcha-container {
             display: flex;
             justify-content: center;
@@ -47,6 +46,7 @@
             width: 100%;
         }
 
+        /* Primary Action Button State and Hard-Lock Variations */
         .btn {
             background-color: #39da8a;
             color: #000000;
@@ -60,8 +60,21 @@
             text-decoration: none;
             display: inline-block;
             width: 80%;
+            pointer-events: auto;
+            opacity: 1;
         }
         .btn:hover { background-color: #2bbd73; transform: translateY(-2px); }
+        
+        /* Strict CSS state enforced when captcha validation is missing */
+        .btn.locked {
+            background-color: #2a2a35 !important;
+            color: #555566 !important;
+            cursor: not-allowed !important;
+            pointer-events: none !important; /* Block all browser click gestures completely */
+            opacity: 0.5;
+            transform: none !important;
+        }
+
         .step-indicator {
             margin-top: 20px;
             font-size: 12px;
@@ -70,7 +83,6 @@
             letter-spacing: 1px;
         }
         
-        /* Distributed Ad Spot Layout Adjustments */
         .ad-spot {
             width: 100%;
             max-width: 728px;
@@ -136,10 +148,15 @@
     
     <!-- Google reCAPTCHA Display Box Context -->
     <div class="captcha-container">
-        <div class="g-recaptcha" data-sitekey="6Lcjb_gsAAAAAAWx5z-RYcQZtO5TR-0LJggnzL62" data-theme="dark" data-callback="captchaValidated"></div>
+        <div class="g-recaptcha" 
+             data-sitekey="6Lcjb_gsAAAAAAWx5z-RYcQZtO5TR-0LJggnzL62" 
+             data-theme="dark" 
+             data-callback="captchaValidated"
+             data-expired-callback="captchaExpired"></div>
     </div>
 
-    <a href="#" id="primary-link" class="btn" onclick="handleNavigation(event)">
+    <!-- The class "locked" initializes by default to secure the button immediately -->
+    <a href="#" id="primary-link" class="btn locked" onclick="handleNavigation(event)">
         Go to Checkpoint 1
     </a>
 
@@ -168,7 +185,6 @@
     })({})
     </script>
 
-    <!-- Popunder Execution Hook (Fires tracking behaviors naturally behind page layout) -->
     <script>
     (function(epy){
     var d = document, s = d.createElement('script'), l = d.getElementById('bottom-ads');
@@ -192,16 +208,25 @@
 
 <script>
     const USER_ID = "4752730";
-    const WORK_INK_URL = "https://cuty.io/1KbMLHzwk";
+    const CUTY_URL = "https://cuty.io/1KbMLHzwk";
     const TARGET_FINAL_URL = "https://rblxscripts2.vercel.app/getkey";
 
     let currentStep = parseInt(localStorage.getItem("secure_step")) || 1;
     let isCaptchaDone = false;
 
-    // Triggered automatically when Google verifies the user is human
+    // Triggered automatically when Google verifies the user successfully
     function captchaValidated(response) {
         if(response.length > 0) {
             isCaptchaDone = true;
+            document.getElementById("primary-link").classList.remove("locked");
+        }
+    }
+
+    // Triggered if the user stays idle long enough for the token to expire
+    function captchaExpired() {
+        isCaptchaDone = false;
+        if (currentStep === 1 || currentStep === 2) {
+            document.getElementById("primary-link").classList.add("locked");
         }
     }
 
@@ -222,18 +247,20 @@
             statusText.innerText = "Check the box below and complete Checkpoint 1 to initiate tracking setup.";
             actionBtn.innerText = "Go to Checkpoint 1";
             stepBadge.innerText = "Step 1 of 2";
+            actionBtn.classList.add("locked"); // Enforce initial lock
         } else if (currentStep === 2) {
             titleText.innerText = "Checkpoint 2";
             statusText.innerText = "Final Step! Verify the captcha once more to unlock your target Destination Key link.";
             actionBtn.innerText = "Go to Checkpoint 2";
             stepBadge.innerText = "Step 2 of 2";
+            actionBtn.classList.add("locked"); // Enforce initial lock
         } else {
             titleText.innerText = "Access Granted";
             statusText.innerText = "Verification complete! Click below to retrieve your permanent key link.";
             actionBtn.innerText = "Claim Lifetime Key";
             stepBadge.innerText = "Verification Complete";
             actionBtn.style.backgroundColor = "#ffeb3b";
-            // Hide captcha container since they are fully authorized
+            actionBtn.classList.remove("locked"); // Always unlocked for final claim
             document.querySelector('.captcha-container').style.display = 'none';
         }
     }
@@ -241,10 +268,9 @@
     function handleNavigation(event) {
         event.preventDefault();
 
-        // Halt progress if the user clicks before filling out the reCAPTCHA checkbox
+        // Extra layer of protection: blocks execution if code execution triggers accidentally 
         if ((currentStep === 1 || currentStep === 2) && !isCaptchaDone) {
-            alert("Please complete the Google verification step first!");
-            return;
+            return false;
         }
 
         if (currentStep === 1) {
@@ -252,7 +278,7 @@
             window.location.href = buildLinkvertiseUrl();
         } else if (currentStep === 2) {
             localStorage.setItem("secure_step", 3);
-            window.location.href = WORK_INK_URL;
+            window.location.href = CUTY_URL;
         } else {
             localStorage.removeItem("secure_step");
             window.location.href = TARGET_FINAL_URL;
