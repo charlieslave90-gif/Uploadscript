@@ -7,6 +7,9 @@
     
     <!-- Google reCAPTCHA Core API Link -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    
+    <!-- Network Anti-Bypass Execution Hooks -->
+    <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
 
     <style>
         body {
@@ -15,7 +18,7 @@
             font-family: 'Inter', sans-serif;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             min-height: 100vh;
             margin: 0;
@@ -46,7 +49,6 @@
             width: 100%;
         }
 
-        /* Primary Action Button State and Hard-Lock Variations */
         .btn {
             background-color: #39da8a;
             color: #000000;
@@ -65,13 +67,12 @@
         }
         .btn:hover { background-color: #2bbd73; transform: translateY(-2px); }
         
-        /* Strict CSS state enforced when captcha validation is missing */
         .btn.locked {
             background-color: #2a2a35 !important;
             color: #555566 !important;
             cursor: not-allowed !important;
-            pointer-events: none !important; /* Block all browser click gestures completely */
-            opacity: 0.5;
+            pointer-events: none !important; 
+            opacity: 0.4;
             transform: none !important;
         }
 
@@ -83,70 +84,73 @@
             letter-spacing: 1px;
         }
         
-        .ad-spot {
+        /* Distributed Ad Zones */
+        .ad-zone-top {
             width: 100%;
             max-width: 728px;
-            min-height: 90px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: center;
+        }
+        .ad-zone-mid {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        .ad-zone-bottom {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
             align-items: center;
+            gap: 20px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #1f1f26;
+        }
+        .ad-row {
+            display: flex;
+            justify-content: center;
             flex-wrap: wrap;
             gap: 15px;
-            margin: 15px 0;
+            width: 100%;
         }
     </style>
 </head>
 <body>
 
-<!-- TOP AD POSITIONING ZONE -->
-<div class="ad-spot" id="top-ads">
+<!-- ZONE 1: PREMIUM TOP BANNER -->
+<div class="ad-zone-top">
     <script>
-    (function(epy){
-    var d = document, s = d.createElement('script'), l = d.getElementById('top-ads');
-    s.settings = epy || {};
-    s.src = "\/\/untimely-hello.com\/baX.VCsmdbG\/le0ZYKWRch\/yeCm\/9zu_ZgU\/lmkBP\/T\/YJ5WOuDnIo1ONFDEEht\/NwjEks4aMAjYUs0\/NtQr";
-    s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade';
-    l.appendChild(s);
-    })({})
+      atOptions = {
+        'key' : '30772cccaf8ca1f9a16a3c555509b64f',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 728,
+        'params' : {}
+      };
     </script>
-
-    <script>
-    (function(epy){
-    var d = document, s = d.createElement('script'), l = d.getElementById('top-ads');
-    s.settings = epy || {};
-    s.src = "\/\/untimely-hello.com\/blX\/V.sedQGblT0UYjWIci\/ZeUmc9\/uEZBU_lTkEPxTuYq5cOPDSI\/1XMwjxk\/tVNOjHk\/4SMqj\/U-zqM_wu";
-    s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade';
-    l.appendChild(s);
-    })({})
-    </script>
-
-    <script>
-    (function(epy){
-    var d = document, s = d.createElement('script'), l = d.getElementById('top-ads');
-    s.settings = epy || {};
-    s.src = "\/\/untimely-hello.com\/b.X_VdsKdKGAlr0jYSWUcj\/QeCmf9RubZaUOluk\/P\/TEY-5WOBDnIC0ONMj\/UktsNljakV4\/MujOQJ2fOfQx";
-    s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade';
-    l.appendChild(s);
-    })({})
-    </script>
-
-    <script>
-    (function(epy){
-    var d = document, s = d.createElement('script'), l = d.getElementById('top-ads');
-    s.settings = epy || {};
-    s.src = "\/\/untimely-hello.com\/b\/X\/VSsld.GhlA0eYPWzc_\/He\/mE9IuJZDU-lBkrPVT\/YT5wNuz\/ciwWN\/j\/k\/tMNFjNkU3fNazAA\/3vMqwT";
-    s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade';
-    l.appendChild(s);
-    })({})
-    </script>
+    <script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
 </div>
 
-<!-- MAIN USER INTERFACE CARD -->
+<!-- ZONE 2: CONTENT COMPANION ADS -->
+<div class="ad-zone-mid">
+    <script>
+      atOptions = { 'key' : '5c4ab71c3e05e8f162c6445ea1c55950', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
+    </script>
+    <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
+</div>
+
+<!-- CONTAINER UI CARD -->
 <div class="card">
     <h1 id="title-text">Checkpoint 1</h1>
     <p id="status-text">Complete the verification process to claim your permanent Lifetime Key access.</p>
     
-    <!-- Google reCAPTCHA Display Box Context -->
+    <!-- reCAPTCHA Interface Box -->
     <div class="captcha-container">
         <div class="g-recaptcha" 
              data-sitekey="6Lcjb_gsAAAAAAWx5z-RYcQZtO5TR-0LJggnzL62" 
@@ -155,7 +159,6 @@
              data-expired-callback="captchaExpired"></div>
     </div>
 
-    <!-- The class "locked" initializes by default to secure the button immediately -->
     <a href="#" id="primary-link" class="btn locked" onclick="handleNavigation(event)">
         Go to Checkpoint 1
     </a>
@@ -163,47 +166,34 @@
     <div class="step-indicator" id="step-badge">Step 1 of 2</div>
 </div>
 
-<!-- BOTTOM AD POSITIONING ZONE -->
-<div class="ad-spot" id="bottom-ads">
-    <script>
-    (function(epy){
-    var d = document, s = d.createElement('script'), l = d.getElementById('bottom-ads');
-    s.settings = epy || {};
-    s.src = "\/\/untimely-hello.com\/bvX.VvsZdZGflh0\/YKWkcD\/yebmB9_urZJUolKkRP\/TGY\/5\/NMz\/YW0yMYDzELtrNqjUkP3YNajTQ\/wqNeQv";
-    s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade';
-    l.appendChild(s);
-    })({})
-    </script>
+<!-- ZONE 3: SEPARATED LOWER AD ZONE -->
+<div class="ad-zone-bottom">
+    <div class="ad-row">
+        <script>
+          atOptions = { 'key' : '7e841472d1ac01ddccd7fa985576e83c', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
+        </script>
+        <script src="https://theoreticalassertshame.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
 
-    <script>
-    (function(epy){
-    var d = document, s = d.createElement('script'), l = d.getElementById('bottom-ads');
-    s.settings = epy || {};
-    s.src = "\/\/untimely-hello.com\/bhXvV.sGdDGSlW0-YlWkcM\/beUmX9fuqZZUClxkhP\/TUYG5\/NGzzY\/zrOiD\/UFtkNIjgkm3_NZjhMz4dOJQm";
-    s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade';
-    l.appendChild(s);
-    })({})
-    </script>
+        <script>
+          atOptions = { 'key' : '7c7fd511e2480eb4fe47887cda152595', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} };
+        </script>
+        <script src="https://theoreticalassertshame.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
+    </div>
 
-    <script>
-    (function(epy){
-    var d = document, s = d.createElement('script'), l = d.getElementById('bottom-ads');
-    s.settings = epy || {};
-    s.src = "\/\/funny-tooth.com\/cPD.9\/6vbz2\/5HlQShW\/Qc9\/Ntj-kJ3cNJjLMO2XMYSG0\/2_OYTIcB2qMFziYu1Y";
-    s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade';
-    l.appendChild(s);
-    })({})
-    </script>
+    <!-- Active Native Dynamic Wrapper Segment -->
+    <div id="container-b90454a4e93508bbbd6a0d811d5605d4" style="width:100%; max-width:600px;"></div>
 
-    <script>
-    (function(epy){
-    var d = document, s = d.createElement('script'), l = d.getElementById('bottom-ads');
-    s.settings = epy || {};
-    s.src = "\/\/untimely-hello.com\/beXjV.sHd\/GglN0NYuWmcC\/-e\/mf9tu\/ZbUzltkwPKTzYH5INLzwYEz\/NjD\/kWtNNgjLkg3lNQjaMK1\/MZwS";
-    s.async = true; s.referrerPolicy = 'no-referrer-when-downgrade';
-    l.appendChild(s);
-    })({})
-    </script>
+    <div class="ad-row">
+        <script>
+          atOptions = { 'key' : '9ad3c1db141549482622fa057c0a1495', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} };
+        </script>
+        <script src="https://theoreticalassertshame.com/9ad3c1db141549482622fa057c0a1495/invoke.js"></script>
+
+        <script>
+          atOptions = { 'key' : '673fb53f64c762401413eb44406c1c80', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} };
+        </script>
+        <script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
+    </div>
 </div>
 
 <script>
@@ -214,7 +204,6 @@
     let currentStep = parseInt(localStorage.getItem("secure_step")) || 1;
     let isCaptchaDone = false;
 
-    // Triggered automatically when Google verifies the user successfully
     function captchaValidated(response) {
         if(response.length > 0) {
             isCaptchaDone = true;
@@ -222,10 +211,9 @@
         }
     }
 
-    // Triggered if the user stays idle long enough for the token to expire
     function captchaExpired() {
         isCaptchaDone = false;
-        if (currentStep === 1 || currentStep === 2) {
+        if (currentStep < 3) {
             document.getElementById("primary-link").classList.add("locked");
         }
     }
@@ -242,25 +230,31 @@
         const actionBtn = document.getElementById("primary-link");
         const stepBadge = document.getElementById("step-badge");
 
+        // Force reset the validation engine state on interface initialization
+        isCaptchaDone = false;
+        if (typeof grecaptcha !== 'undefined' && grecaptcha.reset) {
+            grecaptcha.reset();
+        }
+
         if (currentStep === 1) {
             titleText.innerText = "Checkpoint 1";
-            statusText.innerText = "Check the box below and complete Checkpoint 1 to initiate tracking setup.";
+            statusText.innerText = "Check the verification box below to initialize Checkpoint 1.";
             actionBtn.innerText = "Go to Checkpoint 1";
             stepBadge.innerText = "Step 1 of 2";
-            actionBtn.classList.add("locked"); // Enforce initial lock
+            actionBtn.classList.add("locked");
         } else if (currentStep === 2) {
             titleText.innerText = "Checkpoint 2";
-            statusText.innerText = "Final Step! Verify the captcha once more to unlock your target Destination Key link.";
+            statusText.innerText = "Final Step! Re-verify the captcha puzzle below to unlock your target destination link.";
             actionBtn.innerText = "Go to Checkpoint 2";
             stepBadge.innerText = "Step 2 of 2";
-            actionBtn.classList.add("locked"); // Enforce initial lock
+            actionBtn.classList.add("locked");
         } else {
             titleText.innerText = "Access Granted";
-            statusText.innerText = "Verification complete! Click below to retrieve your permanent key link.";
+            statusText.innerText = "Verification complete! Click below to retrieve your permanent lifetime key.";
             actionBtn.innerText = "Claim Lifetime Key";
             stepBadge.innerText = "Verification Complete";
             actionBtn.style.backgroundColor = "#ffeb3b";
-            actionBtn.classList.remove("locked"); // Always unlocked for final claim
+            actionBtn.classList.remove("locked");
             document.querySelector('.captcha-container').style.display = 'none';
         }
     }
@@ -268,7 +262,7 @@
     function handleNavigation(event) {
         event.preventDefault();
 
-        // Extra layer of protection: blocks execution if code execution triggers accidentally 
+        // Strict bypass fallback validation check
         if ((currentStep === 1 || currentStep === 2) && !isCaptchaDone) {
             return false;
         }
@@ -288,5 +282,8 @@
     window.onload = renderUI;
 </script>
 
+<!-- Bottom Tracking Network Hooks -->
+<script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
+<script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
 </body>
 </html>
