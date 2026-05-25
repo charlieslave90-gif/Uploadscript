@@ -55,7 +55,7 @@
             text-decoration: underline;
             margin-top: 8px;
             cursor: pointer;
-            display: none; /* Only shows if captcha expires */
+            display: none;
         }
 
         .btn {
@@ -209,6 +209,15 @@
     let currentStep = parseInt(localStorage.getItem("secure_step")) || 1;
     let isCaptchaDone = false;
 
+    // ANTI-BYPASS SECURITY: Detects if they skip ahead illegally without a real click action
+    const clickVerified = localStorage.getItem("step_click_verified");
+    if (currentStep > 1 && clickVerified !== "true") {
+        localStorage.setItem("secure_step", 1);
+        currentStep = 1;
+    }
+    // Clear verification state for security during checking windows
+    localStorage.removeItem("step_click_verified");
+
     function captchaValidated(response) {
         if(response.length > 0) {
             isCaptchaDone = true;
@@ -221,7 +230,7 @@
         isCaptchaDone = false;
         if (currentStep < 3) {
             document.getElementById("primary-link").classList.add("locked");
-            document.getElementById("captcha-refresh").style.display = "block"; // Display refresh link options
+            document.getElementById("captcha-refresh").style.display = "block";
         }
     }
 
@@ -276,6 +285,9 @@
         if ((currentStep === 1 || currentStep === 2) && !isCaptchaDone) {
             return false;
         }
+
+        // Set bypass protection signatures right before page movement happens
+        localStorage.setItem("step_click_verified", "true");
 
         if (currentStep === 1) {
             localStorage.setItem("secure_step", 2);
