@@ -216,13 +216,14 @@
 </div>
 
 <script>
-    const LOOT_LINK_URL = "https://loot-link.com/s?3KNAXLNm";
+    // Your standard Lootlabs Base Redirect link
+    const LOOTLABS_BASE_URL = "https://loot-link.com/s?3KNAXLNm";
     const TARGET_FINAL_URL = "https://rblxscripts2.vercel.app/getkey";
 
     let currentStep = parseInt(localStorage.getItem("secure_step")) || 1;
     let isCaptchaDone = false;
 
-    // ANTI-BYPASS SECURITY
+    // ANTI-BYPASS SECURITY: Resets users who didn't click natively
     const clickVerified = localStorage.getItem("step_click_verified");
     if (currentStep > 1 && clickVerified !== "true") {
         localStorage.setItem("secure_step", 1);
@@ -251,6 +252,13 @@
             grecaptcha.reset();
             document.getElementById("captcha-refresh").style.display = "none";
         }
+    }
+
+    // Dynamic LootLabs builder: Packages this URL to loop back cleanly for Step 2
+    function buildLootlabsUrl() {
+        const currentDestination = window.location.origin + window.location.pathname;
+        // Connects your base gateway with an encoded return parameter so it routes right back here
+        return LOOTLABS_BASE_URL + "&url=" + encodeURIComponent(currentDestination);
     }
 
     function renderUI() {
@@ -296,11 +304,11 @@
 
         if (currentStep === 1) {
             localStorage.setItem("secure_step", 2);
-            // Swapped Linkvertise to process directly to your layout loop setup
-            window.location.reload(); 
+            // Now dynamically routes through LootLabs instead of just refreshing!
+            window.location.href = buildLootlabsUrl(); 
         } else if (currentStep === 2) {
             localStorage.setItem("secure_step", 3);
-            window.location.href = LOOT_LINK_URL;
+            window.location.href = LOOTLABS_BASE_URL;
         } else {
             localStorage.removeItem("secure_step");
             window.location.href = TARGET_FINAL_URL;
