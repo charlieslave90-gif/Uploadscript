@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lifetime Key Verification</title>
     
-    <!-- Cloudfront Custom Integration Placement -->
+    <!-- Ad Network Background Processing Script -->
     <script data-cfasync="false" src="//dcbbwymp1bhlf.cloudfront.net/?wbbcd=1300368"></script>
 
     <!-- Google reCAPTCHA Core API Link -->
@@ -216,14 +216,14 @@
 </div>
 
 <script>
-    // Your standard Lootlabs Base Redirect link
+    const STEP_1_URL = "https://rblxscripts2.vercel.app/keygen";
     const LOOTLABS_BASE_URL = "https://loot-link.com/s?3KNAXLNm";
     const TARGET_FINAL_URL = "https://rblxscripts2.vercel.app/getkey";
 
     let currentStep = parseInt(localStorage.getItem("secure_step")) || 1;
     let isCaptchaDone = false;
 
-    // ANTI-BYPASS SECURITY: Resets users who didn't click natively
+    // ANTI-BYPASS SECURITY
     const clickVerified = localStorage.getItem("step_click_verified");
     if (currentStep > 1 && clickVerified !== "true") {
         localStorage.setItem("secure_step", 1);
@@ -252,13 +252,6 @@
             grecaptcha.reset();
             document.getElementById("captcha-refresh").style.display = "none";
         }
-    }
-
-    // Dynamic LootLabs builder: Packages this URL to loop back cleanly for Step 2
-    function buildLootlabsUrl() {
-        const currentDestination = window.location.origin + window.location.pathname;
-        // Connects your base gateway with an encoded return parameter so it routes right back here
-        return LOOTLABS_BASE_URL + "&url=" + encodeURIComponent(currentDestination);
     }
 
     function renderUI() {
@@ -304,8 +297,7 @@
 
         if (currentStep === 1) {
             localStorage.setItem("secure_step", 2);
-            // Now dynamically routes through LootLabs instead of just refreshing!
-            window.location.href = buildLootlabsUrl(); 
+            window.location.href = STEP_1_URL; 
         } else if (currentStep === 2) {
             localStorage.setItem("secure_step", 3);
             window.location.href = LOOTLABS_BASE_URL;
