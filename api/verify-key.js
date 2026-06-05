@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         "Updated_Omgiownyou2",
         "Free_key2728",
         "Free_askimcok22",
-        "key_1dolladina"
+        "key_1dolladina$"
     ];
     
     if (req.method === 'GET') {
