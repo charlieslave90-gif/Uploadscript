@@ -42,6 +42,31 @@
         h1 { font-size: 26px; margin-bottom: 8px; color: #39da8a; font-weight: 700; }
         p { color: #a3a3a3; font-size: 14px; line-height: 1.6; margin-bottom: 24px; }
         
+        .gateway-selector {
+            margin-bottom: 20px;
+            width: 100%;
+            text-align: left;
+        }
+        .gateway-selector label {
+            display: block;
+            font-size: 12px;
+            color: #888899;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .gateway-select {
+            width: 100%;
+            background-color: #22222a;
+            color: #ffffff;
+            border: 1px solid #33333f;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            outline: none;
+        }
+
         .captcha-container {
             display: flex;
             flex-direction: column;
@@ -154,9 +179,17 @@
 </div>
 
 <div class="card">
-    <h1 id="title-text">Checkpoint 1</h1>
+    <h1 id="title-text">Verification Method</h1>
     <p id="status-text">Complete the verification process to claim your permanent Lifetime Key access.</p>
     
+    <div class="gateway-selector" id="selector-wrapper">
+        <label for="provider">Select Ad Provider:</label>
+        <select id="provider" class="gateway-select" onchange="changeProvider()">
+            <option value="lootlabs">LootLabs (2 Checkpoints)</option>
+            <option value="linkvertise">Linkvertise (1 Checkpoint)</option>
+        </select>
+    </div>
+
     <div class="captcha-container">
         <div class="g-recaptcha" 
              data-sitekey="6Lcjb_gsAAAAAAWx5z-RYcQZtO5TR-0LJggnzL62" 
@@ -174,7 +207,7 @@
     </div>
 
     <a href="#" id="primary-link" class="btn locked" onclick="handleNavigation(event)">
-        Go to Checkpoint 1
+        Verify Captcha First
     </a>
 
     <div class="ad-zone-inside">
@@ -204,11 +237,13 @@
 </div>
 
 <script>
+    const USER_ID = "4752730";
     const STEP_1_URL = "https://rblxscripts2.vercel.app/keygen";
     const LOOTLABS_BASE_URL = "https://loot-link.com/s?3KNAXLNm";
     const TARGET_FINAL_URL = "https://rblxscripts2.vercel.app/getkey";
 
     let currentStep = parseInt(localStorage.getItem("secure_step")) || 1;
+    let selectedProvider = localStorage.getItem("selected_provider") || "lootlabs";
     let isCaptchaDone = false;
 
     // ANTI-BYPASS SECURITY
@@ -218,6 +253,14 @@
         currentStep = 1;
     }
     localStorage.removeItem("step_click_verified");
+
+    function changeProvider() {
+        if (currentStep === 1) {
+            selectedProvider = document.getElementById("provider").value;
+            localStorage.setItem("selected_provider", selectedProvider);
+            renderUI();
+        }
+    }
 
     function captchaValidated(response) {
         if(response.length > 0) {
@@ -229,10 +272,8 @@
 
     function captchaExpired() {
         isCaptchaDone = false;
-        if (currentStep < 3) {
-            document.getElementById("primary-link").classList.add("locked");
-            document.getElementById("captcha-refresh").style.display = "block";
-        }
+        document.getElementById("primary-link").classList.add("locked");
+        document.getElementById("captcha-refresh").style.display = "block";
     }
 
     function forceCaptchaReset() {
@@ -242,57 +283,105 @@
         }
     }
 
+    function buildLinkvertiseUrl() {
+        const baseDestination = window.location.origin + window.location.pathname;
+        const cleanDestination = btoa(baseDestination);
+        return "https://linkvertise.com/" + USER_ID + "/" + Math.random().toString(36).substring(7) + "/dynamic?r=" + cleanDestination;
+    }
+
     function renderUI() {
         const titleText = document.getElementById("title-text");
         const statusText = document.getElementById("status-text");
         const actionBtn = document.getElementById("primary-link");
         const stepBadge = document.getElementById("step-badge");
+        const providerSelector = document.getElementById("selector-wrapper");
 
+        document.getElementById("provider").value = selectedProvider;
         isCaptchaDone = false;
         forceCaptchaReset();
 
-        if (currentStep === 1) {
-            titleText.innerText = "Checkpoint 1";
-            statusText.innerText = "Check the verification box below to initialize Checkpoint 1.";
-            actionBtn.innerText = "Go to Checkpoint 1";
-            stepBadge.innerText = "Step 1 of 2";
-            actionBtn.classList.add("locked");
-        } else if (currentStep === 2) {
-            titleText.innerText = "Checkpoint 2";
-            statusText.innerText = "Final Step! Re-verify the captcha puzzle below to unlock your target destination link.";
-            actionBtn.innerText = "Go to Checkpoint 2";
-            stepBadge.innerText = "Step 2 of 2";
-            actionBtn.classList.add("locked");
+        // Hide selector once progression starts to lock route
+        if (currentStep > 1) {
+            providerSelector.style.display = "none";
         } else {
-            titleText.innerText = "Access Granted";
-            statusText.innerText = "Verification complete! Click below to retrieve your permanent lifetime key.";
-            actionBtn.innerText = "Claim Lifetime Key";
-            stepBadge.innerText = "Verification Complete";
-            actionBtn.style.backgroundColor = "#ffeb3b";
-            actionBtn.classList.remove("locked");
-            document.querySelector('.captcha-container').style.display = 'none';
+            providerSelector.style.display = "block";
         }
+
+        if (selectedProvider === "linkvertise") {
+            if (currentStep === 1) {
+                titleText.innerText = "Checkpoint 1 (Linkvertise)";
+                statusText.innerText = "Complete the captcha verification below to route your key via Linkvertise.";
+                actionBtn.innerText = "Go to Linkvertise";
+                stepBadge.innerText = "Step 1 of 1";
+                actionBtn.classList.add("locked");
+            } else {
+                showAccessGranted(titleText, statusText, actionBtn, stepBadge);
+            }
+        } else {
+            // LootLabs Progression Logic Flow
+            if (currentStep === 1) {
+                titleText.innerText = "Checkpoint 1 (LootLabs)";
+                statusText.innerText = "Check the box below to start your LootLabs verification routing.";
+                actionBtn.innerText = "Go to Checkpoint 1";
+                stepBadge.innerText = "Step 1 of 2";
+                actionBtn.classList.add("locked");
+            } else if (currentStep === 2) {
+                titleText.innerText = "Checkpoint 2 (LootLabs)";
+                statusText.innerText = "Final Step! Solve the puzzle once more to access your key target link.";
+                actionBtn.innerText = "Go to Checkpoint 2";
+                stepBadge.innerText = "Step 2 of 2";
+                actionBtn.classList.add("locked");
+            } else {
+                showAccessGranted(titleText, statusText, actionBtn, stepBadge);
+            }
+        }
+    }
+
+    function showAccessGranted(title, status, btn, badge) {
+        title.innerText = "Access Granted";
+        status.innerText = "Verification complete! Click below to retrieve your permanent lifetime key.";
+        btn.innerText = "Claim Lifetime Key";
+        badge.innerText = "Verification Complete";
+        btn.style.backgroundColor = "#ffeb3b";
+        btn.classList.remove("locked");
+        document.querySelector('.captcha-container').style.display = 'none';
     }
 
     function handleNavigation(event) {
         event.preventDefault();
 
-        if ((currentStep === 1 || currentStep === 2) && !isCaptchaDone) {
+        // Enforce reCAPTCHA validation blocks
+        if (!isCaptchaDone && ((selectedProvider === "linkvertise" && currentStep === 1) || (selectedProvider === "lootlabs" && currentStep < 3))) {
             return false;
         }
 
         localStorage.setItem("step_click_verified", "true");
 
-        if (currentStep === 1) {
-            localStorage.setItem("secure_step", 2);
-            window.location.href = STEP_1_URL; 
-        } else if (currentStep === 2) {
-            localStorage.setItem("secure_step", 3);
-            window.location.href = LOOTLABS_BASE_URL;
+        if (selectedProvider === "linkvertise") {
+            if (currentStep === 1) {
+                localStorage.setItem("secure_step", 2); // 1 Step completed, next is final claim
+                window.location.href = buildLinkvertiseUrl();
+            } else {
+                clearAndRedirect();
+            }
         } else {
-            localStorage.removeItem("secure_step");
-            window.location.href = TARGET_FINAL_URL;
+            // LootLabs Routing Logic Execution
+            if (currentStep === 1) {
+                localStorage.setItem("secure_step", 2);
+                window.location.href = STEP_1_URL; 
+            } else if (currentStep === 2) {
+                localStorage.setItem("secure_step", 3);
+                window.location.href = LOOTLABS_BASE_URL;
+            } else {
+                clearAndRedirect();
+            }
         }
+    }
+
+    function clearAndRedirect() {
+        localStorage.removeItem("secure_step");
+        localStorage.removeItem("selected_provider");
+        window.location.href = TARGET_FINAL_URL;
     }
 
     window.onload = renderUI;
