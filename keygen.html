@@ -30,8 +30,7 @@
             padding: 40px 30px;
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-            text-align: center;
-            max-width: 420px;
+            text-align: center;max-width: 420px;
             width: 100%;
             border: 1px solid #232329;
             position: relative;
@@ -231,7 +230,6 @@
 </div>
 
 <script>
-    // Configured Routing Links
     const LINKVERTISE_URL = "https://omg10.com/4/11001405";
     const LOOTLABS_STEP_1 = "https://omg10.com/4/11001403";
     const LOOTLABS_STEP_2 = "https://omg10.com/4/11001406";
@@ -243,8 +241,8 @@
     let selectedProvider = localStorage.getItem("selected_provider") || "lootlabs";
     
     let isCaptchaDone = false;
+    let countdownActive = false;
     let timerInterval = null;
-    let isTimerActive = false;
 
     // ANTI-BYPASS SECURITY
     const clickVerified = localStorage.getItem("step_click_verified");
@@ -263,7 +261,7 @@
     }
 
     function captchaValidated(response) {
-        if(response.length > 0 && !isTimerActive) {
+        if(response.length > 0 && !countdownActive) {
             isCaptchaDone = true;
             const actionBtn = document.getElementById("primary-link");
             actionBtn.classList.remove("locked");
@@ -277,57 +275,9 @@
         }
     }
 
-    // Handles checking if they are returning within the 13 second window
-    function checkIntermissionTimer() {
-        const lastClickTime = localStorage.getItem("last_omg_click_time");
-        if (!lastClickTime) return;
-
-        const timePassed = Math.floor((Date.now() - parseInt(lastClickTime)) / 1000);
-        const remainingTime = 13 - timePassed;
-
-        if (remainingTime > 0) {
-            runActiveCooldown(remainingTime);
-        } else {
-            localStorage.removeItem("last_omg_click_time");
-        }
-    }
-
-    function runActiveCooldown(seconds) {
-        isTimerActive = true;
-        isCaptchaDone = false;
-        
-        const actionBtn = document.getElementById("primary-link");
-        const captchaBox = document.getElementById("captcha-box");
-        
-        actionBtn.classList.add("locked");
-        captchaBox.style.opacity = "0.3";
-        captchaBox.style.pointerEvents = "none";
-        
-        actionBtn.innerText = `Please wait... ${seconds}s`;
-
-        if (timerInterval) clearInterval(timerInterval);
-        
-        timerInterval = setInterval(() => {
-            seconds--;
-            if (seconds > 0) {
-                actionBtn.innerText = `Please wait... ${seconds}s`;
-            } else {
-                clearInterval(timerInterval);
-                isTimerActive = false;
-                localStorage.removeItem("last_omg_click_time");
-                
-                // Unlock captcha for the new step completely
-                captchaBox.style.opacity = "1";
-                captchaBox.style.pointerEvents = "auto";
-                actionBtn.innerText = "Verify Captcha First";
-                forceCaptchaReset();
-            }
-        }, 1000);
-    }
-
     function captchaExpired() {
         isCaptchaDone = false;
-        if (!isTimerActive) {
+        if (!countdownActive) {
             document.getElementById("primary-link").classList.add("locked");
             document.getElementById("primary-link").innerText = "Verify Captcha First";
             document.getElementById("captcha-refresh").style.display = "block";
@@ -350,7 +300,7 @@
 
         document.getElementById("provider").value = selectedProvider;
         isCaptchaDone = false;
-        
+        countdownActive = false;
         if (timerInterval) clearInterval(timerInterval);
         forceCaptchaReset();
 
@@ -359,11 +309,6 @@
         } else {
             providerSelector.style.display = "block";
         }
-
-        // Check if user is locked into an intermission wait rule
-        checkIntermissionTimer();
-
-        if (isTimerActive) return;
 
         if (selectedProvider === "linkvertise") {
             if (currentStep === 1) {
@@ -413,21 +358,49 @@
     function handleNavigation(event) {
         event.preventDefault();
 
-        if (!isCaptchaDone || isTimerActive) {
+        if (!isCaptchaDone || countdownActive) {
             return false;
         }
 
+        // If it's the final key retrieval button, bypass countdown entirely
+        const maxAllowedSteps = selectedProvider === "linkvertise" ? 2 : 4;
+        if (currentStep >= maxAllowedSteps) {
+            clearAndRedirect();
+            return;
+        }
+
+        // Trigger 13s countdown on the button right here right now
+        runInlineCountdown(13);
+    }
+
+    function runInlineCountdown(seconds) {
+        countdownActive = true;
+        const actionBtn = document.getElementById("primary-link");
+        const captchaBox = document.getElementById("captcha-box");
+
+        actionBtn.classList.add("locked");
+        captchaBox.style.opacity = "0.2";
+        captchaBox.style.pointerEvents = "none";
+        
+        actionBtn.innerText = `Redirecting in ${seconds}s...`;
+
+        timerInterval = setInterval(() => {
+            seconds--;
+            if (seconds > 0) {
+                actionBtn.innerText = `Redirecting in ${seconds}s...`;
+            } else {
+                clearInterval(timerInterval);
+                executeRedirect();
+            }
+        }, 1000);
+    }
+
+    function executeRedirect() {
         localStorage.setItem("step_click_verified", "true");
-        // Save the timestamp when the link is clicked to track the 13s countdown across the page reload
-        localStorage.setItem("last_omg_click_time", Date.now().toString());
 
         if (selectedProvider === "linkvertise") {
-            if (currentStep === 1) {
-                localStorage.setItem("secure_step", 2); 
-                window.location.href = LINKVERTISE_URL;
-            } else {
-                clearAndRedirect();
-            }
+            localStorage.setItem("secure_step", 2); 
+            window.location.href = LINKVERTISE_URL;
         } else {
             if (currentStep === 1) {
                 localStorage.setItem("secure_step", 2);
@@ -438,8 +411,6 @@
             } else if (currentStep === 3) {
                 localStorage.setItem("secure_step", 4);
                 window.location.href = LOOTLABS_BASE_URL;
-            } else {
-                clearAndRedirect();
             }
         }
     }
@@ -447,7 +418,6 @@
     function clearAndRedirect() {
         localStorage.removeItem("secure_step");
         localStorage.removeItem("selected_provider");
-        localStorage.removeItem("last_omg_click_time");
         window.location.href = TARGET_FINAL_URL;
     }
 
