@@ -175,7 +175,7 @@
     <script>
       atOptions = { 'key' : '5c4ab71c3e05e8f162c6445ea1c55950', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
     </script>
-    <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
+    <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6445ea1c55950/invoke.js"></script>
 </div>
 
 <div class="card">
@@ -185,7 +185,7 @@
     <div class="gateway-selector" id="selector-wrapper">
         <label for="provider">Select Ad Provider:</label>
         <select id="provider" class="gateway-select" onchange="changeProvider()">
-            <option value="lootlabs">LootLabs (2 Checkpoints)</option>
+            <option value="lootlabs">LootLabs (3 Checkpoints)</option>
             <option value="linkvertise">Linkvertise (1 Checkpoint)</option>
         </select>
     </div>
@@ -217,7 +217,7 @@
         <script src="https://theoreticalassertshame.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
     </div>
 
-    <div class="step-indicator" id="step-badge">Step 1 of 2</div>
+    <div class="step-indicator" id="step-badge">Step 1 of 3</div>
 </div>
 
 <div class="ad-zone-bottom">
@@ -237,14 +237,21 @@
 </div>
 
 <script>
-    const USER_ID = "4752730";
-    const STEP_1_URL = "https://rblxscripts2.vercel.app/keygen";
+    // Configured Routing Links
+    const LINKVERTISE_URL = "https://omg10.com/4/11001405";
+    const LOOTLABS_STEP_1 = "https://omg10.com/4/11001403";
+    const LOOTLABS_STEP_2 = "https://omg10.com/4/11001406";
     const LOOTLABS_BASE_URL = "https://loot-link.com/s?3KNAXLNm";
+    
     const TARGET_FINAL_URL = "https://rblxscripts2.vercel.app/getkey";
 
     let currentStep = parseInt(localStorage.getItem("secure_step")) || 1;
     let selectedProvider = localStorage.getItem("selected_provider") || "lootlabs";
+    
     let isCaptchaDone = false;
+    let timerCount = 13;
+    let timerInterval = null;
+    let dynamicTargetText = "";
 
     // ANTI-BYPASS SECURITY
     const clickVerified = localStorage.getItem("step_click_verified");
@@ -265,14 +272,45 @@
     function captchaValidated(response) {
         if(response.length > 0) {
             isCaptchaDone = true;
-            document.getElementById("primary-link").classList.remove("locked");
+            
+            // Check if captcha is passed on an active step to trigger the 13-second wait
+            const maxAllowedSteps = selectedProvider === "linkvertise" ? 2 : 4;
+            if (currentStep < maxAllowedSteps) {
+                startCountdown();
+            } else {
+                // If already access granted, just unlock immediately
+                document.getElementById("primary-link").classList.remove("locked");
+            }
             document.getElementById("captcha-refresh").style.display = "none";
         }
     }
 
+    function startCountdown() {
+        const actionBtn = document.getElementById("primary-link");
+        actionBtn.classList.add("locked");
+        timerCount = 13;
+
+        actionBtn.innerText = `Please wait... ${timerCount}s`;
+
+        if (timerInterval) clearInterval(timerInterval);
+        
+        timerInterval = setInterval(() => {
+            timerCount--;
+            if (timerCount > 0) {
+                actionBtn.innerText = `Please wait... ${timerCount}s`;
+            } else {
+                clearInterval(timerInterval);
+                actionBtn.classList.remove("locked");
+                actionBtn.innerText = dynamicTargetText; // Restore original button title text
+            }
+        }, 1000);
+    }
+
     function captchaExpired() {
         isCaptchaDone = false;
+        if (timerInterval) clearInterval(timerInterval);
         document.getElementById("primary-link").classList.add("locked");
+        document.getElementById("primary-link").innerText = "Verify Captcha First";
         document.getElementById("captcha-refresh").style.display = "block";
     }
 
@@ -281,12 +319,6 @@
             grecaptcha.reset();
             document.getElementById("captcha-refresh").style.display = "none";
         }
-    }
-
-    function buildLinkvertiseUrl() {
-        const baseDestination = window.location.origin + window.location.pathname;
-        const cleanDestination = btoa(baseDestination);
-        return "https://linkvertise.com/" + USER_ID + "/" + Math.random().toString(36).substring(7) + "/dynamic?r=" + cleanDestination;
     }
 
     function renderUI() {
@@ -298,9 +330,9 @@
 
         document.getElementById("provider").value = selectedProvider;
         isCaptchaDone = false;
+        if (timerInterval) clearInterval(timerInterval);
         forceCaptchaReset();
 
-        // Hide selector once progression starts to lock route
         if (currentStep > 1) {
             providerSelector.style.display = "none";
         } else {
@@ -311,25 +343,34 @@
             if (currentStep === 1) {
                 titleText.innerText = "Checkpoint 1 (Linkvertise)";
                 statusText.innerText = "Complete the captcha verification below to route your key via Linkvertise.";
-                actionBtn.innerText = "Go to Linkvertise";
+                dynamicTargetText = "Go to Linkvertise";
+                actionBtn.innerText = "Verify Captcha First";
                 stepBadge.innerText = "Step 1 of 1";
                 actionBtn.classList.add("locked");
             } else {
                 showAccessGranted(titleText, statusText, actionBtn, stepBadge);
             }
         } else {
-            // LootLabs Progression Logic Flow
             if (currentStep === 1) {
                 titleText.innerText = "Checkpoint 1 (LootLabs)";
                 statusText.innerText = "Check the box below to start your LootLabs verification routing.";
-                actionBtn.innerText = "Go to Checkpoint 1";
-                stepBadge.innerText = "Step 1 of 2";
+                dynamicTargetText = "Go to Checkpoint 1";
+                actionBtn.innerText = "Verify Captcha First";
+                stepBadge.innerText = "Step 1 of 3";
                 actionBtn.classList.add("locked");
             } else if (currentStep === 2) {
                 titleText.innerText = "Checkpoint 2 (LootLabs)";
+                statusText.innerText = "Pass verification step 2 to continue forwarding safely.";
+                dynamicTargetText = "Go to Checkpoint 2";
+                actionBtn.innerText = "Verify Captcha First";
+                stepBadge.innerText = "Step 2 of 3";
+                actionBtn.classList.add("locked");
+            } else if (currentStep === 3) {
+                titleText.innerText = "Checkpoint 3 (LootLabs)";
                 statusText.innerText = "Final Step! Solve the puzzle once more to access your key target link.";
-                actionBtn.innerText = "Go to Checkpoint 2";
-                stepBadge.innerText = "Step 2 of 2";
+                dynamicTargetText = "Go to Checkpoint 3";
+                actionBtn.innerText = "Verify Captcha First";
+                stepBadge.innerText = "Step 3 of 3";
                 actionBtn.classList.add("locked");
             } else {
                 showAccessGranted(titleText, statusText, actionBtn, stepBadge);
@@ -350,8 +391,8 @@
     function handleNavigation(event) {
         event.preventDefault();
 
-        // Enforce reCAPTCHA validation blocks
-        if (!isCaptchaDone && ((selectedProvider === "linkvertise" && currentStep === 1) || (selectedProvider === "lootlabs" && currentStep < 3))) {
+        // Safety verification blocks
+        if (!isCaptchaDone || timerCount > 0) {
             return false;
         }
 
@@ -359,18 +400,20 @@
 
         if (selectedProvider === "linkvertise") {
             if (currentStep === 1) {
-                localStorage.setItem("secure_step", 2); // 1 Step completed, next is final claim
-                window.location.href = buildLinkvertiseUrl();
+                localStorage.setItem("secure_step", 2); 
+                window.location.href = LINKVERTISE_URL;
             } else {
                 clearAndRedirect();
             }
         } else {
-            // LootLabs Routing Logic Execution
             if (currentStep === 1) {
                 localStorage.setItem("secure_step", 2);
-                window.location.href = STEP_1_URL; 
+                window.location.href = LOOTLABS_STEP_1; 
             } else if (currentStep === 2) {
                 localStorage.setItem("secure_step", 3);
+                window.location.href = LOOTLABS_STEP_2;
+            } else if (currentStep === 3) {
+                localStorage.setItem("secure_step", 4);
                 window.location.href = LOOTLABS_BASE_URL;
             } else {
                 clearAndRedirect();
