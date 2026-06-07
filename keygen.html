@@ -162,20 +162,14 @@
 
 <div class="ad-zone-top">
     <script>
-      atOptions = {
-        'key' : '30772cccaf8ca1f9a16a3c555509b64f',
-        'format' : 'iframe',
-        'height' : 90,
-        'width' : 728,
-        'params' : {}
-      };
+      atOptions = { 'key' : '30772cccaf8ca1f9a16a3c555509b64f', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
     </script>
     <script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
 
     <script>
       atOptions = { 'key' : '5c4ab71c3e05e8f162c6445ea1c55950', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
     </script>
-    <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6445ea1c55950/invoke.js"></script>
+    <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
 </div>
 
 <div class="card">
@@ -190,7 +184,7 @@
         </select>
     </div>
 
-    <div class="captcha-container">
+    <div class="captcha-container" id="captcha-box">
         <div class="g-recaptcha" 
              data-sitekey="6Lcjb_gsAAAAAAWx5z-RYcQZtO5TR-0LJggnzL62" 
              data-theme="dark" 
@@ -249,9 +243,8 @@
     let selectedProvider = localStorage.getItem("selected_provider") || "lootlabs";
     
     let isCaptchaDone = false;
-    let timerCount = 13;
     let timerInterval = null;
-    let dynamicTargetText = "";
+    let isTimerActive = false;
 
     // ANTI-BYPASS SECURITY
     const clickVerified = localStorage.getItem("step_click_verified");
@@ -270,48 +263,75 @@
     }
 
     function captchaValidated(response) {
-        if(response.length > 0) {
+        if(response.length > 0 && !isTimerActive) {
             isCaptchaDone = true;
+            const actionBtn = document.getElementById("primary-link");
+            actionBtn.classList.remove("locked");
             
-            // Check if captcha is passed on an active step to trigger the 13-second wait
-            const maxAllowedSteps = selectedProvider === "linkvertise" ? 2 : 4;
-            if (currentStep < maxAllowedSteps) {
-                startCountdown();
+            if (selectedProvider === "linkvertise") {
+                actionBtn.innerText = "Go to Linkvertise";
             } else {
-                // If already access granted, just unlock immediately
-                document.getElementById("primary-link").classList.remove("locked");
+                actionBtn.innerText = `Go to Checkpoint ${currentStep}`;
             }
             document.getElementById("captcha-refresh").style.display = "none";
         }
     }
 
-    function startCountdown() {
-        const actionBtn = document.getElementById("primary-link");
-        actionBtn.classList.add("locked");
-        timerCount = 13;
+    // Handles checking if they are returning within the 13 second window
+    function checkIntermissionTimer() {
+        const lastClickTime = localStorage.getItem("last_omg_click_time");
+        if (!lastClickTime) return;
 
-        actionBtn.innerText = `Please wait... ${timerCount}s`;
+        const timePassed = Math.floor((Date.now() - parseInt(lastClickTime)) / 1000);
+        const remainingTime = 13 - timePassed;
+
+        if (remainingTime > 0) {
+            runActiveCooldown(remainingTime);
+        } else {
+            localStorage.removeItem("last_omg_click_time");
+        }
+    }
+
+    function runActiveCooldown(seconds) {
+        isTimerActive = true;
+        isCaptchaDone = false;
+        
+        const actionBtn = document.getElementById("primary-link");
+        const captchaBox = document.getElementById("captcha-box");
+        
+        actionBtn.classList.add("locked");
+        captchaBox.style.opacity = "0.3";
+        captchaBox.style.pointerEvents = "none";
+        
+        actionBtn.innerText = `Please wait... ${seconds}s`;
 
         if (timerInterval) clearInterval(timerInterval);
         
         timerInterval = setInterval(() => {
-            timerCount--;
-            if (timerCount > 0) {
-                actionBtn.innerText = `Please wait... ${timerCount}s`;
+            seconds--;
+            if (seconds > 0) {
+                actionBtn.innerText = `Please wait... ${seconds}s`;
             } else {
                 clearInterval(timerInterval);
-                actionBtn.classList.remove("locked");
-                actionBtn.innerText = dynamicTargetText; // Restore original button title text
+                isTimerActive = false;
+                localStorage.removeItem("last_omg_click_time");
+                
+                // Unlock captcha for the new step completely
+                captchaBox.style.opacity = "1";
+                captchaBox.style.pointerEvents = "auto";
+                actionBtn.innerText = "Verify Captcha First";
+                forceCaptchaReset();
             }
         }, 1000);
     }
 
     function captchaExpired() {
         isCaptchaDone = false;
-        if (timerInterval) clearInterval(timerInterval);
-        document.getElementById("primary-link").classList.add("locked");
-        document.getElementById("primary-link").innerText = "Verify Captcha First";
-        document.getElementById("captcha-refresh").style.display = "block";
+        if (!isTimerActive) {
+            document.getElementById("primary-link").classList.add("locked");
+            document.getElementById("primary-link").innerText = "Verify Captcha First";
+            document.getElementById("captcha-refresh").style.display = "block";
+        }
     }
 
     function forceCaptchaReset() {
@@ -330,6 +350,7 @@
 
         document.getElementById("provider").value = selectedProvider;
         isCaptchaDone = false;
+        
         if (timerInterval) clearInterval(timerInterval);
         forceCaptchaReset();
 
@@ -339,11 +360,15 @@
             providerSelector.style.display = "block";
         }
 
+        // Check if user is locked into an intermission wait rule
+        checkIntermissionTimer();
+
+        if (isTimerActive) return;
+
         if (selectedProvider === "linkvertise") {
             if (currentStep === 1) {
                 titleText.innerText = "Checkpoint 1 (Linkvertise)";
                 statusText.innerText = "Complete the captcha verification below to route your key via Linkvertise.";
-                dynamicTargetText = "Go to Linkvertise";
                 actionBtn.innerText = "Verify Captcha First";
                 stepBadge.innerText = "Step 1 of 1";
                 actionBtn.classList.add("locked");
@@ -354,21 +379,18 @@
             if (currentStep === 1) {
                 titleText.innerText = "Checkpoint 1 (LootLabs)";
                 statusText.innerText = "Check the box below to start your LootLabs verification routing.";
-                dynamicTargetText = "Go to Checkpoint 1";
                 actionBtn.innerText = "Verify Captcha First";
                 stepBadge.innerText = "Step 1 of 3";
                 actionBtn.classList.add("locked");
             } else if (currentStep === 2) {
                 titleText.innerText = "Checkpoint 2 (LootLabs)";
                 statusText.innerText = "Pass verification step 2 to continue forwarding safely.";
-                dynamicTargetText = "Go to Checkpoint 2";
                 actionBtn.innerText = "Verify Captcha First";
                 stepBadge.innerText = "Step 2 of 3";
                 actionBtn.classList.add("locked");
             } else if (currentStep === 3) {
                 titleText.innerText = "Checkpoint 3 (LootLabs)";
                 statusText.innerText = "Final Step! Solve the puzzle once more to access your key target link.";
-                dynamicTargetText = "Go to Checkpoint 3";
                 actionBtn.innerText = "Verify Captcha First";
                 stepBadge.innerText = "Step 3 of 3";
                 actionBtn.classList.add("locked");
@@ -385,18 +407,19 @@
         badge.innerText = "Verification Complete";
         btn.style.backgroundColor = "#ffeb3b";
         btn.classList.remove("locked");
-        document.querySelector('.captcha-container').style.display = 'none';
+        document.getElementById('captcha-box').style.display = 'none';
     }
 
     function handleNavigation(event) {
         event.preventDefault();
 
-        // Safety verification blocks
-        if (!isCaptchaDone || timerCount > 0) {
+        if (!isCaptchaDone || isTimerActive) {
             return false;
         }
 
         localStorage.setItem("step_click_verified", "true");
+        // Save the timestamp when the link is clicked to track the 13s countdown across the page reload
+        localStorage.setItem("last_omg_click_time", Date.now().toString());
 
         if (selectedProvider === "linkvertise") {
             if (currentStep === 1) {
@@ -424,6 +447,7 @@
     function clearAndRedirect() {
         localStorage.removeItem("secure_step");
         localStorage.removeItem("selected_provider");
+        localStorage.removeItem("last_omg_click_time");
         window.location.href = TARGET_FINAL_URL;
     }
 
