@@ -231,7 +231,10 @@
 </div>
 
 <script>
-    const LINKVERTISE_URL = "https://omg10.com/4/11001405";
+    // Linkvertise Script Configuration Settings
+    const USER_ID = "4752730";
+    
+    // LootLabs Step Tracking URLs
     const LOOTLABS_STEP_1 = "https://omg10.com/4/11001403";
     const LOOTLABS_STEP_2 = "https://omg10.com/4/11001406";
     const LOOTLABS_BASE_URL = "https://loot-link.com/s?3KNAXLNm";
@@ -250,6 +253,12 @@
             selectedProvider = document.getElementById("provider").value;
             renderUI();
         }
+    }
+
+    function buildLinkvertiseUrl() {
+        const baseDestination = window.location.origin + window.location.pathname;
+        const cleanDestination = btoa(baseDestination);
+        return "https://linkvertise.com/" + USER_ID + "/" + Math.random().toString(36).substring(7) + "/dynamic?r=" + cleanDestination;
     }
 
     function captchaValidated(response) {
@@ -357,7 +366,6 @@
 
         if (isCountdownRunning) return false;
 
-        // Final key retrieval doesn't need captcha or countdown delays
         const maxSteps = selectedProvider === "linkvertise" ? 2 : 4;
         if (currentStep >= maxSteps) {
             window.location.href = TARGET_FINAL_URL;
@@ -366,18 +374,20 @@
 
         if (!isCaptchaDone) return false;
 
-        // 1. Instantly open target Smartlink in a new tab
+        // Determine destination link structure 
         let targetUrl = "";
         if (selectedProvider === "linkvertise") {
-            targetUrl = LINKVERTISE_URL;
+            targetUrl = buildLinkvertiseUrl();
         } else {
             if (currentStep === 1) targetUrl = LOOTLABS_STEP_1;
             else if (currentStep === 2) targetUrl = LOOTLABS_STEP_2;
             else if (currentStep === 3) targetUrl = LOOTLABS_BASE_URL;
         }
+        
+        // Launch dynamic pathing target instantly in a separate environment tab
         window.open(targetUrl, '_blank');
 
-        // 2. Instantly kick off the background tab countdown tracker
+        // Start background page milestone ticks
         startBackgroundIntermission(13);
     }
 
@@ -402,10 +412,8 @@
                 clearInterval(timerInterval);
                 isCountdownRunning = false;
                 
-                // Advance the current page step index state up
                 currentStep++;
                 
-                // Re-enable and show elements for the new step cleanly
                 captchaBox.style.opacity = "1";
                 captchaBox.style.pointerEvents = "auto";
                 
