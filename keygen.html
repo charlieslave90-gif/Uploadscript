@@ -180,7 +180,7 @@
         <label for="provider">Select Ad Provider:</label>
         <select id="provider" class="gateway-select" onchange="changeProvider()">
             <option value="lootlabs">LootLabs (3 Checkpoints)</option>
-            <option value="linkvertise">Linkvertise (1 Checkpoint)</option>
+            <option value="linkvertise">Linkvertise (2 Checkpoints)</option>
         </select>
     </div>
 
@@ -231,10 +231,10 @@
 </div>
 
 <script>
-    // Linkvertise Script Configuration Settings
+    // Configuration Settings
     const USER_ID = "4752730";
+    const LINKVERTISE_OMG_URL = "https://omg10.com/4/11001405";
     
-    // LootLabs Step Tracking URLs
     const LOOTLABS_STEP_1 = "https://omg10.com/4/11001403";
     const LOOTLABS_STEP_2 = "https://omg10.com/4/11001406";
     const LOOTLABS_BASE_URL = "https://loot-link.com/s?3KNAXLNm";
@@ -268,7 +268,11 @@
             actionBtn.classList.remove("locked");
             
             if (selectedProvider === "linkvertise") {
-                actionBtn.innerText = "Go to Linkvertise";
+                if (currentStep === 1) {
+                    actionBtn.innerText = "Go to Checkpoint 1";
+                } else if (currentStep === 2) {
+                    actionBtn.innerText = "Go to Linkvertise";
+                }
             } else {
                 if (currentStep === 3) {
                     actionBtn.innerText = "Go to LootLabs Link";
@@ -319,9 +323,15 @@
         if (selectedProvider === "linkvertise") {
             if (currentStep === 1) {
                 titleText.innerText = "Checkpoint 1 (Linkvertise)";
-                statusText.innerText = "Complete the captcha verification below to open your Linkvertise routing wall.";
+                statusText.innerText = "Complete the captcha verification below to unlock your first Smartlink offer step.";
                 actionBtn.innerText = "Verify Captcha First";
-                stepBadge.innerText = "Step 1 of 1";
+                stepBadge.innerText = "Step 1 of 2";
+                actionBtn.classList.add("locked");
+            } else if (currentStep === 2) {
+                titleText.innerText = "Checkpoint 2 (Linkvertise)";
+                statusText.innerText = "Final Step! Complete this captcha to access your target Linkvertise bypass layout page.";
+                actionBtn.innerText = "Verify Captcha First";
+                stepBadge.innerText = "Step 2 of 2";
                 actionBtn.classList.add("locked");
             } else {
                 showAccessGranted(titleText, statusText, actionBtn, stepBadge);
@@ -366,7 +376,7 @@
 
         if (isCountdownRunning) return false;
 
-        const maxSteps = selectedProvider === "linkvertise" ? 2 : 4;
+        const maxSteps = selectedProvider === "linkvertise" ? 3 : 4;
         if (currentStep >= maxSteps) {
             window.location.href = TARGET_FINAL_URL;
             return;
@@ -374,20 +384,17 @@
 
         if (!isCaptchaDone) return false;
 
-        // Determine destination link structure 
         let targetUrl = "";
         if (selectedProvider === "linkvertise") {
-            targetUrl = buildLinkvertiseUrl();
+            if (currentStep === 1) targetUrl = LINKVERTISE_OMG_URL;
+            else if (currentStep === 2) targetUrl = buildLinkvertiseUrl();
         } else {
             if (currentStep === 1) targetUrl = LOOTLABS_STEP_1;
             else if (currentStep === 2) targetUrl = LOOTLABS_STEP_2;
             else if (currentStep === 3) targetUrl = LOOTLABS_BASE_URL;
         }
         
-        // Launch dynamic pathing target instantly in a separate environment tab
         window.open(targetUrl, '_blank');
-
-        // Start background page milestone ticks
         startBackgroundIntermission(13);
     }
 
