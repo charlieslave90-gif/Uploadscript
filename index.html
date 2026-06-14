@@ -11,11 +11,7 @@
     <meta name="keywords" content="roblox script, free roblox scripts, roblox auto farm, roblox keyless script, roblox esp, roblox aimbot">
     <meta name="robots" content="index, follow">
     
-    <!-- REPLACED: Adcash & Linkvertise with theoreticalassertshame -->
-    <!-- Ad Network: in-page container -->
     <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
-    
-    <!-- Ad Network: popunders / social bar (replaced the old scripts) -->
     <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
     <script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
     
@@ -36,13 +32,10 @@
         .main-content { flex: 3; }
         .right-sidebar { flex: 1; }
         
-        .hero, .instructions-card, .script-detail { background: white; border-radius: 28px; padding: 32px 28px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .hero, .script-detail { background: white; border-radius: 28px; padding: 32px 28px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .hero h1 { font-size: 2rem; color: #1e2a3a; margin-bottom: 8px; }
         .hero p { color: #6c7a8a; }
         
-        .step-grid { display: flex; justify-content: center; gap: 24px; margin: 20px 0; flex-wrap: wrap; }
-        .step { text-align: center; }
-        .step-icon { font-size: 2rem; display: block; }
         .filter-btn { background: #1e2f3f; border: none; padding: 10px 24px; font-size: 0.9rem; font-weight: 600; color: white; border-radius: 50px; cursor: pointer; }
         
         .search-bar { background: white; border-radius: 50px; padding: 12px 20px; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
@@ -78,9 +71,7 @@
         .ad-container { margin: 15px 0; padding: 8px; background: rgba(0,0,0,0.02); border-radius: 12px; }
         
         .script-detail h1 { margin-bottom: 16px; }
-        .script-detail pre { background: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: 12px; overflow-x: auto; font-size: 0.8rem; margin: 16px 0; display: none; }
-        .countdown-container { text-align: center; padding: 20px; background: #f0f0f0; border-radius: 16px; margin: 20px 0; }
-        .countdown-timer { font-size: 48px; font-weight: bold; color: #a855f7; }
+        .script-detail pre { background: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: 12px; overflow-x: auto; font-size: 0.8rem; margin: 16px 0; display: block; }
         
         .sidebar-card { background: white; border-radius: 20px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .sidebar-title { font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
@@ -97,7 +88,6 @@
 <body>
 
 <div class="container">
-    <!-- TOP ADS - Using theoreticalassertshame banners -->
     <div class="ad-top">
         <div class="ad-label">Advertisement</div>
         <div class="ad-container"><iframe class="ad-frame" style="width:728px;height:90px;max-width:100%;border:0;display:block;margin:0 auto;" scrolling="no" srcdoc='&lt;script&gt;atOptions={"key":"30772cccaf8ca1f9a16a3c555509b64f","format":"iframe","height":90,"width":728,"params":{}};&lt;/script&gt;&lt;script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"&gt;&lt;/script&gt;'></iframe></div>
@@ -105,7 +95,6 @@
         <div class="ad-container"><div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div></div>
     </div>
 
-    <!-- NAVBAR WITH GET KEY BUTTON -->
     <nav class="navbar">
         <div class="logo" onclick="location.href='/'">🎮 ScriptHub</div>
         <div class="nav-links">
@@ -122,17 +111,7 @@
                     <p>Browse the largest collection of free and premium Roblox scripts</p>
                 </div>
 
-                <div id="instructionsSection" class="instructions-card">
-                    <h3>📋 Welcome to ScriptHub!</h3>
-                    <div class="step-grid">
-                        <div class="step"><span class="step-icon">🛡️</span><p>Disable Ad Blocker</p></div>
-                        <div class="step"><span class="step-icon">⏳</span><p>Wait 10 seconds</p></div>
-                        <div class="step"><span class="step-icon">✅</span><p>Click "I Understand"</p></div>
-                    </div>
-                    <button id="completeInstructionsBtn" class="filter-btn" onclick="completeInstructions()">✅ I Understand</button>
-                </div>
-
-                <div id="scriptsSection" style="display: none;">
+                <div id="scriptsSection">
                     <div class="search-bar">
                         <span>🔍</span>
                         <input type="text" id="searchInput" placeholder="Search scripts...">
@@ -187,7 +166,6 @@
         </div>
     </div>
 
-    <!-- BOTTOM ADS - Using theoreticalassertshame banners -->
     <div class="ad-bottom">
         <div class="ad-label">More Ads</div>
         <div class="ad-container"><iframe class="ad-frame" style="width:468px;height:60px;max-width:100%;border:0;display:block;margin:0 auto;" scrolling="no" srcdoc='&lt;script&gt;atOptions={"key":"7c7fd511e2480eb4fe47887cda152595","format":"iframe","height":60,"width":468,"params":{}};&lt;/script&gt;&lt;script src="https://theoreticalassertshame.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"&gt;&lt;/script&gt;'></iframe></div>
@@ -204,7 +182,6 @@
     let currentFilter = 'all';
     let currentSearch = '';
     let currentSort = 'date';
-    let countdownInterval = null;
 
     function showToast(msg, isError = false) { 
         const t = document.createElement('div'); 
@@ -348,61 +325,22 @@
                     <p><strong>Game:</strong> ${escapeHtml(script.game?.title || 'Unknown')}</p>
                     <p style="margin:16px 0;">${escapeHtml(script.description || 'No description')}</p>
                     
-                    <div id="countdownContainer" class="countdown-container">
-                        <div class="countdown-timer" id="countdownTimer">30</div>
-                        <p>Please wait 30 seconds to unlock the script...</p>
-                    </div>
-                    
                     <pre id="scriptCodeBlock"><code id="scriptCodeContent">${escapeHtml(scriptContent)}</code></pre>
                     
                     <div class="detail-actions">
-                        <button id="copyScriptBtn" class="view-detail-btn" style="background:#1e2f3f;">⏳ Wait 30s...</button>
+                        <button id="copyScriptBtn" class="view-detail-btn" style="background:#a855f7;">📋 Copy Script</button>
                     </div>
                 </div>
             `;
-            
-            const codeBlock = document.getElementById('scriptCodeBlock');
-            if (codeBlock) codeBlock.style.display = 'none';
-            
-            let secondsLeft = 1;
-            const timerDiv = document.getElementById('countdownTimer');
-            const copyBtn = document.getElementById('copyScriptBtn');
-            
-            if (copyBtn) {
-                copyBtn.disabled = true;
-                copyBtn.textContent = `⏳ Wait 1...`;
-            }
-            
-            countdownInterval = setInterval(() => {
-                secondsLeft--;
-                if (timerDiv) timerDiv.textContent = secondsLeft;
-                if (copyBtn) copyBtn.textContent = `⏳ Wait ${secondsLeft}s...`;
-                
-                if (secondsLeft <= 0) {
-                    clearInterval(countdownInterval);
-                    if (timerDiv) timerDiv.textContent = '0';
-                    if (copyBtn) {
-                        copyBtn.disabled = false;
-                        copyBtn.style.background = '#a855f7';
-                        copyBtn.textContent = `📋 Copy Script`;
-                    }
-                    if (codeBlock) codeBlock.style.display = 'block';
-                    const countdownContainer = document.getElementById('countdownContainer');
-                    if (countdownContainer) countdownContainer.style.display = 'none';
-                    showToast('✅ Script unlocked! You can now copy the code.');
-                }
-            }, 1000);
             
             const copyButton = document.getElementById('copyScriptBtn');
             if (copyButton) {
                 copyButton.onclick = function() {
                     const codeElement = document.getElementById('scriptCodeContent');
-                    if (codeElement && !copyButton.disabled) {
+                    if (codeElement) {
                         const code = codeElement.innerText;
                         navigator.clipboard.writeText(code);
                         showToast('✅ Script copied to clipboard!');
-                    } else if (copyButton.disabled) {
-                        showToast('⏳ Please wait for the countdown to finish!', true);
                     }
                 };
             }
@@ -413,32 +351,11 @@
     }
 
     function goBackHome() {
-        if (countdownInterval) clearInterval(countdownInterval);
         document.getElementById('detailPage').classList.add('hidden');
         document.getElementById('homePage').classList.remove('hidden');
         window.history.pushState({}, '', '/');
-        if (localStorage.getItem('instructionsCompleted') === 'true') { loadScripts(); loadTrending(); }
-    }
-
-    function checkInstructionsCompleted() {
-        if (localStorage.getItem('instructionsCompleted') === 'true') {
-            document.getElementById('instructionsSection').style.display = 'none';
-            document.getElementById('scriptsSection').style.display = 'block';
-            loadScripts();
-            loadTrending();
-        } else {
-            document.getElementById('instructionsSection').style.display = 'block';
-            document.getElementById('scriptsSection').style.display = 'none';
-        }
-    }
-    
-    function completeInstructions() {
-        localStorage.setItem('instructionsCompleted', 'true');
-        document.getElementById('instructionsSection').style.display = 'none';
-        document.getElementById('scriptsSection').style.display = 'block';
-        loadScripts();
+        loadScripts(); 
         loadTrending();
-        showToast('✅ Scripts are now available!');
     }
 
     function loadMore() { if (currentPage < maxPages) { currentPage++; loadScripts(); } }
@@ -461,7 +378,8 @@
         if (scriptId) {
             loadScriptDetail(scriptId);
         } else {
-            checkInstructionsCompleted();
+            loadScripts();
+            loadTrending();
         }
     }
 
