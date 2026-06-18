@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>KeySystem - Key Generator</title>
 
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    
+    <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
@@ -104,6 +108,16 @@
             align-items: center;
             margin: 10px 0;
         }
+        
+        /* Captcha Wrapper Box */
+        .captcha-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            width: 100%;
+        }
+
         .generator-area {
             text-align: center;
             margin: 16px 0 12px;
@@ -128,7 +142,7 @@
             transform: translateY(1px);
         }
         .generate-btn:disabled {
-            opacity: 0.6;
+            opacity: 0.5;
             cursor: not-allowed;
         }
         .generate-btn.generated {
@@ -237,7 +251,6 @@
 
 <div class="container">
     
-    <!-- ========== AD 1: 728x90 (Top) ========== -->
     <div class="ad-container">
         <div class="ad-label">📢 Advertisement</div>
         <script>
@@ -252,14 +265,12 @@
         <script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
     </div>
 
-    <!-- ========== AD 2: in-page container push ========== -->
     <div class="ad-container">
         <div class="ad-label">🔗 Sponsored Content</div>
         <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
         <div id="container-b90454a4e93508bbbd6a0d811d5605d4"></div>
     </div>
 
-    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="logo" onclick="location.href='/'">🔑 KeySystem</div>
         <div class="nav-links">
@@ -267,22 +278,20 @@
         </div>
     </nav>
 
-    <!-- ========== AD 3: 300x250 (Above card) ========== -->
     <div class="ad-container">
         <div class="ad-label">⭐ Sponsored Links</div>
         <script>
             atOptions = {
-                'key' : '5c4ab71c3e05e8f162c6845ea1c55950',
+                'key' : '5c4ab71c3e05e8f162c6445ea1c55950',
                 'format' : 'iframe',
                 'height' : 250,
                 'width' : 300,
                 'params' : {}
             };
         </script>
-        <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
+        <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6445ea1c55950/invoke.js"></script>
     </div>
 
-    <!-- ========== AD 4: 320x50 ========== -->
     <div class="ad-container">
         <script>
             atOptions = {
@@ -296,13 +305,20 @@
         <script src="https://theoreticalassertshame.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
     </div>
 
-    <!-- MAIN CARD -->
     <div class="card">
         <h1>✨ GENERATE YOUR KEY ✨</h1>
-        <div class="subhead">Click once — get your unique key</div>
+        <div class="subhead">Verify your captcha and grab your key</div>
+
+        <div class="captcha-container">
+            <div class="g-recaptcha" 
+                 data-sitekey="6Lcjb_gsAAAAAAWx5z-RYcQZtO5TR-0LJggnzL62" 
+                 data-theme="dark" 
+                 data-callback="captchaSolved"
+                 data-expired-callback="captchaExpired"></div>
+        </div>
 
         <div class="generator-area">
-            <button class="generate-btn" id="generateKeyBtn">🔑 Generate Key</button>
+            <button class="generate-btn" id="generateKeyBtn" disabled>🔒 Solve Captcha First</button>
         </div>
 
         <div id="keyDisplay" class="key-display">
@@ -318,11 +334,10 @@
         </div>
 
         <div class="info-box">
-            🔐 Click the button above to generate a random key. The button will be disabled after generation.
+            🔐 Pass verification above to activate the 3-second secure key compiler.
         </div>
     </div>
 
-    <!-- ========== AD 5: 468x60 ========== -->
     <div class="ad-container">
         <div class="ad-label">🎯 More Offers</div>
         <script>
@@ -337,7 +352,6 @@
         <script src="https://theoreticalassertshame.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
     </div>
 
-    <!-- ========== AD 6: 160x600 (Skyscraper) ========== -->
     <div class="ad-container">
         <div class="ad-label">📰 Recommended</div>
         <script>
@@ -352,7 +366,6 @@
         <script src="https://theoreticalassertshame.com/9ad3c1db141549482622fa057c0a1495/invoke.js"></script>
     </div>
 
-    <!-- ========== AD 7: 160x300 ========== -->
     <div class="ad-container">
         <script>
             atOptions = {
@@ -366,22 +379,20 @@
         <script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
     </div>
 
-    <!-- ========== AD 8: Another 300x250 ========== -->
     <div class="ad-container">
         <div class="ad-label">🔥 Trending</div>
         <script>
             atOptions = {
-                'key' : '5c4ab71c3e05e8f162c6845ea1c55950',
+                'key' : '5c4ab71c3e05e8f162c6445ea1c55950',
                 'format' : 'iframe',
                 'height' : 250,
                 'width' : 300,
                 'params' : {}
             };
         </script>
-        <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
+        <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6445ea1c55950/invoke.js"></script>
     </div>
 
-    <!-- ========== AD 9: Another 728x90 (Bottom) ========== -->
     <div class="ad-container">
         <div class="ad-label">💎 Sponsored</div>
         <script>
@@ -401,11 +412,10 @@
     </div>
 </div>
 
-<!-- ========== AD 10: Script before closing body ========== -->
 <script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
 
 <script>
-    // Key pool
+    // Preserved precise key pool definitions
     const VALID_KEYS = [
         "rblx_bahobilat2x2", 
         "free_n1ejcYSYiAL1w", 
@@ -416,12 +426,31 @@
     
     let keyGenerated = false;
     let currentKey = null;
+    let captchaPassed = false;
     
     const generateBtn = document.getElementById('generateKeyBtn');
     const keyDisplayDiv = document.getElementById('keyDisplay');
     const keyCodeSpan = document.getElementById('keyCode');
     const copyBtn = document.getElementById('copyBtn');
     const copySuccessMsg = document.getElementById('copySuccess');
+
+    // Executed when verification token drops
+    function captchaSolved(token) {
+        if (token.length > 0 && !keyGenerated) {
+            captchaPassed = true;
+            generateBtn.disabled = false;
+            generateBtn.innerHTML = '🔑 Generate Key';
+        }
+    }
+
+    // Executed if token lifecycles out
+    function captchaExpired() {
+        captchaPassed = false;
+        if (!keyGenerated) {
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = '🔒 Solve Captcha First';
+        }
+    }
     
     function getRandomKey() {
         return VALID_KEYS[Math.floor(Math.random() * VALID_KEYS.length)];
@@ -441,24 +470,39 @@
     }
     
     function generateKeyOnce() {
-        if (keyGenerated) return;
+        if (keyGenerated || !captchaPassed) return;
         
+        // Lock state instantly to avoid click spamming
         keyGenerated = true;
-        currentKey = getRandomKey();
+        generateBtn.disabled = true;
         
-        revealKeyUI(currentKey);
-        disableGenerateButton();
+        let timeLeft = 3;
+        generateBtn.innerHTML = `⏳ Compiling Key (${timeLeft}s)...`;
         
-        try {
-            sessionStorage.setItem('keyGen_done', 'true');
-            if (currentKey) sessionStorage.setItem('keyGen_stored', currentKey);
-        } catch(e) {}
-        
-        if (keyDisplayDiv) {
-            setTimeout(() => {
-                keyDisplayDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 100);
-        }
+        // Running 3 second timer intermission
+        const countdown = setInterval(() => {
+            timeLeft--;
+            if (timeLeft > 0) {
+                generateBtn.innerHTML = `⏳ Compiling Key (${timeLeft}s)...`;
+            } else {
+                clearInterval(countdown);
+                
+                currentKey = getRandomKey();
+                revealKeyUI(currentKey);
+                disableGenerateButton();
+                
+                try {
+                    sessionStorage.setItem('keyGen_done', 'true');
+                    if (currentKey) sessionStorage.setItem('keyGen_stored', currentKey);
+                } catch(e) {}
+                
+                if (keyDisplayDiv) {
+                    setTimeout(() => {
+                        keyDisplayDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 100);
+                }
+            }
+        }, 1000);
     }
     
     function handleCopyKey() {
@@ -537,7 +581,7 @@
         } catch(e) {}
     }
     
-    // Add animation style
+    // Smooth rendering transitions
     const style = document.createElement('style');
     style.textContent = `
         @keyframes fadeSlide {
