@@ -38,7 +38,7 @@
             margin: 20px 0;
         }
 
-        /* Image Mockup Styling Elements */
+        /* Mockup Design Layout Elements */
         .key-icon-circle {
             width: 64px;
             height: 64px;
@@ -95,7 +95,7 @@
             flex-shrink: 0;
         }
 
-        /* Forms & Dropdown Interface */
+        /* Interactive Inputs / Form Configuration */
         .gateway-selector {
             margin: 15px 0 25px;
             text-align: left;
@@ -129,7 +129,7 @@
             width: 100%;
         }
 
-        /* Primary Action Interactive Blocks */
+        /* Control Triggers & Action States */
         .btn {
             background-color: #d48f38;
             color: #000000;
@@ -163,7 +163,7 @@
         }
         .btn-success:hover { background-color: #2bbd73 !important; }
 
-        /* General Layout Distribution Parameters */
+        /* Global Structural Grid Layout */
         .ad-zone-top {
             width: 100%;
             max-width: 728px;
@@ -172,13 +172,6 @@
             align-items: center;
             gap: 15px;
             margin-bottom: 10px;
-        }
-        .ad-zone-inside {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin: 15px 0;
-            overflow: hidden;
         }
         .ad-zone-bottom {
             width: 100%;
@@ -234,21 +227,37 @@
 </div>
 
 <script>
-    // Configuration Target Environment Elements
+    // System Target Environment Keys
     const USER_ID = "4752730";
     const LOOTLABS_BASE_URL = "https://loot-link.com/s?3KNAXLNm";
 
-    // Application state tracking flags
+    // Application state state flags
     let activeScreen = "offer"; // offer -> gateway
     let isCaptchaDone = false;
     let selectedProvider = "lootlabs";
 
-    // Shared internal SVG asset symbols
+    // Dynamic UI inline asset symbols
     const svgCheck = `<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>`;
     const svgKey = `<svg viewBox="0 0 24 24"><path d="M12.65 11.65c.35-.35.35-.92 0-1.27l-1.01-1.01c-.35-.35-.92-.35-1.27 0l-.66.66-1.57-1.57c1.32-1.74 1.13-4.22-.57-5.74-1.92-1.73-4.91-1.57-6.63.36-1.72 1.93-1.56 4.92.36 6.64 1.52 1.36 3.71 1.46 5.33.42l1.66 1.66-.66.66c-.35.35-.35.92 0 1.27l1.01 1.01c.35.35.92.35 1.27 0l.66-.66 1.57 1.57c-.12.12-.21.27-.27.43l-.93 2.79c-.11.33.02.7.32.9l1.42.95c.34.23.79.16 1.06-.16l1.41-1.71 1.71 1.41c.32.26.77.2 1.02-.15l1.35-1.9c.2-.28.19-.66-.03-.92l-1.63-1.94.66-.66zM6.5 6C5.67 6 5 5.33 5 4.5S5.67 3 6.5 3 8 3.67 8 4.5 7.33 6 6.5 6z"/></svg>`;
 
+    // Generates the random hash string for the query assignments
+    function generateRandomToken(length = 10) {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let token = '';
+        for (let i = 0; i < length; i++) {
+            token += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return token;
+    }
+
+    // Generates a random multi-digit numeric payload
+    function generateRandomNumber(min = 11111, max = 99999) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
     function renderScreen() {
         const card = document.getElementById("interactive-card");
+        isCaptchaDone = false; // Reset verification token switch on re-render
         
         if (activeScreen === "offer") {
             card.innerHTML = `
@@ -332,23 +341,31 @@
 
     function advanceToGateway() {
         if (!isCaptchaDone) return;
-        isCaptchaDone = false;
         activeScreen = "gateway";
         renderScreen();
     }
 
     function buildLinkvertiseUrl() {
         const baseDestination = window.location.origin + window.location.pathname;
-        const cleanDestination = btoa(baseDestination);
+        // Injects dynamic keygen string parameters with random trailing digits onto destination
+        const targetedUrlPath = baseDestination + "?keygen=linkvertise" + generateRandomNumber();
+        const cleanDestination = btoa(targetedUrlPath);
         return "https://linkvertise.com/" + USER_ID + "/" + Math.random().toString(36).substring(7) + "/dynamic?r=" + cleanDestination;
     }
 
     function executeRedirection() {
         if (!isCaptchaDone) return;
         
-        let targetUrl = selectedProvider === "linkvertise" ? buildLinkvertiseUrl() : LOOTLABS_BASE_URL;
+        let targetUrl = "";
         
-        // Instant direct call on primary thread allows popunder networks to intercept on-click
+        if (selectedProvider === "linkvertise") {
+            targetUrl = buildLinkvertiseUrl();
+        } else {
+            // Appends tracking parameters to Lootlabs containing a randomly rolled alphanumeric string
+            targetUrl = LOOTLABS_BASE_URL + "&keygen=lootlabs_" + generateRandomToken(8);
+        }
+        
+        // This structural call relies immediately on a sync click handler to fire pop-under windows past script block validation checks
         window.open(targetUrl, '_blank');
     }
 
