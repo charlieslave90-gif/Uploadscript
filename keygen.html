@@ -237,13 +237,10 @@
     // Configuration Target Environment Elements
     const USER_ID = "4752730";
     const LOOTLABS_BASE_URL = "https://loot-link.com/s?3KNAXLNm";
-    const TARGET_FINAL_URL = "https://rblxscripts2.vercel.app/getkey";
 
     // Application state tracking flags
-    let activeScreen = "offer"; // offer -> gateway -> granted
+    let activeScreen = "offer"; // offer -> gateway
     let isCaptchaDone = false;
-    let isCountdownActive = false;
-    let countdownInterval = null;
     let selectedProvider = "lootlabs";
 
     // Shared internal SVG asset symbols
@@ -272,10 +269,6 @@
                     <div class="g-recaptcha" data-sitekey="6Lcjb_gsAAAAAAWx5z-RYcQZtO5TR-0LJggnzL62" data-theme="dark" data-callback="captchaSolved" data-expired-callback="captchaExpired"></div>
                 </div>
 
-                <div class="ad-zone-inside">
-                    <iframe src="about:blank" style="display:none"></iframe>
-                </div>
-
                 <button id="action-btn" class="btn locked" onclick="advanceToGateway()">
                     ${svgKey} Verify Captcha First
                 </button>
@@ -289,7 +282,7 @@
                 
                 <div class="gateway-selector">
                     <label for="provider">Select Ad Provider:</label>
-                    <select id="provider" class="gateway-select" onchange="selectedProvider = this.value">
+                    <select id="provider" class="gateway-select" onchange="selectedProvider = this.value; updateGatewayButtonText();">
                         <option value="lootlabs" ${selectedProvider === 'lootlabs' ? 'selected' : ''}>LootLabs (1 Checkpoint)</option>
                         <option value="linkvertise" ${selectedProvider === 'linkvertise' ? 'selected' : ''}>Linkvertise (1 Checkpoint)</option>
                     </select>
@@ -299,33 +292,23 @@
                     <div class="g-recaptcha" data-sitekey="6Lcjb_gsAAAAAAWx5z-RYcQZtO5TR-0LJggnzL62" data-theme="dark" data-callback="captchaSolved" data-expired-callback="captchaExpired"></div>
                 </div>
 
-                <div class="ad-zone-inside">
-                    <iframe src="about:blank" style="display:none"></iframe>
-                </div>
-
                 <button id="action-btn" class="btn btn-success locked" onclick="executeRedirection()">
                     Verify Captcha First
                 </button>
             `;
             grecaptcha.render(card.querySelector('.g-recaptcha'));
-            
-        } else if (activeScreen === "granted") {
-            card.innerHTML = `
-                <div class="key-icon-circle" style="background-color:rgba(57,218,138,0.1)">
-                    <svg viewBox="0 0 24 24" style="fill:#39da8a"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                </div>
-                <h1 class="offer-title" style="color:#ffeb3b">Access Granted</h1>
-                <p class="offer-subtext" style="margin-bottom:25px;">Routing validated successfully! Retrieve your generation payload credentials target link below.</p>
-                
-                <button class="btn" style="background-color:#ffeb3b" onclick="window.location.href=TARGET_FINAL_URL">
-                    Claim Permanent Key
-                </button>
-            `;
+        }
+    }
+
+    function updateGatewayButtonText() {
+        const btn = document.getElementById("action-btn");
+        if (btn && isCaptchaDone) {
+            btn.innerHTML = selectedProvider === "linkvertise" ? "Launch Linkvertise" : "Launch LootLabs";
         }
     }
 
     function captchaSolved(token) {
-        if (token.length > 0 && !isCountdownActive) {
+        if (token.length > 0) {
             isCaptchaDone = true;
             const btn = document.getElementById("action-btn");
             btn.classList.remove("locked");
@@ -340,15 +323,15 @@
 
     function captchaExpired() {
         isCaptchaDone = false;
-        if (!isCountdownActive) {
-            const btn = document.getElementById("action-btn");
+        const btn = document.getElementById("action-btn");
+        if (btn) {
             btn.classList.add("locked");
             btn.innerHTML = activeScreen === "offer" ? `${svgKey} Verify Captcha First` : "Verify Captcha First";
         }
     }
 
     function advanceToGateway() {
-        if (!isCaptchaDone || isCountdownActive) return;
+        if (!isCaptchaDone) return;
         isCaptchaDone = false;
         activeScreen = "gateway";
         renderScreen();
@@ -361,40 +344,12 @@
     }
 
     function executeRedirection() {
-        if (!isCaptchaDone || isCountdownActive) return;
+        if (!isCaptchaDone) return;
         
         let targetUrl = selectedProvider === "linkvertise" ? buildLinkvertiseUrl() : LOOTLABS_BASE_URL;
+        
+        // Instant direct call on primary thread allows popunder networks to intercept on-click
         window.open(targetUrl, '_blank');
-        
-        runIntermissionCountdown(13);
-    }
-
-    function runIntermissionCountdown(seconds) {
-        isCountdownActive = true;
-        isCaptchaDone = false;
-
-        const btn = document.getElementById("action-btn");
-        const captchaBox = document.querySelector(".captcha-container");
-
-        btn.classList.add("locked");
-        if(captchaBox) {
-            captchaBox.style.opacity = "0.15";
-            captchaBox.style.pointerEvents = "none";
-        }
-        
-        btn.innerText = `Compiling validation pipeline (${seconds}s)...`;
-
-        countdownInterval = setInterval(() => {
-            seconds--;
-            if (seconds > 0) {
-                btn.innerText = `Compiling validation pipeline (${seconds}s)...`;
-            } else {
-                clearInterval(countdownInterval);
-                isCountdownActive = false;
-                activeScreen = "granted";
-                renderScreen();
-            }
-        }, 1000);
     }
 
     window.onload = renderScreen;
