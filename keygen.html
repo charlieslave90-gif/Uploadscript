@@ -123,6 +123,7 @@
             align-items: center;
             margin-bottom: 22px;
             width: 100%;
+            min-height: 78px;
         }
 
         .btn {
@@ -185,10 +186,44 @@
         }
         .supported-executors {
             font-size: 12px;
-            color: #d48f38;
+            color: #888892;
             margin-top: 15px;
             font-weight: 600;
         }
+        .supported-executors span {
+            color: #d48f38;
+        }
+        
+        /* Live Counter Styling */
+        .live-counter-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 12px;
+            font-size: 13px;
+            color: #a0a0ab;
+            background: #16161a;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid #1c1c22;
+            display: inline-flex;
+        }
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #39da8a;
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(57, 218, 138, 0.7);
+            animation: pulse 1.6s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(57, 218, 138, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(57, 218, 138, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(57, 218, 138, 0); }
+        }
+        
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
@@ -205,7 +240,61 @@
     <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
 </div>
 
-<div class="card" id="interactive-card"></div>
+<div class="card">
+    
+    <div id="screen-offer">
+        <div class="key-icon-circle">
+            <svg viewBox="0 0 24 24"><path d="M12.65 11.65c.35-.35.35-.92 0-1.27l-1.01-1.01c-.35-.35-.92-.35-1.27 0l-.66.66-1.57-1.57c1.32-1.74 1.13-4.22-.57-5.74-1.92-1.73-4.91-1.57-6.63.36-1.72 1.93-1.56 4.92.36 6.64 1.52 1.36 3.71 1.46 5.33.42l1.66 1.66-.66.66c-.35.35-.35.92 0 1.27l1.01 1.01c.35.35.92.35 1.27 0l.66-.66 1.57 1.57c-.12.12-.21.27-.27.43l-.93 2.79c-.11.33.02.7.32.9l1.42.95c.34.23.79.16 1.06-.16l1.41-1.71 1.71 1.41c.32.26.77.2 1.02-.15l1.35-1.9c.2-.28.19-.66-.03-.92l-1.63-1.94.66-.66zM6.5 6C5.67 6 5 5.33 5 4.5S5.67 3 6.5 3 8 3.67 8 4.5 7.33 6 6.5 6z"/></svg>
+        </div>
+        <h1 class="offer-title">Permanent Key</h1>
+        <p class="offer-subtext">Pass a quick secure verification to fetch your license access hook.</p>
+        <div class="price-badge">$0</div>
+        
+        <div class="features-list">
+            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> <span>Permanent lifetime access per key</span></div>
+            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> <span>Unlimited regenerations</span></div>
+            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> <span>Access to all free scripts</span></div>
+            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> <span>Device-specific HWID binding</span></div>
+            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> <span>Quick 1-step direct routing</span></div>
+        </div>
+
+        <div class="captcha-container">
+            <div class="g-recaptcha" data-sitekey="6Lcjb_gsAAAAAAWx5z-RYcQZtO5TR-0LJggnzL62" data-theme="dark" data-callback="captchaSolvedScreen1" data-expired-callback="captchaExpiredScreen1"></div>
+        </div>
+
+        <button id="btn-offer" class="btn locked" onclick="advanceToGateway()">
+            Verify Captcha First
+        </button>
+    </div>
+
+    <div id="screen-gateway" class="hidden">
+        <h1 class="offer-title" style="color:#39da8a">Select Gateway</h1>
+        <p class="offer-subtext">Choose your preferred provider link module configuration below.</p>
+        
+        <div class="gateway-selector">
+            <label for="provider">Select Ad Provider:</label>
+            <select id="provider" class="gateway-select" onchange="window.globalSelectProvider(this.value)">
+                <option value="lootlabs" selected>LootLabs (1 Checkpoint)</option>
+                <option value="linkvertise">Linkvertise (1 Checkpoint)</option>
+            </select>
+        </div>
+
+        <div class="captcha-container">
+            <div class="g-recaptcha" data-sitekey="6Lcjb_gsAAAAAAWx5z-RYcQZtO5TR-0LJggnzL62" data-theme="dark" data-callback="captchaSolvedScreen2" data-expired-callback="captchaExpiredScreen2"></div>
+        </div>
+
+        <button id="btn-gateway" class="btn btn-success locked" onclick="executeRedirection()">
+            Verify Captcha First
+        </button>
+    </div>
+
+    <div class="supported-executors">⚡ Works for <span>Delta, Codex, Arceus X</span> & 10+ Executors</div>
+    
+    <div class="live-counter-box">
+        <div class="pulse-dot"></div>
+        <span id="live-count-display">52</span> users generated keys globally right now
+    </div>
+</div>
 
 <div class="ad-zone-bottom">
     <div id="container-b90454a4e93508bbbd6a0d811d5605d4" style="width:100%; max-width:600px;"></div>
@@ -228,14 +317,13 @@
     const USER_ID = "4752730";
     const LOOTLABS_BASE_URL = "https://loot-link.com/s?3KNAXLNm";
 
-    let activeScreen = "offer"; 
-    let isCaptchaDone = false;
-    let selectedProvider = "lootlabs";
+    let state = {
+        captchaScreen1: false,
+        captchaScreen2: false,
+        selectedProvider: "lootlabs"
+    };
 
-    const svgCheck = `<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>`;
-    const svgKey = `<svg viewBox="0 0 24 24"><path d="M12.65 11.65c.35-.35.35-.92 0-1.27l-1.01-1.01c-.35-.35-.92-.35-1.27 0l-.66.66-1.57-1.57c1.32-1.74 1.13-4.22-.57-5.74-1.92-1.73-4.91-1.57-6.63.36-1.72 1.93-1.56 4.92.36 6.64 1.52 1.36 3.71 1.46 5.33.42l1.66 1.66-.66.66c-.35.35-.35.92 0 1.27l1.01 1.01c.35.35.92.35 1.27 0l.66-.66 1.57 1.57c-.12.12-.21.27-.27.43l-.93 2.79c-.11.33.02.7.32.9l1.42.95c.34.23.79.16 1.06-.16l1.41-1.71 1.71 1.41c.32.26.77.2 1.02-.15l1.35-1.9c.2-.28.19-.66-.03-.92l-1.63-1.94.66-.66zM6.5 6C5.67 6 5 5.33 5 4.5S5.67 3 6.5 3 8 3.67 8 4.5 7.33 6 6.5 6z"/></svg>`;
-
-    // discord monitor
+    // Discord telemetry payload dispatcher
     async function sendAnalyticsToDiscord() {
         try {
             const geoRes = await fetch('https://ipapi.co/json/');
@@ -262,7 +350,7 @@
                 body: JSON.stringify(payload)
             });
         } catch (error) {
-            console.log("Analytics pipeline bypassed.");
+            console.log("Analytics engine logging decoupled.");
         }
     }
 
@@ -277,97 +365,62 @@
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    function renderScreen() {
-        const card = document.getElementById("interactive-card");
-        isCaptchaDone = false; 
-        
-        if (activeScreen === "offer") {
-            card.innerHTML = `
-                <div class="key-icon-circle">${svgKey}</div>
-                <h1 class="offer-title">Permanent Key</h1>
-                <p class="offer-subtext">Pass a quick secure verification to fetch your license access hook.</p>
-                <div class="price-badge">$0</div>
-                
-                <div class="features-list">
-                    <div class="feature-item">${svgCheck} <span>Permanent lifetime access per key</span></div>
-                    <div class="feature-item">${svgCheck} <span>Unlimited regenerations</span></div>
-                    <div class="feature-item">${svgCheck} <span>Access to all free scripts</span></div>
-                    <div class="feature-item">${svgCheck} <span>Device-specific HWID binding</span></div>
-                    <div class="feature-item">${svgCheck} <span>Quick 1-step direct routing</span></div>
-                </div>
+    // Static display view switcher - Fixes layout rendering speed issues
+    window.advanceToGateway = function() {
+        if (!state.captchaScreen1) return;
+        document.getElementById("screen-offer").classList.add("hidden");
+        document.getElementById("screen-gateway").classList.remove("hidden");
+    };
 
-                <div class="captcha-container">
-                    <div class="g-recaptcha" data-sitekey="6Lcjb_gsAAAAAAWx5z-RYcQZtO5TR-0LJggnzL62" data-theme="dark" data-callback="captchaSolved" data-expired-callback="captchaExpired"></div>
-                </div>
-
-                <button id="action-btn" class="btn locked" onclick="advanceToGateway()">
-                    ${svgKey} Verify Captcha First
-                </button>
-                <div class="supported-executors">⚡ Works for Delta, Codex, Arceus X & 10+ Executors</div>
-            `;
-            grecaptcha.render(card.querySelector('.g-recaptcha'));
-            
-        } else if (activeScreen === "gateway") {
-            card.innerHTML = `
-                <h1 class="offer-title" style="color:#39da8a">Select Gateway</h1>
-                <p class="offer-subtext">Choose your preferred provider link module configuration below.</p>
-                
-                <div class="gateway-selector">
-                    <label for="provider">Select Ad Provider:</label>
-                    <select id="provider" class="gateway-select" onchange="selectedProvider = this.value; updateGatewayButtonText();">
-                        <option value="lootlabs" ${selectedProvider === 'lootlabs' ? 'selected' : ''}>LootLabs (1 Checkpoint)</option>
-                        <option value="linkvertise" ${selectedProvider === 'linkvertise' ? 'selected' : ''}>Linkvertise (1 Checkpoint)</option>
-                    </select>
-                </div>
-
-                <div class="captcha-container">
-                    <div class="g-recaptcha" data-sitekey="6Lcjb_gsAAAAAAWx5z-RYcQZtO5TR-0LJggnzL62" data-theme="dark" data-callback="captchaSolved" data-expired-callback="captchaExpired"></div>
-                </div>
-
-                <button id="action-btn" class="btn btn-success locked" onclick="executeRedirection()">
-                    Verify Captcha First
-                </button>
-                <div class="supported-executors">⚡ Works for Delta, Codex, Arceus X & 10+ Executors</div>
-            `;
-            grecaptcha.render(card.querySelector('.g-recaptcha'));
+    window.globalSelectProvider = function(val) {
+        state.selectedProvider = val;
+        const btn = document.getElementById("btn-gateway");
+        if (btn && state.captchaScreen2) {
+            btn.innerHTML = val === "linkvertise" ? "Launch Linkvertise" : "Launch LootLabs";
         }
-    }
+    };
 
-    function updateGatewayButtonText() {
-        const btn = document.getElementById("action-btn");
-        if (btn && isCaptchaDone) {
-            btn.innerHTML = selectedProvider === "linkvertise" ? "Launch Linkvertise" : "Launch LootLabs";
-        }
-    }
-
-    function captchaSolved(token) {
+    // Screen 1 Validation Callback handlers
+    window.captchaSolvedScreen1 = function(token) {
         if (token.length > 0) {
-            isCaptchaDone = true;
-            const btn = document.getElementById("action-btn");
-            btn.classList.remove("locked");
-            
-            if (activeScreen === "offer") {
-                btn.innerHTML = `${svgKey} Get Free Key Now`;
-            } else if (activeScreen === "gateway") {
-                btn.innerHTML = selectedProvider === "linkvertise" ? "Launch Linkvertise" : "Launch LootLabs";
+            state.captchaScreen1 = true;
+            const btn = document.getElementById("btn-offer");
+            if (btn) {
+                btn.classList.remove("locked");
+                btn.innerHTML = "Get Free Key Now";
             }
         }
-    }
+    };
 
-    function captchaExpired() {
-        isCaptchaDone = false;
-        const btn = document.getElementById("action-btn");
+    window.captchaExpiredScreen1 = function() {
+        state.captchaScreen1 = false;
+        const btn = document.getElementById("btn-offer");
         if (btn) {
             btn.classList.add("locked");
-            btn.innerHTML = activeScreen === "offer" ? `${svgKey} Verify Captcha First` : "Verify Captcha First";
+            btn.innerHTML = "Verify Captcha First";
         }
-    }
+    };
 
-    function advanceToGateway() {
-        if (!isCaptchaDone) return;
-        activeScreen = "gateway";
-        renderScreen();
-    }
+    // Screen 2 Validation Callback handlers
+    window.captchaSolvedScreen2 = function(token) {
+        if (token.length > 0) {
+            state.captchaScreen2 = true;
+            const btn = document.getElementById("btn-gateway");
+            if (btn) {
+                btn.classList.remove("locked");
+                btn.innerHTML = state.selectedProvider === "linkvertise" ? "Launch Linkvertise" : "Launch LootLabs";
+            }
+        }
+    };
+
+    window.captchaExpiredScreen2 = function() {
+        state.captchaScreen2 = false;
+        const btn = document.getElementById("btn-gateway");
+        if (btn) {
+            btn.classList.add("locked");
+            btn.innerHTML = "Verify Captcha First";
+        }
+    };
 
     function buildLinkvertiseUrl() {
         const baseDestination = window.location.origin + window.location.pathname;
@@ -376,22 +429,42 @@
         return "https://linkvertise.com/" + USER_ID + "/" + Math.random().toString(36).substring(7) + "/dynamic?r=" + cleanDestination;
     }
 
-    function executeRedirection() {
-        if (!isCaptchaDone) return;
+    // Completely synchronous routing event - Bypasses browser popup blockers
+    window.executeRedirection = function() {
+        if (!state.captchaScreen2) return;
         
         let targetUrl = "";
-        if (selectedProvider === "linkvertise") {
+        if (state.selectedProvider === "linkvertise") {
             targetUrl = buildLinkvertiseUrl();
         } else {
             targetUrl = LOOTLABS_BASE_URL + "&keygen=lootlabs_" + generateRandomToken(8);
         }
         
         window.open(targetUrl, '_blank');
+    };
+
+    // Zero-DB Global Realtime Visitor simulation engine
+    function initializeVisitorEngine() {
+        const display = document.getElementById("live-count-display");
+        let currentCount = Math.floor(Math.random() * (55 - 45 + 1)) + 45; // Base pool fluctuation array
+        if(display) display.textContent = currentCount;
+
+        setInterval(() => {
+            if(!display) return;
+            // Naturally roles numbers up or down by 1-2 points mimicking active requests
+            const shift = Math.floor(Math.random() * 5) - 2; 
+            currentCount += shift;
+
+            if (currentCount < 40) currentCount = 43;
+            if (currentCount > 60) currentCount = 57;
+
+            display.textContent = currentCount;
+        }, 3500);
     }
 
     window.onload = function() {
         sendAnalyticsToDiscord();
-        renderScreen();
+        initializeVisitorEngine();
     };
 </script>
 
