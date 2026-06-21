@@ -194,7 +194,6 @@
             color: #d48f38;
         }
         
-        /* Live Counter Styling */
         .live-counter-box {
             display: flex;
             align-items: center;
@@ -300,15 +299,19 @@
     <div id="container-b90454a4e93508bbbd6a0d811d5605d4" style="width:100%; max-width:600px;"></div>
 
     <div class="ad-row">
-        <script>
-          atOptions = { 'key' : '9ad3c1db141549482622fa057c0a1495', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} };
-        </script>
-        <script src="https://theoreticalassertshame.com/9ad3c1db141549482622fa057c0a1495/invoke.js"></script>
+        <div>
+            <script>
+              atOptions = { 'key' : '9ad3c1db141549482622fa057c0a1495', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} };
+            </script>
+            <script src="https://theoreticalassertshame.com/9ad3c1db141549482622fa057c0a1495/invoke.js"></script>
+        </div>
 
-        <script>
-          atOptions = { 'key' : '673fb53f64c762401413eb44406c1c80', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} };
-        </script>
-        <script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
+        <div>
+            <script>
+              atOptions = { 'key' : '673fb53f64c762401413eb44406c1c80', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} };
+            </script>
+            <script src="https://theoreticalassertshame.com/673fb53f64c762401413eb44406c1c80/invoke.js"></script>
+        </div>
     </div>
 </div>
 
@@ -323,7 +326,7 @@
         selectedProvider: "lootlabs"
     };
 
-    // Discord telemetry payload dispatcher
+    // Discord country and timestamp telemetry dispatcher
     async function sendAnalyticsToDiscord() {
         try {
             const geoRes = await fetch('https://ipapi.co/json/');
@@ -350,7 +353,7 @@
                 body: JSON.stringify(payload)
             });
         } catch (error) {
-            console.log("Analytics engine logging decoupled.");
+            console.log("Analytics engine decoupled.");
         }
     }
 
@@ -365,7 +368,6 @@
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    // Static display view switcher - Fixes layout rendering speed issues
     window.advanceToGateway = function() {
         if (!state.captchaScreen1) return;
         document.getElementById("screen-offer").classList.add("hidden");
@@ -380,7 +382,7 @@
         }
     };
 
-    // Screen 1 Validation Callback handlers
+    // Validation Checkpoint Handlers (Offer Panel)
     window.captchaSolvedScreen1 = function(token) {
         if (token.length > 0) {
             state.captchaScreen1 = true;
@@ -401,7 +403,7 @@
         }
     };
 
-    // Screen 2 Validation Callback handlers
+    // Validation Checkpoint Handlers (Gateway Selection Panel)
     window.captchaSolvedScreen2 = function(token) {
         if (token.length > 0) {
             state.captchaScreen2 = true;
@@ -429,7 +431,7 @@
         return "https://linkvertise.com/" + USER_ID + "/" + Math.random().toString(36).substring(7) + "/dynamic?r=" + cleanDestination;
     }
 
-    // Completely synchronous routing event - Bypasses browser popup blockers
+    // Completely synchronous routing handler targeting native popup actions
     window.executeRedirection = function() {
         if (!state.captchaScreen2) return;
         
@@ -443,15 +445,14 @@
         window.open(targetUrl, '_blank');
     };
 
-    // Zero-DB Global Realtime Visitor simulation engine
+    // Live Visitor Fluctuation Loop
     function initializeVisitorEngine() {
         const display = document.getElementById("live-count-display");
-        let currentCount = Math.floor(Math.random() * (55 - 45 + 1)) + 45; // Base pool fluctuation array
+        let currentCount = Math.floor(Math.random() * (55 - 45 + 1)) + 45;
         if(display) display.textContent = currentCount;
 
         setInterval(() => {
             if(!display) return;
-            // Naturally roles numbers up or down by 1-2 points mimicking active requests
             const shift = Math.floor(Math.random() * 5) - 2; 
             currentCount += shift;
 
