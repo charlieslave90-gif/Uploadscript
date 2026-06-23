@@ -3,181 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lifetime Key Verification</title>
+    <title>Secure Access Verification</title>
     
     <!-- Google reCAPTCHA Core API Link -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
+    <!-- Google Fonts for Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-main: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-input: #181824;
+            --border-color: #222235;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --accent-glow: #ff9f1c;
+            --accent-hover: #e58f19;
+            --accent-success: #10b981;
+            --accent-success-hover: #059669;
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
         body {
-            background-color: #0f0f12;
-            color: #ffffff;
-            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            font-family: 'Plus Jakarta Sans', sans-serif;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
+            padding: 40px 20px;
+            background-image: radial-gradient(circle at 50% -20%, rgba(255, 159, 28, 0.08) 0%, transparent 60%);
         }
         
         .card {
-            background-color: #111114;
-            padding: 35px 25px;
-            border-radius: 14px;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.8);
+            background-color: var(--bg-card);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--border-color);
             text-align: center;
-            max-width: 440px;
+            max-width: 460px;
             width: 100%;
-            border: 1px solid #1c1c22;
-            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+            margin: 25px 0;
         }
 
-        /* Image Mockup Styling Elements */
-        .key-icon-circle {
-            width: 64px;
-            height: 64px;
-            background-color: rgba(212, 143, 56, 0.1);
-            border-radius: 50%;
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-glow), #ff6b6b);
+        }
+
+        .key-icon-box {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, rgba(255, 159, 28, 0.15) 0%, rgba(255, 107, 107, 0.05) 100%);
+            border: 1px solid rgba(255, 159, 28, 0.2);
+            border-radius: 16px;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 0 auto 16px;
-        }
-        .key-icon-circle svg {
-            width: 28px;
-            height: 28px;
-            fill: #d48f38;
-        }
-        .offer-title {
-            font-size: 24px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 700;
-            color: #e2e2e8;
-            margin-bottom: 6px;
-        }
-        .offer-subtext {
-            color: #888892;
-            font-size: 13px;
-            margin-bottom: 14px;
-        }
-        .price-badge {
-            font-size: 38px;
-            font-weight: 800;
-            color: #d48f38;
-            margin-bottom: 22px;
-        }
-        .features-list {
-            text-align: left;
-            max-width: 320px;
             margin: 0 auto 24px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .key-icon-box svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--accent-glow);
+        }
+
+        .offer-title {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .offer-subtext {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .features-grid {
+            background-color: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: left;
+            margin: 0 auto 28px;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 16px;
         }
+
         .feature-item {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
             font-size: 14px;
-            color: #b5b5be;
+            color: #cbd5e1;
+            font-weight: 500;
         }
+
         .feature-item svg {
-            width: 18px;
-            height: 18px;
-            fill: #39da8a;
+            width: 20px;
+            height: 20px;
+            fill: var(--accent-success);
             flex-shrink: 0;
         }
 
-        /* Forms & Dropdown Interface */
-        .gateway-selector {
-            margin: 15px 0 25px;
-            text-align: left;
-            width: 100%;
-        }
-        .gateway-selector label {
-            display: block;
-            font-size: 12px;
-            color: #888899;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .gateway-select {
-            width: 100%;
-            background-color: #1c1c24;
-            color: #ffffff;
-            border: 1px solid #2d2d38;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            outline: none;
-            cursor: pointer;
-        }
-
-        .captcha-container {
+        .captcha-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 22px;
+            margin-bottom: 26px;
             width: 100%;
         }
 
-        /* Primary Action Interactive Blocks */
+        /* Revamped Glassmorphism Style Buttons */
         .btn {
-            background-color: #d48f38;
+            background-color: var(--accent-glow);
             color: #000000;
             border: none;
-            padding: 15px 32px;
+            padding: 16px 32px;
             font-size: 15px;
             font-weight: 700;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 10px;
             width: 100%;
+            box-shadow: 0 4px 15px rgba(255, 159, 28, 0.25);
         }
-        .btn svg { width: 16px; height: 16px; fill: #000000; }
-        .btn:hover:not(.locked) { background-color: #be7e2d; }
+
+        .btn svg { 
+            width: 18px; 
+            height: 18px; 
+            fill: #000000; 
+            transition: transform 0.2s ease;
+        }
+
+        .btn:hover:not(.locked) { 
+            background-color: var(--accent-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(255, 159, 28, 0.35);
+        }
+        
+        .btn:hover:not(.locked) svg {
+            transform: translateX(2px);
+        }
         
         .btn.locked {
-            background-color: #24242b !important;
-            color: #525263 !important;
+            background-color: #1e1e2f !important;
+            color: #4b4b66 !important;
             cursor: not-allowed !important;
-            opacity: 0.5;
+            opacity: 0.6;
+            box-shadow: none !important;
+            border: 1px solid #2d2d44;
         }
-        .btn.locked svg { fill: #525263 !important; }
+        .btn.locked svg { fill: #4b4b66 !important; }
 
         .btn-success {
-            background-color: #39da8a !important;
+            background-color: var(--accent-success) !important;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
         }
-        .btn-success:hover { background-color: #2bbd73 !important; }
+        .btn-success:hover { 
+            background-color: var(--accent-success-hover) !important;
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
+        }
 
-        /* Unified Layout Grid & Ad Alignments */
+        /* Ad Structural Layout Adjustments */
         .ad-row-top, .ad-row-mid, .ad-row-bottom {
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 15px;
+            gap: 20px;
             text-align: center;
         }
-        .ad-row-top { max-width: 728px; margin-bottom: 10px; }
-        .ad-row-mid { max-width: 468px; margin: 10px 0; }
-        .ad-row-bottom { max-width: 800px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #1c1c22; }
+        .ad-row-top { max-width: 728px; margin-bottom: 15px; }
+        .ad-row-mid { max-width: 468px; margin: 15px 0; }
+        .ad-row-bottom { max-width: 800px; margin-top: 35px; padding-top: 30px; border-top: 1px solid var(--border-color); }
         
         .ad-columns-wrapper {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 20px;
             width: 100%;
         }
     </style>
@@ -217,9 +253,9 @@
     <script src="https://theoreticalassertshame.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
 </div>
 
-<!-- CENTRAL CARD CONTAINER -->
+<!-- REVAMPED CENTRAL CARD CONTAINER -->
 <div class="card" id="interactive-card">
-    <!-- App Injection Node -->
+    <!-- UI Layout Engine dynamic injection point -->
 </div>
 
 <!-- BLOCK 4: DIRECTLY BELOW CENTRAL CARD -->
@@ -257,75 +293,62 @@
 </div>
 
 <script>
-    // Configuration Target Environment Elements
-    const USER_ID = "4752730";
+    // Configuration Target Core Variables
     const LOOTLABS_BASE_URL = "https://loot-link.com/s?3KNAXLNm";
-    
-    // Task Links
     const TASK_1_URL = "https://omg10.com/4/11001406";
     const TASK_2_URL = "https://omg10.com/4/11001405";
 
-    // Application state tracking flags
-    let activeScreen = "offer"; // offer -> gateway
+    // Application state management parameters
+    let activeScreen = "offer"; // offer -> tasks
     let isCaptchaDone = false;
-    let selectedProvider = "lootlabs";
     
-    // Task Sequence States: 'not_started', 'task1_cooldown', 'task1_done', 'task2_cooldown', 'ready'
+    // Task Engine States: 'not_started', 'task1_cooldown', 'task1_done', 'task2_cooldown', 'ready'
     let taskState = "not_started"; 
     let countdownTimer = null;
     let currentSeconds = 0;
 
-    // Shared internal SVG asset symbols
+    // Premium UI Vector Icons
     const svgCheck = `<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>`;
     const svgKey = `<svg viewBox="0 0 24 24"><path d="M12.65 11.65c.35-.35.35-.92 0-1.27l-1.01-1.01c-.35-.35-.92-.35-1.27 0l-.66.66-1.57-1.57c1.32-1.74 1.13-4.22-.57-5.74-1.92-1.73-4.91-1.57-6.63.36-1.72 1.93-1.56 4.92.36 6.64 1.52 1.36 3.71 1.46 5.33.42l1.66 1.66-.66.66c-.35.35-.35.92 0 1.27l1.01 1.01c.35.35.92.35 1.27 0l.66-.66 1.57 1.57c-.12.12-.21.27-.27.43l-.93 2.79c-.11.33.02.7.32.9l1.42.95c.34.23.79.16 1.06-.16l1.41-1.71 1.71 1.41c.32.26.77.2 1.02-.15l1.35-1.9c.2-.28.19-.66-.03-.92l-1.63-1.94.66-.66zM6.5 6C5.67 6 5 5.33 5 4.5S5.67 3 6.5 3 8 3.67 8 4.5 7.33 6 6.5 6z"/></svg>`;
+    const svgArrow = `<svg viewBox="0 0 24 24" width="24" height="24"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42L16.86 11H5v2z"/></svg>`;
 
     function renderScreen() {
         const card = document.getElementById("interactive-card");
         
         if (activeScreen === "offer") {
             card.innerHTML = `
-                <div class="key-icon-circle">${svgKey}</div>
-                <h1 class="offer-title">Permanent Key</h1>
-                <p class="offer-subtext">Pass a quick secure verification to fetch your license access hook.</p>
-                <div class="price-badge">$0</div>
+                <div class="key-icon-box">${svgKey}</div>
+                <h1 class="offer-title">Verification Required</h1>
+                <p class="offer-subtext">To maintain server performance, complete the quick security verification checklist below to claim your license.</p>
                 
-                <div class="features-list">
-                    <div class="feature-item">${svgCheck} <span>Permanent lifetime access per key</span></div>
-                    <div class="feature-item">${svgCheck} <span>Unlimited regenerations</span></div>
-                    <div class="feature-item">${svgCheck} <span>Access to all free scripts</span></div>
-                    <div class="feature-item">${svgCheck} <span>Device-specific HWID binding</span></div>
-                    <div class="feature-item">${svgCheck} <span>Quick 1-step direct routing</span></div>
+                <div class="features-grid">
+                    <div class="feature-item">${svgCheck} <span>Permanent lifetime activation key</span></div>
+                    <div class="feature-item">${svgCheck} <span>Instant automation hook generation</span></div>
+                    <div class="feature-item">${svgCheck} <span>Hardware ID binding (HWID) protection</span></div>
                 </div>
 
-                <div class="captcha-container">
+                <div class="captcha-wrapper">
                     <div class="g-recaptcha" data-sitekey="6Lcjb_gsAAAAAAWx5z-RYcQZtO5TR-0LJggnzL62" data-theme="dark" data-callback="captchaSolved" data-expired-callback="captchaExpired"></div>
                 </div>
 
-                <button id="action-btn" class="btn locked" onclick="advanceToGateway()">
-                    ${svgKey} Verify Captcha First
+                <button id="action-btn" class="btn locked" onclick="advanceToTasks()">
+                    Verify Captcha First ${svgArrow}
                 </button>
             `;
             grecaptcha.render(card.querySelector('.g-recaptcha'));
             
-        } else if (activeScreen === "gateway") {
+        } else if (activeScreen === "tasks") {
             card.innerHTML = `
-                <h1 class="offer-title" style="color:#39da8a">Select Gateway</h1>
-                <p class="offer-subtext">Choose your preferred provider link module configuration below.</p>
+                <div class="key-icon-box" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.05) 100%); border-color: rgba(16, 185, 129, 0.3);"><svg style="fill: var(--accent-success);" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></div>
+                <h1 class="offer-title">Complete Actions</h1>
+                <p class="offer-subtext">Unlock your destination file by interacting with the structural ad checkpoints below.</p>
                 
-                <div class="gateway-selector">
-                    <label for="provider">Select Ad Provider:</label>
-                    <select id="provider" class="gateway-select" onchange="selectedProvider = this.value; updateGatewayButtonText();" ${taskState !== 'not_started' && taskState !== 'ready' ? 'disabled' : ''}>
-                        <option value="lootlabs" ${selectedProvider === 'lootlabs' ? 'selected' : ''}>LootLabs (1 Checkpoint)</option>
-                        <option value="linkvertise" ${selectedProvider === 'linkvertise' ? 'selected' : ''}>Linkvertise (1 Checkpoint)</option>
-                    </select>
-                </div>
-
-                <div class="captcha-container" id="gateway-captcha-box">
+                <div class="captcha-wrapper" id="gateway-captcha-box">
                     <div class="g-recaptcha" data-sitekey="6Lcjb_gsAAAAAAWx5z-RYcQZtO5TR-0LJggnzL62" data-theme="dark" data-callback="captchaSolved" data-expired-callback="captchaExpired"></div>
                 </div>
 
-                <button id="action-btn" class="btn btn-success locked" onclick="handleGatewayAction()">
-                    Verify Captcha First
+                <button id="action-btn" class="btn btn-success locked" onclick="handleTaskSequence()">
+                    Verify Captcha First ${svgArrow}
                 </button>
             `;
             
@@ -333,19 +356,19 @@
                 grecaptcha.render(card.querySelector('.g-recaptcha'));
             } else {
                 document.getElementById("gateway-captcha-box").style.display = "none";
-                updateGatewayButtonText();
+                updateButtonText();
             }
         }
     }
 
-    function updateGatewayButtonText() {
+    function updateButtonText() {
         const btn = document.getElementById("action-btn");
         if (!btn) return;
 
         if (activeScreen === "offer") {
             if (isCaptchaDone) {
                 btn.classList.remove("locked");
-                btn.innerHTML = `${svgKey} Get Free Key Now`;
+                btn.innerHTML = `Continue to Checkpoints ${svgArrow}`;
             }
             return;
         }
@@ -354,28 +377,28 @@
         
         if (taskState === "not_started") {
             if (isCaptchaDone) {
-                btn.innerHTML = "Complete Task 1 (10s)";
+                btn.innerHTML = `Unlock Checkpoint 1 (10s) ${svgArrow}`;
             } else {
                 btn.classList.add("locked");
-                btn.innerHTML = "Verify Captcha First";
+                btn.innerHTML = `Verify Captcha First ${svgArrow}`;
             }
         } else if (taskState === "task1_cooldown") {
             btn.classList.add("locked");
-            btn.innerHTML = `Please wait... (${currentSeconds}s)`;
+            btn.innerHTML = `Processing Checkpoint 1... (${currentSeconds}s)`;
         } else if (taskState === "task1_done") {
-            btn.innerHTML = "Complete Task 2 (6s)";
+            btn.innerHTML = `Unlock Checkpoint 2 (6s) ${svgArrow}`;
         } else if (taskState === "task2_cooldown") {
             btn.classList.add("locked");
-            btn.innerHTML = `Please wait... (${currentSeconds}s)`;
+            btn.innerHTML = `Processing Checkpoint 2... (${currentSeconds}s)`;
         } else if (taskState === "ready") {
-            btn.innerHTML = selectedProvider === "linkvertise" ? "Launch Linkvertise" : "Launch LootLabs";
+            btn.innerHTML = `Access Final Key Destination ${svgArrow}`;
         }
     }
 
     function captchaSolved(token) {
         if (token.length > 0) {
             isCaptchaDone = true;
-            updateGatewayButtonText();
+            updateButtonText();
         }
     }
 
@@ -384,18 +407,18 @@
         const btn = document.getElementById("action-btn");
         if (btn) {
             btn.classList.add("locked");
-            btn.innerHTML = activeScreen === "offer" ? `${svgKey} Verify Captcha First` : "Verify Captcha First";
+            btn.innerHTML = `Verify Captcha First ${svgArrow}`;
         }
     }
 
-    function advanceToGateway() {
+    function advanceToTasks() {
         if (!isCaptchaDone) return;
         isCaptchaDone = false;
-        activeScreen = "gateway";
+        activeScreen = "tasks";
         renderScreen();
     }
 
-    function handleGatewayAction() {
+    function handleTaskSequence() {
         const btn = document.getElementById("action-btn");
         if (btn.classList.contains("locked")) return;
 
@@ -404,7 +427,7 @@
             document.getElementById("gateway-captcha-box").style.display = "none";
             taskState = "task1_cooldown";
             currentSeconds = 10;
-            updateGatewayButtonText();
+            updateButtonText();
             
             countdownTimer = setInterval(() => {
                 currentSeconds--;
@@ -412,14 +435,14 @@
                     clearInterval(countdownTimer);
                     taskState = "task1_done";
                 }
-                updateGatewayButtonText();
+                updateButtonText();
             }, 1000);
 
         } else if (taskState === "task1_done") {
             window.open(TASK_2_URL, '_blank');
             taskState = "task2_cooldown";
             currentSeconds = 6;
-            updateGatewayButtonText();
+            updateButtonText();
 
             countdownTimer = setInterval(() => {
                 currentSeconds--;
@@ -427,23 +450,12 @@
                     clearInterval(countdownTimer);
                     taskState = "ready";
                 }
-                updateGatewayButtonText();
+                updateButtonText();
             }, 1000);
 
         } else if (taskState === "ready") {
-            executeRedirection();
+            window.open(LOOTLABS_BASE_URL, '_blank');
         }
-    }
-
-    function buildLinkvertiseUrl() {
-        const baseDestination = window.location.origin + window.location.pathname;
-        const cleanDestination = btoa(baseDestination);
-        return "https://linkvertise.com/" + USER_ID + "/" + Math.random().toString(36).substring(7) + "/dynamic?r=" + cleanDestination;
-    }
-
-    function executeRedirection() {
-        let targetUrl = selectedProvider === "linkvertise" ? buildLinkvertiseUrl() : LOOTLABS_BASE_URL;
-        window.open(targetUrl, '_blank');
     }
 
     window.onload = renderScreen;
