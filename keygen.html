@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lifetime Key Verification</title>
     
+    <!-- ANTI-BYPASS & POPUNDER MECHANICS -->
     <script data-cfasync="false" src="//dcbbwymp1bhlf.cloudfront.net/?wbbcd=1251105"></script>
     <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     
+    <!-- MASTER POPUNDER ENGINE (b90454a4...) -->
     <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
     
     <style>
@@ -217,6 +219,7 @@
 </head>
 <body>
 
+<!-- TOP AD ROW (728x90 Banner + 300x250 Rectangle) -->
 <div class="ad-row-top">
     <div>
         <script>
@@ -232,6 +235,7 @@
     </div>
 </div>
 
+<!-- MIDDLE AD ROW ABOVE CARD (468x60 Classic Banner) -->
 <div class="ad-row-mid">
     <script>
       atOptions = { 'key' : '7c7fd511e2480eb4fe47887cda152595', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} };
@@ -239,8 +243,10 @@
     <script src="https://theoreticalassertshame.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
 </div>
 
+<!-- APP ENTRY VIEWPORT COMPONENT -->
 <div class="card">
     
+    <!-- OFFER LANDING CARD -->
     <div id="screen-offer">
         <div class="key-icon-circle">
             <svg viewBox="0 0 24 24"><path d="M12.65 11.65c.35-.35.35-.92 0-1.27l-1.01-1.01c-.35-.35-.92-.35-1.27 0l-.66.66-1.57-1.57c1.32-1.74 1.13-4.22-.57-5.74-1.92-1.73-4.91-1.57-6.63.36-1.72 1.93-1.56 4.92.36 6.64 1.52 1.36 3.71 1.46 5.33.42l1.66 1.66-.66.66c-.35.35-.35.92 0 1.27l1.01 1.01c.35.35.92.35 1.27 0l.66-.66 1.57 1.57c-.12.12-.21.27-.27.43l-.93 2.79c-.11.33.02.7.32.9l1.42.95c.34.23.79.16 1.06-.16l1.41-1.71 1.71 1.41c.32.26.77.2 1.02-.15l1.35-1.9c.2-.28.19-.66-.03-.92l-1.63-1.94.66-.66zM6.5 6C5.67 6 5 5.33 5 4.5S5.67 3 6.5 3 8 3.67 8 4.5 7.33 6 6.5 6z"/></svg>
@@ -266,11 +272,12 @@
         </button>
     </div>
 
+    <!-- PROVIDER GATEWAY ROUTER CARD -->
     <div id="screen-gateway" class="hidden">
         <h1 class="offer-title" style="color:#39da8a">Select Gateway</h1>
-        <p class="offer-subtext">Choose your preferred provider link module configuration below.</p>
+        <p class="offer-subtext" id="gateway-instruction-text">Choose your preferred provider link module configuration below.</p>
         
-        <div class="gateway-selector">
+        <div class="gateway-selector" id="gateway-dropdown-wrapper">
             <label for="provider">Select Ad Provider:</label>
             <select id="provider" class="gateway-select" onchange="window.globalSelectProvider(this.value)">
                 <option value="lootlabs" selected>LootLabs (1 Checkpoint)</option>
@@ -278,23 +285,25 @@
             </select>
         </div>
 
-        <div class="captcha-container">
+        <div class="captcha-container" id="gateway-captcha-wrapper">
             <div class="g-recaptcha" data-sitekey="6Lcjb_gsAAAAAAWx5z-RYcQZtO5TR-0LJggnzL62" data-theme="dark" data-callback="captchaSolvedScreen2" data-expired-callback="captchaExpiredScreen2"></div>
         </div>
 
-        <button id="btn-gateway" class="btn btn-success locked" onclick="executeRedirection()">
+        <button id="btn-gateway" class="btn btn-success locked" onclick="handleGatewayClick()">
             Verify Captcha First
         </button>
     </div>
 
     <div class="supported-executors">⚡ Works for <span>Delta, Codex, Arceus X</span> & 10+ Executors</div>
     
+    <!-- Realtime Zero-DB Counter Frame -->
     <div class="live-counter-box">
         <div class="pulse-dot"></div>
         <span id="live-count-display">52</span> users generated keys globally right now
     </div>
 </div>
 
+<!-- MIDDLE AD ROW BELOW CARD (320x50 Mobile Header Banner) -->
 <div class="ad-row-mid">
     <script>
       atOptions = { 'key' : '7e841472d1ac01ddccd7fa985576e83c', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
@@ -302,7 +311,9 @@
     <script src="https://theoreticalassertshame.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
 </div>
 
+<!-- BOTTOM HIGH-CPM TOWERS & INLINE RECEPTACLE (160x600, 160x300, Native Container) -->
 <div class="ad-row-bottom">
+    <!-- Native Layout Receptacle Anchor -->
     <div id="container-b90454a4e93508bbbd6a0d811d5605d4" style="width:100%; max-width:600px; margin-bottom: 15px;"></div>
 
     <div class="ad-row-top">
@@ -326,11 +337,16 @@
     const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1518222428034039908/92oj3_q8ZVFUMoKIebJjK_l2Ck8SQ8kjN9czUw2e03HB0_PhIQj0k-F4vFW8yoo00WDd";
     const USER_ID = "4752730";
     const LOOTLABS_BASE_URL = "https://loot-link.com/s?3KNAXLNm";
+    
+    // Your OMG10 Task links
+    const TASK_1_URL = "https://omg10.com/4/11001406";
+    const TASK_2_URL = "https://omg10.com/4/11001405";
 
     let state = {
         captchaScreen1: false,
         captchaScreen2: false,
-        selectedProvider: "lootlabs"
+        selectedProvider: "lootlabs",
+        currentStage: "captcha" // Options: "captcha", "task1", "task1_cooldown", "task2", "task2_cooldown", "ready"
     };
 
     async function sendAnalyticsToDiscord() {
@@ -382,10 +398,7 @@
 
     window.globalSelectProvider = function(val) {
         state.selectedProvider = val;
-        const btn = document.getElementById("btn-gateway");
-        if (btn && state.captchaScreen2) {
-            btn.innerHTML = val === "linkvertise" ? "Launch Linkvertise" : "Launch LootLabs";
-        }
+        updateGatewayButtonUI();
     };
 
     window.captchaSolvedScreen1 = function(token) {
@@ -411,20 +424,103 @@
     window.captchaSolvedScreen2 = function(token) {
         if (token.length > 0) {
             state.captchaScreen2 = true;
-            const btn = document.getElementById("btn-gateway");
-            if (btn) {
-                btn.classList.remove("locked");
-                btn.innerHTML = state.selectedProvider === "linkvertise" ? "Launch Linkvertise" : "Launch LootLabs";
-            }
+            state.currentStage = "task1";
+            updateGatewayButtonUI();
         }
     };
 
     window.captchaExpiredScreen2 = function() {
         state.captchaScreen2 = false;
+        state.currentStage = "captcha";
+        updateGatewayButtonUI();
+    };
+
+    // Controls the text and locks across the entire multi-task system
+    function updateGatewayButtonUI() {
         const btn = document.getElementById("btn-gateway");
-        if (btn) {
-            btn.classList.add("locked");
-            btn.innerHTML = "Verify Captcha First";
+        const instruction = document.getElementById("gateway-instruction-text");
+        if (!btn) return;
+
+        switch (state.currentStage) {
+            case "captcha":
+                btn.classList.add("locked");
+                btn.innerHTML = "Verify Captcha First";
+                instruction.innerHTML = "Choose your preferred provider link module configuration below.";
+                break;
+            case "task1":
+                btn.classList.remove("locked");
+                btn.innerHTML = "Click to Start Task 1";
+                instruction.innerHTML = "Complete Stage 1/2 tasks to unlock your destination.";
+                break;
+            case "task1_cooldown":
+                btn.classList.add("locked");
+                // Text handled dynamically by the interval timer loop
+                break;
+            case "task2":
+                btn.classList.remove("locked");
+                btn.innerHTML = "Click to Start Task 2";
+                instruction.innerHTML = "Complete Stage 2/2 tasks to unlock your destination.";
+                break;
+            case "task2_cooldown":
+                btn.classList.add("locked");
+                // Text handled dynamically by the interval timer loop
+                break;
+            case "ready":
+                btn.classList.remove("locked");
+                // Hide inputs so they don't modify state now that verification is complete
+                document.getElementById("gateway-dropdown-wrapper").classList.add("hidden");
+                document.getElementById("gateway-captcha-wrapper").classList.add("hidden");
+                
+                btn.innerHTML = state.selectedProvider === "linkvertise" ? "Launch Linkvertise" : "Launch LootLabs";
+                instruction.innerHTML = "Verification Complete! Click below to access your bypass layer.";
+                break;
+        }
+    }
+
+    // New unified orchestration routing function
+    window.handleGatewayClick = function() {
+        const btn = document.getElementById("btn-gateway");
+        
+        if (state.currentStage === "task1") {
+            window.open(TASK_1_URL, '_blank');
+            state.currentStage = "task1_cooldown";
+            updateGatewayButtonUI();
+            
+            let timeLeft = 10;
+            btn.innerHTML = `Please wait ${timeLeft}s...`;
+            
+            let cooldown = setInterval(() => {
+                timeLeft--;
+                if (timeLeft <= 0) {
+                    clearInterval(cooldown);
+                    state.currentStage = "task2";
+                    updateGatewayButtonUI();
+                } else {
+                    btn.innerHTML = `Please wait ${timeLeft}s...`;
+                }
+            }, 1000);
+        } 
+        else if (state.currentStage === "task2") {
+            window.open(TASK_2_URL, '_blank');
+            state.currentStage = "task2_cooldown";
+            updateGatewayButtonUI();
+            
+            let timeLeft = 6;
+            btn.innerHTML = `Please wait ${timeLeft}s...`;
+            
+            let cooldown = setInterval(() => {
+                timeLeft--;
+                if (timeLeft <= 0) {
+                    clearInterval(cooldown);
+                    state.currentStage = "ready";
+                    updateGatewayButtonUI();
+                } else {
+                    btn.innerHTML = `Please wait ${timeLeft}s...`;
+                }
+            }, 1000);
+        } 
+        else if (state.currentStage === "ready") {
+            executeRedirection();
         }
     };
 
@@ -436,15 +532,12 @@
     }
 
     window.executeRedirection = function() {
-        if (!state.captchaScreen2) return;
-        
         let targetUrl = "";
         if (state.selectedProvider === "linkvertise") {
             targetUrl = buildLinkvertiseUrl();
         } else {
             targetUrl = LOOTLABS_BASE_URL + "&keygen=lootlabs_" + generateRandomToken(8);
         }
-        
         window.open(targetUrl, '_blank');
     };
 
@@ -471,6 +564,7 @@
     };
 </script>
 
+<!-- FINAL STRUCTURAL WRAPPER FOOTER SCRIPT -->
 <script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
 </body>
 </html>
