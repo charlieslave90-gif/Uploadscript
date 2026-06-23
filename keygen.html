@@ -109,7 +109,7 @@
             border-radius: 14px;
             padding: 20px;
             text-align: left;
-            margin: 0 auto 28px;
+            margin: 0 auto 24px;
             display: flex;
             flex-direction: column;
             gap: 16px;
@@ -131,6 +131,38 @@
             flex-shrink: 0;
         }
 
+        /* Modernized Gateway Selection Dropdown Forms */
+        .gateway-selector {
+            margin: 10px 0 24px;
+            text-align: left;
+            width: 100%;
+        }
+        .gateway-selector label {
+            display: block;
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.75px;
+            font-weight: 600;
+        }
+        .gateway-select {
+            width: 100%;
+            background-color: var(--bg-input);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+        .gateway-select:focus {
+            border-color: var(--accent-glow);
+        }
+
         .captcha-wrapper {
             display: flex;
             justify-content: center;
@@ -139,7 +171,7 @@
             width: 100%;
         }
 
-        /* Revamped Glassmorphism Style Buttons */
+        /* Premium Buttons */
         .btn {
             background-color: var(--accent-glow);
             color: #000000;
@@ -195,7 +227,7 @@
             box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
         }
 
-        /* Ad Structural Layout Adjustments */
+        /* Ad Layout Grids */
         .ad-row-top, .ad-row-mid, .ad-row-bottom {
             width: 100%;
             display: flex;
@@ -253,9 +285,9 @@
     <script src="https://theoreticalassertshame.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
 </div>
 
-<!-- REVAMPED CENTRAL CARD CONTAINER -->
+<!-- CENTRAL CARD CONTAINER -->
 <div class="card" id="interactive-card">
-    <!-- UI Layout Engine dynamic injection point -->
+    <!-- UI Layout engine dynamic target point -->
 </div>
 
 <!-- BLOCK 4: DIRECTLY BELOW CENTRAL CARD -->
@@ -293,19 +325,14 @@
 </div>
 
 <script>
-    // Configuration Target Core Variables
+    // Configuration Target Routing Core Strings
+    const USER_ID = "4752730";
     const LOOTLABS_BASE_URL = "https://loot-link.com/s?3KNAXLNm";
-    const TASK_1_URL = "https://omg10.com/4/11001406";
-    const TASK_2_URL = "https://omg10.com/4/11001405";
 
     // Application state management parameters
-    let activeScreen = "offer"; // offer -> tasks
+    let activeScreen = "offer"; // offer -> gateway
     let isCaptchaDone = false;
-    
-    // Task Engine States: 'not_started', 'task1_cooldown', 'task1_done', 'task2_cooldown', 'ready'
-    let taskState = "not_started"; 
-    let countdownTimer = null;
-    let currentSeconds = 0;
+    let selectedProvider = "lootlabs";
 
     // Premium UI Vector Icons
     const svgCheck = `<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>`;
@@ -331,33 +358,35 @@
                     <div class="g-recaptcha" data-sitekey="6Lcjb_gsAAAAAAWx5z-RYcQZtO5TR-0LJggnzL62" data-theme="dark" data-callback="captchaSolved" data-expired-callback="captchaExpired"></div>
                 </div>
 
-                <button id="action-btn" class="btn locked" onclick="advanceToTasks()">
+                <button id="action-btn" class="btn locked" onclick="advanceToGateway()">
                     Verify Captcha First ${svgArrow}
                 </button>
             `;
             grecaptcha.render(card.querySelector('.g-recaptcha'));
             
-        } else if (activeScreen === "tasks") {
+        } else if (activeScreen === "gateway") {
             card.innerHTML = `
                 <div class="key-icon-box" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.05) 100%); border-color: rgba(16, 185, 129, 0.3);"><svg style="fill: var(--accent-success);" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></div>
-                <h1 class="offer-title">Complete Actions</h1>
-                <p class="offer-subtext">Unlock your destination file by interacting with the structural ad checkpoints below.</p>
+                <h1 class="offer-title">Select Gateway</h1>
+                <p class="offer-subtext">Choose your preferred redirection engine below to generate your final setup links.</p>
                 
-                <div class="captcha-wrapper" id="gateway-captcha-box">
+                <div class="gateway-selector">
+                    <label for="provider">Select Ad Provider:</label>
+                    <select id="provider" class="gateway-select" onchange="selectedProvider = this.value; updateButtonText();">
+                        <option value="lootlabs" ${selectedProvider === 'lootlabs' ? 'selected' : ''}>LootLabs (1 Checkpoint)</option>
+                        <option value="linkvertise" ${selectedProvider === 'linkvertise' ? 'selected' : ''}>Linkvertise (1 Checkpoint)</option>
+                    </select>
+                </div>
+
+                <div class="captcha-wrapper">
                     <div class="g-recaptcha" data-sitekey="6Lcjb_gsAAAAAAWx5z-RYcQZtO5TR-0LJggnzL62" data-theme="dark" data-callback="captchaSolved" data-expired-callback="captchaExpired"></div>
                 </div>
 
-                <button id="action-btn" class="btn btn-success locked" onclick="handleTaskSequence()">
+                <button id="action-btn" class="btn btn-success locked" onclick="executeRedirection()">
                     Verify Captcha First ${svgArrow}
                 </button>
             `;
-            
-            if (taskState === "not_started") {
-                grecaptcha.render(card.querySelector('.g-recaptcha'));
-            } else {
-                document.getElementById("gateway-captcha-box").style.display = "none";
-                updateButtonText();
-            }
+            grecaptcha.render(card.querySelector('.g-recaptcha'));
         }
     }
 
@@ -368,30 +397,17 @@
         if (activeScreen === "offer") {
             if (isCaptchaDone) {
                 btn.classList.remove("locked");
-                btn.innerHTML = `Continue to Checkpoints ${svgArrow}`;
+                btn.innerHTML = `Continue to Gateway ${svgArrow}`;
             }
             return;
         }
 
-        btn.classList.remove("locked");
-        
-        if (taskState === "not_started") {
-            if (isCaptchaDone) {
-                btn.innerHTML = `Unlock Checkpoint 1 (10s) ${svgArrow}`;
-            } else {
-                btn.classList.add("locked");
-                btn.innerHTML = `Verify Captcha First ${svgArrow}`;
-            }
-        } else if (taskState === "task1_cooldown") {
+        if (isCaptchaDone) {
+            btn.classList.remove("locked");
+            btn.innerHTML = selectedProvider === "linkvertise" ? `Launch Linkvertise ${svgArrow}` : `Launch LootLabs ${svgArrow}`;
+        } else {
             btn.classList.add("locked");
-            btn.innerHTML = `Processing Checkpoint 1... (${currentSeconds}s)`;
-        } else if (taskState === "task1_done") {
-            btn.innerHTML = `Unlock Checkpoint 2 (6s) ${svgArrow}`;
-        } else if (taskState === "task2_cooldown") {
-            btn.classList.add("locked");
-            btn.innerHTML = `Processing Checkpoint 2... (${currentSeconds}s)`;
-        } else if (taskState === "ready") {
-            btn.innerHTML = `Access Final Key Destination ${svgArrow}`;
+            btn.innerHTML = `Verify Captcha First ${svgArrow}`;
         }
     }
 
@@ -411,51 +427,25 @@
         }
     }
 
-    function advanceToTasks() {
+    function advanceToGateway() {
         if (!isCaptchaDone) return;
         isCaptchaDone = false;
-        activeScreen = "tasks";
+        activeScreen = "gateway";
         renderScreen();
     }
 
-    function handleTaskSequence() {
+    function buildLinkvertiseUrl() {
+        const baseDestination = window.location.origin + window.location.pathname;
+        const cleanDestination = btoa(baseDestination);
+        return "https://linkvertise.com/" + USER_ID + "/" + Math.random().toString(36).substring(7) + "/dynamic?r=" + cleanDestination;
+    }
+
+    function executeRedirection() {
         const btn = document.getElementById("action-btn");
         if (btn.classList.contains("locked")) return;
-
-        if (taskState === "not_started") {
-            window.open(TASK_1_URL, '_blank');
-            document.getElementById("gateway-captcha-box").style.display = "none";
-            taskState = "task1_cooldown";
-            currentSeconds = 10;
-            updateButtonText();
-            
-            countdownTimer = setInterval(() => {
-                currentSeconds--;
-                if (currentSeconds <= 0) {
-                    clearInterval(countdownTimer);
-                    taskState = "task1_done";
-                }
-                updateButtonText();
-            }, 1000);
-
-        } else if (taskState === "task1_done") {
-            window.open(TASK_2_URL, '_blank');
-            taskState = "task2_cooldown";
-            currentSeconds = 6;
-            updateButtonText();
-
-            countdownTimer = setInterval(() => {
-                currentSeconds--;
-                if (currentSeconds <= 0) {
-                    clearInterval(countdownTimer);
-                    taskState = "ready";
-                }
-                updateButtonText();
-            }, 1000);
-
-        } else if (taskState === "ready") {
-            window.open(LOOTLABS_BASE_URL, '_blank');
-        }
+        
+        let targetUrl = selectedProvider === "linkvertise" ? buildLinkvertiseUrl() : LOOTLABS_BASE_URL;
+        window.open(targetUrl, '_blank');
     }
 
     window.onload = renderScreen;
