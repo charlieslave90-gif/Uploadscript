@@ -5,14 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lifetime Key Verification</title>
     
-    <!-- ANTI-BYPASS & POPUNDER MECHANICS -->
-    <script data-cfasync="false" src="//dcbbwymp1bhlf.cloudfront.net/?wbbcd=1251105"></script>
-    <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
+    <!-- Google reCAPTCHA Core API Link -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    
-    <!-- MASTER POPUNDER ENGINE (b90454a4...) -->
-    <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
-    
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -36,9 +31,10 @@
             max-width: 440px;
             width: 100%;
             border: 1px solid #1c1c22;
-            margin: 15px 0;
+            margin: 20px 0;
         }
 
+        /* Image Mockup Styling Elements */
         .key-icon-circle {
             width: 64px;
             height: 64px;
@@ -95,6 +91,7 @@
             flex-shrink: 0;
         }
 
+        /* Forms & Dropdown Interface */
         .gateway-selector {
             margin: 15px 0 25px;
             text-align: left;
@@ -126,9 +123,9 @@
             align-items: center;
             margin-bottom: 22px;
             width: 100%;
-            min-height: 78px;
         }
 
+        /* Primary Action Interactive Blocks */
         .btn {
             background-color: #d48f38;
             color: #000000;
@@ -157,166 +154,91 @@
         }
         .btn.locked svg { fill: #525263 !important; }
 
-        .btn-success { background-color: #39da8a !important; }
+        .btn-success {
+            background-color: #39da8a !important;
+        }
         .btn-success:hover { background-color: #2bbd73 !important; }
 
-        /* Structural Layout Wrappers */
+        /* Unified Layout Grid & Ad Alignments */
         .ad-row-top, .ad-row-mid, .ad-row-bottom {
             width: 100%;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
+            gap: 15px;
+            text-align: center;
+        }
+        .ad-row-top { max-width: 728px; margin-bottom: 10px; }
+        .ad-row-mid { max-width: 468px; margin: 10px 0; }
+        .ad-row-bottom { max-width: 800px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #1c1c22; }
+        
+        .ad-columns-wrapper {
+            display: flex;
+            justify-content: center;
             flex-wrap: wrap;
             gap: 15px;
-            margin: 10px 0;
+            width: 100%;
         }
-        .ad-row-top { max-width: 728px; }
-        .ad-row-mid { max-width: 468px; }
-        .ad-row-bottom {
-            max-width: 800px;
-            padding-top: 20px;
-            border-top: 1px solid #1c1c22;
-        }
-
-        .supported-executors {
-            font-size: 12px;
-            color: #888892;
-            margin-top: 15px;
-            font-weight: 600;
-        }
-        .supported-executors span { color: #d48f38; }
-        
-        .live-counter-box {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 12px;
-            font-size: 13px;
-            color: #a0a0ab;
-            background: #16161a;
-            padding: 8px 16px;
-            border-radius: 20px;
-            border: 1px solid #1c1c22;
-            display: inline-flex;
-        }
-        .pulse-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #39da8a;
-            border-radius: 50%;
-            box-shadow: 0 0 0 0 rgba(57, 218, 138, 0.7);
-            animation: pulse 1.6s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(57, 218, 138, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(57, 218, 138, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(57, 218, 138, 0); }
-        }
-        
-        .hidden { display: none !important; }
     </style>
+
+    <!-- BLOCK 1: GLOBAL POPUNDER & ANTI-BYPASS ENGINES -->
+    <script data-cfasync="false" src="//dcbbwymp1bhlf.cloudfront.net/?wbbcd=1251105"></script>
+    <script src="https://theoreticalassertshame.com/3d/f2/ae/3df2ae10ef8df3ee78e9f80c1287a09c.js"></script>
+    <script async="async" data-cfasync="false" src="https://theoreticalassertshame.com/b90454a4e93508bbbd6a0d811d5605d4/invoke.js"></script>
 </head>
 <body>
 
-<!-- TOP AD ROW (728x90 Banner + 300x250 Rectangle) -->
+<!-- BLOCK 2: TOP AD ROW -->
 <div class="ad-row-top">
+    <!-- TOP LEADERBOARD BANNER (728x90) -->
     <div>
         <script>
           atOptions = { 'key' : '30772cccaf8ca1f9a16a3c555509b64f', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {} };
         </script>
         <script src="https://theoreticalassertshame.com/30772cccaf8ca1f9a16a3c555509b64f/invoke.js"></script>
     </div>
+
+    <!-- TOP SQUARE BANNER (300x250) -->
     <div>
         <script>
           atOptions = { 'key' : '5c4ab71c3e05e8f162c6445ea1c55950', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
         </script>
-        <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6845ea1c55950/invoke.js"></script>
+        <script src="https://theoreticalassertshame.com/5c4ab71c3e05e8f162c6445ea1c55950/invoke.js"></script>
     </div>
 </div>
 
-<!-- MIDDLE AD ROW ABOVE CARD (468x60 Classic Banner) -->
+<!-- BLOCK 3: DIRECTLY ABOVE CENTRAL CARD -->
 <div class="ad-row-mid">
+    <!-- CLASSIC BANNER STRIP (468x60) -->
     <script>
       atOptions = { 'key' : '7c7fd511e2480eb4fe47887cda152595', 'format' : 'iframe', 'height' : 60, 'width' : 468, 'params' : {} };
     </script>
     <script src="https://theoreticalassertshame.com/7c7fd511e2480eb4fe47887cda152595/invoke.js"></script>
 </div>
 
-<!-- APP ENTRY VIEWPORT COMPONENT -->
-<div class="card">
-    
-    <!-- OFFER LANDING CARD -->
-    <div id="screen-offer">
-        <div class="key-icon-circle">
-            <svg viewBox="0 0 24 24"><path d="M12.65 11.65c.35-.35.35-.92 0-1.27l-1.01-1.01c-.35-.35-.92-.35-1.27 0l-.66.66-1.57-1.57c1.32-1.74 1.13-4.22-.57-5.74-1.92-1.73-4.91-1.57-6.63.36-1.72 1.93-1.56 4.92.36 6.64 1.52 1.36 3.71 1.46 5.33.42l1.66 1.66-.66.66c-.35.35-.35.92 0 1.27l1.01 1.01c.35.35.92.35 1.27 0l.66-.66 1.57 1.57c-.12.12-.21.27-.27.43l-.93 2.79c-.11.33.02.7.32.9l1.42.95c.34.23.79.16 1.06-.16l1.41-1.71 1.71 1.41c.32.26.77.2 1.02-.15l1.35-1.9c.2-.28.19-.66-.03-.92l-1.63-1.94.66-.66zM6.5 6C5.67 6 5 5.33 5 4.5S5.67 3 6.5 3 8 3.67 8 4.5 7.33 6 6.5 6z"/></svg>
-        </div>
-        <h1 class="offer-title">Permanent Key</h1>
-        <p class="offer-subtext">Pass a quick secure verification to fetch your license access hook.</p>
-        <div class="price-badge">$0</div>
-        
-        <div class="features-list">
-            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> <span>Permanent lifetime access per key</span></div>
-            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> <span>Unlimited regenerations</span></div>
-            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> <span>Access to all free scripts</span></div>
-            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> <span>Device-specific HWID binding</span></div>
-            <div class="feature-item"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> <span>Quick 1-step direct routing</span></div>
-        </div>
-
-        <div class="captcha-container">
-            <div class="g-recaptcha" data-sitekey="6Lcjb_gsAAAAAAWx5z-RYcQZtO5TR-0LJggnzL62" data-theme="dark" data-callback="captchaSolvedScreen1" data-expired-callback="captchaExpiredScreen1"></div>
-        </div>
-
-        <button id="btn-offer" class="btn locked" onclick="advanceToGateway()">
-            Verify Captcha First
-        </button>
-    </div>
-
-    <!-- PROVIDER GATEWAY ROUTER CARD -->
-    <div id="screen-gateway" class="hidden">
-        <h1 class="offer-title" style="color:#39da8a">Select Gateway</h1>
-        <p class="offer-subtext" id="gateway-instruction-text">Choose your preferred provider link module configuration below.</p>
-        
-        <div class="gateway-selector" id="gateway-dropdown-wrapper">
-            <label for="provider">Select Ad Provider:</label>
-            <select id="provider" class="gateway-select" onchange="window.globalSelectProvider(this.value)">
-                <option value="lootlabs" selected>LootLabs (1 Checkpoint)</option>
-                <option value="linkvertise">Linkvertise (1 Checkpoint)</option>
-            </select>
-        </div>
-
-        <div class="captcha-container" id="gateway-captcha-wrapper">
-            <div class="g-recaptcha" data-sitekey="6Lcjb_gsAAAAAAWx5z-RYcQZtO5TR-0LJggnzL62" data-theme="dark" data-callback="captchaSolvedScreen2" data-expired-callback="captchaExpiredScreen2"></div>
-        </div>
-
-        <button id="btn-gateway" class="btn btn-success locked" onclick="handleGatewayClick()">
-            Verify Captcha First
-        </button>
-    </div>
-
-    <div class="supported-executors">⚡ Works for <span>Delta, Codex, Arceus X</span> & 10+ Executors</div>
-    
-    <!-- Realtime Zero-DB Counter Frame -->
-    <div class="live-counter-box">
-        <div class="pulse-dot"></div>
-        <span id="live-count-display">52</span> users generated keys globally right now
-    </div>
+<!-- CENTRAL CARD CONTAINER -->
+<div class="card" id="interactive-card">
+    <!-- App Injection Node -->
 </div>
 
-<!-- MIDDLE AD ROW BELOW CARD (320x50 Mobile Header Banner) -->
+<!-- BLOCK 4: DIRECTLY BELOW CENTRAL CARD -->
 <div class="ad-row-mid">
+    <!-- MOBILE BANNER STRIP (320x50) -->
     <script>
       atOptions = { 'key' : '7e841472d1ac01ddccd7fa985576e83c', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
     </script>
     <script src="https://theoreticalassertshame.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
 </div>
 
-<!-- BOTTOM HIGH-CPM TOWERS & INLINE RECEPTACLE (160x600, 160x300, Native Container) -->
+<!-- BLOCK 5: BOTTOM LAYOUT WRAPPER -->
 <div class="ad-row-bottom">
-    <!-- Native Layout Receptacle Anchor -->
+    <!-- NATIVE PLACEMENT WRAPPER TARGET -->
     <div id="container-b90454a4e93508bbbd6a0d811d5605d4" style="width:100%; max-width:600px; margin-bottom: 15px;"></div>
 
-    <div class="ad-row-top">
+    <!-- BOTTOM SIDEBAR SKYSCRAPER TOWERS -->
+    <div class="ad-columns-wrapper">
+        <!-- Left Full Tower (160x600) -->
         <div>
             <script>
               atOptions = { 'key' : '9ad3c1db141549482622fa057c0a1495', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} };
@@ -324,6 +246,7 @@
             <script src="https://theoreticalassertshame.com/9ad3c1db141549482622fa057c0a1495/invoke.js"></script>
         </div>
 
+        <!-- Right Half Tower (160x300) -->
         <div>
             <script>
               atOptions = { 'key' : '673fb53f64c762401413eb44406c1c80', 'format' : 'iframe', 'height' : 300, 'width' : 160, 'params' : {} };
@@ -334,237 +257,199 @@
 </div>
 
 <script>
-    const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1518222428034039908/92oj3_q8ZVFUMoKIebJjK_l2Ck8SQ8kjN9czUw2e03HB0_PhIQj0k-F4vFW8yoo00WDd";
+    // Configuration Target Environment Elements
     const USER_ID = "4752730";
     const LOOTLABS_BASE_URL = "https://loot-link.com/s?3KNAXLNm";
     
-    // Your OMG10 Task links
+    // Task Links
     const TASK_1_URL = "https://omg10.com/4/11001406";
     const TASK_2_URL = "https://omg10.com/4/11001405";
 
-    let state = {
-        captchaScreen1: false,
-        captchaScreen2: false,
-        selectedProvider: "lootlabs",
-        currentStage: "captcha" // Options: "captcha", "task1", "task1_cooldown", "task2", "task2_cooldown", "ready"
-    };
+    // Application state tracking flags
+    let activeScreen = "offer"; // offer -> gateway
+    let isCaptchaDone = false;
+    let selectedProvider = "lootlabs";
+    
+    // Task Sequence States: 'not_started', 'task1_cooldown', 'task1_done', 'task2_cooldown', 'ready'
+    let taskState = "not_started"; 
+    let countdownTimer = null;
+    let currentSeconds = 0;
 
-    async function sendAnalyticsToDiscord() {
-        try {
-            const geoRes = await fetch('https://ipapi.co/json/');
-            const geoData = await geoRes.json();
+    // Shared internal SVG asset symbols
+    const svgCheck = `<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>`;
+    const svgKey = `<svg viewBox="0 0 24 24"><path d="M12.65 11.65c.35-.35.35-.92 0-1.27l-1.01-1.01c-.35-.35-.92-.35-1.27 0l-.66.66-1.57-1.57c1.32-1.74 1.13-4.22-.57-5.74-1.92-1.73-4.91-1.57-6.63.36-1.72 1.93-1.56 4.92.36 6.64 1.52 1.36 3.71 1.46 5.33.42l1.66 1.66-.66.66c-.35.35-.35.92 0 1.27l1.01 1.01c.35.35.92.35 1.27 0l.66-.66 1.57 1.57c-.12.12-.21.27-.27.43l-.93 2.79c-.11.33.02.7.32.9l1.42.95c.34.23.79.16 1.06-.16l1.41-1.71 1.71 1.41c.32.26.77.2 1.02-.15l1.35-1.9c.2-.28.19-.66-.03-.92l-1.63-1.94.66-.66zM6.5 6C5.67 6 5 5.33 5 4.5S5.67 3 6.5 3 8 3.67 8 4.5 7.33 6 6.5 6z"/></svg>`;
+
+    function renderScreen() {
+        const card = document.getElementById("interactive-card");
+        
+        if (activeScreen === "offer") {
+            card.innerHTML = `
+                <div class="key-icon-circle">${svgKey}</div>
+                <h1 class="offer-title">Permanent Key</h1>
+                <p class="offer-subtext">Pass a quick secure verification to fetch your license access hook.</p>
+                <div class="price-badge">$0</div>
+                
+                <div class="features-list">
+                    <div class="feature-item">${svgCheck} <span>Permanent lifetime access per key</span></div>
+                    <div class="feature-item">${svgCheck} <span>Unlimited regenerations</span></div>
+                    <div class="feature-item">${svgCheck} <span>Access to all free scripts</span></div>
+                    <div class="feature-item">${svgCheck} <span>Device-specific HWID binding</span></div>
+                    <div class="feature-item">${svgCheck} <span>Quick 1-step direct routing</span></div>
+                </div>
+
+                <div class="captcha-container">
+                    <div class="g-recaptcha" data-sitekey="6Lcjb_gsAAAAAAWx5z-RYcQZtO5TR-0LJggnzL62" data-theme="dark" data-callback="captchaSolved" data-expired-callback="captchaExpired"></div>
+                </div>
+
+                <button id="action-btn" class="btn locked" onclick="advanceToGateway()">
+                    ${svgKey} Verify Captcha First
+                </button>
+            `;
+            grecaptcha.render(card.querySelector('.g-recaptcha'));
             
-            const country = geoData.country_name || "Unknown Country";
-            const localTime = new Date().toLocaleString();
+        } else if (activeScreen === "gateway") {
+            card.innerHTML = `
+                <h1 class="offer-title" style="color:#39da8a">Select Gateway</h1>
+                <p class="offer-subtext">Choose your preferred provider link module configuration below.</p>
+                
+                <div class="gateway-selector">
+                    <label for="provider">Select Ad Provider:</label>
+                    <select id="provider" class="gateway-select" onchange="selectedProvider = this.value; updateGatewayButtonText();" ${taskState !== 'not_started' && taskState !== 'ready' ? 'disabled' : ''}>
+                        <option value="lootlabs" ${selectedProvider === 'lootlabs' ? 'selected' : ''}>LootLabs (1 Checkpoint)</option>
+                        <option value="linkvertise" ${selectedProvider === 'linkvertise' ? 'selected' : ''}>Linkvertise (1 Checkpoint)</option>
+                    </select>
+                </div>
 
-            const payload = {
-                username: "ScriptHub Gateway Monitor",
-                embeds: [{
-                    title: "📥 Gate Verified Session Triggered",
-                    color: 13930296,
-                    fields: [
-                        { name: "🌍 Country Log", value: `\`${country}\``, inline: true },
-                        { name: "⏰ Verified Time", value: `\`${localTime}\``, inline: true }
-                    ]
-                }]
-            };
+                <div class="captcha-container" id="gateway-captcha-box">
+                    <div class="g-recaptcha" data-sitekey="6Lcjb_gsAAAAAAWx5z-RYcQZtO5TR-0LJggnzL62" data-theme="dark" data-callback="captchaSolved" data-expired-callback="captchaExpired"></div>
+                </div>
 
-            await fetch(DISCORD_WEBHOOK, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            });
-        } catch (error) {
-            console.log("Telemetry bypassed.");
-        }
-    }
-
-    function generateRandomToken(length = 10) {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let token = '';
-        for (let i = 0; i < length; i++) { token += chars.charAt(Math.floor(Math.random() * chars.length)); }
-        return token;
-    }
-
-    function generateRandomNumber(min = 11111, max = 99999) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    window.advanceToGateway = function() {
-        if (!state.captchaScreen1) return;
-        document.getElementById("screen-offer").classList.add("hidden");
-        document.getElementById("screen-gateway").classList.remove("hidden");
-    };
-
-    window.globalSelectProvider = function(val) {
-        state.selectedProvider = val;
-        updateGatewayButtonUI();
-    };
-
-    window.captchaSolvedScreen1 = function(token) {
-        if (token.length > 0) {
-            state.captchaScreen1 = true;
-            const btn = document.getElementById("btn-offer");
-            if (btn) {
-                btn.classList.remove("locked");
-                btn.innerHTML = "Get Free Key Now";
+                <button id="action-btn" class="btn btn-success locked" onclick="handleGatewayAction()">
+                    Verify Captcha First
+                </button>
+            `;
+            
+            if (taskState === "not_started") {
+                grecaptcha.render(card.querySelector('.g-recaptcha'));
+            } else {
+                document.getElementById("gateway-captcha-box").style.display = "none";
+                updateGatewayButtonText();
             }
         }
-    };
+    }
 
-    window.captchaExpiredScreen1 = function() {
-        state.captchaScreen1 = false;
-        const btn = document.getElementById("btn-offer");
-        if (btn) {
-            btn.classList.add("locked");
-            btn.innerHTML = "Verify Captcha First";
-        }
-    };
-
-    window.captchaSolvedScreen2 = function(token) {
-        if (token.length > 0) {
-            state.captchaScreen2 = true;
-            state.currentStage = "task1";
-            updateGatewayButtonUI();
-        }
-    };
-
-    window.captchaExpiredScreen2 = function() {
-        state.captchaScreen2 = false;
-        state.currentStage = "captcha";
-        updateGatewayButtonUI();
-    };
-
-    // Controls the text and locks across the entire multi-task system
-    function updateGatewayButtonUI() {
-        const btn = document.getElementById("btn-gateway");
-        const instruction = document.getElementById("gateway-instruction-text");
+    function updateGatewayButtonText() {
+        const btn = document.getElementById("action-btn");
         if (!btn) return;
 
-        switch (state.currentStage) {
-            case "captcha":
+        if (activeScreen === "offer") {
+            if (isCaptchaDone) {
+                btn.classList.remove("locked");
+                btn.innerHTML = `${svgKey} Get Free Key Now`;
+            }
+            return;
+        }
+
+        btn.classList.remove("locked");
+        
+        if (taskState === "not_started") {
+            if (isCaptchaDone) {
+                btn.innerHTML = "Complete Task 1 (10s)";
+            } else {
                 btn.classList.add("locked");
                 btn.innerHTML = "Verify Captcha First";
-                instruction.innerHTML = "Choose your preferred provider link module configuration below.";
-                break;
-            case "task1":
-                btn.classList.remove("locked");
-                btn.innerHTML = "Click to Start Task 1";
-                instruction.innerHTML = "Complete Stage 1/2 tasks to unlock your destination.";
-                break;
-            case "task1_cooldown":
-                btn.classList.add("locked");
-                // Text handled dynamically by the interval timer loop
-                break;
-            case "task2":
-                btn.classList.remove("locked");
-                btn.innerHTML = "Click to Start Task 2";
-                instruction.innerHTML = "Complete Stage 2/2 tasks to unlock your destination.";
-                break;
-            case "task2_cooldown":
-                btn.classList.add("locked");
-                // Text handled dynamically by the interval timer loop
-                break;
-            case "ready":
-                btn.classList.remove("locked");
-                // Hide inputs so they don't modify state now that verification is complete
-                document.getElementById("gateway-dropdown-wrapper").classList.add("hidden");
-                document.getElementById("gateway-captcha-wrapper").classList.add("hidden");
-                
-                btn.innerHTML = state.selectedProvider === "linkvertise" ? "Launch Linkvertise" : "Launch LootLabs";
-                instruction.innerHTML = "Verification Complete! Click below to access your bypass layer.";
-                break;
+            }
+        } else if (taskState === "task1_cooldown") {
+            btn.classList.add("locked");
+            btn.innerHTML = `Please wait... (${currentSeconds}s)`;
+        } else if (taskState === "task1_done") {
+            btn.innerHTML = "Complete Task 2 (6s)";
+        } else if (taskState === "task2_cooldown") {
+            btn.classList.add("locked");
+            btn.innerHTML = `Please wait... (${currentSeconds}s)`;
+        } else if (taskState === "ready") {
+            btn.innerHTML = selectedProvider === "linkvertise" ? "Launch Linkvertise" : "Launch LootLabs";
         }
     }
 
-    // New unified orchestration routing function
-    window.handleGatewayClick = function() {
-        const btn = document.getElementById("btn-gateway");
-        
-        if (state.currentStage === "task1") {
+    function captchaSolved(token) {
+        if (token.length > 0) {
+            isCaptchaDone = true;
+            updateGatewayButtonText();
+        }
+    }
+
+    function captchaExpired() {
+        isCaptchaDone = false;
+        const btn = document.getElementById("action-btn");
+        if (btn) {
+            btn.classList.add("locked");
+            btn.innerHTML = activeScreen === "offer" ? `${svgKey} Verify Captcha First` : "Verify Captcha First";
+        }
+    }
+
+    function advanceToGateway() {
+        if (!isCaptchaDone) return;
+        isCaptchaDone = false;
+        activeScreen = "gateway";
+        renderScreen();
+    }
+
+    function handleGatewayAction() {
+        const btn = document.getElementById("action-btn");
+        if (btn.classList.contains("locked")) return;
+
+        if (taskState === "not_started") {
             window.open(TASK_1_URL, '_blank');
-            state.currentStage = "task1_cooldown";
-            updateGatewayButtonUI();
+            document.getElementById("gateway-captcha-box").style.display = "none";
+            taskState = "task1_cooldown";
+            currentSeconds = 10;
+            updateGatewayButtonText();
             
-            let timeLeft = 10;
-            btn.innerHTML = `Please wait ${timeLeft}s...`;
-            
-            let cooldown = setInterval(() => {
-                timeLeft--;
-                if (timeLeft <= 0) {
-                    clearInterval(cooldown);
-                    state.currentStage = "task2";
-                    updateGatewayButtonUI();
-                } else {
-                    btn.innerHTML = `Please wait ${timeLeft}s...`;
+            countdownTimer = setInterval(() => {
+                currentSeconds--;
+                if (currentSeconds <= 0) {
+                    clearInterval(countdownTimer);
+                    taskState = "task1_done";
                 }
+                updateGatewayButtonText();
             }, 1000);
-        } 
-        else if (state.currentStage === "task2") {
+
+        } else if (taskState === "task1_done") {
             window.open(TASK_2_URL, '_blank');
-            state.currentStage = "task2_cooldown";
-            updateGatewayButtonUI();
-            
-            let timeLeft = 6;
-            btn.innerHTML = `Please wait ${timeLeft}s...`;
-            
-            let cooldown = setInterval(() => {
-                timeLeft--;
-                if (timeLeft <= 0) {
-                    clearInterval(cooldown);
-                    state.currentStage = "ready";
-                    updateGatewayButtonUI();
-                } else {
-                    btn.innerHTML = `Please wait ${timeLeft}s...`;
+            taskState = "task2_cooldown";
+            currentSeconds = 6;
+            updateGatewayButtonText();
+
+            countdownTimer = setInterval(() => {
+                currentSeconds--;
+                if (currentSeconds <= 0) {
+                    clearInterval(countdownTimer);
+                    taskState = "ready";
                 }
+                updateGatewayButtonText();
             }, 1000);
-        } 
-        else if (state.currentStage === "ready") {
+
+        } else if (taskState === "ready") {
             executeRedirection();
         }
-    };
+    }
 
     function buildLinkvertiseUrl() {
         const baseDestination = window.location.origin + window.location.pathname;
-        const targetedUrlPath = baseDestination + "?keygen=linkvertise" + generateRandomNumber();
-        const cleanDestination = btoa(targetedUrlPath);
+        const cleanDestination = btoa(baseDestination);
         return "https://linkvertise.com/" + USER_ID + "/" + Math.random().toString(36).substring(7) + "/dynamic?r=" + cleanDestination;
     }
 
-    window.executeRedirection = function() {
-        let targetUrl = "";
-        if (state.selectedProvider === "linkvertise") {
-            targetUrl = buildLinkvertiseUrl();
-        } else {
-            targetUrl = LOOTLABS_BASE_URL + "&keygen=lootlabs_" + generateRandomToken(8);
-        }
+    function executeRedirection() {
+        let targetUrl = selectedProvider === "linkvertise" ? buildLinkvertiseUrl() : LOOTLABS_BASE_URL;
         window.open(targetUrl, '_blank');
-    };
-
-    function initializeVisitorEngine() {
-        const display = document.getElementById("live-count-display");
-        let currentCount = Math.floor(Math.random() * (55 - 45 + 1)) + 45;
-        if(display) display.textContent = currentCount;
-
-        setInterval(() => {
-            if(!display) return;
-            const shift = Math.floor(Math.random() * 5) - 2; 
-            currentCount += shift;
-
-            if (currentCount < 40) currentCount = 43;
-            if (currentCount > 60) currentCount = 57;
-
-            display.textContent = currentCount;
-        }, 3500);
     }
 
-    window.onload = function() {
-        sendAnalyticsToDiscord();
-        initializeVisitorEngine();
-    };
+    window.onload = renderScreen;
 </script>
 
-<!-- FINAL STRUCTURAL WRAPPER FOOTER SCRIPT -->
+<!-- BLOCK 6: MASTER FOOTER INTERSTITIAL SCRIPT -->
 <script src="https://theoreticalassertshame.com/22/bd/15/22bd15cffb30179ea9161453db7a28a8.js"></script>
 </body>
 </html>
