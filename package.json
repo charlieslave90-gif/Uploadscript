@@ -10,6 +10,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "@vercel/blob": "^0.23.0"
   },
   "keywords": [
