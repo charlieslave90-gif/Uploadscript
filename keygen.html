@@ -131,7 +131,7 @@
             flex-shrink: 0;
         }
 
-        /* Group Row Layout Inspired directly by 1000124573.jpg */
+        /* Group Row Layout Inspired directly by 1000124589.jpg */
         .provider-group-list {
             display: flex;
             flex-direction: column;
@@ -200,6 +200,19 @@
             transform: translateX(2px);
         }
 
+        /* Inner Content Ad Wrapper Zone placement */
+        .embedded-ad-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 0;
+            background-color: rgba(0,0,0,0.15);
+            border: 1px dashed var(--border-color);
+            border-radius: 12px;
+            margin-top: 8px;
+        }
+
         .captcha-wrapper {
             display: flex;
             justify-content: center;
@@ -251,7 +264,7 @@
         }
         .btn.locked svg { fill: #4b4b66 !important; }
 
-        /* Ad Layout Config Groups */
+        /* Ad Structural Columns/Rows Layout Configs */
         .ad-row-top, .ad-row-mid, .ad-row-bottom {
             width: 100%;
             display: flex;
@@ -311,16 +324,12 @@
 
 <!-- CENTRAL CARD CONTAINER -->
 <div class="card" id="interactive-card">
-    <!-- UI Layout engine target hook -->
+    <!-- UI Layout Engine targets this node -->
 </div>
 
-<!-- BLOCK 4: DIRECTLY BELOW CENTRAL CARD -->
-<div class="ad-row-mid">
-    <!-- MOBILE BANNER STRIP (320x50) -->
-    <script>
-      atOptions = { 'key' : '7e841472d1ac01ddccd7fa985576e83c', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
-    </script>
-    <script src="https://theoreticalassertshame.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js"></script>
+<!-- BLOCK 4: EXTRA BELOW CARD CONTENT CONTAINER (RETAINED SPACE FOR STRUCTURAL VALIDATION) -->
+<div class="ad-row-mid" style="height: 0px; margin: 0; padding: 0; overflow: hidden;">
+    <!-- Moved inside the dynamic renderer loop below to sit exactly where the Linkvertise box was -->
 </div>
 
 <!-- BLOCK 5: BOTTOM LAYOUT WRAPPER -->
@@ -349,8 +358,7 @@
 </div>
 
 <script>
-    // Configuration Targets
-    const USER_ID = "4752730";
+    // Configuration Target Variable Destination URL Strings
     const LOOTLABS_BASE_URL = "https://loot-link.com/s?3KNAXLNm";
 
     // Application state logic configurations
@@ -394,8 +402,8 @@
                 <h1 class="offer-title">Select Gateway</h1>
                 <p class="offer-subtext">Choose an option below to proceed through verification and unlock your license.</p>
                 
-                <!-- Modern Row-Based Alternative from Image 1000124573.jpg -->
                 <div class="provider-group-list">
+                    <!-- LootLabs Main Execution Action Row Object -->
                     <div class="provider-item-btn ${!isCaptchaDone ? 'disabled' : ''}" onclick="triggerLootlabs()">
                         <div class="provider-left-content">
                             <div class="provider-icon-badge" style="background-color: #5865F2;">L</div>
@@ -404,12 +412,9 @@
                         ${svgChevron}
                     </div>
 
-                    <div class="provider-item-btn ${!isCaptchaDone ? 'disabled' : ''}" onclick="triggerLinkvertise()">
-                        <div class="provider-left-content">
-                            <div class="provider-icon-badge" style="background-color: #e58f19;">V</div>
-                            <span class="provider-name">Linkvertise (Step 1)</span>
-                        </div>
-                        ${svgChevron}
+                    <!-- EMBEDDED HIGH CONVERTING AD PLACEMENT INSIDE THE RED CIRCLED AREA FROM IMAGE 1000124589.jpg -->
+                    <div class="embedded-ad-wrapper">
+                        <div id="inner-card-ad-slot"></div>
                     </div>
                 </div>
 
@@ -417,6 +422,18 @@
                     <div class="g-recaptcha" data-sitekey="6Lcjb_gsAAAAAAWx5z-RYcQZtO5TR-0LJggnzL62" data-theme="dark" data-callback="captchaSolved" data-expired-callback="captchaExpired"></div>
                 </div>
             `;
+            
+            // Inject the 320x50 script directly into the placeholder container
+            const adSlot = document.getElementById("inner-card-ad-slot");
+            if (adSlot) {
+                const scriptOpts = document.createElement("script");
+                scriptOpts.text = "atOptions = { 'key' : '7e841472d1ac01ddccd7fa985576e83c', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };";
+                const scriptInvoke = document.createElement("script");
+                scriptInvoke.src = "https://theoreticalassertshame.com/7e841472d1ac01ddccd7fa985576e83c/invoke.js";
+                adSlot.appendChild(scriptOpts);
+                adSlot.appendChild(scriptInvoke);
+            }
+
             if (!isCaptchaDone) {
                 grecaptcha.render(card.querySelector('.g-recaptcha'));
             }
@@ -453,20 +470,6 @@
     function triggerLootlabs() {
         if (!isCaptchaDone) return;
         window.open(LOOTLABS_BASE_URL, '_blank');
-    }
-
-    function triggerLinkvertise() {
-        if (!isCaptchaDone) return;
-        
-        const baseDestination = window.location.origin + window.location.pathname;
-        const cleanDestination = btoa(baseDestination);
-        const dynamicLinkvertiseUrl = "https://linkvertise.com/" + USER_ID + "/" + Math.random().toString(36).substring(7) + "/dynamic?r=" + cleanDestination;
-        
-        window.open(dynamicLinkvertiseUrl, '_blank');
-        
-        // Safety Reset: Keep them safely on Step 1 configuration view instead of processing forward state
-        isCaptchaDone = false; 
-        renderScreen();
     }
 
     window.onload = renderScreen;
