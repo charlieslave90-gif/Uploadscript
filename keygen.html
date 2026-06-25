@@ -329,7 +329,7 @@
 
 <!-- BLOCK 4: EXTRA BELOW CARD CONTENT CONTAINER (RETAINED SPACE FOR STRUCTURAL VALIDATION) -->
 <div class="ad-row-mid" style="height: 0px; margin: 0; padding: 0; overflow: hidden;">
-    <!-- Moved inside the dynamic renderer loop below to sit exactly where the Linkvertise box was -->
+    <!-- Ad is rendered safely inside the card loop -->
 </div>
 
 <!-- BLOCK 5: BOTTOM LAYOUT WRAPPER -->
@@ -359,7 +359,7 @@
 
 <script>
     // Configuration Target Variable Destination URL Strings
-    const LOOTLABS_BASE_URL = "https://loot-link.com/s?3KNAXLNm";
+    const WORKINK_BASE_URL = "https://work.ink/2AW6/getkey067";
 
     // Application state logic configurations
     let activeScreen = "offer"; // offer -> gateway
@@ -403,11 +403,11 @@
                 <p class="offer-subtext">Choose an option below to proceed through verification and unlock your license.</p>
                 
                 <div class="provider-group-list">
-                    <!-- LootLabs Main Execution Action Row Object -->
-                    <div class="provider-item-btn ${!isCaptchaDone ? 'disabled' : ''}" onclick="triggerLootlabs()">
+                    <!-- Work.ink Main Execution Action Row Object -->
+                    <div class="provider-item-btn ${!isCaptchaDone ? 'disabled' : ''}" onclick="triggerWorkink()">
                         <div class="provider-left-content">
-                            <div class="provider-icon-badge" style="background-color: #5865F2;">L</div>
-                            <span class="provider-name">LootLabs (Main Key)</span>
+                            <div class="provider-icon-badge" style="background-color: #00b074;">W</div>
+                            <span class="provider-name">Work.ink (Main Key)</span>
                         </div>
                         ${svgChevron}
                     </div>
@@ -467,9 +467,9 @@
         renderScreen();
     }
 
-    function triggerLootlabs() {
+    function triggerWorkink() {
         if (!isCaptchaDone) return;
-        window.open(LOOTLABS_BASE_URL, '_blank');
+        window.open(WORKINK_BASE_URL, '_blank');
     }
 
     window.onload = renderScreen;
