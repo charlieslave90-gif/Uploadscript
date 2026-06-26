@@ -359,7 +359,7 @@
 
 <script>
     // Configuration Target Variable Destination URL Strings
-    const WORKINK_BASE_URL = "https://work.ink/2AW6/getkey067";
+    const LOOTLABS_BASE_URL = "https://loot-link.com/s?3KNAXLNm";
 
     // Application state logic configurations
     let activeScreen = "offer"; // offer -> gateway
@@ -403,11 +403,11 @@
                 <p class="offer-subtext">Choose an option below to proceed through verification and unlock your license.</p>
                 
                 <div class="provider-group-list">
-                    <!-- Work.ink Main Execution Action Row Object -->
-                    <div class="provider-item-btn ${!isCaptchaDone ? 'disabled' : ''}" onclick="triggerWorkink()">
+                    <!-- LootLabs Main Execution Action Row Object -->
+                    <div class="provider-item-btn ${!isCaptchaDone ? 'disabled' : ''}" onclick="triggerLootlabs()">
                         <div class="provider-left-content">
-                            <div class="provider-icon-badge" style="background-color: #00b074;">W</div>
-                            <span class="provider-name">Work.ink (Main Key)</span>
+                            <div class="provider-icon-badge" style="background-color: #5865F2;">L</div>
+                            <span class="provider-name">LootLabs (Main Key)</span>
                         </div>
                         ${svgChevron}
                     </div>
@@ -467,9 +467,9 @@
         renderScreen();
     }
 
-    function triggerWorkink() {
+    function triggerLootlabs() {
         if (!isCaptchaDone) return;
-        window.open(WORKINK_BASE_URL, '_blank');
+        window.open(LOOTLABS_BASE_URL, '_blank');
     }
 
     window.onload = renderScreen;
